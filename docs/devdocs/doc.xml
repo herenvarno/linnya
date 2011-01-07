@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://docbook.org/xml/4.2/docbookx.dtd">
+<book>
+	<bookinfo>
+		<title>MusicMe2 设计文档</title>
+		<author>
+			<firstname>Edward</firstname>
+			<email>yy890521@gmail.com</email>
+		</author>
+		<copyright>
+			<year>2010</year>
+			<holder>Under GNU Free Documentation License(GFDL)</holder>
+		</copyright>
+	</bookinfo>
+
+	<preface>
+		<title>简介</title>
+		<para>这是简介....</para>
+	</preface>
+	<chapter>
+		<title>命名规则</title>
+		<sect1>
+			<para>MusicMe的命名原则是“说明功能、体现结构、保持简单”</para>
+			<para>在函数或变量的命名中，必须体现出该函数或变量的功能作用、生命周期、使用权限、定义位置、所属模块等信息。并且名字必须保持简单明了，要善于使用约定俗成的简写以提高编码效率。另外，为了避免出现记忆错误，函数和变量的名字全部使用小写，并以下划线分割单词，但是宏名应全部为大写，以示区别。</para>
+			<para>基于以上的规则，我们制定出以下的命名方案：</para>
+			<blockquote>
+				<para>(前缀)_(类型)_(模块)_(功能)</para>
+			</blockquote>
+			<variablelist>
+				<varlistentry>
+					<term>前缀</term>
+					<listitem>
+						<para>在MusicMe的核心源代码中，每一个函数或变量都应拥有一个相同的前缀——mm，表示MusicMe。</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>类型</term>
+					<listitem>
+						<para>类型标示了名称所代表的东西的类型，分为变量、函数和自定义类型。</para>
+						<orderedlist>
+							<title>类型的定义规则：</title>
+							<listitem><para>var - 代表变量</para></listitem>
+							<listitem><para>func - 代表函数</para></listitem>
+							<listitem><para>type - 代表自定义类型</para></listitem>
+							<listitem><para>MACRO - 代表宏</para></listitem>
+						</orderedlist>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>模块</term>
+					<listitem>
+						<para>模块表示了一个名字的定义位置和所属模块，一般使用模块的缩略形式。</para>
+						<orderedlist>
+							<title>各个内核模块的简写形式：</title>
+							<listitem>
+								<para>消息传递模块 - msg</para>
+							</listitem>
+							<listitem>
+                                <para>配置寄存模块 - conf</para>
+                            </listitem>
+							<listitem>
+                                <para>数据库模块 - db</para>
+                            </listitem>
+							<listitem>
+                                <para>音频控制模块 - audio</para>
+                            </listitem>
+							<listitem>
+                                <para>键盘绑定模块 - key</para>
+                            </listitem>
+						</orderedlist>
+					</listitem>
+					</varlistentry>
+					<varlistentry>
+						<term>功能</term>
+						<listitem>
+							<para>功能部分是用来描述此变量或函数的具体作用的英文单词或词组，也是各个变量的相互区别的字符串。它没有统一的定义规则，只要是能表达清除变量/函数的功能意义即可。</para>
+						</listitem>
+				</varlistentry>
+			</variablelist>
+			<orderedlist>
+				<title>示例：</title>
+				<listitem>
+					<para>MM_MACRO_CONF_PATH 在conf模块中定义的表示路径的宏</para>
+				</listitem>
+				<listitem>
+					<para>mm_var_conf_table 在conf模块中定义的指向配置哈希表的指针变量</para>
+				</listitem>
+				<listitem>
+					<para>mm_func_conf_put 在conf模块中定义的写入一个配置的函数</para>
+				</listitem>
+				<listitem>
+					<para>mm_type_conf_element 在conf模块中定义的配置元素结构类型</para>
+				</listitem>
+			</orderedlist>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>命名规则2</title>
+		<sect1>
+			<para>MusicMe的命名原则是“说明功能、体现结构、保持简单”</para>
+			<para>在函数或变量的命名中，必须体现出该函数或变量的功能作用、生命周期、使用权限、定义位置、所属模块等信息。并且名字必须保持简单明了，要善于使用约定俗成的简写以提高编码效率。</para>
+			<para>基于以上的规则，我们制定出以下的命名方案：</para>
+			<variablelist>
+				<varlistentry>
+					<term>宏的命名：</term>
+					<listitem>
+						<para>在MusicMe的核心源代码中，宏全部使用大写字母表示，其结构组成为：MM_(模块)_(功能)</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>自定义结构体类型的命名：</term>
+					<listitem>
+						<para>自定义结构体是一类封装了的变量类型，他的名字应该和默认的类型命名相类似，结构为：mm(模块)(功能)。需要注意的是，模块和功能的单词首字母要大写，以区分不同的单词。</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>变量的命名：</term>
+					<listitem>
+						<para>变量的命名结构为：mm_(模块)_(功能（名词）)。请注意，变量的功能描述部分一般使用名词。</para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>函数的命名：</term>
+					<listitem>
+						<para>函数的命名方式和变量一样，只是最后的功能描述部分一般使用动词或动词短语。</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+			<orderedlist>
+				<title>示例：</title>
+				<listitem>
+					<para>MM_CONF_PATH 在conf模块中定义的表示路径的宏</para>
+				</listitem>
+				<listitem>
+					<para>mm_conf_table 在conf模块中定义的指向配置哈希表的指针变量</para>
+				</listitem>
+				<listitem>
+					<para>mm_conf_put 在conf模块中定义的写入一个配置的函数</para>
+				</listitem>
+				<listitem>
+					<para>mmConfElement 在conf模块中定义的配置元素结构类型</para>
+				</listitem>
+			</orderedlist>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>内核</title>
+		<sect1>
+			<title>信息传递模块</title>
+			<para>信息传递模块（内部编号：msg）是处于内核中最底层的模块，它主要负责抓取信号和调用绑定函数。作为mainloop循环信号的补充，msg模块提供了费标准信号的处理方式。</para>
+			<para>信息传递模块有一个内部的数据结构，用于存储当前其他模块发出的信号。这个模块的类型为GList。外部模块通过调用本模块的mm_msg_put函数将信号添加进信号队列中。</para>
+		</sect1>
+		<sect1>
+			<title>配置寄存模块</title>
+			<para>这里是正文</para>
+		</sect1>
+		<sect1>
+			<title>数据库模块</title>
+			<para>这里是正文</para>
+		</sect1>
+		<sect1>
+			<title>音频控制模块</title>
+			<para>这里是正文</para>
+		</sect1>
+		<sect1>
+			<title>按键绑定模块</title>
+			<para>这里是正文</para>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>用户接口</title>
+		<sect1>
+			<title>这里是标题</title>
+			<para>这里是正文</para>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>插件</title>
+		<sect1>
+			<title>这里是标题</title>
+			<para>这里是正文</para>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>生命周期</title>
+		<sect1>
+			<title>程序的加载</title>
+			<para>This is the first section in my book.</para>
+		</sect1>
+		<sect1>
+			<title>程序的关闭</title>
+			<para>this is the second section in my book.</para>
+		</sect1>
+		<sect1>
+			<title>程序的运行</title>
+			<para>this is the second section in my book.</para>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>附录：glib基础</title>
+		<sect1>
+			<title>解析XML文件</title>
+			<para>This is the first section in my book.</para>
+		</sect1>
+		<sect1>
+			<title>双向链表 GList</title>
+			<para>this is the second section in my book.</para>
+		</sect1>
+		<sect1>
+			<title>哈希表 GHashTable</title>
+			<para>this is the second section in my book.</para>
+		</sect1>
+		<sect1>
+			<title>信号传递 GSource</title>
+			<para>this is the second section in my book.</para>
+		</sect1>
+	</chapter>
+	<chapter>
+		<title>附录：内核API函数</title>
+		<sect1>
+		</sect1>
+	</chapter>
+</book>
