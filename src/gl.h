@@ -20,19 +20,19 @@
 /*
  * MACROS
  */
-#define MM_GL_VERSION 2.0
+#define LY_GL_VERSION 2.0
 #define _(String) gettext(String)
-#define MM_GL_LOCALEDIR LOCALEDIR
-#define MM_GL_PACKAGE "musicme"
+#define LY_GL_LOCALEDIR LOCALEDIR
+#define LY_GL_PACKAGE "musicme"
 
 /*
  * VARIABLES	[PUBLIC]
  */
-GMainLoop *mm_gl_mainloop;
+GMainLoop *ly_gl_mainloop;
 
 /*
  * FUNCTIONS	[PUBLIC]
  */
-gboolean mm_gl_init();
+gboolean ly_gl_init();
 
 #endif

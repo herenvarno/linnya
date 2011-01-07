@@ -6,37 +6,37 @@
 /*
  * TYPES
  */
-typedef struct mmMsgMessage
+typedef struct lyMsgMessage
 {
 	gchar *from;
 	gchar *type; 
 	gchar *msg;
-}mmMsgMessage;
+}lyMsgMessage;
 
-typedef struct mmMsgConn
+typedef struct lyMsgConn
 {
 	gchar *type;
-	gboolean (*func)(mmMsgMessage* message);
-}mmMsgConn;
+	gboolean (*func)(lyMsgMessage* message);
+}lyMsgConn;
 
 /*
  * VARIABLES	[PRIVATE]
  */
-GQueue *mm_msg_messages;
-GList *mm_msg_conns;
-GSource *mm_msg_source;
+GQueue *ly_msg_messages;
+GList *ly_msg_conns;
+GSource *ly_msg_source;
 
 /*
  * FUNCTIONS	[PUBLIC]
  */
-gboolean mm_msg_init();
-gboolean mm_msg_put(gchar *type, gchar *from, gchar *msg);
-gboolean mm_msg_bind(gchar *type, gpointer func);
+gboolean ly_msg_init();
+gboolean ly_msg_put(gchar *type, gchar *from, gchar *msg);
+gboolean ly_msg_bind(gchar *type, gpointer func);
 
-gboolean mm_msg_message_free(mmMsgMessage *message);	/*[PRIVATE]*/
-gboolean mm_msg_prepare_cb(GSource *source, gint *timeout);	/*[PRIVATE]*/
-gboolean mm_msg_check_cb(GSource *source);	/*[PRIVATE]*/
-gboolean mm_msg_dispatch_cb(GSource *source, GSourceFunc callback, gpointer data);	/*[PRIVATE]*/
-void mm_msg_finalize_cb(GSource *source);	/*[PRIVATE]*/
+gboolean ly_msg_message_free(lyMsgMessage *message);	/*[PRIVATE]*/
+gboolean ly_msg_prepare_cb(GSource *source, gint *timeout);	/*[PRIVATE]*/
+gboolean ly_msg_check_cb(GSource *source);	/*[PRIVATE]*/
+gboolean ly_msg_dispatch_cb(GSource *source, GSourceFunc callback, gpointer data);	/*[PRIVATE]*/
+void ly_msg_finalize_cb(GSource *source);	/*[PRIVATE]*/
 
 #endif
