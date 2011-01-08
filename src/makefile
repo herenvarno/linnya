@@ -1,7 +1,7 @@
 CC=gcc
 PROG_NAME=musicme
 INCS=
-SRCS=main.c gl.c msg.c
+SRCS=main.c global.c msg.c
 
 OBJS=${SRCS:.c=.o}
 

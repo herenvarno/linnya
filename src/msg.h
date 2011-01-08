@@ -1,7 +1,7 @@
 #ifndef MSG_H
 #define MSG_H
 
-#include "gl.h"
+#include "global.h"
 
 /*
  * TYPES

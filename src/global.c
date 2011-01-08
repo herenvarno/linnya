@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "global.h"
 
 gboolean ly_gl_init()
 {

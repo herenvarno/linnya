@@ -103,7 +103,7 @@ gboolean ly_msg_init()
 	sourcefuncs->check=ly_msg_check_cb;
 	sourcefuncs->dispatch=ly_msg_dispatch_cb;
 	sourcefuncs->finalize=ly_msg_finalize_cb;
-	mm_msg_source=g_source_new(sourcefuncs,sizeof(GSource));
+	ly_msg_source=g_source_new(sourcefuncs,sizeof(GSource));
 	GMainContext *maincontext=NULL;
 	maincontext = g_main_loop_get_context(ly_gl_mainloop);
 	g_source_attach(ly_msg_source, maincontext);
@@ -144,7 +144,7 @@ gboolean ly_msg_put(gchar *type, gchar *from, gchar *msg)
 gboolean ly_msg_bind(gchar *type, gpointer func)
 {
 	puts(__FUNCTION__);
-	lyMsgConn *conn=(lyMsgConn*)g_malloc(sizeof(mlyMsgConn));
+	lyMsgConn *conn=(lyMsgConn*)g_malloc(sizeof(lyMsgConn));
 	conn->type=g_strconcat(type,NULL);
 	conn->func=func;
 	ly_msg_conns=g_list_append(ly_msg_conns,conn);

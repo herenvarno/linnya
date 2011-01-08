@@ -1,7 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "gl.h"
+#include "global.h"
 #include "msg.h"
 
 #endif
