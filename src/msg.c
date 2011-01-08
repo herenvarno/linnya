@@ -5,6 +5,53 @@
  */
 
 /*
+ * NAME:	ly_msg_free_message
+ * VARS:	message[mmMsgMessage*]	the message
+ * RETN:	[gboolean]		always TRUE.
+ * DESC:	Free a message.
+ */
+gboolean ly_msg_free_message(mmMsgMessage *message)
+{
+	puts(__FUNCTION__);
+	if(message->type)
+	{
+		g_free(message->type);
+		message->type=NULL;
+	}
+	if(message->from)
+	{
+		g_free(message->type);
+		message->type=NULL;
+	}
+	if(message->msg)
+	{
+		g_free(message->type);
+		message->type=NULL;
+	}
+	g_free(message);
+	return TRUE;
+}
+
+/*
+ * NAME:	ly_msg_free_conn
+ * VARS:	conn[mmMsgConn*]	the connection
+ * RETN:	[gboolean]		always TRUE.
+ * DESC:	Free a connection.
+ */
+gboolean ly_msg_free_conn(mmMsgConn *conn)
+{
+	puts(__FUNCTION__);
+	if(conn->type)
+	{
+		g_free(conn->type);
+		message->conn=NULL;
+	}
+	conn->func=NULL;
+	g_free(conn);
+	return TRUE;
+}
+
+/*
  * NAME:	ly_msg_prepare_cb
  * VARS:	source[GSource]	the source.
  *			timeout[gint]	the timeout length.
@@ -105,7 +152,7 @@ gboolean ly_msg_init()
 	sourcefuncs->finalize=ly_msg_finalize_cb;
 	ly_msg_source=g_source_new(sourcefuncs,sizeof(GSource));
 	GMainContext *maincontext=NULL;
-	maincontext = g_main_loop_get_context(ly_gl_mainloop);
+	maincontext = g_main_loop_get_context(ly_global_mainloop);
 	g_source_attach(ly_msg_source, maincontext);
 	
 	return TRUE;
@@ -152,29 +199,30 @@ gboolean ly_msg_bind(gchar *type, gpointer func)
 }
 
 /*
- * NAME:	ly_msg_message_free
- * VARS:	message[lyMsgMessage*]	the message
+ * NAME:	ly_msg_unbind
+ * VARS:	type[gchar*]	the type of message.
+ *			func[gpointer]	the callback function.
  * RETN:	[gboolean]		always TRUE.
- * DESC:	Free a message.
+ * DESC:	Unbind a function and a message.
  */
-gboolean ly_msg_message_free(lyMsgMessage *message)
+gboolean ly_msg_unbind(gchar *type, gpointer func)
 {
 	puts(__FUNCTION__);
-	if(message->type)
+	
+	GList *p=NULL;
+	mmMsgConn *pdata=NULL;
+	
+	p=ly_msg_conns;
+	while(p)
 	{
-		g_free(message->type);
-		message->type=NULL;
+		pdata=p->data;
+		if(g_str_equal(pdata->type,type))
+		{
+			ly_msg_free_conn(pdata);
+			pdata=NULL;
+		}
+		p=p->next;
+		ly_msg_conns=g_list_delete(ly_msg_conns,p->prev);
 	}
-	if(message->from)
-	{
-		g_free(message->type);
-		message->type=NULL;
-	}
-	if(message->msg)
-	{
-		g_free(message->type);
-		message->type=NULL;
-	}
-	g_free(message);
 	return TRUE;
 }

@@ -32,11 +32,15 @@ GSource *ly_msg_source;
 gboolean ly_msg_init();
 gboolean ly_msg_put(gchar *type, gchar *from, gchar *msg);
 gboolean ly_msg_bind(gchar *type, gpointer func);
+gboolean ly_msg_unbind(gchar *type, gpointer func);
 
-gboolean ly_msg_message_free(lyMsgMessage *message);	/*[PRIVATE]*/
-gboolean ly_msg_prepare_cb(GSource *source, gint *timeout);	/*[PRIVATE]*/
-gboolean ly_msg_check_cb(GSource *source);	/*[PRIVATE]*/
-gboolean ly_msg_dispatch_cb(GSource *source, GSourceFunc callback, gpointer data);	/*[PRIVATE]*/
-void ly_msg_finalize_cb(GSource *source);	/*[PRIVATE]*/
+/*
+ * FUNCTIONS	[PRIVATE]
+ */
+gboolean ly_msg_message_free(lyMsgMessage *message);
+gboolean ly_msg_prepare_cb(GSource *source, gint *timeout);
+gboolean ly_msg_check_cb(GSource *source);
+gboolean ly_msg_dispatch_cb(GSource *source, GSourceFunc callback, gpointer data);
+void ly_msg_finalize_cb(GSource *source);
 
 #endif

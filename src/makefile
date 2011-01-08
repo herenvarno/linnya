@@ -1,5 +1,5 @@
 CC=gcc
-PROG_NAME=musicme
+PROG_NAME=linnya
 INCS=
 SRCS=main.c global.c msg.c
 

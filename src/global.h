@@ -15,24 +15,36 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <gst/gst.h>
-#include <gst/app/gstappsrc.h>
 
 /*
  * MACROS
  */
-#define LY_GL_VERSION 2.0
+#define LY_GLOBAL_VERSION 2.0
+
 #define _(String) gettext(String)
-#define LY_GL_LOCALEDIR LOCALEDIR
-#define LY_GL_PACKAGE "musicme"
+#define LY_GLOBAL_PACKAGE "linnya"
+#define LY_GLOBAL_LOCALEDIR LOCALEDIR
+
+#define LY_GLOBAL_HOMEDIR ly_global_homedir
+#define LY_GLOBAL_PROGDIR ly_global_progdir
+#define LY_GLOBAL_USERDIR ly_global_userdir
+#define LY_GLOBAL_TEMPDIR ly_global_tempdir
 
 /*
- * VARIABLES	[PUBLIC]
+ * VARIABLES	[PRIVATE]
  */
-GMainLoop *ly_gl_mainloop;
+GMainLoop *ly_global_mainloop;	/*[PUBLIC]*/
+
+gchar *ly_global_homedir;
+gchar *ly_global_progdir;
+gchar *ly_global_userdir;
+gchar *ly_global_tempdir;
 
 /*
  * FUNCTIONS	[PUBLIC]
  */
-gboolean ly_gl_init();
+gboolean ly_global_init();
+gboolean ly_global_run();
+gboolean ly_global_finalize();
 
 #endif
