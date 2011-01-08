@@ -3,5 +3,6 @@
 
 #include "global.h"
 #include "msg.h"
+#include "conf.h"
 
 #endif

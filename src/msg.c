@@ -10,9 +10,8 @@
  * RETN:	[gboolean]		always TRUE.
  * DESC:	Free a message.
  */
-gboolean ly_msg_free_message(mmMsgMessage *message)
+gboolean ly_msg_free_message(lyMsgMessage *message)
 {
-	puts(__FUNCTION__);
 	if(message->type)
 	{
 		g_free(message->type);
@@ -38,13 +37,13 @@ gboolean ly_msg_free_message(mmMsgMessage *message)
  * RETN:	[gboolean]		always TRUE.
  * DESC:	Free a connection.
  */
-gboolean ly_msg_free_conn(mmMsgConn *conn)
+gboolean ly_msg_free_conn(lyMsgConn *conn)
 {
 	puts(__FUNCTION__);
 	if(conn->type)
 	{
 		g_free(conn->type);
-		message->conn=NULL;
+		conn->type=NULL;
 	}
 	conn->func=NULL;
 	g_free(conn);
@@ -108,7 +107,7 @@ gboolean ly_msg_dispatch_cb(GSource *source, GSourceFunc callback, gpointer data
 			}
 			p=p->next;
 		}
-		ly_msg_message_free(message);
+		ly_msg_free_message(message);
 	}
 	return TRUE;
 }
@@ -206,11 +205,9 @@ gboolean ly_msg_bind(gchar *type, gpointer func)
  * DESC:	Unbind a function and a message.
  */
 gboolean ly_msg_unbind(gchar *type, gpointer func)
-{
-	puts(__FUNCTION__);
-	
+{	
 	GList *p=NULL;
-	mmMsgConn *pdata=NULL;
+	lyMsgConn *pdata=NULL;
 	
 	p=ly_msg_conns;
 	while(p)
@@ -222,7 +219,12 @@ gboolean ly_msg_unbind(gchar *type, gpointer func)
 			pdata=NULL;
 		}
 		p=p->next;
-		ly_msg_conns=g_list_delete(ly_msg_conns,p->prev);
+		ly_msg_conns=g_list_delete_link(ly_msg_conns,p->prev);
 	}
+	return TRUE;
+}
+
+gboolean ly_msg_finalize()
+{
 	return TRUE;
 }

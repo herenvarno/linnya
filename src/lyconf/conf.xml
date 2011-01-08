@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurations>
+	<conf name="audio_repeat" value="1" />
+	<conf name="db_check" value="1" />
+	<conf name="version" value="1.90" />
+	<conf name="audio_volume" value="30" />
+	<conf name="db_path" value="~/.musicme/library.db" />
+	<conf name="audio_alllist" value="1" />
+	<conf name="audio_pos" value="46" />
+	<conf name="audio_state" value="1" />
+	<conf name="audio_random" value="1" />
+</configurations>

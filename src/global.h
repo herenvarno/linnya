@@ -19,11 +19,11 @@
 /*
  * MACROS
  */
-#define LY_GLOBAL_VERSION 2.0
+#define LY_GLOBAL_VERSION 1.90
 
 #define _(String) gettext(String)
 #define LY_GLOBAL_PACKAGE "linnya"
-#define LY_GLOBAL_LOCALEDIR LOCALEDIR
+#define LY_GLOBAL_LOCALEDIR "./lyconf"
 
 #define LY_GLOBAL_HOMEDIR ly_global_homedir
 #define LY_GLOBAL_PROGDIR ly_global_progdir
@@ -35,15 +35,15 @@
  */
 GMainLoop *ly_global_mainloop;	/*[PUBLIC]*/
 
-gchar *ly_global_homedir;
-gchar *ly_global_progdir;
-gchar *ly_global_userdir;
-gchar *ly_global_tempdir;
+const gchar *ly_global_homedir;
+const gchar *ly_global_progdir;
+const gchar *ly_global_userdir;
+const gchar *ly_global_tempdir;
 
 /*
  * FUNCTIONS	[PUBLIC]
  */
-gboolean ly_global_init();
+gboolean ly_global_init(int argc, char *argv[]);
 gboolean ly_global_run();
 gboolean ly_global_finalize();
 

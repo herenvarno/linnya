@@ -1,6 +1,6 @@
 #include "global.h"
 
-gboolean ly_global_init()
+gboolean ly_global_init(int argc, char *argv[])
 {
 	/*
 	 * building main loop
@@ -28,7 +28,8 @@ gboolean ly_global_init()
 		exit(0);
 		return FALSE;
 	}
-	LY_GLOBAL_PROGDIR=g_strconcat(INSTALL_PATH,NULL);
+//	LY_GLOBAL_PROGDIR=g_strconcat(INSTALL_PATH,NULL);
+	LY_GLOBAL_PROGDIR=g_strconcat("./",NULL);
 	LY_GLOBAL_USERDIR=g_strconcat(LY_GLOBAL_HOMEDIR,"/.linnya",NULL);
 	LY_GLOBAL_TEMPDIR=g_strconcat("/tmp/linnya",NULL);
 	
@@ -58,9 +59,5 @@ gboolean ly_global_run()
 gboolean ly_global_finalize()
 {
 	g_main_loop_unref(ly_global_mainloop);
-	g_free(LY_GLOBAL_HOMEDIR);
-	g_free(LY_GLOBAL_PROGDIR);
-	g_free(LY_GLOBAL_USERDIR);
-	g_free(LY_GLOBAL_TEMPDIR);
 	return TRUE;
 }

@@ -15,13 +15,13 @@
  */
 gboolean ly_conf_read(void)
 {
-	path=g_strconcat(MM_GL_USERDIR,"/conf.xml");
+	gchar *path=g_strconcat(LY_GLOBAL_PROGDIR,"/lyconf/conf.xml",NULL);
 	
 	GMarkupParser parser=
 	{
 		.start_element = ly_conf_start_cb,
 		.end_element = NULL,
-		.text = ly_conf_text_cb,
+		.text = NULL,
 		.passthrough = NULL,
 		.error = NULL
 	};
@@ -39,22 +39,33 @@ gboolean ly_conf_read(void)
 		 * broadcast the information.
 		 */
 		ly_msg_put("core_info","core:conf",_("No configuration file found or read configurations error. Use default configurations!\n"));
-		
-		ly_conf_free();
+
+		g_hash_table_destroy(ly_conf_configurations);
+		ly_conf_configurations=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+		ly_conf_set("version","1.90");
 	}
-	
+	else
+	{
 	/*
 	 * check the version of configuration file.
 	 */
-	gdouble version=*(ly_conf_get("version"));
-	if(version<MM_GL_VERSION)
-	{
+		gdouble version=0;
+		if(ly_conf_get("version","%lf",&version))
+		{
+			if(version>=LY_GLOBAL_VERSION)
+			{
+				g_markup_parse_context_free(context);
+				return TRUE;
+			}
+		}
 		/*
-		 * broadcast the information.
-		 */
+		* broadcast the information.
+		*/
 		ly_msg_put("core_info","core:conf",_("The version of configuration file is too low. Use default configurations!\n"));
 		
-		ly_conf_free();
+		g_hash_table_destroy(ly_conf_configurations);
+		ly_conf_configurations=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+		ly_conf_set("version","1.90");
 	}
 	
 	g_markup_parse_context_free(context);
@@ -67,14 +78,14 @@ gboolean ly_conf_read(void)
  * RETN:	[void]
  * DESC:	Callback for ly_conf_read
  */
-static void ly_conf_start_cb(	GMarkupParseContext *context,
+void ly_conf_start_cb(	GMarkupParseContext *context,
 								const gchar *element_name,
 								const gchar **attribute_names,
 								const gchar **attribute_values,
 								gpointer data,
 								GError **error)
 {
-	if(g_strequal(element_name),"conf")
+	if(g_str_equal(element_name,"conf"))
 	{
 		gchar *name=NULL;
 		gchar *value=NULL;
@@ -83,10 +94,10 @@ static void ly_conf_start_cb(	GMarkupParseContext *context,
 		const gchar **value_cursor = attribute_values;
 		
 		while (*name_cursor)
-		{
-			if (g_strequal(*name_cursor, "name"))
+		{puts(*value_cursor);
+			if (g_str_equal(*name_cursor, "name"))
 				name = g_strdup (*value_cursor);
-			else if (g_strequal(*name_cursor, "value"))
+			else if (g_str_equal(*name_cursor, "value"))
 				value = g_strdup (*value_cursor);
 			name_cursor++;
 			value_cursor++;
@@ -100,7 +111,7 @@ static void ly_conf_start_cb(	GMarkupParseContext *context,
 				g_free(value);
 			return;
 		}
-		g_hash_table_insert(ly_conf_configurations,name,value);
+		g_hash_table_replace(ly_conf_configurations,name,value);
 	}
 }
 
@@ -112,7 +123,7 @@ static void ly_conf_start_cb(	GMarkupParseContext *context,
  */
 gboolean ly_conf_write(void)
 {
-	path=g_strconcat(MM_GL_USERDIR,"/conf.xml");
+	gchar *path=g_strconcat(LY_GLOBAL_PROGDIR,"/lyconf/conf.xml",NULL);
 	
 	FILE *fp=NULL;
 	gchar *buf=NULL;
@@ -123,7 +134,7 @@ gboolean ly_conf_write(void)
 		return FALSE;
 	}
 
-	buf=g_markup_printf_escaped ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<configurations>");
+	buf=g_markup_printf_escaped ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<configurations>\n");
 	fputs(buf,fp);
 	g_free(buf);
 	
@@ -153,25 +164,13 @@ void ly_conf_write_each_cb(gpointer key, gpointer value, gpointer data)
 	}
 
 	gchar *buf=NULL;
-	buf=g_markup_printf_escaped ("\t<conf name=\"%s\" value=\"%s\" />",key,value);
+	buf=g_markup_printf_escaped ("\t<conf name=\"%s\" value=\"%s\" />\n", (gchar*)key, (gchar*)value);
 	fputs(buf,fp);
 	g_free(buf);
 }
 
 /*
- * NAME:	ly_conf_put
- * VARS:	[gchar*]name	the name of conf.
- * 			[gchar*]value	the value of conf.
- * RETN:	[void]
- * DESC:	Put a conf to table.
- */
-void ly_conf_put(gchar *name, gchar *value)
-{
-	g_hash_table_insert(ly_conf_configurations, name, value);
-}
-
-/*
- * NAME:	ly_conf_put
+ * NAME:	ly_conf_delete
  * VARS:	[gchar*]name	the name of conf.
  * RETN:	[void]
  * DESC:	delete a conf.
@@ -205,20 +204,54 @@ gboolean ly_conf_init(void)
  */
 gboolean ly_conf_finalize(void)
 {
-	gboolean rt=FALSE
+	gboolean rt=FALSE;
 	rt=ly_conf_write();
-	rt &= g_hash_table_destroy();
+	g_hash_table_destroy(ly_conf_configurations);
 	return rt;
 }
 
 /*
- * NAME:	ly_conf_finalize
+ * NAME:	ly_conf_set
  * VARS:	[gchar*]name	the name of conf.
- * 			[gchar*]value	the value of conf.
- * RETN:	[void]
+ * 			[gchar*]format	the formate.
+ * 			[...]
+ * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
+ * DESC:	finalize the conf module.
+ */
+gboolean ly_conf_set(gchar *name, const gchar *format, ...)
+{
+	gchar *str=NULL;
+
+	va_list argp;
+	va_start(argp, format);
+	str=g_strdup_vprintf(format, argp);
+	va_end(argp);
+	
+	gchar *namestr=NULL;
+	namestr=g_strconcat(name,NULL);
+	g_hash_table_replace(ly_conf_configurations, namestr, str);
+
+	return TRUE;
+}
+
+/*
+ * NAME:	ly_conf_get
+ * VARS:	[gchar*]name	the name of conf.
+ * 			[gchar*]format	the formate.
+ * 			[...]
+ * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	finalize the conf module.
  */
 gboolean ly_conf_get(gchar *name, const gchar *format, ...)
 {
+	gchar *str=NULL;
+	str=g_hash_table_lookup(ly_conf_configurations, name);
+	if(str==NULL)
+		return FALSE;
+	va_list argp;
+	va_start(argp, format);
+	vsscanf(str, format, argp);
+	va_end(argp);
 	
+	return TRUE;
 }

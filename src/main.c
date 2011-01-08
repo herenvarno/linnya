@@ -1,38 +1,44 @@
 #include "main.h"
 
-gboolean printhello(lyMsgMessage* m)
+gboolean out(lyMsgMessage *message)
 {
-	printf("hello:%s\n",m->msg);
-	return TRUE;
-}
-gboolean printhello1(lyMsgMessage* m)
-{
-	printf("hello1:%s\n",m->msg);
-	return TRUE;
-}
-gboolean printly(lyMsgMessage* m)
-{
-	printf("ly:%s\n",m->msg);
-	return TRUE;
+	puts(message->msg);
+	return FALSE;
 }
 
 int main(int argc, char *argv[])
 {
-	ly_gl_init();
+	ly_global_init(argc, argv);
 	ly_msg_init();
-	
-	ly_msg_bind("hello",G_CALLBACK(printhello));
-	ly_msg_bind("hello",G_CALLBACK(printhello1));
-	ly_msg_bind("ly",G_CALLBACK(printly));
-	gchar type[100];
-	gchar msg[100];
-	gint i=0;
-	for(i=0;i<2;i++)
+	ly_conf_init();
+
+	ly_msg_bind("core_info",G_CALLBACK(out));
+
+	gchar str[300];
+	ly_conf_set("test1","haha:%s","eeeeeeeer");
+	ly_conf_set("test2","haha2:%d:%lf",1,2.5);
+	ly_conf_set("test1","haha3:%lf",3.3);
+	ly_conf_set("test1","haha4:%lf",3.3);
+
+	int i=0;
+	double j=0;
+	if(ly_conf_get("audiao_volume","%s",str))
 	{
-		printf("输入任意信号和消息,用空格隔开:");
-		scanf("%s %s",type,msg);
-		ly_msg_put(type,"main",msg);
+		puts("TRUE");
+		puts(str);
 	}
-	g_main_loop_run(ly_gl_mainloop);
+	else
+		puts("FALSE");
+	
+	if(ly_conf_get("test2","haha2:%d:%lf",&i,&j))
+		printf("%d::%lf\n",i,j);
+
+	ly_conf_set("audio_volume","%lf",34.646);
+	ly_conf_delete("test2");
+//	ly_global_run();
+
+	ly_conf_finalize();
+	ly_msg_finalize();
+	ly_global_finalize();
 	return 0;
 }
