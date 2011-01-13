@@ -32,7 +32,7 @@ fi
 
 rm bin/linnya
 rm -r share/linnya
-rm share/applications/linya.desktop
+rm share/applications/linnya.desktop
 rm share/icons/hicolor/64x64/apps/linnya.png
 rm share/icons/hicolor/64x64/apps/linnya_trayicon.png
 rm share/locale/*/LC_MESSAGES/linnya.mo
