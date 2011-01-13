@@ -1,0 +1,8 @@
+autoscan: warning: missing AC_C_INLINE wanted by: 
+	gettext.h:139
+	gettext.h:158
+	gettext.h:198
+	gettext.h:243
+autoscan: warning: missing AC_FUNC_MALLOC wanted by: 
+	gettext.h:216
+	gettext.h:262
