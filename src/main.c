@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 	ly_global_init(argc, argv);
 	ly_msg_init();
 	ly_conf_init();
+	ly_audio_init();
 
 	ly_msg_bind("core_info",G_CALLBACK(out));
 
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
 	ly_conf_delete("test2");
 //	ly_global_run();
 
+	ly_audio_finalize();
 	ly_conf_finalize();
 	ly_msg_finalize();
 	ly_global_finalize();
