@@ -1,0 +1,20 @@
+[Desktop Entry]
+Categories=GTK;AudioVideo;Audio;Video;Player;
+Comment[zh_CN]=Linnya 音乐播放器
+Comment=Linnya 音乐播放器
+Exec=linnya
+GenericName[zh_CN]=Media Player
+GenericName=Media Player
+Icon=linnya.png
+MimeType=
+Name[zh_CN]=聆雅
+Name=聆雅
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

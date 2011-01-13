@@ -1,0 +1,71 @@
+<!--
+	Theme	:	Aero-Fly
+	Author	:	Edward
+	Version	:	1.0
+	Licence	:	GPLv3
+-->
+<!--
+	NOTE:
+		1, x:the position x;
+		2, y:the position y;
+		3, w:the width of widget;
+		4, h:the height of widget;
+		5, path:the path of background;
+		6, All the path should be based on '..../musicme/skin/<theme name>/';
+		7, The 'path' of label_volume is the string to be displayed;
+-->
+<theme>
+	<!--link to gtkrc file-->
+	<gtkrc path="gtk-2.0/gtkrc" />
+	
+	<!--set main window, type="GtkWindow"-->
+	<window w="470" h="380" path="window.png"/>
+	
+	<!--set icon, type="GtkImage"-->
+	<icon x="15" y="12" />
+	
+	<!--set buttons, type="GtkButton"-->
+	<button_min x="405" y="15" w="16" h="16" />
+	<button_close x="430" y="15" w="16" h="16" />
+	<button_play x="110" y="325" w="40" h="40" />
+	<button_stop x="147" y="325" w="40" h="40" />
+	<button_prev x="17" y="320" w="104" h="40" />
+	<button_next x="178" y="320" w="104" h="40" />
+	<button_conf x="283" y="320" w="50" h="50" />
+	<button_volume x="418" y="332" w="" h="" />
+	
+	<!--set default cd cover image, type="GtkImage"-->
+	<image_cd x="10" y="50" w="150" h="150"/>
+	
+	<!--set notebook, type="GtkNotebook"-->
+	<notebook x="15" y="30" w="440" h="270"/>
+	
+	<!--set information table, type="GtkTable"-->
+	<table x="170" y="65" />
+	
+	<!--set hscale_seek, type="GtkScale"-->
+	<hscale_seek x="15" y="300" w="435" h="" />
+	
+	<!--set "volume" label, type="GtkLabel"-->
+	<label_volume x="385" y="338" path="音量"/>
+	
+	<!--set drawing_area_lyrics, type="GtkDrawingArea"-->
+	<lyrics path="draw_bg.png" />
+	
+	<!--lyrics setting-->
+	<highlight font="Sans Regular 10" color_fg1="25523:0:65535"/>
+	<normal font="Sans Regular 10" color_fg1="14270:14270:14270"/>
+	<spectrum color_fg1="20000:20000:20000" />
+	<desktop w="1000" h="50" font="Sans Regular 25" color_fg1="19532:65535:65535" color_fg2="5539:0:65535" color_bg1="65535:10449:0" color_bg2="65535:61062:0" />
+
+</theme>
+
+
+
+
+
+
+
+
+
+
