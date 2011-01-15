@@ -1,7 +1,7 @@
 CC=gcc
 PROG_NAME=linnya
 INCS=
-SRCS=main.c global.c msg.c conf.c
+SRCS=main.c global.c msg.c conf.c audio.c
 
 OBJS=${SRCS:.c=.o}
 

@@ -3,7 +3,7 @@
 
 #include "global.h"
 #include "msg.h"
-#include "db.h"
+//#include "db.h"
 
 /* *
  *  MICROS
@@ -48,18 +48,18 @@ typedef struct ly_type_audio_playmeta
 /* *
  *  VARS[PRIVATE]
  * */
-ly_type_audio_core     audio_core;
-ly_type_audio_playmod  audio_playmod;
-ly_type_audio_playmeta audio_playmeta;
+ly_type_audio_core*     audio_core;
+ly_type_audio_playmod*  audio_playmod;
+ly_type_audio_playmeta* audio_meta;
 
 /* *
  *  FUNCS [PUBLIC]
  * */
-boolean ly_func_audio_setrand();
-boolean ly_func_audio_setsingleloop();
-boolean ly_func_audio_setlist();
-boolean ly_func_audio_setsingle();
-boolean ly_func_audio_setlistloop();
+gboolean ly_func_audio_setrand();
+gboolean ly_func_audio_setsingleloop();
+gboolean ly_func_audio_setlist();
+gboolean ly_func_audio_setsingle();
+gboolean ly_func_audio_setlistloop();
 gboolean ly_func_audio_previous();
 gboolean ly_func_audio_next();
 gboolean ly_func_audio_play();
@@ -76,14 +76,14 @@ gboolean ly_func_audio_getequalizer(gdouble* band0,gdouble* band1,gdouble* band2
  /* *
   *  FUNCS [PRIVATE]
   * */
-int ly_func_audio_rand(int listlength);
-int ly_func_audio_singleloop(int position);
-int ly_func_audio_nlistloop(int position,int listlength);
-int ly_func_audio_plistloop(int position,int listlength);
+gint ly_func_audio_rand(gint listlength);
+gint ly_func_audio_singleloop(gint position);
+gint ly_func_audio_nlistloop(gint position,gint listlength);
+gint ly_func_audio_plistloop(gint position,gint listlength);
 gboolean ly_func_audio_callback(GstBus *bus,GstMessage *message,gpointer data);
 gboolean ly_audio_init();
 GstState ly_func_audio_getstate();
-gboolean ly_func_audio_finalize();
+gboolean ly_audio_finalize();
 
 
   

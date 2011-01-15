@@ -10,7 +10,7 @@
  * RETN:	[int] id		
  * DESC:	take out a song id by rand.
  * */
-int ly_func_audio_rand(int listlength)
+gint ly_func_audio_rand(gint listlength)
 {
 	return rand()%listlength;
 }
@@ -21,7 +21,7 @@ int ly_func_audio_rand(int listlength)
  * RETN:	[int] id		
  * DESC:	take out a song id by singleloop.
  * */
-int ly_func_audio_singleloop(int position)
+gint ly_func_audio_singleloop(gint position)
 {
 	return position;
 }
@@ -32,9 +32,9 @@ int ly_func_audio_singleloop(int position)
  * RETN:	[int] id		
  * DESC:	take out a song id by nlistloop.
  * */
-int ly_func_audio_nlistloop(int position,int listlength)
+gint ly_func_audio_nlistloop(gint position,gint listlength)
 {
-	int addpositon=0;
+	int addposition=0;
 	addposition=position+1;
 	if(addposition>listlength)
 	{
@@ -50,9 +50,9 @@ int ly_func_audio_nlistloop(int position,int listlength)
  * RETN:	[int] id		
  * DESC:	take out a song id by plistloop.
  * */
-int ly_func_audio_plistloop(int position,int listlength)
+gint ly_func_audio_plistloop(gint position,gint listlength)
 {
-	int addposition=0;
+	gint addposition=0;
 	addposition=position-1;
 	if(addposition<1)
 	{
@@ -72,11 +72,11 @@ int ly_func_audio_plistloop(int position,int listlength)
  * RETN:	[boolean] 		
  * DESC:	set playmode by rand.
  * */
-boolean ly_func_audio_setrand()
+gboolean ly_func_audio_setrand()
 {
 	if(!audio_playmod)
 	{
-		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod))
+		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod));
 		if(!audio_playmod)
 		{
 			ly_msg_put("Error","ly_func_audio_setrand","Playmode Error!");
@@ -95,11 +95,11 @@ boolean ly_func_audio_setrand()
  * RETN:	[boolean]		
  * DESC:	set playmode by single.
  * */
-boolean ly_func_audio_setsingle()
+gboolean ly_func_audio_setsingle()
 {
 	if(!audio_playmod)
 	{
-		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod))
+		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod));
 		if(!audio_playmod)
 		{
 			ly_msg_put("Error","ly_func_audio_setrand","Playmode Error!");
@@ -118,11 +118,11 @@ boolean ly_func_audio_setsingle()
  * RETN:	[boolean]		
  * DESC:	set playmode by singleloop.
  * */
-boolean ly_func_audio_setsingleloop()
+gboolean ly_func_audio_setsingleloop()
 {
 	if(!audio_playmod)
 	{
-		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod))
+		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod));
 		if(!audio_playmod)
 		{
 			ly_msg_put("Error","ly_func_audio_setrand","Playmode Error!");
@@ -141,11 +141,11 @@ boolean ly_func_audio_setsingleloop()
  * RETN:	[boolean]		
  * DESC:	set playmode by list.
  * */
-boolean ly_func_audio_setlist()
+gboolean ly_func_audio_setlist()
 {
 	if(!audio_playmod)
 	{
-		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod))
+		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod));
 		if(!audio_playmod)
 		{
 			ly_msg_put("Error","ly_func_audio_setrand","Playmode Error!");
@@ -164,11 +164,11 @@ boolean ly_func_audio_setlist()
  * RETN:	[boolean]		
  * DESC:	set playmode by listloop.
  * */
-boolean ly_func_audio_setlistloop()
+gboolean ly_func_audio_setlistloop()
 {
 	if(!audio_playmod)
 	{
-		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod))
+		audio_playmod=(ly_type_audio_playmod*)g_malloc(sizeof(ly_type_audio_playmod));
 		if(!audio_playmod)
 		{
 			ly_msg_put("Error","ly_func_audio_setrand","Playmode Error!");
@@ -207,9 +207,9 @@ gboolean ly_func_audio_callback(GstBus *bus,GstMessage *message,gpointer data)
 			
 			gst_message_parse_tag(message,&tags);
 			
-			if(gst_tag_list_get_string_tags,GST_TAG_GENRE,&genre)
+			if(gst_tag_list_get_string(tags,GST_TAG_GENRE,&genre))
 			{
-				ly_msg_put("Information","ly_func_audio_callback",*genre);
+				ly_msg_put("Information","ly_func_audio_callback",genre);
 			}
 			break;
 			
@@ -247,7 +247,7 @@ gboolean ly_audio_init()
 
 	/* gl_core init */
 	play=gst_element_factory_make("playbin","play");
-	bus=gst_popeline_get_bus(GST_PIPELINE(play));
+	bus=gst_pipeline_get_bus(GST_PIPELINE(play));
 	gst_element_set_state(play,GST_STATE_NULL);
 	gst_bus_add_watch(bus,(GstBusFunc)ly_func_audio_callback,audio_core);
 	gst_object_unref(bus);
@@ -384,7 +384,7 @@ gboolean ly_func_audio_previous()
 	if(audio_playmod->list==1)
 	{
 		previous=(gint)ly_func_audio_plistloop((int)position,(int)listlength);
-		if(audio_playmod->count==1&&next==listlength)
+		if(audio_playmod->count==1&&previous==listlength)
 		{
 			ly_func_audio_stop();
 
@@ -437,7 +437,7 @@ gboolean ly_func_audio_play()
 		return FALSE;
 	}
 	
-	if(!g_object_set(audio_core->play),"uri",audio_meta->uri,NULL)
+	if(!g_object_set(G_OBJECT(audio_core->play),"uri",audio_meta->uri,NULL))
 	{
 			ly_msg_put("Error","ly_func_audio_play","Song can't play!");		
 	}
@@ -449,7 +449,7 @@ gboolean ly_func_audio_play()
 		}
 	}
 	
-	if(!gst_element_set_state(ly_type_audio_core->play,GST_STATE_PLAYING))
+	if(!gst_element_set_state(audio_core->play,GST_STATE_PLAYING))
 	{
 		ly_msg_put("Error","ly_func_audio_play","Gstreamer States Error!");
 		return FALSE;
@@ -478,7 +478,7 @@ gboolean ly_func_audio_pause()
 	}
 	if(state==GST_STATE_PLAYING)
 	{
-		if(!gst_element_set_state(ly_type_audio_core->play,GST_STATE_PAUSED))
+		if(!gst_element_set_state(audio_core->play,GST_STATE_PAUSED))
 		{
 			ly_msg_put("Error","ly_func_audio_pause","Gstreamer States Error!");
 			return FALSE;
@@ -506,7 +506,7 @@ gboolean ly_func_audio_stop()
 	
 	if((state==GST_STATE_PLAYING)||(state==GST_STATE_PAUSED))
 	{
-		if(!gst_element_set_state(ly_type_audio_core->play,GST_STATE_READY))
+		if(!gst_element_set_state(audio_core->play,GST_STATE_READY))
 		{
 			ly_msg_put("Error","ly_func_audio_stop","Gstreamer States Error!");
 			return FALSE;
@@ -534,7 +534,7 @@ gboolean ly_func_audio_stop()
  * */
 gboolean ly_func_audio_setvolumn(gdouble pvolumn)
 {
-	if(!g_object_set(G_OBJECT(ly_type_audio_core->volumn),"volumn",pvolumn,NULL))
+	if(!g_object_set(G_OBJECT(audio_core->volumn),"volumn",pvolumn,NULL))
 	{
 		ly_msg_put("Error","ly_func_audio_setvolumn","Volumn Set Failure!");
 		return FALSE;
@@ -555,7 +555,7 @@ gdouble ly_func_audio_getvolumn()
 {
 	gdouble pvolumn;
 
-	if(!g_object_get(G_OBJECT(ly_type_audio_core->volumn),"volumn",&pvolumn,NULL))
+	if(!g_object_get(G_OBJECT(audio_core->volumn),"volumn",&pvolumn,NULL))
 	{
 		ly_msg_put("Error","ly_func_audio_getvolumn","Volumn Get Failure!");
 		return 1;
@@ -595,8 +595,8 @@ gboolean ly_func_audio_setposition(gdouble playperc)
 	start=((gint64)((min*60+second)*100+mis)*10000000);
 	sscanf(audio_meta->duration,"%d:%d:%d",&min,&second,&mis);
 	duration=((gint64)((min*60+second)*100+mis)*10000000);
-	position=(dura*playperc)+start;
-	if(!gst_element_seek(audio_core->play,1.0,GST_FORMAT_TIME,GST_SEEK_FLAG_FLUSH,GST_SEEK_TYPE_SET,position,GST_SEEK_TYPE_SET,start+dura))
+	position=(duration*playperc)+start;
+	if(!gst_element_seek(audio_core->play,1.0,GST_FORMAT_TIME,GST_SEEK_FLAG_FLUSH,GST_SEEK_TYPE_SET,position,GST_SEEK_TYPE_SET,start+duration))
 	{
 		ly_msg_put("Error","ly_func_audio_setposition","Fail to seek to desired position");
 
@@ -617,7 +617,15 @@ gboolean ly_func_audio_setposition(gdouble playperc)
  * */
 gdouble ly_func_audio_getpositionp()
 {
+	gint64 duration=0;
+	gint min=0;
+	gint second=0;
+	gint mis=0;
+	
+	sscanf(audio_meta->duration,"%d:%d:%d",&min,&second,&mis);
+	duration=((gint64)((min*60+second)*100+mis)*10000000);
 
+	
 	return (gdouble)(ly_func_audio_getposition()/(gdouble)duration);
 }
 
@@ -744,7 +752,7 @@ gboolean ly_func_audio_finalize()
 	gst_element_set_state(audio_core->play,GST_STATE_NULL);
 	gst_object_unref(GST_OBJECT(audio_core->play));
 	gst_object_unref(GST_OBJECT(audio_core->equalizer));
-	gst_object_unref(GST_OBKECT(audio_core->volumn));
+	gst_object_unref(GST_OBJECT(audio_core->volumn));
 
 }
 
