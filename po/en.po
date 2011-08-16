@@ -1,0 +1,832 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Edward <yy890521@gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://code.google.com/p/linnyax/issues/list\n"
+"POT-Creation-Date: 2011-01-13 19:29+0800\n"
+"PO-Revision-Date: 2010-08-28 16:01+0800\n"
+"Last-Translator: Edward <yy890521@gmail.com>\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: src/configure.c:266
+msgid "Couldn't load user's configuration file, use global configuration !\n"
+msgstr "Couldn't load user's configuration file, use global configuration !\n"
+
+#: src/configure.c:278
+msgid "Couldn't load global configuration file, create a new one !\n"
+msgstr "Couldn't load global configuration file, create a new one !\n"
+
+#: src/configure.c:295 src/configure.c:305
+msgid "The Version of Configuration file is low, Use default preferences !\n"
+msgstr "The Version of Configuration file is low, Use default preferences !\n"
+
+#: src/configure.c:328
+msgid "Fail to write configuration file\n"
+msgstr "Fail to write configuration file\n"
+
+#: src/core.c:421
+msgid "Failed to seek to desired position"
+msgstr "Failed to seek to desired position"
+
+#: src/debug.c:19
+#, fuzzy, c-format
+msgid ""
+"[Linnya ERROR] ( in function %s ):\n"
+"\t%s\n"
+msgstr ""
+"[MusicMe ERROR] ( in function %s ):\n"
+"\t%s\n"
+
+#: src/debug.c:20
+#, fuzzy, c-format
+msgid ""
+"[Linnya WARNNING] ( in function %s ):\n"
+"\t%s\n"
+msgstr ""
+"[MusicMe WARNNING] ( in function %s ):\n"
+"\t%s\n"
+
+#: src/debug.c:21
+#, fuzzy, c-format
+msgid ""
+"[Linnya INFORMATION] ( in function %s ):\n"
+"\t%s\n"
+msgstr ""
+"[MusicMe INFORMATION] ( in function %s ):\n"
+"\t%s\n"
+
+#: src/debug.c:46 src/debug.c:54 src/debug.c:62
+#, c-format
+msgid ""
+"<b>(on function %s )</b>\n"
+"%s"
+msgstr ""
+"<b>(on function %s )</b>\n"
+"%s"
+
+#: src/equalizer.c:92 src/equalizer.c:101 src/library.c:91 src/library.c:438
+msgid "Couldn't load xml,create a new one"
+msgstr "Couldn't load xml,create a new one"
+
+#: src/equalizer.c:132
+msgid "Cannot open equalizer file"
+msgstr "Cannot open equalizer file"
+
+#: src/gui_dialog.c:43 src/gui_window.c:581
+msgid "Configuration"
+msgstr "Configuration"
+
+#: src/gui_dialog.c:71
+msgid "Playing Mode"
+msgstr "Playing Mode"
+
+#: src/gui_dialog.c:73 src/gui_window.c:405 src/gui_treeview.c:103
+msgid "Library"
+msgstr "Library"
+
+#: src/gui_dialog.c:75
+msgid "Equalizer"
+msgstr "Equalizer"
+
+#: src/gui_dialog.c:77 src/gui_window.c:528
+msgid "Lyrics"
+msgstr "Lyrics"
+
+#: src/gui_dialog.c:79
+msgid "Theme"
+msgstr "Theme"
+
+#: src/gui_dialog.c:81
+msgid "Options"
+msgstr "Options"
+
+#: src/gui_dialog.c:98
+msgid ""
+"<b>Playing Mode</b>\n"
+"Set the way to play"
+msgstr ""
+"<b>Playing Mode</b>\n"
+"Set the way to play"
+
+#: src/gui_dialog.c:101
+msgid "Main Window Mode"
+msgstr "Main Window Mode"
+
+#: src/gui_dialog.c:102
+msgid "Show main window"
+msgstr "Show main window"
+
+#: src/gui_dialog.c:107
+msgid "Playing mode"
+msgstr "Playing mode"
+
+#: src/gui_dialog.c:110 src/gui_dialog.c:593
+msgid "Random"
+msgstr "Random"
+
+#: src/gui_dialog.c:115 src/gui_dialog.c:597
+msgid "Repeat list"
+msgstr "Repeat list"
+
+#: src/gui_dialog.c:120 src/gui_dialog.c:602
+msgid "Repeat song"
+msgstr "Repeat song"
+
+#: src/gui_dialog.c:130
+msgid ""
+"<b>Library</b>\n"
+"Set your music library"
+msgstr ""
+"<b>Library</b>\n"
+"Set your music library"
+
+#: src/gui_dialog.c:133
+msgid "Bind music library"
+msgstr "Bind music library"
+
+#: src/gui_dialog.c:136
+msgid "Library:"
+msgstr "Library:"
+
+#: src/gui_dialog.c:146
+msgid "Start Check"
+msgstr "Start Check"
+
+#: src/gui_dialog.c:149
+msgid "AutoLoad Lib When Start"
+msgstr "AutoLoad Lib When Start"
+
+#: src/gui_dialog.c:156
+msgid "Divide sublib by: "
+msgstr "Divide sublib by: "
+
+#: src/gui_dialog.c:160
+msgid "none"
+msgstr "none"
+
+#: src/gui_dialog.c:161
+msgid "artist"
+msgstr "artist"
+
+#: src/gui_dialog.c:162
+msgid "album"
+msgstr "album"
+
+#: src/gui_dialog.c:167
+msgid "Default Backup Encode"
+msgstr "Default Backup Encode"
+
+#: src/gui_dialog.c:170
+msgid "Encode : "
+msgstr "Encode : "
+
+#: src/gui_dialog.c:184
+msgid ""
+"<b>Equalizer</b>\n"
+"Set equalizer mode of music"
+msgstr ""
+"<b>Equalizer</b>\n"
+"Set equalizer mode of music"
+
+#: src/gui_dialog.c:187
+msgid "Automatic equalizer"
+msgstr "Automatic equalizer"
+
+#: src/gui_dialog.c:188
+msgid "Choose equlizer automatically"
+msgstr "Choose equlizer automatically"
+
+#: src/gui_dialog.c:193
+msgid "Preset equalizer"
+msgstr "Preset equalizer"
+
+#: src/gui_dialog.c:215
+msgid "Custom"
+msgstr "Custom"
+
+#: src/gui_dialog.c:235
+msgid ""
+"<b>Lyrics</b>\n"
+"Set the style of lyrics to show"
+msgstr ""
+"<b>Lyrics</b>\n"
+"Set the style of lyrics to show"
+
+#: src/gui_dialog.c:237
+msgid "Desktop Lyrics"
+msgstr "Desktop Lyrics"
+
+#: src/gui_dialog.c:238
+msgid "Show Desktop Lyrics"
+msgstr "Show Desktop Lyrics"
+
+#: src/gui_dialog.c:242
+msgid "Fix Desktop Lyrics"
+msgstr "Fix Desktop Lyrics"
+
+#: src/gui_dialog.c:247
+msgid "LRC File Location"
+msgstr "LRC File Location"
+
+#: src/gui_dialog.c:248
+msgid "The Same Directory of Music File"
+msgstr "The Same Directory of Music File"
+
+#: src/gui_dialog.c:253
+msgid "Custom LRC location:"
+msgstr "Custom LRC location:"
+
+#: src/gui_dialog.c:264
+msgid "Lyrics Style"
+msgstr "Lyrics Style"
+
+#: src/gui_dialog.c:265
+msgid "Use Custom Setting"
+msgstr "Use Custom Setting"
+
+#: src/gui_dialog.c:272
+msgid "Highlight:"
+msgstr "Highlight:"
+
+#: src/gui_dialog.c:284
+msgid "Normal:"
+msgstr "Normal:"
+
+#: src/gui_dialog.c:296
+msgid "Desktop Font:"
+msgstr "Desktop Font:"
+
+#: src/gui_dialog.c:302
+msgid "Desktop fg:"
+msgstr "Desktop fg:"
+
+#: src/gui_dialog.c:315
+msgid "Desktop bg:"
+msgstr "Desktop bg:"
+
+#: src/gui_dialog.c:328
+msgid "Spectrum Color:"
+msgstr "Spectrum Color:"
+
+#: src/gui_dialog.c:343
+#, fuzzy
+msgid ""
+"<b>Theme</b>\n"
+"Set theme or skin of Linnya"
+msgstr ""
+"<b>Theme</b>\n"
+"Set theme or skin of MusicMe"
+
+#: src/gui_dialog.c:346
+msgid "Select theme"
+msgstr "Select theme"
+
+#: src/gui_dialog.c:349
+msgid "Theme:"
+msgstr "Theme:"
+
+#: src/gui_dialog.c:365
+msgid "Theme Preview"
+msgstr "Theme Preview"
+
+#: src/gui_dialog.c:527
+msgid ""
+"A simple music player for Linux, which can bind music library, change theme, "
+"auto download lyrics and etc."
+msgstr ""
+"A simple music player for Linux, which can bind music library, change theme, "
+"auto download lyrics and etc."
+
+#: src/gui_dialog.c:528
+msgid "(c) Edward<yy890521@gmail.com>"
+msgstr "(c) Edward<yy890521@gmail.com>"
+
+#: src/gui_dialog.c:530
+#, fuzzy
+msgid ""
+"Linnya\n"
+"\n"
+"Copyright (C) 2010 - Edward\n"
+"\n"
+"Linnya is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"Linnya is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with Linnya; if not, write to the Free Software\n"
+"Foundation, Inc., 51 Franklin St, Fifth Floor, \n"
+"Boston, MA  02110-1301  USA"
+msgstr ""
+"MusicMe\n"
+"\n"
+"Copyright (C) 2010 - Edward\n"
+"\n"
+"MusicMe is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"MusicMe is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with MusicMe; if not, write to the Free Software\n"
+"Foundation, Inc., 51 Franklin St, Fifth Floor, \n"
+"Boston, MA  02110-1301  USA"
+
+#: src/gui_dialog.c:548
+#, fuzzy
+msgid "1.0.2"
+msgstr "1.0.0"
+
+#: src/gui_dialog.c:550
+msgid "Official Website"
+msgstr "Official Website"
+
+#: src/gui_dialog.c:624 src/library.c:201
+msgid "Select library"
+msgstr "Select library"
+
+#: src/gui_dialog.c:901 src/gui_dialog.c:912 src/gui_treeview.c:584
+#: src/gui_treeview.c:724 src/gui_treeview.c:1012
+msgid "Name"
+msgstr "Name"
+
+#: src/gui_dialog.c:933
+msgid "Illegal equalizer name"
+msgstr "Illegal equalizer name"
+
+#: src/gui_dialog.c:947
+msgid ""
+"<b>Warnning</b>!\n"
+" an equalizer with the same name is exist, change it?"
+msgstr ""
+"<b>Warnning</b>!\n"
+" an equalizer with the same name is exist, change it?"
+
+#: src/gui_dialog.c:1008
+msgid "Illegal delete"
+msgstr "Illegal delete"
+
+#: src/gui_dialog.c:1012
+msgid ""
+"<b>Warnning</b>!\n"
+" Do you really want to delete it?"
+msgstr ""
+"<b>Warnning</b>!\n"
+" Do you really want to delete it?"
+
+#: src/gui_dialog.c:1087
+#, fuzzy
+msgid "To make the new theme active, Linnya must be restarted."
+msgstr "To make the new theme active, MusicMe must be restarted."
+
+#: src/gui_dialog.c:1128
+msgid "Select LRC Location"
+msgstr "Select LRC Location"
+
+#: src/gui_lrc.c:383 src/gui_lrc.c:405
+msgid "No lyrics found, downloading lrc file from Internet"
+msgstr "No lyrics found, downloading lrc file from Internet"
+
+#: src/gui_window.c:86
+msgid ""
+"Your system does not support transparent! Install Compize or Kwin can solve "
+"the problem."
+msgstr ""
+"Your system does not support transparent! Install Compize or Kwin can solve "
+"the problem."
+
+#: src/gui_window.c:198 src/gui_treeview.c:437
+msgid "Play"
+msgstr "Play"
+
+#: src/gui_window.c:215 src/gui_window.c:572
+msgid "Stop"
+msgstr "Stop"
+
+#: src/gui_window.c:232
+msgid "Prev"
+msgstr "Prev"
+
+#: src/gui_window.c:249 src/gui_window.c:578
+msgid "Next"
+msgstr "Next"
+
+#: src/gui_window.c:266
+msgid "CF"
+msgstr "CF"
+
+#: src/gui_window.c:283
+msgid "Vol."
+msgstr "Vol."
+
+#: src/gui_window.c:309
+msgid "Playing"
+msgstr "Playing"
+
+#: src/gui_window.c:346 src/gui_treeview.c:1409
+msgid "Title:"
+msgstr "Title:"
+
+#: src/gui_window.c:349 src/gui_treeview.c:1412
+msgid "Artist:"
+msgstr "Artist:"
+
+#: src/gui_window.c:352 src/gui_treeview.c:1415
+msgid "Album:"
+msgstr "Album:"
+
+#: src/gui_window.c:355 src/gui_treeview.c:1367
+msgid "Duration:"
+msgstr "Duration:"
+
+#: src/gui_window.c:358
+msgid "Unknown Title"
+msgstr "Unknown Title"
+
+#: src/gui_window.c:363
+msgid "Unknown Artist"
+msgstr "Unknown Artist"
+
+#: src/gui_window.c:368
+msgid "Unknown Album"
+msgstr "Unknown Album"
+
+#: src/gui_window.c:373
+msgid "Unknown Duration"
+msgstr "Unknown Duration"
+
+#: src/gui_window.c:387 src/gui_window.c:451
+msgid "Manager"
+msgstr "Manager"
+
+#: src/gui_window.c:407 src/gui_treeview.c:106 src/gui_treeview.c:108
+#: src/library.c:69
+msgid "All Tracks"
+msgstr "All Tracks"
+
+#: src/gui_window.c:413 src/gui_treeview.c:114
+msgid "No Sublib"
+msgstr "No Sublib"
+
+#: src/gui_window.c:416 src/gui_treeview.c:117
+msgid "Artists"
+msgstr "Artists"
+
+#: src/gui_window.c:419 src/gui_treeview.c:120
+msgid "Albums"
+msgstr "Albums"
+
+#: src/gui_window.c:434 src/gui_treeview.c:138
+msgid "Playlist"
+msgstr "Playlist"
+
+#: src/gui_window.c:482
+msgid "*"
+msgstr "*"
+
+#: src/gui_window.c:486 src/gui_treeview.c:507
+msgid "Title"
+msgstr "Title"
+
+#: src/gui_window.c:491 src/gui_treeview.c:510
+msgid "Artist"
+msgstr "Title"
+
+#: src/gui_window.c:496 src/gui_treeview.c:513
+msgid "Album"
+msgstr "Album"
+
+#: src/gui_window.c:549
+msgid ""
+"Your system do not support transparent! Install Compize or Kwin can solve "
+"the problem."
+msgstr ""
+"Your system do not support transparent! Install Compize or Kwin can solve "
+"the problem."
+
+#: src/gui_window.c:569
+msgid "Play/Pause"
+msgstr "Play/Pause"
+
+#: src/gui_window.c:575
+msgid "Previous"
+msgstr "Previous"
+
+#: src/gui_window.c:586
+msgid "Show/Hide Main Window"
+msgstr "Show/Hide Main Window"
+
+#: src/gui_window.c:589
+msgid "Show/Hide Lyrics Window"
+msgstr "Show/Hide Lyrics Window"
+
+#: src/gui_window.c:594
+msgid "Quit"
+msgstr "Quit"
+
+#: src/gui_window.c:600
+msgid "Linnya Audio Player"
+msgstr ""
+
+#: src/gui_window.c:892
+msgid "gl_playing is null, no music to be played."
+msgstr "gl_playing is null, no music to be played."
+
+#: src/gui_treeview.c:57
+msgid "Warnning"
+msgstr "Warnning"
+
+#: src/gui_treeview.c:349
+msgid "Add Playlist"
+msgstr "Add Playlist"
+
+#: src/gui_treeview.c:350
+msgid "Import from File"
+msgstr "Import from File"
+
+#: src/gui_treeview.c:351 src/gui_treeview.c:438
+msgid "Add to Play Queue"
+msgstr "Add to Play Queue"
+
+#: src/gui_treeview.c:352
+msgid "Rename"
+msgstr "Rename"
+
+#: src/gui_treeview.c:353
+msgid "Export to File"
+msgstr "Export to File"
+
+#: src/gui_treeview.c:354
+msgid "Sort by Name"
+msgstr "Sort by Name"
+
+#: src/gui_treeview.c:355 src/gui_treeview.c:444
+msgid "Refresh"
+msgstr "Refresh"
+
+#: src/gui_treeview.c:356 src/gui_treeview.c:445
+msgid "Delete"
+msgstr "Delete"
+
+#: src/gui_treeview.c:357 src/gui_treeview.c:446
+msgid "Delete All"
+msgstr "Delete All"
+
+#: src/gui_treeview.c:439
+msgid "Add to Playlist"
+msgstr "Add to Playlist"
+
+#: src/gui_treeview.c:441 src/gui_treeview.c:1341
+msgid "Information"
+msgstr "Information"
+
+#: src/gui_treeview.c:442
+msgid "Add Music from File"
+msgstr "Add Music from File"
+
+#: src/gui_treeview.c:443
+msgid "Sort by"
+msgstr "Sort by"
+
+#: src/gui_treeview.c:498 src/gui_treeview.c:573 src/gui_treeview.c:713
+#: src/gui_treeview.c:1001
+msgid "New Playlist"
+msgstr "New Playlist"
+
+#: src/gui_treeview.c:609 src/gui_treeview.c:1036
+msgid "A playlist with the same name are exist! Add Failed!"
+msgstr "A playlist with the same name are exist! Add Failed!"
+
+#: src/gui_treeview.c:629
+msgid "Import Playlist..."
+msgstr "Import Playlist..."
+
+#: src/gui_treeview.c:637 src/gui_treeview.c:781
+msgid "Playlist File"
+msgstr "Playlist File"
+
+#: src/gui_treeview.c:744
+msgid "Illegal playlist name!!"
+msgstr "Illegal playlist name!!"
+
+#: src/gui_treeview.c:750
+msgid "A playlist with the same name are exist!"
+msgstr "A playlist with the same name are exist!"
+
+#: src/gui_treeview.c:774
+msgid "Export Playlist..."
+msgstr "Export Playlist..."
+
+#: src/gui_treeview.c:789
+msgid "File Type:"
+msgstr "File Type:"
+
+#: src/gui_treeview.c:1149 src/metadata.c:427
+msgid "Decoded pad with no caps or any caps, boring."
+msgstr "Decoded pad with no caps or any caps, boring."
+
+#: src/gui_treeview.c:1354
+msgid "Basic Information"
+msgstr "Basic Information"
+
+#: src/gui_treeview.c:1361
+msgid "Codec:"
+msgstr "Basic Information"
+
+#: src/gui_treeview.c:1364
+msgid "Start:"
+msgstr "Start:"
+
+#: src/gui_treeview.c:1370
+msgid "Bitrate:"
+msgstr "Bitrate:"
+
+#: src/gui_treeview.c:1373
+msgid "Uri:"
+msgstr "Uri:"
+
+#: src/gui_treeview.c:1404
+msgid "Advance Information"
+msgstr "Advance Information"
+
+#: src/gui_treeview.c:1418
+msgid "genre:"
+msgstr "genre:"
+
+#: src/gui_treeview.c:1421
+msgid "track:"
+msgstr "track:"
+
+#: src/gui_treeview.c:1517
+msgid ""
+"This music file seems to be a Lossless Format,\n"
+"Usually a cue file should be used instead of the original file itself. \n"
+"Do you really want to tag the original music file?"
+msgstr ""
+"This music file seems to be a Lossless Format,\n"
+"Usually a cue file should be used instead of the original file itself. \n"
+"Do you really want to tag the original music file?"
+
+#: src/gui_treeview.c:1682
+msgid "Add From File..."
+msgstr "Add From File..."
+
+#: src/gui_treeview.c:1690
+msgid "Music File"
+msgstr "Music File"
+
+#: src/gui_treeview.c:1817
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+msgstr ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+
+#: src/gui_treeview.c:1906
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" It will delete all music belongs to the active list.\n"
+" Do you really want to do it?"
+msgstr ""
+"<b>This is a Dangerous function!!</b>\n"
+" It will delete all music belongs to the active list.\n"
+" Do you really want to do it?"
+
+#: src/library.c:296
+msgid "Complete"
+msgstr "Complete"
+
+#: src/library.c:328
+#, fuzzy
+msgid ""
+"<b>It seems that this is your first time using Linnya</b>\n"
+"<b>Let's start your music discovery tour NOW !</b>"
+msgstr ""
+"<b>It seems that this is your first time using MusicMe\n"
+"Let's start your music discovery tour NOW !</b>"
+
+#: src/library.c:330
+msgid "WELCOME"
+msgstr "WELCOME"
+
+#: src/library.c:339
+msgid "SETTING (library)"
+msgstr "SETTING (library)"
+
+#: src/library.c:347
+msgid ""
+"<b>First,</b> Choose the directory in which you store your music\n"
+"<b>Then,</b> press (Load) button to load all of them"
+msgstr ""
+"<b>First,</b> Choose the directory in which you store your music\n"
+"<b>Then,</b> press (Load) button to load all of them"
+
+#: src/library.c:352
+msgid "<b>Library Location:</b>"
+msgstr "<b>Library Location:</b>"
+
+#: src/library.c:361
+msgid "Load"
+msgstr "Load"
+
+#: src/library.c:370
+#, fuzzy
+msgid "<b>All Settings are complete. Have fun with Linnya</b>"
+msgstr "<b>All Settings are complete. Have fun with MusicMe</b>"
+
+#: src/library.c:372
+msgid "SUMMARY"
+msgstr "SUMMARY"
+
+#: src/library.c:558
+msgid "write sublib to file failed!"
+msgstr "write sublib to file failed!"
+
+#: src/library.c:601
+msgid "write lib to file failed!"
+msgstr "write lib to file failed!"
+
+#: src/metadata.c:443
+msgid "cannot open file"
+msgstr "cannot open file"
+
+#: src/playlist.c:124 src/playlist.c:262
+msgid "Couldn't load xml,create a new one."
+msgstr "Couldn't load xml,create a new one."
+
+#: src/playlist.c:284
+msgid "write playlist to file failed!"
+msgstr "write playlist to file failed!"
+
+#: src/playlist.c:343
+msgid "write playinglist to file failed!"
+msgstr "write playinglist to file failed!"
+
+#: src/playlist.c:393 src/playlist.c:399
+#, c-format
+msgid "NEW PLAYLIST %d"
+msgstr "NEW PLAYLIST %d"
+
+#: src/playlist.c:406
+msgid "A playlist with same name are exist! Add failed!"
+msgstr "A playlist with same name are exist! Add failed!"
+
+#: src/playlist.c:430
+msgid "pl or md are null! Add failed!"
+msgstr "pl or md are null! Add failed!"
+
+#: src/playlist.c:438 src/playlist.c:476
+msgid "A music with same name are exist! Add failed!"
+msgstr "A music with same name are exist! Add failed!"
+
+#: src/playlist.c:470
+msgid "pgl are null! Add failed!"
+msgstr "pgl are null! Add failed!"
+
+#: src/playlist.c:497 src/playlist.c:575
+msgid "Cannot open the m3u file!"
+msgstr "pgl are null! Add failed!"
+
+#: src/playlist.c:905 src/playlist.c:1072
+#, fuzzy
+msgid "Linnya don't know how to deal with the file!!"
+msgstr "MusicMe don't know how to deal with the file!!"
+
+#: src/playlist.c:927
+msgid "Cannot create the m3u file!"
+msgstr "Cannot create the m3u file!"
+
+#: src/playlist.c:968
+msgid "Cannot create the cue file!"
+msgstr "Cannot create the cue file!"
+
+#: src/theme.c:155
+msgid "Couldn't load xml,No theme found"
+msgstr "Couldn't load xml,No theme found"
+
+#~ msgid "MusicMe Player"
+#~ msgstr "MusicMe Player"

@@ -1,0 +1,18 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+src/global.c
+src/common.c
+src/configure.c
+src/connect.c
+src/core.c
+src/debug.c
+src/equalizer.c
+src/gui_dialog.c
+src/gui_lrc.c
+src/gui_window.c
+src/gui_treeview.c
+src/library.c
+src/main.c
+src/metadata.c
+src/playlist.c
+src/theme.c

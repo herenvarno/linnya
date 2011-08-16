@@ -1,0 +1,41 @@
+General Information
+================
+
+Linnya Player is an excellent multimedia application for Chinese Linux users, which supporting music library, playlist, lyrics, and metadata encoding conversion.
+
+Linnya Player is a free software, and published under the GNU GPLv3 Licence, you can easily find a copy of GPLv3 in the same directory of this file. Or if you don't find it, The official GNU GPL website http://www.gnu.org/licenses/gpl.html would be a good choice for you. If you do NOT understand English well, the translated GPL licence (http://www.gnu.org/licenses/translations.html) may do you a great favor.
+
+WARNNING: If anybody especially Some Chinese Programmers want to modify or republish Linnya, you MUST go with the GNU GPLv3. To FULLY understand the licence is your responsibility.
+
+
+About Us
+================
+
+Official website:	http://code.google.com/p/linnya
+Contact E-mail:		yy890521@gmail.com
+
+
+Installation
+================
+
+FIRST:
+Configure your system information to create the makefile. Use the command below:
+	./configure --prefix=/usr
+
+SECOND:
+Compile all the source file to excuteable file. Use the command below:
+	make
+
+FINALLY:
+Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the command below(please be root):
+	make install
+
+NOT NECESSARY BUT RECOMMENDED STEP:
+Clean up all the temp file for next compilation. Use the command below:
+	./clear
+
+
+Bugs
+================
+
+If you find any bug, Post it to the issuses page on official website. THANKS.
