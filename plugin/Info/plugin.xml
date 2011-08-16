@@ -1,0 +1,15 @@
+<?xml version=1.0?>
+<plugin>
+	<deamon>0</deamon>
+	<version>0.0</version>
+	<author>Edward</author>
+	<license>GPLv3</license>
+	<logo>logo.png</logo>
+	<comment>A plugin for showing the current music information.</comment>
+	<website>http://www.linnya.org</website>
+	
+	<create_symbol>ly_plugin_info_create</create_symbol>
+	<refresh_symbol>ly_plugin_info_refresh</refresh_symbol>
+	<destroy_symbol>ly_plugin_info_destroy</destroy_symbol>
+	<config_symbol>ly_plugin_info_config</config_symbol>
+</plugin>
