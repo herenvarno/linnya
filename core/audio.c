@@ -151,7 +151,6 @@ gboolean ly_audio_next()
 	 */
 	if(random)
 	{
-		
 		g_snprintf(sql,sizeof(sql),"SELECT * FROM plist ORDER BY RANDOM() LIMIT 1");
 		ly_db_free_metadata(ly_audio_meta);
 		ly_audio_meta=NULL;

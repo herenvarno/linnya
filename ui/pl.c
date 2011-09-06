@@ -94,6 +94,7 @@ lyUiPlPlugin* ly_ui_pl_new(gchar *filename)
 	{
 		g_free(plugin);
 		plugin=NULL;
+		return NULL;
 	}
 	if(!g_str_equal(plugin->logo,""))
 	{
@@ -101,11 +102,24 @@ lyUiPlPlugin* ly_ui_pl_new(gchar *filename)
 		g_strlcpy(plugin->logo,path,sizeof(plugin->logo));
 	}
 	
-	g_snprintf(path, sizeof(path),"%splugin/lib%s.so",LY_GLOBAL_PROGDIR,filename);
-	
-	GModule *module;
-	module=g_module_open(path,G_MODULE_BIND_LAZY);
+	g_snprintf(path, sizeof(path),"%splugin/%s/lib%s.so",LY_GLOBAL_PROGDIR,filename,filename);
+	GModule *module=NULL;
+	if(plugin->name[0]!='!')
+	{
+		module=g_module_open(path,G_MODULE_BIND_LAZY);
+	}
+	else
+	{
+		char tmp[1024]="";
+		g_strlcpy(tmp, plugin->name+1, sizeof(tmp));
+		g_strlcpy(plugin->name, tmp, sizeof(plugin->name));
+	}
 	plugin->module=module;
+	
+	if(g_str_equal(plugin->alias,""))
+	{
+		g_strlcpy(plugin->alias, plugin->name, sizeof(plugin->alias));
+	}
 	ly_ui_pl_set(plugin);
 	return plugin;
 }
@@ -125,6 +139,8 @@ void ly_ui_pl_new_text_cb(GMarkupParseContext * context, const gchar *text, gsiz
 	if(!ly_ui_pl_element_name||!text)
 		return;
 	
+	else if(g_str_equal(ly_ui_pl_element_name,"alias"))
+		g_strlcpy(plugin->alias, text, sizeof(plugin->alias));
 	else if(g_str_equal(ly_ui_pl_element_name,"version"))
 		g_strlcpy(plugin->version, text, sizeof(plugin->version));
 	else if(g_str_equal(ly_ui_pl_element_name,"author"))
@@ -154,7 +170,7 @@ void ly_ui_pl_new_text_cb(GMarkupParseContext * context, const gchar *text, gsiz
 		{
 			if(ly_ui_pl_get(plugins[i]))
 				continue;
-			if(!ly_ui_pl_new(plugins[i]))
+			if(!(plugin=ly_ui_pl_new(plugins[i])))
 				continue;
 			ly_ui_pl_set_depend(plugin->name,plugins[i]);
 		}
@@ -202,5 +218,43 @@ gboolean ly_ui_pl_set_depend(gchar *name, gchar *depend)
 	g_strlcpy(d->depend,depend,sizeof(d->depend));
 	
 	ly_ui_pl_depends=g_list_append(ly_ui_pl_depends, d);
+	return TRUE;
+}
+
+gboolean ly_ui_pl_set_active(gchar *name, gboolean active)
+{
+	if(!name||g_str_equal(name,""))
+		return FALSE;
+	lyUiPlPlugin *pl=ly_ui_pl_get(name);
+	if(!pl)
+		return FALSE;
+	
+	if(active)
+	{
+		if(pl->module)
+			return TRUE;
+		
+		GList *list=ly_ui_pl_get_depends(name);
+		GList *p=list;
+		while(p)
+		{
+			if(!ly_ui_pl_set_active((gchar*)(p->data), TRUE))
+				return FALSE;
+			p=p->next;
+		}
+		char path[1024]="";
+		g_snprintf(path, sizeof(path),"%splugin/%s/lib%s.so",LY_GLOBAL_PROGDIR, pl->name, pl->name);
+		pl->module=g_module_open(path,G_MODULE_BIND_LAZY);
+		if(!(pl->module))
+		{
+			return FALSE;
+		}
+	}
+	else
+	{
+		if(!(pl->module))
+			return TRUE;
+	}
+	
 	return TRUE;
 }

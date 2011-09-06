@@ -31,8 +31,9 @@ gboolean ly_ui_key_finalize();
 gboolean ly_ui_key_read();
 gboolean ly_ui_key_write();
 
-gboolean ly_ui_key_set(gchar *name, lyUiKeyKeybind *keybind);
+gboolean ly_ui_key_set(gchar *name, gchar *key, gchar *mask0, gchar *mask1);
 lyUiKeyKeybind *ly_ui_key_get(gchar *name);
+gboolean ly_ui_key_set_default_if_not_exist(gchar *name);
 
 gboolean ly_ui_key_bind_signal(gchar *name, GtkWidget* widget, gchar *signal);
 gboolean ly_ui_key_bind_callback(gchar *name, gpointer f, gpointer data);

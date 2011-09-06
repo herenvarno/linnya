@@ -15,6 +15,7 @@
 typedef struct lyUiPlPlugin
 {
 	gchar name[256];
+	gchar alias[256];
 	gchar version[256];
 	gchar author[256];
 	gchar license[2048];
@@ -41,25 +42,39 @@ typedef struct lyUiPlDepend
 /*
  * VARIABLES
  */
-GHashTable *ly_ui_pl_plugins;
-GList *ly_ui_pl_depends;
-gchar *ly_ui_pl_element_name;	/* PRIVATE */
+GHashTable	*ly_ui_pl_plugins;
+GList		*ly_ui_pl_depends;
+gchar		*ly_ui_pl_element_name;	/* PRIVATE */
 
 /*
  * FUNCTIONS
  */
-gboolean ly_ui_pl_init();
-gboolean ly_ui_pl_finalize();
+gboolean		ly_ui_pl_init			(void);
+gboolean		ly_ui_pl_finalize		(void);
 
-lyUiPlPlugin *ly_ui_pl_new(gchar *filename);
-void ly_ui_pl_new_start_cb(GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error);
-void ly_ui_pl_new_text_cb(GMarkupParseContext * context, const gchar * text, gsize text_len, gpointer data, GError **error);
-void ly_ui_pl_new_end_cb(GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error);
+lyUiPlPlugin*	ly_ui_pl_new			(gchar *filename);
+void			ly_ui_pl_new_start_cb	(GMarkupParseContext *context,
+										 const gchar *element_name,
+										 const gchar **attribute_names,
+										 const gchar **attribute_values,
+										 gpointer data,
+										 GError **error);
+void			ly_ui_pl_new_text_cb	(GMarkupParseContext * context,
+										 const gchar * text,
+										 gsize text_len,
+										 gpointer data, 
+										 GError **error);
+void			ly_ui_pl_new_end_cb		(GMarkupParseContext *context,
+										 const gchar *element_name,
+										 gpointer data,
+										 GError **error);
 
-gboolean ly_ui_pl_set(lyUiPlPlugin* plugin);
-lyUiPlPlugin* ly_ui_pl_get(gchar *name);
-gboolean ly_ui_pl_delete(gchar *name);
+gboolean		ly_ui_pl_set			(lyUiPlPlugin *plugin);
+lyUiPlPlugin*	ly_ui_pl_get			(gchar *name);
+gboolean		ly_ui_pl_delete			(gchar *name);
+gboolean		ly_ui_pl_set_active		(gchar *name, gboolean active);
+gboolean		ly_ui_pl_get_active		(gchar *name);
 
-GList *ly_ui_pl_get_depends(gchar *name);
-gboolean ly_ui_pl_set_depend(gchar *name, gchar *depend);
+GList*			ly_ui_pl_get_depends	(gchar *name);
+gboolean		ly_ui_pl_set_depend		(gchar *name, gchar *depend);
 #endif

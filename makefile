@@ -2,7 +2,8 @@ CC = gcc
 
 TARGET = linnya
 
-SUBDIRS = core ui
+SUBDIRS = core ui plugin
+TARDIRS = core ui
 
 SRCS = $(wildcard *.c)
 INCS = ${SRCS:.c=.h}
@@ -13,7 +14,7 @@ CFLAGS=-Iliblinnya-core -Iliblinnya-ui `pkg-config --cflags ${LIBS}` -Wall -O2
 LDFLAGS=-L./core -L./ui -llinnya-core -llinnya-ui `pkg-config --libs ${LIBS}` -Wall -O2
 
 all: ${TARGET}
-	@ for subdir in ${SUBDIRS}; do \
+	@ for subdir in ${TARDIRS}; do \
 		(cp $$subdir/liblinnya-$$subdir.so conf/lib/liblinnya-$$subdir.so); \
 	done
 

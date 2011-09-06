@@ -405,15 +405,19 @@ gboolean ly_ui_win_init()
 	 * bind key
 	 */
 	gtk_window_add_accel_group(GTK_WINDOW(win),ly_ui_key_accel);
+	ly_ui_key_set_default_if_not_exist("play");
+	ly_ui_key_set_default_if_not_exist("prev");
+	ly_ui_key_set_default_if_not_exist("next");
+	ly_ui_key_set_default_if_not_exist("config");
+	ly_ui_key_set_default_if_not_exist("volume+");
+	ly_ui_key_set_default_if_not_exist("volume-");
+	ly_ui_key_set_default_if_not_exist("seek+");
+	ly_ui_key_set_default_if_not_exist("seek-");
 	
-// 	ly_ui_key_bind_signal("close",button_close,"clicked");
 	ly_ui_key_bind_signal("play",button_play,"clicked");
 	ly_ui_key_bind_signal("prev",button_prev,"clicked");
 	ly_ui_key_bind_signal("next",button_next,"clicked");
-	ly_ui_key_bind_signal("mode",button_config,"clicked");
-// 	ly_ui_key_bind_signal("min",button_min,"clicked");
-// 	ly_ui_key_bind_signal("mini",button_mini,"clicked");
-
+	ly_ui_key_bind_signal("config",button_config,"clicked");
 	ly_ui_key_bind_callback("volume+",G_CALLBACK(ly_ui_win_change_volume_cb),"+");
 	ly_ui_key_bind_callback("volume-",G_CALLBACK(ly_ui_win_change_volume_cb),"-");
 	ly_ui_key_bind_callback("seek+",G_CALLBACK(ly_ui_win_change_seek_cb),"+");

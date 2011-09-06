@@ -203,14 +203,21 @@ gboolean ly_ui_key_finalize(void)
  * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	set or put a conf.
  */
-gboolean ly_ui_key_set(gchar *name, lyUiKeyKeybind *keybind)
+gboolean ly_ui_key_set(gchar *name, gchar *key, gchar *mask0, gchar *mask1)
 {
-	lyUiKeyKeybind *key=(lyUiKeyKeybind *)g_malloc(sizeof(lyUiKeyKeybind));
-	g_strlcpy(key->key,keybind->key,sizeof(key->key));
-	g_strlcpy(key->key,keybind->mask0,sizeof(key->mask0));
-	g_strlcpy(key->key,keybind->mask1,sizeof(key->mask1));
+	if(key==NULL)
+		key="";
+	if(mask0==NULL)
+		mask0="";
+	if(mask1==NULL)
+		mask1="";
+	
+	lyUiKeyKeybind *k=(lyUiKeyKeybind *)g_malloc(sizeof(lyUiKeyKeybind));
+	g_strlcpy(k->key,key,sizeof(k->key));
+	g_strlcpy(k->mask0,mask0,sizeof(k->mask0));
+	g_strlcpy(k->mask1,mask1,sizeof(k->mask1));
 	gchar *namestr=g_strconcat(name,NULL);
-	g_hash_table_replace(ly_ui_key_keybinds, namestr, key);
+	g_hash_table_replace(ly_ui_key_keybinds, namestr, k);
 	
 	return TRUE;
 }
@@ -230,6 +237,13 @@ lyUiKeyKeybind *ly_ui_key_get(gchar *name)
 	return keybind;
 }
 
+gboolean ly_ui_key_set_default_if_not_exist(gchar *name)
+{
+	if(g_hash_table_lookup(ly_ui_key_keybinds, name))
+		return TRUE;
+	ly_ui_key_set(name, NULL, NULL, NULL);
+	return FALSE;
+}
 
 gboolean ly_ui_key_bind_signal(gchar *name, GtkWidget* widget, gchar *signal)
 {
@@ -243,6 +257,9 @@ gboolean ly_ui_key_bind_signal(gchar *name, GtkWidget* widget, gchar *signal)
 	key[0]=gdk_keyval_from_name(keybind->key);
 	key[1]=ly_ui_key_get_mask(keybind->mask0);
 	key[2]=ly_ui_key_get_mask(keybind->mask1);
+	
+	if(key[0]<=0 && key[1]<=0 && key[2]<=0)
+		return FALSE;
 	gtk_widget_add_accelerator(widget, signal, ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE);
 	return TRUE;
 }
@@ -258,6 +275,8 @@ gboolean ly_ui_key_bind_callback(gchar *name, gpointer f, gpointer data)
 	key[0]=gdk_keyval_from_name(keybind->key);
 	key[1]=ly_ui_key_get_mask(keybind->mask0);
 	key[2]=ly_ui_key_get_mask(keybind->mask1);
+	if(key[0]<=0 && key[1]<=0 && key[2]<=0)
+		return FALSE;
 	GClosure *closure;
 	closure=g_cclosure_new(G_CALLBACK(f), data, NULL);
 	gtk_accel_group_connect (ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE, closure);

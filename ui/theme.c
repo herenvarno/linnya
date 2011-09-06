@@ -13,13 +13,6 @@ gboolean ly_ui_theme_init()
 	ly_ui_theme_themes=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 	rt=ly_ui_theme_read();
 	
-	char path[1024];
-	GFile *file;
-	GtkCssProvider css_provider;
-	g_snprintf(path, sizeof(path), "%sui/style.css", LY_GLOBAL_USERDIR);
-	file=g_file_new_for_path (path);
-	gtk_css_provider_load_from_file(&css_provider, file, NULL);
-	
 	return rt;
 }
 

@@ -119,20 +119,25 @@ gboolean ly_msg_bind(gchar *type, gchar *from, LY_GLOBAL_CALLBACK(func),gpointer
 gboolean ly_msg_unbind(gchar *type, gchar *from, LY_GLOBAL_CALLBACK(func))
 {	
 	GList *p=NULL;
+	GList *pnext=NULL;
 	lyMsgConn *pdata=NULL;
 	
 	p=ly_msg_conns;
 	while(p)
 	{
 		pdata=p->data;
-		if(g_str_equal(pdata->type,type))
+		pnext=p->next;
+		if((g_str_equal(pdata->type,type)) &&
+			((from&&g_str_has_prefix(pdata->from,from))||from==NULL) &&
+			(func==pdata->func)
+		)
 		{
-			if((from&&g_str_has_prefix(pdata->from,from))||from==NULL)
-				g_free(pdata);
+			g_free(pdata);
 			pdata=NULL;
+			p->data=NULL;
+			ly_msg_conns=g_list_delete_link(ly_msg_conns,p);
 		}
-		p=p->next;
-		ly_msg_conns=g_list_delete_link(ly_msg_conns,p->prev);
+		p=pnext;
 	}
 	return TRUE;
 }

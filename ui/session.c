@@ -222,9 +222,10 @@ void ly_ui_session_tab_add_refresh_cb(gpointer key, gpointer value, gpointer dat
 	lyUiPlPlugin *session=value;
 	if(!session)
 		return;
+	if(!(session->module))
+		return;
 	if(session->deamon)
 		return;
-	
 	gchar *name=g_strconcat(key,NULL);
 	GtkTreeIter iter;
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64,FALSE, NULL);
