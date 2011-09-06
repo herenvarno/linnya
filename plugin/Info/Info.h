@@ -17,7 +17,7 @@ void g_module_unload(GModule *module);
 
 GtkWidget *ly_plugin_info_create();
 void ly_plugin_info_destroy();
-GtkWidget *ly_plugin_info_config();
+gboolean ly_plugin_info_config(GtkWidget *widget, gpointer data);
 
 gboolean ly_plugin_info_on_meta_changed(gpointer message, gpointer data);
 #endif

@@ -71,6 +71,8 @@ GtkWidget *ly_plugin_manager_create();
 void ly_plugin_manager_destroy();
 GtkWidget *ly_plugin_manager_config();
 
+gboolean ly_plugin_manager_on_lib_changed_cb(gpointer object, gpointer data);
+
 gboolean ly_plugin_manager_left_refresh_cb();
 gboolean ly_plugin_manager_right_refresh_cb();
 

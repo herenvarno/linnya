@@ -97,6 +97,8 @@ GtkWidget *ly_plugin_manager_create()
 	g_signal_connect(G_OBJECT(treeview_left), "button_press_event", G_CALLBACK(ly_plugin_manager_left_mask), NULL);
 	g_signal_connect(G_OBJECT(treeview_right), "button_press_event", G_CALLBACK(ly_plugin_manager_right_mask), NULL);
 	g_signal_connect(G_OBJECT(treeview_right), "row-activated", G_CALLBACK(ly_plugin_manager_right_active_cb), NULL);
+	
+	ly_msg_bind("lib_changed", "ui", ly_plugin_manager_on_lib_changed_cb, NULL);
 	return widget;
 }
 void ly_plugin_manager_refresh()
@@ -105,8 +107,16 @@ void ly_plugin_manager_refresh()
 }
 void ly_plugin_manager_destroy()
 {
-	;
+	ly_msg_unbind("lib_changed", "ui", ly_plugin_manager_on_lib_changed_cb);
 }
+
+gboolean ly_plugin_manager_on_lib_changed_cb(gpointer object, gpointer data)
+{
+	ly_plugin_manager_left_refresh_cb(NULL, NULL);
+	ly_plugin_manager_right_refresh_cb(NULL, NULL);
+	return FALSE;
+}
+
 
 gboolean ly_plugin_manager_get_artists_cb(gpointer stmt, gpointer data)
 {
