@@ -1,0 +1,101 @@
+
+@define-color theme_base_color alpha (#c8c8c8, 0.2);
+@define-color theme_text_color alpha (#3C3C3C, 0.2);
+@define-color theme_bg_color alpha (#3c3c3c, 0.2);
+@define-color theme_fg_color alpha (#ececec, 0.2);
+@define-color theme_selected_bg_color alpha (#304665, 0.2);
+@define-color theme_selected_fg_color alpha (#fff, 0.2);
+
+@define-color theme_tooltip_bg_color alpha (#000000, 0.2);
+@define-color theme_tooltip_fg_color alpha (#fff, 0.2);
+
+@define-color button_gradient_color_a alpha (#4f4f4f, 0.2);
+@define-color button_gradient_color_b alpha (#393939, 0.2);
+@define-color button_border alpha (#333, 0.2);
+
+@define-color button_active_gradient_color_a alpha (#333, 0.2);
+@define-color button_active_gradient_color_b alpha (#111, 0.2);
+
+@define-color button_hover_gradient_color_a alpha (#47586E, 0.2); /*#4f4f4f;*/
+@define-color button_hover_gradient_color_b alpha (#3e4247, 0.2); /*#393939;*/
+
+@define-color insensitive_bg_color alpha (#888, 0.2);
+@define-color insensitive_fg_color alpha (#888, 0.2);
+@define-color inactive_frame_color alpha (#323232, 0.2);
+
+@define-color notebook_border alpha (#393939, 0.2);
+@define-color notebook_active_tab_border alpha (#222, 0.2);
+@define-color notebook_selected_tab_color_a alpha (#47566c, 0.2);
+@define-color notebook_selected_tab_color_b alpha (#3d3e40, 0.2);
+
+@define-color notebook_tab_gradient_a alpha (#4e4e4e, 0.2);
+@define-color notebook_tab_gradient_b alpha (#3c3c3c, 0.2);
+
+
+@define-color switch_slider_color alpha (#111113, 0.2);
+@define-color switch_slider_border alpha (#a5b8cc, 0.2);
+
+@define-color highlighted_border alpha (#555, 0.2);
+@define-color internal_element_color alpha (#444, 0.2);
+
+@define-color progressbar_background_a alpha (@theme_fg_color, 0.70);
+@define-color progressbar_background_b alpha (@theme_fg_color, 0.45);
+@define-color progressbar_border alpha (@theme_fg_color, 0.60);
+
+@define-color focused_entry_border alpha (@theme_fg_color, 0.95);
+
+@define-color toolbar_gradient_base alpha (#47586E, 0.2);
+@define-color toolbar_gradient_step1 alpha (#3c3c3c, 0.2);
+@define-color toolbar_gradient_step2 alpha (#373737, 0.2);
+@define-color toolbar_gradient_final alpha (#3e4247, 0.2);
+
+@define-color toolbar_gradient_top alpha (#464646, 0.2);
+@define-color toolbar_gradient_bottom alpha (#333333, 0.2);
+
+@define-color toolbar_active_button_color alpha (#252525, 0.2);
+
+@define-color expander_row_selected_color alpha (@theme_base_color, 0.60);
+
+@define-color menu_controls_color alpha (#47586E, 0.2); /* #555;*/
+
+@define-color keyboard_focus_border_a alpha (@theme_fg_color, 0.80);
+@define-color keyboard_focus_border_b alpha (@theme_fg_color, 0.60);
+
+@define-color trough_bg_color_a alpha (#363636, 0.2);
+@define-color trough_bg_color_b alpha (#363636, 0.2);
+
+@define-color frame_color alpha (#323232, 0.2);
+
+/* FIXME: needs dark colors from here */
+
+@define-color link_color alpha (#4a90d9, 0.2);
+@define-color warning_color alpha (#f57900, 0.2);
+@define-color error_color alpha (#cc0000, 0.2);
+@define-color success_color alpha (#4e9a06, 0.2);
+
+@define-color info_fg_color rgb (181, 171, 156);
+@define-color info_bg_color rgb (252, 252, 189);
+@define-color warning_fg_color rgb (173, 120, 41);
+@define-color warning_bg_color rgb (250, 173, 61);
+@define-color question_fg_color rgb (97, 122, 214);
+@define-color question_bg_color rgb (138, 173, 212);
+@define-color error_fg_color rgb (166, 38, 38);
+@define-color error_bg_color rgb (237, 54, 54);
+
+@define-color os_chrome_bg_color alpha (#000, 0.2);
+@define-color os_chrome_fg_color alpha (#ccc, 0.2);
+@define-color os_chrome_selected_bg_color alpha (#333, 0.2);
+@define-color os_chrome_selected_fg_color alpha (#fff, 0.2);
+
+@define-color chrome_bg_color alpha (#1e1a17, 0.2);
+@define-color chrome_fg_color alpha (#fff, 0.2);
+
+@define-color active_switch_bg_color_a alpha (#509ae7, 0.2);
+@define-color active_switch_bg_color_b alpha (#84b8ee, 0.2);
+
+@define-color scale_fill_a alpha (#2c85e2, 0.2);
+@define-color scale_fill_b alpha (#b8d6f5, 0.2);
+
+
+@import url ("gtk-widgets.css");
+@import url ("linnya-style.css");

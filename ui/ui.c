@@ -4,6 +4,7 @@ gboolean ly_ui_init()
 {
 	ly_global_debug("info","Initial ui module ...\n");
 	ly_ui_global_init();
+	ly_ui_debug_init();
 	ly_ui_key_init();
 	ly_ui_theme_init();
 	ly_ui_win_init();

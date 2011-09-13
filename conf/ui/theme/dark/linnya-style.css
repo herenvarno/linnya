@@ -1,0 +1,234 @@
+#ly_btn_close,
+#ly_btn_close:hover,
+#ly_btn_close:active,
+#ly_btn_close:focused {
+    background-image: url ("linnya_img/ly_btn_close.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_min,
+#ly_btn_min:hover,
+#ly_btn_min:active,
+#ly_btn_min:focused {
+    background-image: url ("linnya_img/ly_btn_min.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_mini,
+#ly_btn_mini:hover,
+#ly_btn_mini:active,
+#ly_btn_mini:focused {
+    background-image: url ("linnya_img/ly_btn_mini.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_play,
+#ly_btn_play:hover,
+#ly_btn_play:active,
+#ly_btn_play:active:hover,
+#ly_btn_play:focused {
+    background-image: url ("linnya_img/ly_btn_play.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_prev,
+#ly_btn_prev:hover,
+#ly_btn_prev:active,
+#ly_btn_prev:focused {
+    background-image: url ("linnya_img/ly_btn_prev.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_next,
+#ly_btn_next:hover,
+#ly_btn_next:active,
+#ly_btn_next:focused {
+    background-image: url ("linnya_img/ly_btn_next.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_config,
+#ly_btn_config:hover,
+#ly_btn_config:active,
+#ly_btn_config:focused {
+    background-image: url ("linnya_img/ly_btn_config.png");
+    border-style: none;
+    border-width: 0;
+    border-radius: 6;
+}
+
+#ly_btn_volume,
+#ly_btn_volume:hover,
+#ly_btn_volume:active,
+#ly_btn_volume:focused {
+    background-image : url ("linnya_img/null.png");
+    border-style:none;
+    border-width:0;
+    border-radius:6;
+}
+
+#ly_notebook_session {
+
+
+    border-color: alpha (#fff, 0.3);
+    border-style: solid;
+    border-width: 1;
+    border-radius: 2;
+    background-color: alpha (#000, 0.80);
+
+    -GtkNotebook-tab-overlap: 0;
+    -GtkNotebook-tab-curvature: 2;
+}
+
+#ly_notebook_session tab {
+    padding: 2;
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#000, 0.0)));
+
+    -adwaita-focus-border-radius: 10;
+    color: #fff;
+}
+
+#ly_notebook_session tab:active {
+
+
+    background-image: -gtk-gradient (linear,
+                left top, left bottom,
+                from (alpha (#fff, 0.50)),
+              to (alpha (#000, 0.0)));
+
+
+
+    border-color: alpha (#fff, 0.3);
+
+    border-width: 1;
+        -adwaita-border-gradient: -gtk-gradient (linear,
+                                   left top, left bottom,
+                                   from (alpha (#fff, 0.3)),
+                                   to (alpha (#fff, 0.3)));
+       -adwaita-selected-tab-color: alpha (#fff, 0.10);
+     
+    color: #fff;
+}
+
+#ly_notebook_session tab .button,
+#ly_notebook_session tab .button:hover,
+#ly_notebook_session tab .button:hover:active {
+
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.50)),
+                       to (alpha (#000, 0.0)));
+    border-color: alpha (#fff, 0.3);
+
+}
+
+#ly_hscale_seek {
+    -GtkScale-slider-length: 16;
+    -GtkRange-slider-width: 22;
+    -GtkRange-trough-border: 0;
+}
+
+#ly_hscale_seek.slider {
+    border-width: 1;
+    border-radius: 3;
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#fff, 0.0)));
+    
+
+    -adwaita-border-gradient: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.40)),
+                       to (alpha (#fff, 0.40)));
+}
+
+#ly_hscale_seek.slider:insensitive {
+    background-image: none;
+    -adwaita-border-gradient: none;
+}
+
+#ly_hscale_seek.scale-has-marks-below.slider.horizontal {
+    -adwaita-border-gradient: -gtk-gradient (linear,
+                               left top, left bottom,
+                               from (alpha (#fff, 0.40)),
+                               to (alpha (#fff, 0.40)));
+}
+
+#ly_hscale_seek.scale-has-marks-below.slider.vertical {
+    -adwaita-border-gradient: -gtk-gradient (linear,
+                               left top, left bottom,
+                               from (alpha (#fff, 0.40)),
+                               to (alpha (#fff, 0.40)));
+}
+
+#ly_hscale_seek.scale-has-marks-above.slider.horizontal {
+    -adwaita-border-gradient: -gtk-gradient (linear,
+                               left top, left bottom,
+                               from (alpha (#fff, 0.40)),
+                               to (alpha (#fff, 0.40)));
+}
+
+#ly_hscale_seek.scale-has-marks-above.slider.vertical {
+    -adwaita-border-gradient: -gtk-gradient (linear,
+                               left top, left bottom,
+                               from (alpha (#fff, 0.40)),
+                               to (alpha (#fff, 0.40)));
+}
+
+#ly_hscale_seek.trough {
+    border-width: 1;
+    border-radius: 4;
+    border-style: solid;
+    border-color: alpha (#fff, 0.40); 
+}
+
+#ly_hscale_seek.trough:insensitive {
+    background-color: alpha (#fff, 0.20); 
+    border-color: alpha (#fff, 0.40); 
+}
+
+#ly_hscale_seek.trough.horizontal {
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#fff, 0.0)));
+}
+
+#ly_hscale_seek.trough.vertical {
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#fff, 0.0)));
+}
+
+#ly_hscale_seek.progressbar {
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#fff, 0.0)));
+
+    border-color: alpha (#fff, 0.40);
+    border-width: 1;
+    border-radius: 4;
+    border-style: solid;
+}
+
+#ly_hscale_seek.mark {
+    background-color: alpha (#fff, 0.40);
+}

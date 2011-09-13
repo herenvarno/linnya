@@ -5,6 +5,7 @@
  * HEADERS
  */
 #include "global.h"
+#include "debug.h"
 #include "key.h"
 #include "theme.h"
 #include "win.h"

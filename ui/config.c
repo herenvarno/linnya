@@ -727,6 +727,7 @@ gboolean ly_ui_config_on_key_press_cb(GtkWidget *widget, GdkEvent  *event, gpoin
 	{
 		return FALSE;
 	}
+
 	gchar mask0[64]="";
 	gchar mask1[64]="";
 	gchar key[64]="";

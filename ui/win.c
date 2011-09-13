@@ -7,6 +7,8 @@
  * VARABLES
  */
 cairo_surface_t *image=NULL;
+int nX, nY;
+gboolean drag=FALSE;
 
 /*
  * FUNCTIONS
@@ -15,15 +17,27 @@ gboolean ly_ui_win_init()
 {
 	ly_global_debug("info",_("Initial ui module: WIN ...\n"));
 	
+	/*
+	 * Load Theme
+	 */
+	gchar path[1024]="";
+	g_snprintf(path, sizeof(path), "%sui/theme/dark/gtk.css", LY_GLOBAL_PROGDIR);
+	GdkScreen *screen = gdk_screen_get_default();
+	GtkCssProvider *provider = gtk_css_provider_get_default();
+	gtk_css_provider_load_from_path(provider,path,NULL);
+	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_USER);
+	gtk_style_context_reset_widgets(screen);
+
+	
 	GtkWidget *win;
 	GtkWidget *vbox_main;
-//	GtkWidget *hbox_title;
+	GtkWidget *hbox_title;
 	GtkWidget *notebook_session;
 	GtkWidget *hbox_control;
-// 	GtkWidget *button_close;
-// 	GtkWidget *button_max;
-// 	GtkWidget *button_min;
-// 	GtkWidget *button_mini;
+ 	GtkWidget *button_close;
+ 	GtkWidget *button_max;
+ 	GtkWidget *button_min;
+ 	GtkWidget *button_mini;
 	GtkWidget *fixed_control_left;
 	GtkWidget *fixed_control_right;
 	GtkWidget *button_play;
@@ -35,19 +49,15 @@ gboolean ly_ui_win_init()
 
 	lyUiThemeTheme *th=NULL;
 
-	gchar path[1024]="";
-
 	/*
 	 * create window
 	 */
 	win=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_name(win,"ly_win");
 	gtk_window_set_title(GTK_WINDOW(win),"Linnya");
 	g_snprintf(path,sizeof(path),"%s%s",LY_GLOBAL_PROGDIR,"ui/icon/linnya.svg");
 	gtk_window_set_icon_from_file(GTK_WINDOW(win),path,NULL);
 	gtk_widget_set_app_paintable(win, TRUE);
 	gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
-	
 	th=ly_ui_theme_get("win");
 	if(!th)
 	{
@@ -56,7 +66,7 @@ gboolean ly_ui_win_init()
 		th->pos[0]=th->pos[1]=100;
 		th->size[0]=800;
 		th->size[1]=600;
-		th->decorated=1;
+		th->decorated=0;
 		th->border=10;
 		g_strlcpy(th->background, "_", sizeof(th->background));
 		g_strlcpy(th->font, "_", sizeof(th->font));
@@ -77,117 +87,39 @@ gboolean ly_ui_win_init()
 		ly_global_debug("Warnning", "Cannot Support transparent!");
 	}
 	GdkVisual *visual;
-	GdkScreen *screen;
-	screen = gtk_widget_get_screen(win);	
+	screen = gtk_widget_get_screen(win);
 	visual = gdk_screen_get_rgba_visual (screen);
 	if (visual == NULL)
 		visual = gdk_screen_get_system_visual (screen);
 	gtk_widget_set_visual (GTK_WIDGET (win), visual);
+
+	gtk_widget_set_events(win,GDK_ALL_EVENTS_MASK);
 
 	/*
 	 * create main vbox
 	 */
 	vbox_main=gtk_vbox_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(win),vbox_main);
-	
-	
-	/*
-	 * the first part: title
-	 */
-// 	hbox_title=gtk_hbox_new(FALSE,0);
-// 	gtk_box_pack_start(GTK_BOX(vbox_main),hbox_title,FALSE,FALSE,0);
 
-// 	th=ly_ui_theme_get("button_close");
-// 	if(!th)
-// 	{
-// 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
-// 		
-// 		th->pos[0]=th->pos[1]=0;
-// 		th->size[0]=16;
-// 		th->size[1]=16;
-// 		th->decorated=0;
-// 		th->border=0;
-// 		g_strlcpy(th->background, "_", sizeof(th->background));
-// 		g_strlcpy(th->font, "_", sizeof(th->font));
-// 		th->fg_color0[0]=th->fg_color0[1]=th->fg_color0[2]=0;
-// 		th->fg_color1[0]=th->fg_color1[1]=th->fg_color1[2]=0;
-// 		th->bg_color0[0]=th->bg_color0[1]=th->bg_color0[2]=0;
-// 		th->bg_color1[0]=th->bg_color1[1]=th->bg_color1[2]=0;
-// 		th->fg_color0[3]=th->fg_color1[3]=th->bg_color0[3]=th->bg_color1[3]=1;
-// 		ly_ui_theme_set("button_close",th);
-// 	}
-// 	button_close=gtk_button_new();
-// 	gtk_widget_set_size_request(button_close, th->size[0],th->size[1]);
-// 	gtk_box_pack_end(GTK_BOX(hbox_title),button_close,FALSE,FALSE,0);
-// 
-// 	th=ly_ui_theme_get("button_max");
-// 	if(!th)
-// 	{
-// 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
-// 		
-// 		th->pos[0]=th->pos[1]=0;
-// 		th->size[0]=16;
-// 		th->size[1]=16;
-// 		th->decorated=0;
-// 		th->border=0;
-// 		g_strlcpy(th->background, "_", sizeof(th->background));
-// 		g_strlcpy(th->font, "_", sizeof(th->font));
-// 		th->fg_color0[0]=th->fg_color0[1]=th->fg_color0[2]=0;
-// 		th->fg_color1[0]=th->fg_color1[1]=th->fg_color1[2]=0;
-// 		th->bg_color0[0]=th->bg_color0[1]=th->bg_color0[2]=0;
-// 		th->bg_color1[0]=th->bg_color1[1]=th->bg_color1[2]=0;
-// 		th->fg_color0[3]=th->fg_color1[3]=th->bg_color0[3]=th->bg_color1[3]=1;
-// 		ly_ui_theme_set("button_max",th);
-// 	}
-// 	button_max=gtk_button_new();
-// 	gtk_widget_set_size_request(button_max, th->size[0],th->size[1]);
-// 	gtk_box_pack_end(GTK_BOX(hbox_title),button_max,FALSE,FALSE,0);
-// 
-// 	th=ly_ui_theme_get("button_min");
-// 	if(!th)
-// 	{
-// 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
-// 		
-// 		th->pos[0]=th->pos[1]=0;
-// 		th->size[0]=16;
-// 		th->size[1]=16;
-// 		th->decorated=0;
-// 		th->border=0;
-// 		g_strlcpy(th->background, "_", sizeof(th->background));
-// 		g_strlcpy(th->font, "_", sizeof(th->font));
-// 		th->fg_color0[0]=th->fg_color0[1]=th->fg_color0[2]=0;
-// 		th->fg_color1[0]=th->fg_color1[1]=th->fg_color1[2]=0;
-// 		th->bg_color0[0]=th->bg_color0[1]=th->bg_color0[2]=0;
-// 		th->bg_color1[0]=th->bg_color1[1]=th->bg_color1[2]=0;
-// 		th->fg_color0[3]=th->fg_color1[3]=th->bg_color0[3]=th->bg_color1[3]=1;
-// 		ly_ui_theme_set("button_min",th);
-// 	}
-// 	button_min=gtk_button_new();
-// 	gtk_widget_set_size_request(button_min, th->size[0],th->size[1]);
-// 	gtk_box_pack_end(GTK_BOX(hbox_title),button_min,FALSE,FALSE,0);
-// 
-// 	th=ly_ui_theme_get("button_mini");
-// 	if(!th)
-// 	{
-// 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
-// 		
-// 		th->pos[0]=th->pos[1]=0;
-// 		th->size[0]=16;
-// 		th->size[1]=16;
-// 		th->decorated=0;
-// 		th->border=0;
-// 		g_strlcpy(th->background, "_", sizeof(th->background));
-// 		g_strlcpy(th->font, "_", sizeof(th->font));
-// 		th->fg_color0[0]=th->fg_color0[1]=th->fg_color0[2]=0;
-// 		th->fg_color1[0]=th->fg_color1[1]=th->fg_color1[2]=0;
-// 		th->bg_color0[0]=th->bg_color0[1]=th->bg_color0[2]=0;
-// 		th->bg_color1[0]=th->bg_color1[1]=th->bg_color1[2]=0;
-// 		th->fg_color0[3]=th->fg_color1[3]=th->bg_color0[3]=th->bg_color1[3]=1;
-// 		ly_ui_theme_set("button_mini",th);
-// 	}
-// 	button_mini=gtk_button_new();
-// 	gtk_widget_set_size_request(button_mini, th->size[0],th->size[1]);
-// 	gtk_box_pack_end(GTK_BOX(hbox_title),button_mini,FALSE,FALSE,0);
+	/*
+	 * hbox_title
+	 */
+	 		
+ 	hbox_title=gtk_hbox_new(FALSE,0);
+ 	gtk_box_pack_start(GTK_BOX(vbox_main),hbox_title,FALSE,FALSE,0);
+
+ 	button_close=gtk_button_new();
+ 	gtk_widget_set_size_request(button_close, 37,27);
+ 	gtk_box_pack_end(GTK_BOX(hbox_title),button_close,FALSE,FALSE,0);
+ 	button_max=gtk_button_new();
+ 	gtk_widget_set_size_request(button_max, 37,27);
+ 	gtk_box_pack_end(GTK_BOX(hbox_title),button_max,FALSE,FALSE,0); 
+ 	button_min=gtk_button_new();
+ 	gtk_widget_set_size_request(button_min, 37,27);
+ 	gtk_box_pack_end(GTK_BOX(hbox_title),button_min,FALSE,FALSE,0); 
+ 	button_mini=gtk_button_new();
+ 	gtk_widget_set_size_request(button_mini, 37,27);
+ 	gtk_box_pack_end(GTK_BOX(hbox_title),button_mini,FALSE,FALSE,0);
 
 	/*
 	 * the second part: notebook
@@ -195,6 +127,7 @@ gboolean ly_ui_win_init()
 	notebook_session=gtk_notebook_new();
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook_session), TRUE);
 	gtk_box_pack_start(GTK_BOX(vbox_main),notebook_session,TRUE,TRUE,0);
+	
 
 	/*
 	 * the third part: control area
@@ -232,8 +165,8 @@ gboolean ly_ui_win_init()
 		
 		th->pos[0]=10;
 		th->pos[1]=20;
-		th->size[0]=40;
-		th->size[1]=30;
+		th->size[0]=50;
+		th->size[1]=50;
 		th->decorated=0;
 		th->border=0;
 		g_strlcpy(th->background, "_", sizeof(th->background));
@@ -254,10 +187,10 @@ gboolean ly_ui_win_init()
 	{
 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
 		
-		th->pos[0]=80;
+		th->pos[0]=110;
 		th->pos[1]=20;
-		th->size[0]=40;
-		th->size[1]=30;
+		th->size[0]=50;
+		th->size[1]=50;
 		th->decorated=0;
 		th->border=0;
 		g_strlcpy(th->background, "_", sizeof(th->background));
@@ -278,10 +211,10 @@ gboolean ly_ui_win_init()
 	{
 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
 		
-		th->pos[0]=45;
-		th->pos[1]=20;
-		th->size[0]=40;
-		th->size[1]=30;
+		th->pos[0]=50;
+		th->pos[1]=10;
+		th->size[0]=70;
+		th->size[1]=70;
 		th->decorated=0;
 		th->border=0;
 		g_strlcpy(th->background, "_", sizeof(th->background));
@@ -294,7 +227,7 @@ gboolean ly_ui_win_init()
 		ly_ui_theme_set("button_play",th);
 	}
 	button_play=gtk_toggle_button_new();
-	gtk_widget_set_size_request(button_play,th->size[0],th->size[1]);
+	gtk_widget_set_size_request(button_play,70,70);
 	gtk_fixed_put(GTK_FIXED(fixed_control_left),button_play,th->pos[0],th->pos[1]);
 
 	hscale_seek=gtk_hscale_new_with_range(0,1,0.0001);
@@ -332,9 +265,9 @@ gboolean ly_ui_win_init()
 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
 		
 		th->pos[0]=10;
-		th->pos[1]=20;
-		th->size[0]=30;
-		th->size[1]=30;
+		th->pos[1]=30;
+		th->size[0]=37;
+		th->size[1]=27;
 		th->decorated=0;
 		th->border=0;
 		g_strlcpy(th->background, "_", sizeof(th->background));
@@ -356,9 +289,9 @@ gboolean ly_ui_win_init()
 		th=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
 		
 		th->pos[0]=45;
-		th->pos[1]=20;
-		th->size[0]=30;
-		th->size[1]=30;
+		th->pos[1]=28;
+		th->size[0]=37;
+		th->size[1]=27;
 		th->decorated=0;
 		th->border=0;
 		g_strlcpy(th->background, "", sizeof(th->background));
@@ -371,9 +304,31 @@ gboolean ly_ui_win_init()
 		ly_ui_theme_set("button_volume",th);
 	}
 	button_volume=gtk_volume_button_new();
-	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_audio_get_volume());
 	gtk_widget_set_size_request(button_volume,th->size[0],th->size[1]);
 	gtk_fixed_put(GTK_FIXED(fixed_control_right),button_volume,th->pos[0],th->pos[1]);
+	
+	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_audio_get_volume());
+
+
+	/*
+	 * set widget names
+	 */
+	 gtk_widget_set_name(win,"ly_win");
+	 gtk_widget_set_name(button_close,"ly_btn_close");
+	 gtk_widget_set_name(button_min,"ly_btn_min");
+	 gtk_widget_set_name(button_max,"ly_btn_max");
+	 gtk_widget_set_name(button_mini,"ly_btn_mini");
+	 gtk_widget_set_name(button_play,"ly_btn_play");
+	 gtk_widget_set_name(button_prev,"ly_btn_prev");
+	 gtk_widget_set_name(button_next,"ly_btn_next");
+	 gtk_widget_set_name(button_config,"ly_btn_config");
+	 gtk_widget_set_name(button_volume,"ly_btn_volume");
+	 gtk_widget_set_name(notebook_session,"ly_notebook_session");
+	 gtk_widget_set_name(hscale_seek,"ly_hscale_seek");
+	 gtk_widget_set_name(win,"ly_win");
+	 gtk_widget_set_name(win,"ly_win");
+	 gtk_widget_set_name(win,"ly_win");
+
 
 	gtk_widget_show_all(win);
 
@@ -382,7 +337,10 @@ gboolean ly_ui_win_init()
 	 */
 	g_signal_connect(G_OBJECT(win),"destroy",G_CALLBACK(gtk_main_quit),NULL);
 	g_signal_connect(G_OBJECT(win),"draw", G_CALLBACK(ly_ui_win_expose_cb),NULL);
-// 	g_signal_connect(G_OBJECT(button_close),"clicked",G_CALLBACK(gtk_main_quit), NULL);
+	g_signal_connect(G_OBJECT(win), "button_press_event", G_CALLBACK(ly_ui_win_drag_cb), win);
+	g_signal_connect(G_OBJECT(win), "motion_notify_event", G_CALLBACK(ly_ui_win_drag_cb), win);
+	g_signal_connect(G_OBJECT(win), "button_release_event", G_CALLBACK(ly_ui_win_drag_cb), win);
+ 	g_signal_connect(G_OBJECT(button_close),"clicked",G_CALLBACK(gtk_main_quit), NULL);
 	g_signal_connect(G_OBJECT(button_play),"clicked",G_CALLBACK(ly_ui_win_play_cb),NULL);
 	g_signal_connect(G_OBJECT(button_prev),"clicked",G_CALLBACK(ly_ui_win_prev_cb),NULL);
 	g_signal_connect(G_OBJECT(button_next),"clicked",G_CALLBACK(ly_ui_win_next_cb),NULL);
@@ -427,7 +385,7 @@ gboolean ly_ui_win_init()
 	ly_ui_win_window=(lyUiWinWindow*)g_malloc(sizeof(lyUiWinWindow));
 	ly_ui_win_window->win=win;
 	ly_ui_win_window->vbox_main=vbox_main;
-//	ly_ui_win_window->hbox_title=hbox_title;
+	ly_ui_win_window->hbox_title=hbox_title;
 // 	ly_ui_win_window->icon=icon;
 	ly_ui_win_window->notebook_session=notebook_session;
 	ly_ui_win_window->hbox_control=hbox_control;
@@ -438,10 +396,10 @@ gboolean ly_ui_win_init()
 	ly_ui_win_window->button_next=button_next;
 	ly_ui_win_window->button_config=button_config;
 	ly_ui_win_window->button_volume=button_volume;
-// 	ly_ui_win_window->button_close=button_close;
-// 	ly_ui_win_window->button_max=button_max;
-// 	ly_ui_win_window->button_min=button_min;
-// 	ly_ui_win_window->button_mini=button_mini;
+ 	ly_ui_win_window->button_close=button_close;
+ 	ly_ui_win_window->button_max=button_max;
+ 	ly_ui_win_window->button_min=button_min;
+ 	ly_ui_win_window->button_mini=button_mini;
 	ly_ui_win_window->hscale_seek=hscale_seek;
 	
 	return TRUE;
@@ -463,13 +421,57 @@ gboolean ly_ui_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	gchar path[1024];
 	g_snprintf(path,sizeof(path),"%sui/icon/core.png",LY_GLOBAL_PROGDIR);
-	if(!image)
-		image=cairo_image_surface_create_from_png(path);
+
+/*	TODO:这里有段错误
+	GdkPixbuf *pixbuf;
+	unsigned char *pixel;
+	int width,height,stride;
 	
+	gtk_window_get_size(GTK_WINDOW(widget),&width,&height);
+	printf("%d:%d\n", width,height);
+	pixbuf = gdk_pixbuf_new_from_file_at_size(path, width, height, NULL);
+	pixel = gdk_pixbuf_get_pixels(pixbuf);
+	stride = gdk_pixbuf_get_rowstride(pixbuf);
+	image = cairo_image_surface_create_for_data(pixel,CAIRO_FORMAT_ARGB32,width,height,stride);
+*/
+	image=cairo_image_surface_create_from_png(path);
 	cairo_set_source_surface(cr, image, 0, 0);
 	cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
 	cairo_paint(cr);
+	cairo_surface_destroy(image);
+	image=NULL;
 	return FALSE;
+}
+
+gboolean ly_ui_win_drag_cb(GtkWidget * widget,GdkEventButton * event, gpointer data)
+{
+	if (event->button == 1)
+	{	
+		switch(event->type)
+		{
+			case GDK_BUTTON_PRESS:
+				nX = event->x;
+				nY = event->y;
+				drag = TRUE;
+				
+				//TODO:鼠标变成手形
+				break;
+        		case GDK_BUTTON_RELEASE:
+				drag=FALSE;
+				//TODO:鼠标变成默认箭头
+				break;
+			default:
+				break;
+		}
+	}
+	if(drag)
+	{
+		int x, y;
+		GtkWidget *window = widget;
+		gtk_window_get_position(GTK_WINDOW(window), &x, &y);
+		gtk_window_move(GTK_WINDOW(window), x + event->x - nX,y + event->y - nY);
+	}
+        return FALSE;
 }
 
 gboolean ly_ui_win_play_cb(GtkWidget *widget, gpointer data)
@@ -564,7 +566,6 @@ gboolean ly_ui_win_update_hscale_cb(gpointer data)
 		gdouble position=ly_audio_get_position();
 		gtk_range_set_value(GTK_RANGE(ly_ui_win_window->hscale_seek),position);
 	}
-	
 	return TRUE;
 }
 

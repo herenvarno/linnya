@@ -16,14 +16,14 @@ typedef struct lyUiWinWindow
 {
 	GtkWidget *win;
 	GtkWidget *vbox_main;
-//	GtkWidget *hbox_title;
+	GtkWidget *hbox_title;
 	GtkWidget *notebook_session;
 	GtkWidget *hbox_control;
 // 	GtkWidget *icon;
-// 	GtkWidget *button_close;
-// 	GtkWidget *button_max;
-// 	GtkWidget *button_min;
-// 	GtkWidget *button_mini;
+	GtkWidget *button_close;
+ 	GtkWidget *button_max;
+	GtkWidget *button_min;
+ 	GtkWidget *button_mini;
 	GtkWidget *fixed_control_left;
 	GtkWidget *fixed_control_right;
 	GtkWidget *button_play;
@@ -51,6 +51,7 @@ gboolean ly_ui_win_finalize();
  */
 gboolean ly_ui_win_quit_cb(GtkWidget *widget, gpointer data);
 gboolean ly_ui_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+gboolean ly_ui_win_drag_cb(GtkWidget * widget,GdkEventButton * event, gpointer data);
 gboolean ly_ui_win_play_cb(GtkWidget *widget, gpointer data);
 gboolean ly_ui_win_prev_cb(GtkWidget *widget, gpointer data);
 gboolean ly_ui_win_next_cb(GtkWidget *widget, gpointer data);
