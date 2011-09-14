@@ -31,7 +31,7 @@ gboolean ly_ui_key_finalize();
 gboolean ly_ui_key_read();
 gboolean ly_ui_key_write();
 
-gboolean ly_ui_key_set(gchar *name, gchar *key, gchar *mask0, gchar *mask1);
+gboolean ly_ui_key_set(char *name, char *mask0, char *mask1, char *key);
 lyUiKeyKeybind *ly_ui_key_get(gchar *name);
 gboolean ly_ui_key_set_default_if_not_exist(gchar *name);
 

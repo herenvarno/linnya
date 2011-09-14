@@ -16,6 +16,7 @@ GtkWidget *ly_plugin_manager_create()
 {
 	widget=gtk_event_box_new();
 	hpaned=gtk_hpaned_new();
+	gtk_paned_set_position (GTK_PANED(hpaned),180);
 	gtk_container_add(GTK_CONTAINER(widget),hpaned);
 	
 	GtkWidget *vbox;
@@ -53,6 +54,8 @@ GtkWidget *ly_plugin_manager_create()
 	gtk_tree_view_column_pack_start(column, cell_renderer,FALSE);
 	gtk_tree_view_column_add_attribute(column,cell_renderer,"text",1);
 	gtk_tree_view_column_set_title(column,_("Manager"));
+	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
+	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),200);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_left), column);
 	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_left), GTK_TREE_MODEL(store_left));
 	selection_left=gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_left));
@@ -75,17 +78,20 @@ GtkWidget *ly_plugin_manager_create()
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Title"),cell_renderer,"text",1,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
-	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),50);
+	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
+	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),200);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Artist"),cell_renderer,"text",2,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
-	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),50);
+	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
+	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),250);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Album"),cell_renderer,"text",3,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
-	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),50);
+	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
+	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),200);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
 	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_right), GTK_TREE_MODEL(store_right ));
 	selection_right=gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_right));
@@ -99,6 +105,7 @@ GtkWidget *ly_plugin_manager_create()
 	g_signal_connect(G_OBJECT(treeview_right), "row-activated", G_CALLBACK(ly_plugin_manager_right_active_cb), NULL);
 	
 	ly_msg_bind("lib_changed", "ui", ly_plugin_manager_on_lib_changed_cb, NULL);
+	gtk_widget_set_name(widget, "ly_pl_treeview_manager");
 	return widget;
 }
 void ly_plugin_manager_refresh()

@@ -33,13 +33,13 @@ gboolean ly_db_init()
 	/*
 	 * get extra_encoding
 	 */
-	gchar extra_encoding[512]="GB18030";
-	if(!ly_conf_get("db_extra_encoding","%s", extra_encoding))
+	gchar extra_encoding[1024]="Chinese Simplified (GB18030)";
+	if(!ly_conf_get("db_extra_encoding", "%*[^\n(] (%1023[^\n)])", extra_encoding))
 	{
-		ly_conf_set("db_extra_encoding","%s", extra_encoding);
+		ly_conf_set("db_extra_encoding", "%s", extra_encoding);
 	}
 	
-	char encoding[512]="";
+	char encoding[1024]="";
 	g_snprintf(encoding, sizeof(encoding), "%s:UTF-8", extra_encoding);
 	g_setenv("GST_ID3_TAG_ENCODING", encoding, TRUE);
 	

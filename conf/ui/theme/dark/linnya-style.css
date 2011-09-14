@@ -1,31 +1,54 @@
+#ly_win {
+	color: #EEE;
+}
+
+
+
+
+#ly_hbox_control .button,
+#ly_hbox_control .button:hover,
+#ly_hbox_control .button:active,
+#ly_hbox_control .button.default,
+#ly_hbox_control .button:hover:active,
+#ly_hbox_control .button:insensitive,
+#ly_hbox_title .button,
+#ly_hbox_title .button:hover,
+#ly_hbox_title .button:active,
+#ly_hbox_title .button.default,
+#ly_hbox_title .button:hover:active,
+#ly_hbox_title .button:insensitive{
+    color: #fff;
+    border-style:none;
+}
 #ly_btn_close,
 #ly_btn_close:hover,
 #ly_btn_close:active,
-#ly_btn_close:focused {
-    background-image: url ("linnya_img/ly_btn_close.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
+#ly_btn_close:hover:active,
+#ly_btn_close:focused,
+#ly_btn_close.default {
+    background-image: url ("linnya_img/ly_btn_close.svg");
+    background-color: alpha (#FFF,0.0);
 }
 
 #ly_btn_min,
 #ly_btn_min:hover,
 #ly_btn_min:active,
 #ly_btn_min:focused {
-    background-image: url ("linnya_img/ly_btn_min.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
+    background-image: url ("linnya_img/ly_btn_min.svg");
+}
+
+#ly_btn_max,
+#ly_btn_max:hover,
+#ly_btn_max:active,
+#ly_btn_max:focused {
+    background-image: url ("linnya_img/ly_btn_max.svg");
 }
 
 #ly_btn_mini,
 #ly_btn_mini:hover,
 #ly_btn_mini:active,
 #ly_btn_mini:focused {
-    background-image: url ("linnya_img/ly_btn_mini.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
+    background-image: url ("linnya_img/ly_btn_mini.svg");
 }
 
 #ly_btn_play,
@@ -34,9 +57,6 @@
 #ly_btn_play:active:hover,
 #ly_btn_play:focused {
     background-image: url ("linnya_img/ly_btn_play.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
 }
 
 #ly_btn_prev,
@@ -44,9 +64,6 @@
 #ly_btn_prev:active,
 #ly_btn_prev:focused {
     background-image: url ("linnya_img/ly_btn_prev.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
 }
 
 #ly_btn_next,
@@ -54,9 +71,6 @@
 #ly_btn_next:active,
 #ly_btn_next:focused {
     background-image: url ("linnya_img/ly_btn_next.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
 }
 
 #ly_btn_config,
@@ -64,9 +78,6 @@
 #ly_btn_config:active,
 #ly_btn_config:focused {
     background-image: url ("linnya_img/ly_btn_config.png");
-    border-style: none;
-    border-width: 0;
-    border-radius: 6;
 }
 
 #ly_btn_volume,
@@ -74,19 +85,14 @@
 #ly_btn_volume:active,
 #ly_btn_volume:focused {
     background-image : url ("linnya_img/null.png");
-    border-style:none;
-    border-width:0;
-    border-radius:6;
 }
 
 #ly_notebook_session {
-
-
     border-color: alpha (#fff, 0.3);
     border-style: solid;
     border-width: 1;
     border-radius: 2;
-    background-color: alpha (#000, 0.80);
+    background-color: alpha (#000, 0.8);
 
     -GtkNotebook-tab-overlap: 0;
     -GtkNotebook-tab-curvature: 2;
@@ -125,9 +131,9 @@
     color: #fff;
 }
 
-#ly_notebook_session tab .button,
-#ly_notebook_session tab .button:hover,
-#ly_notebook_session tab .button:hover:active {
+#ly_notebook_session .button,
+#ly_notebook_session .button:hover,
+#ly_notebook_session .button:hover:active {
 
     background-image: -gtk-gradient (linear,
                        left top, left bottom,
@@ -231,4 +237,172 @@
 
 #ly_hscale_seek.mark {
     background-color: alpha (#fff, 0.40);
+}
+
+
+/*
+ * VIEW
+ */
+#session_add {
+
+    border-radius: 2;
+    padding: 0;
+}
+
+#session_add.view.cell:selected,
+#session_add.view.cell:selected:focused {
+    
+    background-color: alpha (#fff, 0.10);
+    border-radius: 4;
+
+    -adwaita-focus-border-color: alpha (#fff, 0.10);
+    -adwaita-focus-border-radius: 3;
+    -adwaita-focus-border-dashes: 0;
+}
+
+#ly_iconview_add.view {
+
+    background-color: alpha (#222, 0.50);
+    color: alpha (#fff, 0.70);
+    border-radius: 0;
+    border-width: 2;
+
+}
+
+#ly_pl_treeview_manager {
+
+    -GtkTreeView-vertical-separator: 0;
+    -GtkTreeView-expander-size: 8;
+
+    -GtkWidget-focus-line-width: 1;
+    -adwaita-focus-border-radius: 0;
+    -adwaita-focus-border-dashes: 0;
+    -adwaita-focus-border-color: alpha (#333, 0.40);
+}
+
+#ly_pl_treeview_manager.separator {
+     background-color: alpha (#333, 0.40);
+}
+
+#ly_pl_treeview_manager column-header {
+    padding: 1 2;
+	color: #222;
+}
+
+#ly_pl_treeview_manager column-header .button {
+     background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (#000),
+                                     color-stop (0.02, #555),
+                                     color-stop (0.03, #222),
+                                     color-stop (0.97, #111),
+                                     color-stop (0.98, #555),
+                                     to (#000));
+
+    border-width: 0;
+    border-radius: 0;
+	color:#999;
+}
+#ly_pl_treeview_manager column-header .button:hover {
+     background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (#000),
+                                     color-stop (0.02, #555),
+                                     color-stop (0.03, #222),
+                                     color-stop (0.97, #111),
+                                     color-stop (0.98, #555),
+                                     to (#000));
+    border-width: 0;
+    border-radius: 0;
+    color:#fff;
+}
+
+#ly_pl_treeview_manager row:hover {
+    background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (#000),
+                                     color-stop (0.02, #555),
+                                     color-stop (0.03, #222),
+                                     color-stop (0.97, #111),
+                                     color-stop (0.98, #555),
+                                     to (#000));
+	background-color: alpha(#000, 0.1);
+    color: #fff;
+    border-radius: 0;
+    border-width: 0;
+    border-style: solid;
+    padding: 2;
+ 
+}
+
+#ly_pl_treeview_manager row:insensitive {
+	color: alpha(#000, 0.5);
+    border-width: 0;
+}
+
+#ly_pl_treeview_manager row:selected:focused {
+    border-width: 0;
+
+    background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (#000),
+                                     color-stop (0.02, #555),
+                                     color-stop (0.03, #222),
+                                     color-stop (0.97, #111),
+                                     color-stop (0.98, #555),
+                                     to (#000));
+
+
+}
+
+#ly_pl_treeview_manager row:selected {
+    border-width: 0;
+    background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (#000),
+                                     color-stop (0.02, #555),
+                                     color-stop (0.03, #222),
+                                     color-stop (0.97, #111),
+                                     color-stop (0.98, #555),
+                                     to (#000));
+}
+
+#ly_pl_treeview_manager.cell {
+    background-color: alpha (#000, 0.50);
+
+    color: #CCCCCC; /*@theme_text_color;*/
+    padding: 0;
+    border-width: 0;
+}
+
+#ly_pl_treeview_manager.cell:selected {
+    background-color: #000;
+}
+
+#ly_pl_treeview_manager.expander {
+    color: alpha (#fff, 0.60);
+    border-color: alpha (#fff, 0.40);
+
+    background-color: alpha (#333, 0.70);
+}
+
+#ly_pl_treeview_manager.expander:active {
+    color: alpha (#fff, 0.60);
+    border-color: alpha (#fff, 0.40);
+
+    background-color: alpha (#333, 0.70);
+}
+
+#ly_pl_treeview_manager.expander:prelight {
+    color: alpha (alpha (#c8c8c8, 0.2), 0.60);
+    border-color: alpha (alpha (#c8c8c8, 0.2), 0.60);
+
+    background-color: alpha (#304665, 0.2);
+}
+
+#ly_pl_treeview_manager.expander row:selected,
+#ly_pl_treeview_manager.expander row:selected:focused {
+    border-color: alpha (alpha (#c8c8c8, 0.2), 0.60);
+    color: alpha (alpha (#c8c8c8, 0.2), 0.60);
+    background-color: alpha (#304665, 0.2);
 }

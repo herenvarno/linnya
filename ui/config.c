@@ -1,47 +1,142 @@
 #include "config.h"
 
 /*
+ * MACRO
+ */
+#define BACKUP_ENCODING_COUNT 72
+
+/*
  * VARIABLES
  */
 GtkWidget	*ly_ui_config_dialog	=	NULL;
+char *encoding[BACKUP_ENCODING_COUNT] = {
+"Arabic (IBM-864)",
+"Arabic (ISO-8859-6)",
+"Arabic (Windows-1256)",
+"Armenian (ARMSCII-8)",
+
+"Baltic (ISO-8859-13)",
+"Baltic (ISO-8859-4)",
+"Baltic (Windows-1257)",
+
+"Celtic (ISO-8859-14)",
+"Central European (IBM-852)",
+"Central European (ISO-8859-2)",
+"Central European (MacCE)",
+"Central European (Windows-1250)",
+"Chinese Simplified (GB18030)",
+"Chinese Simplified (GB2312)",
+"Chinese Simplified (GBK)",
+"Chinese Simplified (HZ)",
+"Chinese Simplified (ISO-2022-CN)",
+"Chinese Traditional (Big-5)",
+"Chinese Traditional (Big-5-HKSCS)",
+"Chinese Traditional (EUC-TW)",
+"Croatian (MacCroatian)",
+"Cyrillic (IBM-855)",
+"Cyrillic (ISO-8859-5)",
+"Cyrillic (ISO-IR-111)",
+"Cyrillic (KOI8-R)",
+"Cyrillic (MacCyrillic)",
+"Cyrillic/Russian (CP-866)",
+"Cyrillic/Ukrainian (KOI8-U)",
+"Cyrillic (Windows-1251)",
+
+"Georgian (GEOSTD8)",
+"Greek (ISO-8859-7)",
+"Greek (MacGreek)",
+"Greek (Windows-1253)",
+"Gujarati (MacGujarati)",
+"Gurmukhi (MacGurmukhi)",
+
+"Hebrew (IBM-862)",
+"Hebrew (ISO-8859-8-I)",
+"Hebrew Visual (ISO-8859-8)",
+"Hebrew (Windows-1255)",
+"Hindi (MacDevanagari)",
+
+"Icelandic (MacIcelandic)",
+
+"Japanese (EUC-JP)",
+"Japanese (ISO-2022-JP)",
+"Japanese (Shift-JIS)",
+
+"Korean (EUC-KR)",
+"Korean (ISO-2022-KR)",
+"Korean (JOHAB)",
+"Korean (UHC)",
+
+"Nordic (ISO-8859-10)",
+
+"Romanian (ISO-8859-16)",
+"Romanian (MacRomanian)",
+
+"South European (ISO-8859-3)",
+
+"Thai (ISO-8859-11)",
+"Thai (TIS-620)",
+"Thai (Windows-874)",
+"Turkish (IBM-857)",
+"Turkish (ISO-8859-9)",
+"Turkish (MacTurkish)",
+"Turkish (Windows-1254)",
+
+"Unicode (UTF-16)",
+"Unicode (UTF-16BE)",
+"Unicode (UTF-16LE)",
+"Unicode (UTF-8)",
+
+"Vietnamese (TCVN)",
+"Vietnamese (VISCII)",
+"Vietnamese (VPS)",
+"Vietnamese (Windows-1258)",
+
+"Western (IBM-850)",
+"Western (ISO-8859-1)",
+"Western (ISO-8859-15)",
+"Western (MacRoman)",
+"Western (Windows-1252)"
+};
 
 /*
  * FUNCTIONS
  */
-gboolean	ly_ui_config_init					(void);
-gboolean	ly_ui_config_finalize				(void);
-GtkWidget*	ly_ui_config_new					(void);
+gboolean	ly_ui_config_init							(void);
+gboolean	ly_ui_config_finalize						(void);
+GtkWidget*	ly_ui_config_new							(void);
 
-GtkWidget*	ly_ui_config_set_title				(GtkWidget *config_page, char *title, char *icon);
-void		ly_ui_config_set_index				(GtkWidget *widget, char *str);
-gboolean	ly_ui_config_set_index_cb			(GtkWidget *widget, cairo_t *cr, gpointer data);
-void		ly_ui_config_draw_text				(cairo_t *cr, char *text, char *font);
+GtkWidget*	ly_ui_config_set_title					(GtkWidget *config_page, char *title, char *icon);
+void		ly_ui_config_set_index					(GtkWidget *widget, char *str);
+gboolean	ly_ui_config_set_index_cb				(GtkWidget *widget, cairo_t *cr, gpointer data);
+void		ly_ui_config_draw_text					(cairo_t *cr, char *text, char *font);
 
-gboolean	ly_ui_config_on_create_cb			(gpointer message, gpointer data);
-gboolean	ly_ui_config_on_destroy_cb			(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_change_selection_cb	(GtkTreeSelection *selection, gpointer data);
-gboolean	ly_ui_config_on_show_about_cb		(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_create_cb				(gpointer message, gpointer data);
+gboolean	ly_ui_config_on_destroy_cb				(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_change_selection_cb		(GtkTreeSelection *selection, gpointer data);
+gboolean	ly_ui_config_on_show_about_cb			(GtkWidget *widget, gpointer data);
 
-gboolean	ly_ui_config_on_db_change_cb		(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_lib_change_cb		(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_audio_mode_change_cb(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_key_change_cb		(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_key_press_cb		(GtkWidget *widget, GdkEvent  *event, gpointer data);
-gboolean	ly_ui_config_on_plugin_show_about_cb(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_plugin_change_cb	(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_lib_change_cb			(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_audio_mode_change_cb	(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_key_change_cb			(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_key_press_cb				(GtkWidget *widget, GdkEvent  *event, gpointer data);
+gboolean	ly_ui_config_on_plugin_show_about_cb	(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_plugin_change_cb		(GtkWidget *widget, gpointer data);
 
 
-gboolean ly_ui_config_init(void)
+gboolean
+ly_ui_config_init (void)
 {
 	ly_msg_bind("create_config","ui:win", ly_ui_config_on_create_cb, NULL);
 	return TRUE;
 }
-gboolean ly_ui_config_finalize(void)
+gboolean
+ly_ui_config_finalize (void)
 {
 	return TRUE;
 }
 
-GtkWidget* ly_ui_config_new(void)
+GtkWidget*
+ly_ui_config_new (void)
 {
 	gchar path[1024];
 	gchar str[1024];
@@ -98,7 +193,7 @@ GtkWidget* ly_ui_config_new(void)
 	gtk_container_add(GTK_CONTAINER(hpaned), tree);
 	store= gtk_tree_store_new (1,G_TYPE_STRING);
 	gtk_tree_store_append (store, &iter,NULL);
-	gtk_tree_store_set(store, &iter,0,_("Database"),-1);
+	gtk_tree_store_set(store, &iter,0,_("Library"),-1);
 	gtk_tree_store_append (store, &iter,NULL);
 	gtk_tree_store_set(store, &iter,0,_("Audio"),-1);
 	gtk_tree_store_append (store, &iter,NULL);
@@ -120,25 +215,11 @@ GtkWidget* ly_ui_config_new(void)
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook),FALSE);
 	gtk_container_add(GTK_CONTAINER(hpaned),notebook);
 
-	//page1 Database
+	//page1 Library
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),vbox,NULL);
-	g_snprintf(path,sizeof(path),"%sui/icon/database.png",LY_GLOBAL_PROGDIR);
-	vbox=ly_ui_config_set_title(vbox,_("<b>Database</b>\nSet the way to store data"), path);
-
-	ly_ui_config_set_index(vbox,_("Database file location"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,10);
-	label=gtk_label_new(_("Database File:"));
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	entry=gtk_entry_new();
-	gtk_widget_set_sensitive(entry,FALSE);
-	ly_conf_get("db_path","%s",str);
-	gtk_entry_set_text(GTK_ENTRY(entry),str);
-	gtk_box_pack_start(GTK_BOX(hbox),entry,TRUE,TRUE,0);
-	button=gtk_button_new_from_stock(GTK_STOCK_OPEN);
-	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_ui_config_on_db_change_cb), entry);
-	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
+	g_snprintf(path,sizeof(path),"%sui/icon/lib.svg",LY_GLOBAL_PROGDIR);
+	vbox=ly_ui_config_set_title(vbox,_("<b>Library</b>\nAll the Music Data"), path);
 	
 	ly_ui_config_set_index(vbox,_("Library location"));
 	hbox=gtk_hbox_new(FALSE,0);
@@ -154,10 +235,28 @@ GtkWidget* ly_ui_config_new(void)
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_ui_config_on_lib_change_cb), entry);
 	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
 	
+	ly_ui_config_set_index(vbox,_("Backup Encoding"));
+	char extra_encoding[1024]="Chinese Simplified (GB18030)";
+	if(ly_conf_get("db_extra_encoding", "%1023[^\n]", extra_encoding))
+	{
+		ly_conf_set("db_extra_encoding", "%s", extra_encoding);
+	}
+	combo=gtk_combo_box_text_new();
+	i=0;
+	for(i=0;i<BACKUP_ENCODING_COUNT;i++)
+	{
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), encoding[i]);
+		if(g_str_equal(extra_encoding, encoding[i]))
+		{
+			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+		}
+	}
+	gtk_box_pack_start(GTK_BOX(vbox),combo,FALSE, FALSE,0);
+	
 	//page2 Audio
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),vbox,NULL);
-	g_snprintf(path,sizeof(path),"%sui/icon/audio.png",LY_GLOBAL_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sui/icon/audio.svg",LY_GLOBAL_PROGDIR);
 	vbox=ly_ui_config_set_title(vbox,_("<b>Audio</b>\nSet all about playing audio"),path);
 	
 	ly_ui_config_set_index(vbox,_("Play mode"));
@@ -186,41 +285,33 @@ GtkWidget* ly_ui_config_new(void)
 	//page3 Keyboard
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),vbox,NULL);
-	g_snprintf(path,sizeof(path),"%sui/icon/keyboard.png",LY_GLOBAL_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sui/icon/key.svg",LY_GLOBAL_PROGDIR);
 	vbox=ly_ui_config_set_title(vbox,_("<b>Keyboard</b>\nSet all shortcut keys of Linnya"),path);
 	ly_ui_config_set_index(vbox, _("Shortcuts"));
-	table=gtk_table_new(g_hash_table_size(ly_ui_pl_plugins)+1,5, FALSE);
+	table=gtk_table_new(g_hash_table_size(ly_ui_pl_plugins)+1, 2, FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE,0);
 	
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Name")), 0, 1, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Key")), 1, 2, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Mask0")), 2, 3, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Mask1")), 3, 4, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Preferense")), 4, 5, 0, 1);
+	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Name and Keys")), 0, 1, 0, 1);
+	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Preferense")), 1, 2, 0, 1);
 	
 	g_hash_table_iter_init (&iter1, ly_ui_key_keybinds);
 	i=1;
+	char str_key[1024]="";
 	while (g_hash_table_iter_next (&iter1, &key, &value)) 
 	{
-		label=gtk_label_new(key);
+		g_snprintf(str_key, sizeof(str_key),"{%s}%s_%s:%s", (char *)key, ((lyUiKeyKeybind*)value)->mask0, ((lyUiKeyKeybind*)value)->mask1, ((lyUiKeyKeybind*)value)->key);
+		label=gtk_label_new(str_key);
 		gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
-		label=gtk_label_new(((lyUiKeyKeybind*)value)->key);
-		gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, i, i+1);
-		label=gtk_label_new(((lyUiKeyKeybind*)value)->mask0);
-		gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, i, i+1);
-		label=gtk_label_new(((lyUiKeyKeybind*)value)->mask1);
-		gtk_table_attach_defaults(GTK_TABLE(table), label, 3, 4, i, i+1);
 		button=gtk_button_new_from_stock(GTK_STOCK_PREFERENCES);
-		g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_ui_config_on_key_change_cb), key);
-		gtk_table_attach_defaults(GTK_TABLE(table), button, 4, 5, i, i+1);
+		g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_ui_config_on_key_change_cb), label);
+		gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, i, i+1);
 		i++;
 	}
-	
 	
 	//page4 Theme
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),vbox,NULL);
-	g_snprintf(path,sizeof(path),"%sui/icon/theme.png",LY_GLOBAL_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sui/icon/theme.svg",LY_GLOBAL_PROGDIR);
 	vbox=ly_ui_config_set_title(vbox,_("<b>Theme</b>\nSet the looks of Linnya."),path);
 	ly_ui_config_set_index(vbox,_("Theme"));
 	combo=gtk_combo_box_text_new();
@@ -230,7 +321,7 @@ GtkWidget* ly_ui_config_new(void)
 	//page5 Plug-ins
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),vbox,NULL);
-	g_snprintf(path,sizeof(path),"%sui/icon/theme.png",LY_GLOBAL_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sui/icon/plugin.svg",LY_GLOBAL_PROGDIR);
 	vbox=ly_ui_config_set_title(vbox,_("<b>Plugins</b>\nAll the plug-ins of Linnya."),path);
 	ly_ui_config_set_index(vbox,_("Plugins"));
 	table=gtk_table_new(g_hash_table_size(ly_ui_pl_plugins),4,FALSE);
@@ -411,8 +502,8 @@ gboolean ly_ui_config_on_show_about_cb(GtkWidget *widget, gpointer data)
 	logo=gdk_pixbuf_new_from_file_at_size(path,100,100,NULL);
 	g_free(path);
 	
-	char *artists[]={"Edward<edward@linnya.org>","Edward<edward@linnya.org>",NULL};
-	char *authors[]={"Edward<edward@linnya.org>",NULL};
+	char *artists[]={"Hillar Liiv<liivhillar@gmail.com>","Edward<edward@linnya.org>",NULL};
+	char *authors[]={"Edward<edward@linnya.org>","Carl Yu<shdxcy@gmail.com>",NULL};
 	char translators[]={"Edward<edward@linnya.org>"};
 	
 	char license[102400]="";
@@ -438,7 +529,6 @@ Boston, MA  02110-1301  USA"),
 						  "authors",		&authors,
 						  "comments",		_("An audio player for Linux, with unlimited feathers by plug-ins."),
 						  "copyright",		_("(c) Edward<edward@linnya.org>"),
-						  "documenters",	&authors,
 						  "license",		license,
 						  "logo",			logo,
 						  "logo-icon-name",	_("linnya"),
@@ -546,44 +636,6 @@ gboolean	ly_ui_config_on_plugin_change_cb	(GtkWidget *widget, gpointer data)
 	return FALSE;
 }
 
-
-gboolean ly_ui_config_on_db_change_cb(GtkWidget *widget, gpointer data)
-{	
-	gint result=0;
-	GtkWidget *dialog=gtk_file_chooser_dialog_new(_("Select database file"),
-												  GTK_WINDOW(ly_ui_config_dialog),
-												  GTK_FILE_CHOOSER_ACTION_OPEN,
-												  GTK_STOCK_OPEN,
-												  GTK_RESPONSE_ACCEPT,
-												  GTK_STOCK_CANCEL,
-												  GTK_RESPONSE_CANCEL,
-												  NULL);
-	result=gtk_dialog_run (GTK_DIALOG (dialog));
-	switch (result)
-	{
-		case GTK_RESPONSE_ACCEPT:
-			break;
-		case GTK_RESPONSE_CANCEL:
-			gtk_widget_destroy(dialog);
-			return FALSE;
-			break;
-		default:
-			gtk_widget_destroy(dialog);
-			return FALSE;
-			break;
-	}
-	
-	gchar *str=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog));
-	
-	gtk_entry_set_text(GTK_ENTRY(data),str);
-	
-	ly_conf_set("db_path", "%s", str);
-	g_free(str);
-	gtk_widget_destroy(dialog);
-	
-	ly_msg_put("warnning", "ui:config", "You need RESTART Linnya to active the settings");
-	return FALSE;
-}
 gboolean ly_ui_config_on_lib_change_cb(GtkWidget *widget, gpointer data)
 {
 	gint result=0;
@@ -672,11 +724,6 @@ gboolean ly_ui_config_on_audio_mode_change_cb(GtkWidget *widget, gpointer data)
 
 gboolean ly_ui_config_on_key_change_cb(GtkWidget *widget, gpointer data)
 {
-	lyUiKeyKeybind *k=NULL;
-	k=ly_ui_key_get((gchar*)data);
-	if(!k)
-		return FALSE;
-	
 	GtkWidget *dialog;
 	GtkWidget *label;
 	dialog=gtk_dialog_new_with_buttons(_("Key"),
@@ -692,9 +739,7 @@ gboolean ly_ui_config_on_key_change_cb(GtkWidget *widget, gpointer data)
 	label=gtk_label_new(_("Press key to change shortcut ..."));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label, FALSE, FALSE, 0);
 	
-	gchar str[256]="";
-	g_snprintf(str, sizeof(str), "[%s][%s]%s", k->mask0, k->mask1, k->key);
-	label=gtk_label_new(str);
+	label=gtk_label_new(gtk_label_get_text(GTK_LABEL(data)));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(dialog), "key_press_event", G_CALLBACK(ly_ui_config_on_key_press_cb), label);
 	
@@ -714,9 +759,13 @@ gboolean ly_ui_config_on_key_change_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
-// 	const gchar *s=gtk_label_get_text(GTK_LABEL(label));
-// 	sscanf(s,"[%s][%s]%s",k->mask0, k->mask0, k->key);
+
+	char keyname[128]="";
+	lyUiKeyKeybind *k=(lyUiKeyKeybind*)g_malloc(sizeof(lyUiKeyKeybind));
+	const char *str=gtk_label_get_text(GTK_LABEL(label));
+	gtk_label_set_text(GTK_LABEL(data),str);
+ 	sscanf(str,"{%128[^\n}]%128[^\n_]%128[^\n:]%128[^\n]",keyname, k->mask0, k->mask1, k->key);
+	ly_ui_key_set(keyname, (k->mask0)+1, (k->mask1)+1, (k->key)+1);
 	gtk_widget_destroy(dialog);
 	return FALSE;
 }
@@ -792,9 +841,10 @@ gboolean ly_ui_config_on_key_press_cb(GtkWidget *widget, GdkEvent  *event, gpoin
 		}
 	}
 	g_strlcpy(key,gdk_keyval_name((event->key).keyval), sizeof(key));
-	
-	gchar str[256]="";
-	g_snprintf(str, sizeof(str), "[%s][%s]%s", mask0, mask1, key);
+	char keyname[128]="";
+	sscanf(gtk_label_get_text(GTK_LABEL(data)), "{%128[^\n}]", keyname);
+	gchar str[512]="";
+	g_snprintf(str, sizeof(str), "{%s}%s_%s:%s", keyname, mask0, mask1, key);
 	gtk_label_set_text(GTK_LABEL(data), str);
 	return FALSE;
 }

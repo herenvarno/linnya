@@ -26,9 +26,7 @@ GtkWidget *ly_plugin_info_create()
 	image=gtk_image_new_from_pixbuf(pixbuf);
 	gtk_box_pack_start(GTK_BOX(hbox),image, FALSE,FALSE,30);
 	
-	
 	GtkWidget *label;
-
 	table=gtk_table_new(2, 4,FALSE);
 	label=gtk_label_new(NULL);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);

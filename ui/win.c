@@ -21,7 +21,7 @@ gboolean ly_ui_win_init()
 	 * Load Theme
 	 */
 	gchar path[1024]="";
-	g_snprintf(path, sizeof(path), "%sui/theme/dark/gtk.css", LY_GLOBAL_PROGDIR);
+	g_snprintf(path, sizeof(path), "%sui/theme/dark/linnya-style.css", LY_GLOBAL_PROGDIR);
 	GdkScreen *screen = gdk_screen_get_default();
 	GtkCssProvider *provider = gtk_css_provider_get_default();
 	gtk_css_provider_load_from_path(provider,path,NULL);
@@ -109,16 +109,16 @@ gboolean ly_ui_win_init()
  	gtk_box_pack_start(GTK_BOX(vbox_main),hbox_title,FALSE,FALSE,0);
 
  	button_close=gtk_button_new();
- 	gtk_widget_set_size_request(button_close, 37,27);
+ 	gtk_widget_set_size_request(button_close, 16, 16);
  	gtk_box_pack_end(GTK_BOX(hbox_title),button_close,FALSE,FALSE,0);
  	button_max=gtk_button_new();
- 	gtk_widget_set_size_request(button_max, 37,27);
+ 	gtk_widget_set_size_request(button_max, 16,16);
  	gtk_box_pack_end(GTK_BOX(hbox_title),button_max,FALSE,FALSE,0); 
  	button_min=gtk_button_new();
- 	gtk_widget_set_size_request(button_min, 37,27);
+ 	gtk_widget_set_size_request(button_min, 16,16);
  	gtk_box_pack_end(GTK_BOX(hbox_title),button_min,FALSE,FALSE,0); 
  	button_mini=gtk_button_new();
- 	gtk_widget_set_size_request(button_mini, 37,27);
+ 	gtk_widget_set_size_request(button_mini, 16,16);
  	gtk_box_pack_end(GTK_BOX(hbox_title),button_mini,FALSE,FALSE,0);
 
 	/*
@@ -325,8 +325,8 @@ gboolean ly_ui_win_init()
 	 gtk_widget_set_name(button_volume,"ly_btn_volume");
 	 gtk_widget_set_name(notebook_session,"ly_notebook_session");
 	 gtk_widget_set_name(hscale_seek,"ly_hscale_seek");
-	 gtk_widget_set_name(win,"ly_win");
-	 gtk_widget_set_name(win,"ly_win");
+	 gtk_widget_set_name(hbox_title,"ly_hbox_title");
+	 gtk_widget_set_name(hbox_control,"ly_hbox_control");
 	 gtk_widget_set_name(win,"ly_win");
 
 

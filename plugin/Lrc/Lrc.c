@@ -83,41 +83,12 @@ void g_module_unload(GModule *module)
 	;
 }
 
-
-gboolean expose(GtkWidget * widget, cairo_t *cr, gpointer data)
-{
-	
-	gint width;
-	gint height;
-	width = gtk_widget_get_allocated_width (widget);
-	height = gtk_widget_get_allocated_height (widget);
-	
-	//画标题
-	if(ly_audio_meta)
-	{
-		gchar title[1024]="";
-		cairo_set_source_rgb ( cr, 0.2, 0.2 , 0.2);
-		g_snprintf(title, sizeof(title), "%s - %s", ly_audio_meta->title,ly_audio_meta->artist);
-		ly_plugin_lrc_draw_text_midx(cr,title,"Sans Regular 20", width ,5);
-	}
-	return FALSE;
-}
-
-
 GtkWidget *ly_plugin_lrc_create()
 {
 	GtkWidget *widget;
 
 	widget=gtk_event_box_new();
 	gtk_widget_set_app_paintable(widget, TRUE);
-// 	GdkVisual *visual;
-// 	GdkScreen *screen;
-// 	screen = gtk_widget_get_screen(widget);	
-// 	visual = gdk_screen_get_rgba_visual (screen);
-// 	if (visual == NULL)
-// 		visual = gdk_screen_get_system_visual (screen);
-// 	gtk_widget_set_visual (GTK_WIDGET (widget), visual);
-// 	gtk_widget_set_events(widget, GDK_ALL_EVENTS_MASK);
 	
 	g_signal_connect(widget, "draw" ,G_CALLBACK (ly_plugin_lrc_expose_cb) , NULL) ;
 	g_signal_connect(widget, "button_press_event", G_CALLBACK(ly_plugin_lrc_seek_cb), NULL);
@@ -249,10 +220,10 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 	/*
 	 * Extra Encoding
 	 */
-	gchar extra_encoding[1024]="GB18030";
-	if(!ly_conf_get("extra_encoding", "%s", extra_encoding))
+	gchar extra_encoding[1024]="Chinese Simplified (GB18030)";
+	if(!ly_conf_get("db_extra_encoding", "%[^\n(](%1023[^\n)])", extra_encoding))
 	{
-		ly_conf_set("extra_encoding", "%s", extra_encoding);
+		ly_conf_set("db_extra_encoding", "%s", extra_encoding);
 	}
 	
 	lyPluginLrcLyric *lrc=NULL;
@@ -417,25 +388,26 @@ void ly_plugin_lrc_sort_lyrics()
 gboolean ly_plugin_lrc_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 {
 	
-// 	gchar path[1024];
-// 	g_snprintf(path,sizeof(path),"%sui/icon/bg.png",LY_GLOBAL_PROGDIR);
-// 	if(!image)
-// 		image_desktop=cairo_image_surface_create_from_png(path);
-// 	
-// 	cairo_set_source_surface(cr, image, 0, 0);
-// 	cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-// 	cairo_paint(cr);
-	
 	gint width;
 	gint height;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
 
 	//画标题
+	cairo_set_source_rgba ( cr, 0.0, 0.0 , 0.0, 0.8);
+	cairo_rectangle (cr, 0, 0, width, 50);
+	cairo_fill(cr);
+	
+	cairo_set_source_rgba ( cr, 0.8 , 0.8, 0.8, 0.7);
+	cairo_set_line_width ( cr,2);
+	cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND) ;
+	cairo_move_to(cr, 0, 50);
+	cairo_line_to(cr, width, 50);
+	cairo_stroke ( cr) ;
 	if(ly_audio_meta)
 	{
 		gchar title[1024]="";
-		cairo_set_source_rgb ( cr, 0.2, 0.2 , 0.2);
+		cairo_set_source_rgb ( cr, 0.8, 0.8 , 0.8);
 		g_snprintf(title, sizeof(title), "%s - %s", ly_audio_meta->title,ly_audio_meta->artist);
 		ly_plugin_lrc_draw_text_midx(cr,title,"Sans Regular 20", width ,5);
 	}
@@ -501,12 +473,12 @@ gboolean ly_plugin_lrc_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 
 		if(seekflag&&seekchanged)
 		{
-			cairo_set_source_rgba ( cr, 0.2 , 0.2 , 0.2, 0.7);
+			cairo_set_source_rgba ( cr, 0.8, 0.8, 0.8, 0.8);
 			cairo_set_line_width ( cr,20);
 			cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND) ;
 			cairo_move_to(cr, 10.0, height/2.0+8);
 			cairo_line_to(cr, width-10.0, height/2.0+8);
-			cairo_stroke ( cr) ;
+			cairo_stroke (cr);
 			
 			ly_plugin_lrc_lyrics_index=index_mark;
 			if(dy>=0)
@@ -549,7 +521,7 @@ gboolean ly_plugin_lrc_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 		
 		//正式画歌词区域
 		//画当前歌词
-		cairo_set_source_rgb(cr,0.0,0.0,0.0);
+		cairo_set_source_rgb(cr,1, 1, 1);
 		if(y>height/5.0&&y<height*4/5.0)
 			ly_plugin_lrc_draw_text_midx(cr,ly_plugin_lrc_lyrics_array[ly_plugin_lrc_lyrics_index]->text,"Sans Regular 10",width,y);
 		

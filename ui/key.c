@@ -203,7 +203,7 @@ gboolean ly_ui_key_finalize(void)
  * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	set or put a conf.
  */
-gboolean ly_ui_key_set(gchar *name, gchar *key, gchar *mask0, gchar *mask1)
+gboolean ly_ui_key_set(gchar *name, gchar *mask0, gchar *mask1, gchar *key)
 {
 	if(key==NULL)
 		key="";

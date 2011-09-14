@@ -248,6 +248,7 @@ gboolean ly_conf_get(gchar *name, const gchar *format, ...)
 {
 	gchar *str=NULL;
 	str=g_hash_table_lookup(ly_conf_configurations, name);
+	
 	if(str==NULL)
 		return FALSE;
 	va_list argp;
