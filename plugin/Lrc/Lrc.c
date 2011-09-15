@@ -176,7 +176,7 @@ gboolean ly_plugin_lrc_read_cb(gpointer message, gpointer data)
 	{
 		ly_conf_set("lrc_dir", "%s", dir);
 	}
-	
+
 	if(g_str_equal(dir,"")||g_str_equal(dir,"./"))	//当前目录
 	{
 		path=ly_global_get_dir(ly_audio_meta->uri);
@@ -220,12 +220,12 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 	/*
 	 * Extra Encoding
 	 */
-	gchar extra_encoding[1024]="Chinese Simplified (GB18030)";
-	if(!ly_conf_get("db_extra_encoding", "%[^\n(](%1023[^\n)])", extra_encoding))
+	gchar extra_encoding[1024]="GB18030";
+	if(!ly_conf_get("db_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
 	{
-		ly_conf_set("db_extra_encoding", "%s", extra_encoding);
+		ly_conf_set("db_extra_encoding", "Chinese Simplified (GB18030)");
 	}
-	
+
 	lyPluginLrcLyric *lrc=NULL;
 	lyPluginLrcLyric *tmplrc[1024];
 	
@@ -398,12 +398,12 @@ gboolean ly_plugin_lrc_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 	cairo_rectangle (cr, 0, 0, width, 50);
 	cairo_fill(cr);
 	
-	cairo_set_source_rgba ( cr, 0.8 , 0.8, 0.8, 0.7);
-	cairo_set_line_width ( cr,2);
+	cairo_set_source_rgba ( cr, 0.8 , 0.8, 0.8, 0.9);
+	cairo_set_line_width (cr,1);
 	cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND) ;
-	cairo_move_to(cr, 0, 50);
-	cairo_line_to(cr, width, 50);
-	cairo_stroke ( cr) ;
+	cairo_move_to(cr, 0, 51);
+	cairo_line_to(cr, width, 51);
+	cairo_stroke (cr) ;
 	if(ly_audio_meta)
 	{
 		gchar title[1024]="";

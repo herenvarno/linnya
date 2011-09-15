@@ -14,6 +14,9 @@ gboolean ly_ui_session_init()
 	GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
 	gtk_button_set_image(GTK_BUTTON(button), image);
 	gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);  
+	ly_ui_key_set_default_if_not_exist("session_add");
+	ly_ui_key_set_args("session_add", KEY_BIND_SIGNAL, button, "clicked");
+	ly_ui_key_bind("session_add");
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE,0,0);
 
 	gtk_notebook_set_action_widget(GTK_NOTEBOOK(ly_ui_win_window->notebook_session), hbox, GTK_PACK_END);

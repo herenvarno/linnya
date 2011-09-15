@@ -313,23 +313,20 @@ gboolean ly_ui_win_init()
 	/*
 	 * set widget names
 	 */
-	 gtk_widget_set_name(win,"ly_win");
-	 gtk_widget_set_name(button_close,"ly_btn_close");
-	 gtk_widget_set_name(button_min,"ly_btn_min");
-	 gtk_widget_set_name(button_max,"ly_btn_max");
-	 gtk_widget_set_name(button_mini,"ly_btn_mini");
-	 gtk_widget_set_name(button_play,"ly_btn_play");
-	 gtk_widget_set_name(button_prev,"ly_btn_prev");
-	 gtk_widget_set_name(button_next,"ly_btn_next");
-	 gtk_widget_set_name(button_config,"ly_btn_config");
-	 gtk_widget_set_name(button_volume,"ly_btn_volume");
-	 gtk_widget_set_name(notebook_session,"ly_notebook_session");
-	 gtk_widget_set_name(hscale_seek,"ly_hscale_seek");
-	 gtk_widget_set_name(hbox_title,"ly_hbox_title");
-	 gtk_widget_set_name(hbox_control,"ly_hbox_control");
-	 gtk_widget_set_name(win,"ly_win");
-
-
+	gtk_widget_set_name(win,"ly_win");
+	gtk_widget_set_name(button_close,"ly_btn_close");
+	gtk_widget_set_name(button_min,"ly_btn_min");
+	gtk_widget_set_name(button_max,"ly_btn_max");
+	gtk_widget_set_name(button_mini,"ly_btn_mini");
+	gtk_widget_set_name(button_play,"ly_btn_play");
+	gtk_widget_set_name(button_prev,"ly_btn_prev");
+	gtk_widget_set_name(button_next,"ly_btn_next");
+	gtk_widget_set_name(button_config,"ly_btn_config");
+	gtk_widget_set_name(button_volume,"ly_btn_volume");
+	gtk_widget_set_name(notebook_session,"ly_notebook_session");
+	gtk_widget_set_name(hscale_seek,"ly_hscale_seek");
+	gtk_widget_set_name(hbox_title,"ly_hbox_title");
+	gtk_widget_set_name(hbox_control,"ly_hbox_control");
 	gtk_widget_show_all(win);
 
 	/*
@@ -360,9 +357,14 @@ gboolean ly_ui_win_init()
 	ly_msg_bind("stop","core:audio",ly_ui_win_update_button_cb,"stop");
 	
 	/*
-	 * bind key
+	 * bind keys
 	 */
 	gtk_window_add_accel_group(GTK_WINDOW(win),ly_ui_key_accel);
+	
+	ly_ui_key_set_default_if_not_exist("close");
+	ly_ui_key_set_default_if_not_exist("max");
+	ly_ui_key_set_default_if_not_exist("min");
+	ly_ui_key_set_default_if_not_exist("mini");
 	ly_ui_key_set_default_if_not_exist("play");
 	ly_ui_key_set_default_if_not_exist("prev");
 	ly_ui_key_set_default_if_not_exist("next");
@@ -372,16 +374,35 @@ gboolean ly_ui_win_init()
 	ly_ui_key_set_default_if_not_exist("seek+");
 	ly_ui_key_set_default_if_not_exist("seek-");
 	
-	ly_ui_key_bind_signal("play",button_play,"clicked");
-	ly_ui_key_bind_signal("prev",button_prev,"clicked");
-	ly_ui_key_bind_signal("next",button_next,"clicked");
-	ly_ui_key_bind_signal("config",button_config,"clicked");
-	ly_ui_key_bind_callback("volume+",G_CALLBACK(ly_ui_win_change_volume_cb),"+");
-	ly_ui_key_bind_callback("volume-",G_CALLBACK(ly_ui_win_change_volume_cb),"-");
-	ly_ui_key_bind_callback("seek+",G_CALLBACK(ly_ui_win_change_seek_cb),"+");
-	ly_ui_key_bind_callback("seek-",G_CALLBACK(ly_ui_win_change_seek_cb),"-");
+	ly_ui_key_set_args("close", KEY_BIND_SIGNAL, button_close,"clicked");
+	ly_ui_key_set_args("max", KEY_BIND_SIGNAL, button_max,"clicked");
+	ly_ui_key_set_args("min", KEY_BIND_SIGNAL, button_min,"clicked");
+	ly_ui_key_set_args("mini", KEY_BIND_SIGNAL, button_mini,"clicked");
+	ly_ui_key_set_args("play", KEY_BIND_SIGNAL, button_play,"clicked");
+	ly_ui_key_set_args("prev", KEY_BIND_SIGNAL, button_prev,"clicked");
+	ly_ui_key_set_args("next", KEY_BIND_SIGNAL, button_next,"clicked");
+	ly_ui_key_set_args("config", KEY_BIND_SIGNAL, button_config,"clicked");
+	ly_ui_key_set_args("volume+", KEY_BIND_CALLBACK, G_CALLBACK(ly_ui_win_change_volume_cb),"+");
+	ly_ui_key_set_args("volume-", KEY_BIND_CALLBACK, G_CALLBACK(ly_ui_win_change_volume_cb),"-");
+	ly_ui_key_set_args("seek+", KEY_BIND_CALLBACK, G_CALLBACK(ly_ui_win_change_seek_cb),"+");
+	ly_ui_key_set_args("seek-", KEY_BIND_CALLBACK, G_CALLBACK(ly_ui_win_change_seek_cb),"-");
 	
+	ly_ui_key_bind("close");
+	ly_ui_key_bind("max");
+	ly_ui_key_bind("min");
+	ly_ui_key_bind("mini");
+	ly_ui_key_bind("play");
+	ly_ui_key_bind("prev");
+	ly_ui_key_bind("next");
+	ly_ui_key_bind("config");
+	ly_ui_key_bind("volume+");
+	ly_ui_key_bind("volume-");
+	ly_ui_key_bind("seek+");
+	ly_ui_key_bind("seek-");
 	
+	/*
+	 * set outer API
+	 */
 	ly_ui_win_window=(lyUiWinWindow*)g_malloc(sizeof(lyUiWinWindow));
 	ly_ui_win_window->win=win;
 	ly_ui_win_window->vbox_main=vbox_main;

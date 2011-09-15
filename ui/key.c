@@ -145,7 +145,7 @@ void ly_ui_key_write_each_cb(gpointer name, gpointer value, gpointer data)
 	}
 	lyUiKeyKeybind *keybind=value;
 	gchar *buf=NULL;
-	buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" key=\"%s\" mask0=\"%s\" mask1=\"%s\"/>\n", (gchar*)name, keybind->key, keybind->mask0, keybind->mask1);
+	buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" mask0=\"%s\" mask1=\"%s\" key=\"%s\"/>\n", (gchar*)name, keybind->mask0, keybind->mask1, keybind->key);
 	fputs(buf,fp);
 	g_free(buf);
 }
@@ -203,7 +203,7 @@ gboolean ly_ui_key_finalize(void)
  * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	set or put a conf.
  */
-gboolean ly_ui_key_set(gchar *name, gchar *mask0, gchar *mask1, gchar *key)
+gboolean ly_ui_key_set(gchar *name, gchar *mask0, gchar *mask1, gchar *key, int type, gpointer arg0, gpointer arg1)
 {
 	if(key==NULL)
 		key="";
@@ -216,8 +216,47 @@ gboolean ly_ui_key_set(gchar *name, gchar *mask0, gchar *mask1, gchar *key)
 	g_strlcpy(k->key,key,sizeof(k->key));
 	g_strlcpy(k->mask0,mask0,sizeof(k->mask0));
 	g_strlcpy(k->mask1,mask1,sizeof(k->mask1));
+	k->type=type;
+	k->arg0=arg0;
+	k->arg1=arg1;
+	
 	gchar *namestr=g_strconcat(name,NULL);
 	g_hash_table_replace(ly_ui_key_keybinds, namestr, k);
+	
+	return TRUE;
+}
+
+gboolean ly_ui_key_set_keys(gchar *name, gchar *mask0, gchar *mask1, gchar *key)
+{
+	if(key==NULL)
+		key="";
+	if(mask0==NULL)
+		mask0="";
+	if(mask1==NULL)
+		mask1="";
+	
+	lyUiKeyKeybind *k=g_hash_table_lookup(ly_ui_key_keybinds, name);
+	if(!k)
+	{
+		ly_ui_key_set(name, mask0, mask1, key, KEY_BIND_UNDEFINED, NULL, NULL);
+	}
+	g_strlcpy(k->key,key,sizeof(k->key));
+	g_strlcpy(k->mask0,mask0,sizeof(k->mask0));
+	g_strlcpy(k->mask1,mask1,sizeof(k->mask1));
+	
+	return TRUE;
+}
+
+gboolean ly_ui_key_set_args(char *name, int type, gpointer arg0, gpointer arg1)
+{
+	lyUiKeyKeybind *k=g_hash_table_lookup(ly_ui_key_keybinds, name);
+	if(!k)
+	{
+		ly_ui_key_set(name, NULL, NULL, NULL, type, arg0, arg1);
+	}
+	k->type=type;
+	k->arg0=arg0;
+	k->arg1=arg1;
 	
 	return TRUE;
 }
@@ -241,11 +280,11 @@ gboolean ly_ui_key_set_default_if_not_exist(gchar *name)
 {
 	if(g_hash_table_lookup(ly_ui_key_keybinds, name))
 		return TRUE;
-	ly_ui_key_set(name, NULL, NULL, NULL);
+	ly_ui_key_set(name, NULL, NULL, NULL, KEY_BIND_UNDEFINED, NULL, NULL);
 	return FALSE;
 }
 
-gboolean ly_ui_key_bind_signal(gchar *name, GtkWidget* widget, gchar *signal)
+gboolean ly_ui_key_bind(gchar *name)
 {
 	lyUiKeyKeybind *keybind=NULL;
 	keybind=ly_ui_key_get(name);
@@ -253,36 +292,69 @@ gboolean ly_ui_key_bind_signal(gchar *name, GtkWidget* widget, gchar *signal)
 	{
 		return FALSE;
 	}
+	
 	guint key[3]={0};
 	key[0]=gdk_keyval_from_name(keybind->key);
 	key[1]=ly_ui_key_get_mask(keybind->mask0);
 	key[2]=ly_ui_key_get_mask(keybind->mask1);
-	
 	if(key[0]<=0 && key[1]<=0 && key[2]<=0)
 		return FALSE;
-	gtk_widget_add_accelerator(widget, signal, ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE);
+
+	GtkWidget *widget=NULL;
+	char *signal=NULL;
+	gpointer f=NULL;
+	gpointer data=NULL;
+	switch(keybind->type)
+	{
+		case KEY_BIND_SIGNAL:
+			widget=(GtkWidget *)(keybind->arg0);
+			signal=(char *)(keybind->arg1);
+			gtk_widget_add_accelerator(widget, signal, ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE);
+			break;
+		case KEY_BIND_CALLBACK:
+			f=keybind->arg0;
+			data= keybind->arg1;
+			GClosure *closure;
+			closure=g_cclosure_new(G_CALLBACK(f), data, NULL);
+			gtk_accel_group_connect (ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE, closure);
+			break;
+		default:
+			break;
+	}
 	return TRUE;
 }
-
-gboolean ly_ui_key_bind_callback(gchar *name, gpointer f, gpointer data)
+gboolean ly_ui_key_unbind(char *name)
 {
 	lyUiKeyKeybind *keybind=NULL;
 	keybind=ly_ui_key_get(name);
-	if(!keybind)
+	if(keybind==NULL)
+	{
 		return FALSE;
-
+	}
+	
 	guint key[3]={0};
-	key[0]=gdk_keyval_from_name(keybind->key);
-	key[1]=ly_ui_key_get_mask(keybind->mask0);
-	key[2]=ly_ui_key_get_mask(keybind->mask1);
+	key[0]=ly_ui_key_get_mask(keybind->mask0);
+	key[1]=ly_ui_key_get_mask(keybind->mask1);
+	key[2]=gdk_keyval_from_name(keybind->key);
 	if(key[0]<=0 && key[1]<=0 && key[2]<=0)
 		return FALSE;
-	GClosure *closure;
-	closure=g_cclosure_new(G_CALLBACK(f), data, NULL);
-	gtk_accel_group_connect (ly_ui_key_accel, key[0], key[1]|key[2], GTK_ACCEL_VISIBLE, closure);
+
+	GtkWidget *widget=NULL;
+	switch(keybind->type)
+	{
+		case KEY_BIND_SIGNAL:
+			widget=(GtkWidget *)(keybind->arg0);
+			gtk_widget_remove_accelerator(widget, ly_ui_key_accel, key[2], key[0]|key[1]);
+			break;
+		case KEY_BIND_CALLBACK:
+			gtk_accel_group_disconnect_key(ly_ui_key_accel, key[2], key[0]|key[1]);
+			break;
+		default:
+			break;
+	}
+	
 	return TRUE;
 }
-
 guint ly_ui_key_get_mask(gchar *mask)
 {
 	gchar *str=g_ascii_strdown(mask,-1);
@@ -313,4 +385,50 @@ guint ly_ui_key_get_mask(gchar *mask)
 	}
 	g_free(str);
 	return k;
+}
+
+char *ly_ui_key_get_conflict(char *except_name, char *mask0, char *mask1, char *key)
+{
+	char m0[1024]="";
+	char m1[1024]="";
+	char k0[1024]="";
+	
+	gboolean changed=FALSE;
+	if(mask0!=NULL)
+	{
+		g_strlcpy(m0, mask0, sizeof(m0));
+		changed=TRUE;
+	}
+	if(mask1!=NULL)
+	{
+		g_strlcpy(m1, mask1, sizeof(m1));
+		changed=TRUE;
+	}
+	if(key!=NULL)
+	{
+		g_strlcpy(k0, key, sizeof(k0));
+		changed=TRUE;
+	}
+	
+	if(!changed)
+	{
+		return NULL;
+	}
+	
+	GHashTableIter iter;
+	gpointer name, value;
+	g_hash_table_iter_init (&iter, ly_ui_key_keybinds);
+	
+	int i=1;
+	lyUiKeyKeybind *k;
+	while (g_hash_table_iter_next (&iter, &name, &value)) 
+	{
+		k=(lyUiKeyKeybind *)value;
+		if(!g_str_equal(name, except_name) && g_str_equal(k->mask0, m0) && g_str_equal(k->mask1, m1) && g_str_equal(k->key, k0))
+		{
+			return (char *)name;
+		}
+		i++;
+	}
+	return NULL;
 }

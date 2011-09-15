@@ -145,7 +145,7 @@ gboolean ly_audio_next()
 		ly_msg_put("error","core:audio","Gstreamer States Error!");
 		return FALSE;
 	}
-	
+
 	/*
 	 * set next
 	 */

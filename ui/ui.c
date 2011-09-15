@@ -12,7 +12,6 @@ gboolean ly_ui_init()
 	ly_ui_session_init();
 	ly_ui_config_init();
 	
-	
 	ly_ui_session_tab_add_refresh();
 	gtk_main();
 	return TRUE;
@@ -27,6 +26,7 @@ gboolean ly_ui_finalize()
 	ly_ui_win_finalize();
 	ly_ui_theme_finalize();
 	ly_ui_key_finalize();
+	ly_ui_debug_finalize();
 	ly_ui_global_finalize();
 	return TRUE;
 }

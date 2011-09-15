@@ -116,6 +116,7 @@ gboolean	ly_ui_config_on_change_selection_cb		(GtkTreeSelection *selection, gpoi
 gboolean	ly_ui_config_on_show_about_cb			(GtkWidget *widget, gpointer data);
 
 gboolean	ly_ui_config_on_lib_change_cb			(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_encoding_changed_cb		(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_audio_mode_change_cb	(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_key_change_cb			(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_key_press_cb				(GtkWidget *widget, GdkEvent  *event, gpointer data);
@@ -251,6 +252,7 @@ ly_ui_config_new (void)
 			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
 		}
 	}
+	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_ui_config_on_encoding_changed_cb), NULL);
 	gtk_box_pack_start(GTK_BOX(vbox),combo,FALSE, FALSE,0);
 	
 	//page2 Audio
@@ -675,7 +677,13 @@ gboolean ly_ui_config_on_lib_change_cb(GtkWidget *widget, gpointer data)
 	ly_msg_put("lib_changed", "ui:config", NULL);
 	return FALSE;
 }
-
+gboolean ly_ui_config_on_encoding_changed_cb(GtkWidget *widget, gpointer data)
+{
+	char *encoding=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
+	ly_conf_set("db_extra_encoding", "%s", encoding);
+	ly_msg_put("info", "ui:config", _("Setting will not be actived until program restart!"));
+	return FALSE;
+}
 gboolean ly_ui_config_on_audio_mode_change_cb(GtkWidget *widget, gpointer data)
 {
 	char *type=(char *)data;
@@ -763,9 +771,18 @@ gboolean ly_ui_config_on_key_change_cb(GtkWidget *widget, gpointer data)
 	char keyname[128]="";
 	lyUiKeyKeybind *k=(lyUiKeyKeybind*)g_malloc(sizeof(lyUiKeyKeybind));
 	const char *str=gtk_label_get_text(GTK_LABEL(label));
+	sscanf(str,"{%128[^\n}]%128[^\n_]%128[^\n:]%128[^\n]",keyname, k->mask0, k->mask1, k->key);
+	if(ly_ui_key_get_conflict(keyname, (k->mask0)+1, (k->mask1)+1, (k->key)+1))
+ 	{
+ 		ly_msg_put("error", "ui:config", "Shortcuts conflict!");
+ 		gtk_widget_destroy(dialog);
+ 		return FALSE;
+ 	}
+ 	
 	gtk_label_set_text(GTK_LABEL(data),str);
- 	sscanf(str,"{%128[^\n}]%128[^\n_]%128[^\n:]%128[^\n]",keyname, k->mask0, k->mask1, k->key);
-	ly_ui_key_set(keyname, (k->mask0)+1, (k->mask1)+1, (k->key)+1);
+ 	ly_ui_key_unbind(keyname);
+	ly_ui_key_set_keys(keyname, (k->mask0)+1, (k->mask1)+1, (k->key)+1);
+	ly_ui_key_bind(keyname);
 	gtk_widget_destroy(dialog);
 	return FALSE;
 }
