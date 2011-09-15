@@ -1,11 +1,89 @@
-Linnya Music Player
-------------------------
+General Information
+================
 
-Official Website: http://linnya.org
+Linnya Player is an excellent multimedia application for Linux users, which supporting music library, playlist, lyrics, and more features from plug-ins.
 
-Email: yy890521@gmail.com
+Linnya Player is a free software, and published under the GNU GPLv3 Licence, you can easily find a copy of GPLv3 in the same directory of this file. Or if you don't find it, The official GNU GPL website http://www.gnu.org/licenses/gpl.html would be a good choice for you. If you do NOT understand English well, the translated GPL licence (http://www.gnu.org/licenses/translations.html) may do you a great favor.
 
-TODO:
-Config dialog
-Plugin
-Theme
+WARNNING: If anybody especially Some Chinese Programmers want to modify or republish Linnya, you MUST go with the GNU GPLv3. To FULLY understand the licence is your responsibility.
+
+
+About Us
+================
+
+Official website:	http://linnya.org
+Contact E-mail:		yy890521@gmail.com
+
+
+Installation
+================
+
+Just run "make".
+
+///////////////////////////////NOT AVALABLE NOW/////////////////////////////////
+//FIRST:
+//Configure your system information to create the makefile. Use the command below:
+//	./configure --prefix=/usr
+//
+//SECOND:
+//Compile all the source file to excuteable file. Use the command below:
+//	make
+//
+//FINALLY:
+//Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the command below(please be root):
+//	make install
+//
+//NOT NECESSARY BUT RECOMMENDED STEP:
+//Clean up all the temp file for next compilation. Use the command below:
+//	./clear
+////////////////////////////////////////////////////////////////////////////////
+
+DEVELOPMENT
+================
+
+The 2.0 version of Linnya is under development now, and is extremely unstable.
+We cannot promise it would never fire your house, or anything else.
+So, if you are not an expert, please do NOT install it untile the stable version is realsed. THANKS! 
+
+
+简介
+================
+
+Linnya 音乐播放器是一款为Linux使用者量身定制的多媒体软件。它支持音乐库，播放列表，同步歌词，去除字符乱码等多种功能。
+
+Linnya 音乐播放器是一款在GNU GPLv3的授权下发布的自由软件。你可以在本文件的同目录下找到一份GPLv3的拷贝，如果没有，你也可以访问GNU的官方网站查询，网址为：http://www.gnu.org/licenses/gpl.html 。不懂英文的用户可以在这个链接里找到你能看懂的版本：http://www.gnu.org/licenses/translations.html 。
+
+警告：如果有谁（尤其是某些国内的IT从业者）想要修改或再发布本软件，你必须严格遵照GPLv3的授权执行。你有责任和义务弄懂GPLv3授权协议的每一条规定。
+
+
+关于
+================
+
+官方网站:	http://linnya.org
+联系方式:	yy890521@gmail.com
+
+
+安装
+================
+
+直接运行“make”命令
+
+/////////////////////////目前不可用///////////////////////////////////////////////
+//首先，运行配置程序生成makefile文件，命令如下：
+//	./configure --prefix=/usr
+//
+//然后，编译所有的源文件，命令如下：
+//	make
+//
+//最后，安装软件，通常的位置为 /usr/share/linnya/... ，命令如下（请使用root权限）：
+//	make install
+//
+//最最后，建议你清理不用的交换文件以便下次编译，命令如下：
+//	./clear
+////////////////////////////////////////////////////////////////////////////////
+
+开发
+================
+
+Linnya 2.0版本正处于开发中，及其不稳定，我们不能保证他不会烧毁你家的房子，或者类似的任何事情。
+因此，如果您不是折腾党，请等到稳定版本放出之后再安装使用，谢谢！
