@@ -13,6 +13,12 @@
 
 gboolean ly_ui_debug_init()
 {
+	char path[1024]="";
+	g_snprintf(path, sizeof(path), "%s/ui/log", LY_GLOBAL_USERDIR);
+	if(g_file_test(path, G_FILE_TEST_EXISTS))
+	{
+		remove(path);
+	}
 	ly_ui_debug_log_printf(" == START == ");
 	
 	ly_msg_bind("silence", "", ly_ui_debug_show_silence_cb, NULL);

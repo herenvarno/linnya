@@ -8,10 +8,9 @@
  */
 gboolean ly_ui_theme_init()
 {
-	ly_global_debug("info",_("Initial ui module: THEME ...\n"));
 	gboolean rt=FALSE;
-	ly_ui_theme_themes=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-	rt=ly_ui_theme_read();
+	ly_global_debug("info",_("Initial ui module: THEME ...\n"));
+	rt=ly_ui_theme_table_new();
 	
 	return rt;
 }
@@ -19,22 +18,68 @@ gboolean ly_ui_theme_init()
 gboolean ly_ui_theme_finalize()
 {
 	ly_global_debug("info",_("Finalize ui moudle: THEME ...\n"));
-	gboolean rt=FALSE;
-	rt=ly_ui_theme_write();
-	g_hash_table_destroy(ly_ui_theme_themes);
-	return rt;
+	return TRUE;
 }
 
-gboolean ly_ui_theme_read(void)
+GList* ly_ui_theme_get_list()
 {
-	gchar theme_name[128]="default";
-	if(ly_conf_get("theme","%s",theme_name))
+	char path[1024]="";
+	GList *list0=NULL;
+	GList *list1=NULL;
+	g_snprintf(path,sizeof(path),"%sui/theme/",LY_GLOBAL_USERDIR);
+	list0=ly_global_traverse_dir(path, 1, FALSE);
+	
+	g_snprintf(path,sizeof(path),"%sui/theme/",LY_GLOBAL_PROGDIR);
+	list1=ly_global_traverse_dir(path, 1, FALSE);
+	
+	GList *p=list1;
+	while(p)
+	{
+		if(!g_list_find(list0, p->data))
+		{
+			list0=g_list_append(list0, p->data);
+			p=p->next;
+		}
+		else
+		{
+			p=p->next;
+			list1=g_list_delete_link(list1, p->prev);
+		}
+	}
+	return list0;
+}
+
+gboolean ly_ui_theme_table_new()
+{
+	if(ly_ui_theme_table)
+	{
+		ly_ui_theme_table_destroy();
+	}
+	ly_ui_theme_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+	
+	char theme_name[128]="default";
+	if(ly_conf_get("theme","%127s",theme_name))
 	{
 		ly_conf_set("theme","%s",theme_name);
 	}
 	
 	gchar path[128]="";
-	g_snprintf(path,127,"%sui/default/themes/%s/index.xml",LY_GLOBAL_USERDIR,theme_name);
+	gchar path_dir[128]="";
+	g_snprintf(path,sizeof(path),"%sui/theme/%s/index.xml",LY_GLOBAL_USERDIR,theme_name);
+	g_snprintf(path_dir,sizeof(path_dir),"%sui/theme/%s/",LY_GLOBAL_USERDIR,theme_name);
+	if(!g_file_test(path, G_FILE_TEST_EXISTS))
+	{
+		g_snprintf(path,sizeof(path),"%sui/theme/%s/index.xml",LY_GLOBAL_PROGDIR,theme_name);
+		g_snprintf(path_dir,sizeof(path_dir),"%sui/theme/%s/",LY_GLOBAL_PROGDIR,theme_name);
+		if(!g_file_test(path, G_FILE_TEST_EXISTS))
+		{
+			if(!g_strrstr(path,"default"))
+			{
+				ly_msg_put("warning", "ui:theme", "Theme not found!");
+			}
+			return FALSE;
+		}
+	}
 	
 	GMarkupParser parser=
 	{
@@ -48,24 +93,13 @@ gboolean ly_ui_theme_read(void)
 	gchar *buf;
 	gsize length;
 	GMarkupParseContext *context;
-	
+	puts(path);
 	g_file_get_contents(path, &buf, &length, NULL);
-	context = g_markup_parse_context_new(&parser, 0,NULL, NULL);
+	context = g_markup_parse_context_new(&parser, 0, path_dir, NULL);
 	
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		/*
-		 * broadcast the information.
-		 */
-		ly_global_debug("warnning",_("No theme found. Use default theme.\n"));
-		ly_conf_set("theme","%s","default");
-		g_snprintf(path,127,"%sui/default/themes/default/",LY_GLOBAL_USERDIR);
-		mkdir(path,0755);
-		
-		g_hash_table_destroy(ly_ui_theme_themes);
-		ly_ui_theme_themes=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-
-		gboolean ly_ui_theme_read();
+		ly_msg_put("warning","ui:theme", _("Read theme configure file error!"));
 	}
 	
 	g_markup_parse_context_free(context);
@@ -93,7 +127,7 @@ void ly_ui_theme_start_cb(	GMarkupParseContext *context,
 		const gchar **name_cursor = attribute_names;
 		const gchar **value_cursor = attribute_values;
 		
-		lyUiThemeTheme *theme=(lyUiThemeTheme *)g_malloc(sizeof(lyUiThemeTheme));
+		lyUiThemeItem *theme=(lyUiThemeItem *)g_malloc(sizeof(lyUiThemeItem));
 		while (*name_cursor)
 		{
 			if (g_str_equal(*name_cursor, "name"))
@@ -106,18 +140,19 @@ void ly_ui_theme_start_cb(	GMarkupParseContext *context,
 				sscanf((*value_cursor),"%d",&(theme->decorated));
 			else if(g_str_equal(*name_cursor, "border"))
 				sscanf((*value_cursor),"%d",&(theme->border));
-			else if(g_str_equal(*name_cursor, "background"))
-				sscanf((*value_cursor),"%s",theme->background);
-			else if(g_str_equal(*name_cursor, "font"))
-				sscanf((*value_cursor),"%s",theme->font);
-			else if(g_str_equal(*name_cursor, "fg_color0"))
-				sscanf((*value_cursor),"%lf:%lf:%lf:%lf",&(theme->fg_color0[0]),&(theme->fg_color0[1]),&(theme->fg_color0[2]),&(theme->fg_color0[3]));
-			else if(g_str_equal(*name_cursor, "fg_color1"))
-				sscanf((*value_cursor),"%lf:%lf:%lf:%lf",&(theme->fg_color1[0]),&(theme->fg_color1[1]),&(theme->fg_color1[2]),&(theme->fg_color1[3]));
-			else if(g_str_equal(*name_cursor, "bg_color0"))
-				sscanf((*value_cursor),"%lf:%lf:%lf:%lf",&(theme->bg_color0[0]),&(theme->bg_color0[1]),&(theme->bg_color0[2]),&(theme->bg_color0[3]));
-			else if(g_str_equal(*name_cursor, "bg_color1"))
-				sscanf((*value_cursor),"%lf:%lf:%lf:%lf",&(theme->bg_color1[0]),&(theme->bg_color1[1]),&(theme->bg_color1[2]),&(theme->bg_color1[3]));
+			else if(g_str_equal(*name_cursor, "bg"))
+			{
+				gchar tmp[1024]="";
+				sscanf((*value_cursor),"%s",tmp);
+				if(tmp[0]=='/')
+				{
+					g_snprintf(theme->bg, sizeof(theme->bg), "%s", tmp);
+				}
+				else
+				{
+					g_snprintf(theme->bg, sizeof(theme->bg), "%s%s", (gchar*)data, tmp);
+				}
+			}
 				
 			name_cursor++;
 			value_cursor++;
@@ -131,59 +166,19 @@ void ly_ui_theme_start_cb(	GMarkupParseContext *context,
 				g_free(theme);
 			return;
 		}
-		g_hash_table_replace(ly_ui_theme_themes,name,theme);
+		g_hash_table_replace(ly_ui_theme_table,name,theme);
 		g_free(value);
 	}
 }
 
-
-gboolean ly_ui_theme_write(void)
+gboolean ly_ui_theme_table_destroy()
 {
-	gchar theme_name[128]="default";
-	if(ly_conf_get("theme","%s",theme_name))
+	if(ly_ui_theme_table)
 	{
-		ly_conf_set("theme","%s",theme_name);
+		g_hash_table_destroy(ly_ui_theme_table);
 	}
-	gchar path[128]="";
-	g_snprintf(path,127,"%sui/default/themes/%s/index.xml",LY_GLOBAL_USERDIR,theme_name);
-	
-	FILE *fp=NULL;
-	gchar *buf=NULL;
-	
-	if(!(fp=fopen(path,"w")))
-	{
-		ly_global_debug("warnning",_("Cannot write themes to file!\n"));
-		return FALSE;
-	}
-	
-	buf=g_markup_printf_escaped ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<themes>\n");
-	fputs(buf,fp);
-	g_free(buf);
-	
-	g_hash_table_foreach(ly_ui_theme_themes, ly_ui_theme_write_each_cb, fp);
-	
-	buf=g_markup_printf_escaped ("</themes>");
-	fputs(buf,fp);
-	g_free(buf);
-	
-	fclose(fp);
+	ly_ui_theme_table=NULL;
 	return TRUE;
-}
-
-void ly_ui_theme_write_each_cb(gpointer key, gpointer value, gpointer data)
-{
-	FILE *fp=data;
-	if(!fp)
-	{
-		ly_global_debug("warnning",_("Cannot write themes to file!\n"));
-		return;
-	}
-
-	lyUiThemeTheme *theme=(lyUiThemeTheme *)value;
-	gchar *buf=NULL;
-	buf=g_markup_printf_escaped ("\t<theme name=\"%s\" pos=\"%d:%d\" size=\"%d:%d\" decorated=\"%d\" border=\"%d\" background=\"%s\" font=\"%s\" fg_color0=\"%lf:%lf:%lf:%lf\" fg_color1=\"%lf:%lf:%lf:%lf\" bg_color0=\"%lf:%lf:%lf:%lf\" bg_color1=\"%lf:%lf:%lf:%lf\" />\n", (gchar*)key, theme->pos[0], theme->pos[1], theme->size[0], theme->size[1], theme->decorated, theme->border, theme->background,theme->font, theme->fg_color0[0], theme->fg_color0[1], theme->fg_color0[2], theme->fg_color0[3],theme->fg_color1[0],theme->fg_color1[1],theme->fg_color1[2], theme->fg_color1[3],theme->bg_color0[0], theme->bg_color0[1], theme->bg_color0[2], theme->bg_color0[3],theme->bg_color1[0],theme->bg_color1[1],theme->bg_color1[2],theme->bg_color1[3]);
-	fputs(buf,fp);
-	g_free(buf);
 }
 
 /*
@@ -194,11 +189,11 @@ void ly_ui_theme_write_each_cb(gpointer key, gpointer value, gpointer data)
  * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	set or put a conf.
  */
-gboolean ly_ui_theme_set(gchar *name, lyUiThemeTheme *theme)
+gboolean ly_ui_theme_set(gchar *name, lyUiThemeItem *theme)
 {
 	gchar *namestr=NULL;
 	namestr=g_strconcat(name,NULL);
-	g_hash_table_replace(ly_ui_theme_themes, namestr, theme);
+	g_hash_table_replace(ly_ui_theme_table, namestr, theme);
 	
 	return TRUE;
 }
@@ -211,9 +206,9 @@ gboolean ly_ui_theme_set(gchar *name, lyUiThemeTheme *theme)
  * RETN:	[gbooelan]		TRUE for success, FALSE for fail.
  * DESC:	get a conf.
  */
-lyUiThemeTheme* ly_ui_theme_get(gchar *name)
+lyUiThemeItem* ly_ui_theme_get(gchar *name)
 {
-	lyUiThemeTheme *value=NULL;
-	value=g_hash_table_lookup(ly_ui_theme_themes, name);
+	lyUiThemeItem *value=NULL;
+	value=g_hash_table_lookup(ly_ui_theme_table, name);
 	return value;
 }

@@ -6,6 +6,17 @@
 /*
  * FUNCTIONS
  */
+gboolean	ly_ui_key_read			(void);
+gboolean	ly_ui_key_write			(void);
+
+guint		ly_ui_key_get_mask		(gchar *mask);
+void		ly_ui_key_start_cb		(GMarkupParseContext *context,
+									const gchar *element_name,
+									const gchar **attribute_names,
+									const gchar **attribute_values,
+									gpointer data,
+									GError **error);
+
 
 /*
  * NAME:	ly_ui_key_read
@@ -119,7 +130,18 @@ gboolean ly_ui_key_write(void)
 	fputs(buf,fp);
 	g_free(buf);
 	
-	g_hash_table_foreach(ly_ui_key_keybinds, ly_ui_key_write_each_cb, fp);
+	GHashTableIter iter;
+	gpointer name, value;
+	g_hash_table_iter_init (&iter, ly_ui_key_keybinds);
+	
+	lyUiKeyKeybind *k;
+	while (g_hash_table_iter_next (&iter, &name, &value)) 
+	{
+		k=(lyUiKeyKeybind *)value;
+		buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" key=\"%s\" mask0=\"%s\" mask1=\"%s\"/>\n", (gchar*)name, k->key, k->mask0, k->mask1);
+		fputs(buf,fp);
+		g_free(buf);
+	}
 	
 	buf=g_markup_printf_escaped ("</keybinds>");
 	fputs(buf,fp);
@@ -127,27 +149,6 @@ gboolean ly_ui_key_write(void)
 	
 	fclose(fp);
 	return TRUE;
-}
-
-/*
- * NAME:	ly_ui_key_write_each_cb
- * VARS:	[void]
- * RETN:	[void]
- * DESC:	Write each configuration to file. Called by ly_ui_key_write.
- */
-void ly_ui_key_write_each_cb(gpointer name, gpointer value, gpointer data)
-{
-	FILE *fp=data;
-	if(!fp)
-	{
-		ly_global_debug("warnning",_("Cannot write keybinds to file!\n"));
-		return;
-	}
-	lyUiKeyKeybind *keybind=value;
-	gchar *buf=NULL;
-	buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" mask0=\"%s\" mask1=\"%s\" key=\"%s\"/>\n", (gchar*)name, keybind->mask0, keybind->mask1, keybind->key);
-	fputs(buf,fp);
-	g_free(buf);
 }
 
 /*
@@ -419,7 +420,6 @@ char *ly_ui_key_get_conflict(char *except_name, char *mask0, char *mask1, char *
 	gpointer name, value;
 	g_hash_table_iter_init (&iter, ly_ui_key_keybinds);
 	
-	int i=1;
 	lyUiKeyKeybind *k;
 	while (g_hash_table_iter_next (&iter, &name, &value)) 
 	{
@@ -428,7 +428,6 @@ char *ly_ui_key_get_conflict(char *except_name, char *mask0, char *mask1, char *
 		{
 			return (char *)name;
 		}
-		i++;
 	}
 	return NULL;
 }

@@ -1,6 +1,7 @@
 #ifndef UI_CONFIG_H
 #define UI_CONFIG_H
 
+#include "theme.h"
 #include "win.h"
 #include "pl.h"
 #include "session.h"

@@ -119,7 +119,8 @@ gboolean	ly_ui_config_on_lib_change_cb			(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_encoding_changed_cb		(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_audio_mode_change_cb	(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_key_change_cb			(GtkWidget *widget, gpointer data);
-gboolean	ly_ui_config_on_key_press_cb				(GtkWidget *widget, GdkEvent  *event, gpointer data);
+gboolean	ly_ui_config_on_key_press_cb			(GtkWidget *widget, GdkEvent  *event, gpointer data);
+gboolean	ly_ui_config_on_theme_changed_cb		(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_plugin_show_about_cb	(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_plugin_change_cb		(GtkWidget *widget, gpointer data);
 
@@ -152,7 +153,6 @@ ly_ui_config_new (void)
 	GtkWidget *vbox;
 	GtkWidget *vbox_temp;
 	GtkWidget *hbox;
-	GtkWidget *hbox_temp;
 	
 	GtkWidget *button;
 	GtkWidget *entry;
@@ -316,8 +316,30 @@ ly_ui_config_new (void)
 	g_snprintf(path,sizeof(path),"%sui/icon/theme.svg",LY_GLOBAL_PROGDIR);
 	vbox=ly_ui_config_set_title(vbox,_("<b>Theme</b>\nSet the looks of Linnya."),path);
 	ly_ui_config_set_index(vbox,_("Theme"));
+	char theme_name[128]="default";
+	if(!ly_conf_get("theme", "%s", theme_name))
+	{
+		ly_conf_set("theme", "%s", theme_name);
+	}
 	combo=gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "THEME1");
+	GList *list=ly_ui_theme_get_list();
+	GList *p=list;
+	char *th_name;
+	i=0;
+	while(p)
+	{
+		th_name=ly_global_get_filename((gchar *)(p->data));
+		
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), th_name);
+		if(g_str_equal(th_name, theme_name))
+		{
+			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+		}
+		g_free(th_name);
+		i++;
+		p=p->next;
+	}
+	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_ui_config_on_theme_changed_cb), NULL);
 	gtk_box_pack_start(GTK_BOX(vbox),combo,FALSE, FALSE,0);
 	
 	//page5 Plug-ins
@@ -530,7 +552,7 @@ Boston, MA  02110-1301  USA"),
 						  "artists",		&artists,
 						  "authors",		&authors,
 						  "comments",		_("An audio player for Linux, with unlimited feathers by plug-ins."),
-						  "copyright",		_("(c) Edward<edward@linnya.org>"),
+						  "copyright",		_("(c) 2010-2011 Edward<edward@linnya.org>"),
 						  "license",		license,
 						  "logo",			logo,
 						  "logo-icon-name",	_("linnya"),
@@ -863,5 +885,13 @@ gboolean ly_ui_config_on_key_press_cb(GtkWidget *widget, GdkEvent  *event, gpoin
 	gchar str[512]="";
 	g_snprintf(str, sizeof(str), "{%s}%s_%s:%s", keyname, mask0, mask1, key);
 	gtk_label_set_text(GTK_LABEL(data), str);
+	return FALSE;
+}
+
+gboolean ly_ui_config_on_theme_changed_cb(GtkWidget *widget, gpointer data)
+{
+	char *theme_name=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
+	ly_conf_set("theme", "%s", theme_name);
+	ly_msg_put("info", "ui:config", _("Setting will not be actived until program restart!"));
 	return FALSE;
 }

@@ -10,36 +10,32 @@
 /*
  * TYPES
  */
-typedef struct lyUiThemeTheme
+typedef struct _lyUiThemeItem
 {
 	gint pos[2];
 	gint size[2];
 	gint border;
 	gint decorated;
-	gchar background[512];
-	gchar font[128];
-	gdouble fg_color0[4];
-	gdouble fg_color1[4];
-	gdouble bg_color0[4];
-	gdouble bg_color1[4];
-}lyUiThemeTheme;
+	gchar bg[512];
+}lyUiThemeItem;
 
 /*
  * VARIABLES
  */
-GHashTable *ly_ui_theme_themes;
+GHashTable *ly_ui_theme_table;
 
 /*
  * FUNCTIONS
  */
 gboolean ly_ui_theme_init();
 gboolean ly_ui_theme_finalize();
-lyUiThemeTheme* ly_ui_theme_get(gchar *name);
-gboolean ly_ui_theme_set(gchar *name, lyUiThemeTheme *theme);
 
-gboolean ly_ui_theme_read();
-gboolean ly_ui_theme_write();
-void ly_ui_theme_write_each_cb(gpointer key, gpointer value, gpointer data);
+GList* ly_ui_theme_get_list();
+gboolean ly_ui_theme_table_new();
+gboolean ly_ui_theme_table_destroy();
+
+lyUiThemeItem* ly_ui_theme_get(char *name);
+gboolean ly_ui_theme_set(char *name, lyUiThemeItem *th);
 
 void ly_ui_theme_start_cb(	GMarkupParseContext *context,
 							const gchar *element_name,
@@ -47,5 +43,4 @@ void ly_ui_theme_start_cb(	GMarkupParseContext *context,
 							const gchar **attribute_values,
 							gpointer data,
 							GError **error);
-
 #endif

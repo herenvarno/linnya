@@ -165,22 +165,16 @@ char *ly_global_get_dir(char *uri)
 }
 char *ly_global_get_filename(char *uri)
 {
-	char *rt=NULL;
-	char *path=ly_global_get_path(uri);
-	char *prefix=ly_global_get_dir(uri);
-	char *suffix=ly_global_get_suffix(uri);
-	
-	if(path==NULL || prefix==NULL)
-		return NULL;
-	
+	char *str=g_path_get_basename(uri);
+	char tmpstr[1024]="";
+	g_strlcpy(tmpstr, str, sizeof(tmpstr));
+	g_free(str);
 	char *p=NULL;
-	p=path+strlen(prefix);
-	
-	rt=g_strndup(p,strlen(path)-strlen(prefix)-strlen(suffix));
-	g_free(path);
-	g_free(prefix);
-	g_free(suffix);
-	return rt;
+	p=g_strrstr(tmpstr,".");
+	if(p==NULL)
+		return g_strdup(tmpstr);
+	*p='\0';
+	return g_strdup(tmpstr);
 }
 
 void ly_global_debug(gchar *type, const gchar *format, ...)
