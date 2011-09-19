@@ -1,0 +1,2 @@
+SUBDIRS = icon theme
+ACLOCAL_AMFLAGS = -I m4
