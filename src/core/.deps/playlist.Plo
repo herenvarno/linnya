@@ -1,4 +1,4 @@
-core.lo: core.c core.h global.h /usr/include/stdio.h \
+playlist.lo: playlist.c playlist.h db.h global.h /usr/include/stdio.h \
  /usr/include/features.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-32.h \
@@ -181,10 +181,11 @@ core.lo: core.c core.h global.h /usr/include/stdio.h \
  /usr/include/gstreamer-0.10/gst/gstutils.h \
  /usr/include/gstreamer-0.10/gst/gstparse.h \
  /usr/include/gstreamer-0.10/gst/gstxml.h \
- /usr/include/gstreamer-0.10/gst/gstcompat.h msg.h conf.h db.h playlist.h \
- audio.h
+ /usr/include/gstreamer-0.10/gst/gstcompat.h msg.h conf.h
 
-core.h:
+playlist.h:
+
+db.h:
 
 global.h:
 
@@ -691,9 +692,3 @@ global.h:
 msg.h:
 
 conf.h:
-
-db.h:
-
-playlist.h:
-
-audio.h:

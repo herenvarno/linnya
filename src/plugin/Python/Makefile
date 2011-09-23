@@ -223,7 +223,7 @@ PROGMAN_NAME = linnya
 PLUGIN_DIR = ${prefix}/share/${PROGMAN_NAME}/plugin
 lib_LTLIBRARIES = libPython.la
 data_DATA = \
-				logo.png\
+				logo.svg\
 				plugin.xml
 
 libPython_la_SOURCES = \

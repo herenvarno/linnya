@@ -56,6 +56,8 @@ gboolean ly_db_check_isaudio(gchar *filename);
 
 void ly_db_free_metadata(lyDbMetadata *metadata);
 gint64 ly_db_get_last_insert_rowid();
+
+gboolean ly_db_add_metadata(lyDbMetadata *md);
 /*
  * FUNCTIONS [PRIVATE]
  */

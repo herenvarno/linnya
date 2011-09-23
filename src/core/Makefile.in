@@ -68,8 +68,8 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liblinnyacore_la_DEPENDENCIES =
-am_liblinnyacore_la_OBJECTS = global.lo msg.lo conf.lo db.lo audio.lo \
-	core.lo
+am_liblinnyacore_la_OBJECTS = global.lo msg.lo conf.lo db.lo \
+	playlist.lo audio.lo core.lo
 liblinnyacore_la_OBJECTS = $(am_liblinnyacore_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -217,6 +217,7 @@ liblinnyacore_la_SOURCES = global.c\
 							msg.c\
 							conf.c\
 							db.c\
+							playlist.c\
 							audio.c\
 							core.c
 
@@ -309,6 +310,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/global.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playlist.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

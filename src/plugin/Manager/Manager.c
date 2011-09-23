@@ -2,14 +2,22 @@
 
 gint index_left[2]={0,0};
 gchar sql_right[1024];
+int limit_right=10;
+int offset_right=0;
+
+GdkPixbuf *icon_playing=NULL;
 
 const gchar* g_module_check_init(GModule *module)
-{	
+{
+	char path[1024]="";
+	g_snprintf(path, sizeof(path), "%splugin/Manager/playing.svg", LY_GLOBAL_PROGDIR);
+	icon_playing=gdk_pixbuf_new_from_file_at_size(path, 20, 20, NULL);
 	return NULL;
 }
 void g_module_unload(GModule *module)
 {
-	;
+	g_object_unref(icon_playing);
+	icon_playing=NULL;;
 }
 
 GtkWidget *ly_plugin_manager_create()
@@ -65,6 +73,24 @@ GtkWidget *ly_plugin_manager_create()
 	scrolled_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolled_window,TRUE,TRUE,0);
+	
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkWidget *button_p;
+	GtkWidget *button_n;
+	hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox,FALSE,FALSE,0);
+	button_p=gtk_button_new_from_stock(GTK_STOCK_MEDIA_PREVIOUS);
+	gtk_widget_set_size_request(button_p, 100, -1);
+	gtk_box_pack_start(GTK_BOX(hbox), button_p,FALSE,FALSE,0);
+	label_page=gtk_label_new(_("Page 1"));
+	gtk_box_pack_start(GTK_BOX(hbox), label_page,TRUE,TRUE,0);
+	button_n=gtk_button_new_from_stock(GTK_STOCK_MEDIA_NEXT);
+	gtk_widget_set_size_request(button_n, 100, -1);
+	gtk_box_pack_start(GTK_BOX(hbox), button_n,FALSE,FALSE,0);
+	g_signal_connect(G_OBJECT(button_p), "clicked", G_CALLBACK(ly_plugin_manager_on_button_p_clicked_cb), label);
+	g_signal_connect(G_OBJECT(button_n), "clicked", G_CALLBACK(ly_plugin_manager_on_button_n_clicked_cb), label);
+	
 	treeview_right=gtk_tree_view_new();
 	gtk_container_add(GTK_CONTAINER(scrolled_window),treeview_right);
 	
@@ -103,8 +129,9 @@ GtkWidget *ly_plugin_manager_create()
 	g_signal_connect(G_OBJECT(treeview_left), "button_press_event", G_CALLBACK(ly_plugin_manager_left_mask), NULL);
 	g_signal_connect(G_OBJECT(treeview_right), "button_press_event", G_CALLBACK(ly_plugin_manager_right_mask), NULL);
 	g_signal_connect(G_OBJECT(treeview_right), "row-activated", G_CALLBACK(ly_plugin_manager_right_active_cb), NULL);
-	
+
 	ly_msg_bind("lib_changed", "ui", ly_plugin_manager_on_lib_changed_cb, NULL);
+	ly_msg_bind("meta_changed", "core:audio", ly_plugin_manager_right_refresh_playing_cb, NULL);
 	gtk_widget_set_name(widget, "ly_pl_treeview_manager");
 	return widget;
 }
@@ -115,6 +142,7 @@ void ly_plugin_manager_refresh()
 void ly_plugin_manager_destroy()
 {
 	ly_msg_unbind("lib_changed", "ui", ly_plugin_manager_on_lib_changed_cb);
+	ly_msg_unbind("meta_changed", "core:audio", ly_plugin_manager_right_refresh_playing_cb);
 }
 
 gboolean ly_plugin_manager_on_lib_changed_cb(gpointer object, gpointer data)
@@ -161,7 +189,14 @@ gboolean ly_plugin_manager_get_metadatas_cb(gpointer stmt, gpointer data)
 	g_strlcpy(title,(const gchar *)sqlite3_column_text(stmt, 1),128);
 	g_strlcpy(artist,(const gchar *)sqlite3_column_text(stmt, 2),128);
 	g_strlcpy(album,(const gchar *)sqlite3_column_text(stmt, 3),128);
-	gtk_tree_store_set(store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
+	if(id==ly_audio_meta->id)
+	{
+		gtk_tree_store_set(store_right, &iter, 0, icon_playing, 1,title, 2,artist, 3,album, 4, id, -1);
+	}
+	else
+	{
+		gtk_tree_store_set(store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
+	}
 	return FALSE;
 }
 
@@ -401,11 +436,59 @@ gboolean ly_plugin_manager_right_refresh_cb(GtkWidget *widget, gpointer data)
 	if(store_right)
 		g_object_unref(store_right);
 	store_right=NULL;
-	
+	char sql[10240]="";
 	store_right = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
 	if(!g_str_equal(sql_right,""))
-		ly_db_exec(sql_right, ly_plugin_manager_get_metadatas_cb, NULL);
+	{
+		g_snprintf(sql, sizeof(sql), "%s LIMIT %d OFFSET %d", sql_right, limit_right, offset_right);
+		while(ly_db_exec(sql, ly_plugin_manager_get_metadatas_cb, NULL)<=0 && offset_right>=0)
+		{
+			offset_right-=limit_right;
+			g_snprintf(sql, sizeof(sql), "%s LIMIT %d OFFSET %d", sql_right, limit_right, offset_right);
+		}
+	}
 	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_right), GTK_TREE_MODEL(store_right));
+	char str[1024]="";
+	g_snprintf(str, sizeof(str), "Page %d", offset_right/limit_right+1);
+	gtk_label_set_text(GTK_LABEL(label_page), str);
+	return FALSE;
+}
+
+gboolean ly_plugin_manager_right_refresh_playing_cb(gpointer message, gpointer data)
+{
+	GtkTreeIter iter;
+	int id=0;
+	GdkPixbuf *icon=NULL;
+	gboolean flag_set=FALSE;
+	gboolean flag_unset=FALSE;
+	if(gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store_right), &iter))
+	{
+		gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 0, &icon, 4, &id, -1);
+		if(id==ly_audio_meta->id && icon==NULL)
+		{
+			gtk_tree_store_set(store_right, &iter, 0, icon_playing, -1);
+			flag_set=TRUE;
+		}
+		else if(id!=ly_audio_meta->id && icon!=NULL)
+		{
+			gtk_tree_store_set(store_right, &iter, 0, NULL, -1);
+			flag_unset=TRUE;
+		}
+	}
+	while(gtk_tree_model_iter_next(GTK_TREE_MODEL(store_right), &iter) && (flag_set==FALSE || flag_unset==FALSE))
+	{
+		gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 0, &icon, 4, &id, -1);
+		if(id==ly_audio_meta->id && icon==NULL)
+		{
+			gtk_tree_store_set(store_right, &iter, 0, icon_playing, -1);
+			flag_set=TRUE;
+		}
+		else if(id!=ly_audio_meta->id && icon!=NULL)
+		{
+			gtk_tree_store_set(store_right, &iter, 0, NULL, -1);
+			flag_unset=TRUE;
+		}
+	}
 	return FALSE;
 }
 
@@ -439,11 +522,11 @@ gboolean ly_plugin_manager_left_change_cb(GtkWidget *widget, gpointer data)
 			index_left[1]=id;
 			if(gtk_tree_path_get_depth((GtkTreePath*)(selectlist->data))==1)
 			{
-				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas ORDER BY num LIMIT 200");
+				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas ORDER BY num");
 			}
 			else
 			{
-				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas WHERE artist='%s' ORDER BY num LIMIT 200",name);
+				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas WHERE artist='%s' ORDER BY num",name);
 			}
 			break;
 		case 1:
@@ -451,22 +534,22 @@ gboolean ly_plugin_manager_left_change_cb(GtkWidget *widget, gpointer data)
 			index_left[1]=id;
 			if(gtk_tree_path_get_depth((GtkTreePath*)(selectlist->data))==1)
 			{
-				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas tm, connections tc WHERE tc.mid=tm.id ORDER BY tc.num LIMIT 200");
+				g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM metadatas tm, connections tc WHERE tc.mid=tm.id ORDER BY tc.num");
 			}
 			else
 			{
-				g_snprintf(sql_right,sizeof(sql_right),"SELECT id, title, artist, album FROM metadatas tm, connections tc WHERE tc.pid='%d' AND tc.mid=tm.id ORDER BY tc.num LIMIT 200", id);
+				g_snprintf(sql_right,sizeof(sql_right),"SELECT id, title, artist, album FROM metadatas tm, connections tc WHERE tc.pid='%d' AND tc.mid=tm.id ORDER BY tc.num", id);
 			}
 			break;
 		case 2:
 			index_left[0]=2;
 			index_left[1]=id;
-			g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM plist LIMIT 200");
+			g_snprintf(sql_right,sizeof(sql_right),"SELECT id,title,artist,album FROM plist");
 			break;
 		default:
 			break;
 	}
-	ly_plugin_manager_right_refresh_cb(treeview_left, NULL);
+	ly_plugin_manager_right_refresh_cb(NULL,NULL);
 	return FALSE;
 }
 
@@ -630,23 +713,23 @@ gboolean ly_plugin_manager_right_addtoplaylist_cb(GtkWidget *widget, GdkEventBut
 	GList *p=NULL;
 	GtkTreeIter iter;
 	
-	if(pid<=0)
+	const char *name=NULL;
+	
+	GtkWidget *dialog;
+	GtkWidget *hbox;
+	GtkWidget *label;
+	GtkWidget *entry;
+	int result;
+	while(pid<0)
 	{
-		const gchar *name=NULL;
-		
-		GtkWidget *dialog;
-		GtkWidget *hbox;
-		GtkWidget *label;
-		GtkWidget *entry;
-		int result;
 		dialog=gtk_dialog_new_with_buttons(_("New Playlist"),
-						   GTK_WINDOW(ly_ui_win_window->win),
-						   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_STOCK_OK,
-				      GTK_RESPONSE_ACCEPT,
-				      GTK_STOCK_CANCEL,
-				      GTK_RESPONSE_REJECT,
-				      NULL);
+					   GTK_WINDOW(ly_ui_win_window->win),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_STOCK_OK,
+				     GTK_RESPONSE_ACCEPT,
+				     GTK_STOCK_CANCEL,
+				     GTK_RESPONSE_REJECT,
+				     NULL);
 		gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
 		hbox=gtk_hbox_new(FALSE,0);
 		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
@@ -666,17 +749,14 @@ gboolean ly_plugin_manager_right_addtoplaylist_cb(GtkWidget *widget, GdkEventBut
 				break;
 		}
 		name=gtk_entry_get_text(GTK_ENTRY(entry));
-		if(name&&!g_str_equal(name,""))
+		if(ly_playlist_add(name))
 		{
-			g_strlcpy(tmp, name, sizeof(tmp));
-			ly_global_replace_str(tmp, sizeof(tmp), "'", "''");
-			g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
-			ly_db_exec(sql,NULL,NULL);
 			pid=ly_db_get_last_insert_rowid();
 			ly_plugin_manager_left_refresh_cb(treeview_left,NULL);
 		}
 		gtk_widget_destroy(dialog);
 	}
+	
 	list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
 	if(list==NULL)
 		return FALSE;
@@ -687,9 +767,7 @@ gboolean ly_plugin_manager_right_addtoplaylist_cb(GtkWidget *widget, GdkEventBut
 	{
 		gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
 		gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &mid, -1);
-		g_snprintf(sql, sizeof(sql), "INSERT INTO connections (pid, mid, num) VALUES (%d, %d, ifnull((select max(num) from connections where pid=%d), 0)+1)", pid, mid, pid);
-		ly_global_replace_str(sql, sizeof(sql), "'", "''");
-		ly_db_exec(sql,NULL,NULL);
+		ly_playlist_add_metadata(pid, mid);
 		p=p->next;
 	}
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
@@ -1006,11 +1084,9 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 		{
 			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 0, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
 			ly_db_exec(sql,NULL,NULL);
-			g_snprintf(sql, sizeof(sql), "INSERT INTO connections(pid, mid, num) VALUES ( %d, %d, ifnull((SELECT MAX(num) FROM connections WHERE pid=%d),0)+1)",index_left[1], (gint)ly_db_get_last_insert_rowid(), index_left[1]);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
-			ly_db_exec(sql,NULL,NULL);
+			ly_playlist_add_metadata(index_left[1], (gint)ly_db_get_last_insert_rowid());
 		}
-		else if(index_left[0]==1)
+		else if(index_left[0]==2)
 		{
 			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', ifnull((SELECT MAX(playing) FROM metadatas),0)+1, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
 			ly_global_replace_str(sql, sizeof(sql), "'", "''");
@@ -1243,29 +1319,8 @@ gboolean ly_plugin_manager_left_add_cb(GtkWidget *widget, gpointer data)
 				break;
 		}
 		name=gtk_entry_get_text(GTK_ENTRY(entry));
-		if(name&&!g_str_equal(name,""))
-		{
-			g_strlcpy(tmp, name, sizeof(tmp));
-			ly_global_replace_str(tmp, sizeof(tmp), "'", "''");
-			g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
-			rt=ly_db_exec(sql,NULL,NULL);
-		}
+		rt=ly_playlist_add(name);
 		gtk_widget_destroy(dialog);
-		if(!rt)
-		{
-			dialog=ly_plugin_manager_dialog_new(ly_ui_win_window->win, _("<b>Illeagl Playlist Name</b>\n The playlist name you just entered is illeagl. Please type again."));
-			result=gtk_dialog_run(GTK_DIALOG(dialog));
-			switch(result)
-			{
-				case GTK_RESPONSE_ACCEPT:
-					break;
-				default:
-					gtk_widget_destroy(dialog);
-					return FALSE;
-					break;
-			}
-			gtk_widget_destroy(dialog);
-		}
 	}
 	ly_plugin_manager_left_refresh_cb(treeview_left,NULL);
 	
@@ -1442,11 +1497,9 @@ gboolean ly_plugin_manager_left_export_cb(GtkWidget *widget, gpointer data)
 
 gboolean ly_plugin_manager_left_delete_cb(GtkWidget *widget, gpointer data)
 {
-	gchar sql[10240]="";
 	if(index_left[0]==1)
 	{
-		snprintf(sql,sizeof(sql),"DELETE FROM playlists WHERE id=%d", index_left[1]);
-		ly_db_exec(sql,NULL,NULL);
+		ly_playlist_delete(index_left[1]);
 		ly_plugin_manager_left_refresh_cb(NULL,NULL);
 	}
 	return FALSE;
@@ -1456,8 +1509,27 @@ gboolean ly_plugin_manager_left_deleteall_cb(GtkWidget *widget, gpointer data)
 {
 	if(index_left[0]==1)
 	{
-		ly_db_exec("DELETE FROM playlists",NULL,NULL);
+		ly_playlist_delete(-1);
 		ly_plugin_manager_left_refresh_cb(NULL,NULL);
 	}
 	return FALSE;
 }
+
+
+gboolean ly_plugin_manager_on_button_p_clicked_cb(GtkWidget *widget, gpointer data)
+{
+	limit_right=limit_right>0?limit_right:1;
+	offset_right=offset_right-limit_right>=0?offset_right-limit_right:0;
+	ly_plugin_manager_right_refresh_cb(NULL,NULL);
+
+	return FALSE;
+}
+gboolean ly_plugin_manager_on_button_n_clicked_cb(GtkWidget *widget, gpointer data)
+{	
+	limit_right=limit_right>0?limit_right:1;
+	offset_right=offset_right>=0?offset_right+limit_right:limit_right;
+	ly_plugin_manager_right_refresh_cb(NULL,NULL);
+
+	return FALSE;
+}	
+

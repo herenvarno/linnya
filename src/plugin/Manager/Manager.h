@@ -15,6 +15,7 @@ GtkWidget *hpaned;
 GtkWidget *scrolled_window;
 GtkWidget *treeview_left;
 GtkWidget *treeview_right;
+GtkWidget *label_page;
 
 GtkTreeStore *store_left;
 GtkTreeStore *store_right;
@@ -75,6 +76,7 @@ gboolean ly_plugin_manager_on_lib_changed_cb(gpointer object, gpointer data);
 
 gboolean ly_plugin_manager_left_refresh_cb();
 gboolean ly_plugin_manager_right_refresh_cb();
+gboolean ly_plugin_manager_right_refresh_playing_cb(gpointer message, gpointer data);
 
 gboolean ly_plugin_manager_left_active_cb(GtkTreeView *tree_view,GtkTreePath *path,GtkTreeViewColumn *column,gpointer user_data);
 gboolean ly_plugin_manager_right_active_cb(GtkTreeView *tree_view,GtkTreePath *path,GtkTreeViewColumn *column,gpointer user_data);
@@ -107,4 +109,7 @@ gboolean ly_plugin_manager_right_deleteall_cb(GtkWidget *widget, gpointer data);
 gboolean ly_plugin_manager_get_artists_cb(gpointer stmt, gpointer data);
 gboolean ly_plugin_manager_get_playlists_cb(gpointer stmt, gpointer data);
 gboolean ly_plugin_manager_get_metadatas_cb(gpointer stmt, gpointer data);
+
+gboolean ly_plugin_manager_on_button_p_clicked_cb(GtkWidget *widget, gpointer data);
+gboolean ly_plugin_manager_on_button_n_clicked_cb(GtkWidget *widget, gpointer data);
 #endif

@@ -8,6 +8,7 @@
 #include "msg.h"
 #include "conf.h"
 #include "db.h"
+#include "playlist.h"
 #include "audio.h"
 
 /*

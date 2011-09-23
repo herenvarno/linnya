@@ -387,7 +387,8 @@ gboolean ly_db_exec(gchar *sql, LY_GLOBAL_CALLBACK(func), gpointer data)
 		{
 			ly_msg_put("warnning", "core:db", _("Cannot exec sql!"));
 			ly_global_debug("warnning",_("CANNOT EXEC SQL COMMAND: %s, FOR %s.\n"), sql, error);
-			
+			sqlite3_free(error);
+			return FALSE;
 		}
 		sqlite3_free(error);
 		return TRUE;
@@ -845,4 +846,22 @@ void ly_db_build_pipeline_cb(GstElement *decodebin,GstPad *pad, gboolean last, g
 gint64 ly_db_get_last_insert_rowid()
 {
 	return sqlite3_last_insert_rowid(ly_db_conn);
+}
+
+gboolean ly_db_add_metadata(lyDbMetadata *md)
+{
+	if(!md)
+		return FALSE;
+
+	char sql[10240]="";
+	ly_global_replace_str(md->title,sizeof(md->title),"'","''");
+	ly_global_replace_str(md->artist,sizeof(md->artist),"'","''");
+	ly_global_replace_str(md->album,sizeof(md->album),"'","''");
+	ly_global_replace_str(md->codec,sizeof(md->codec),"'","''");
+	ly_global_replace_str(md->uri,sizeof(md->uri),"'","''");
+	
+		
+	g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 0, ifnull((select max(num) from metadatas),0)+1, %d, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri, md->flag);
+	ly_db_exec(sql,NULL,NULL);
+	return TRUE;
 }

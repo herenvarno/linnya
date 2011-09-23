@@ -9,6 +9,7 @@ datadir			= ${PLUGIN_DIR}/Manager
 lib_LTLIBRARIES = libManager.la
 data_DATA		=\
 				logo.png\
+				playing.svg\
 				plugin.xml
 libManager_la_SOURCES	=\
 				Manager.c\

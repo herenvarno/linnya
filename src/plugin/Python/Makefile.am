@@ -8,7 +8,7 @@ datadir			= ${PLUGIN_DIR}/Python
 
 lib_LTLIBRARIES = libPython.la
 data_DATA		=\
-				logo.png\
+				logo.svg\
 				plugin.xml
 libPython_la_SOURCES	=\
 				Python.c\

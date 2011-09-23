@@ -182,9 +182,10 @@ Lrc.lo: Lrc.c Lrc.h ../../core/core.h ../../core/global.h \
  /usr/include/gstreamer-0.10/gst/gstparse.h \
  /usr/include/gstreamer-0.10/gst/gstxml.h \
  /usr/include/gstreamer-0.10/gst/gstcompat.h ../../core/msg.h \
- ../../core/conf.h ../../core/db.h ../../core/audio.h ../../ui/ui.h \
- ../../ui/global.h /usr/include/gtk-3.0/gtk/gtk.h \
- /usr/include/gtk-3.0/gdk/gdk.h /usr/include/gtk-3.0/gdk/gdkconfig.h \
+ ../../core/conf.h ../../core/db.h ../../core/playlist.h \
+ ../../core/audio.h ../../ui/ui.h ../../ui/global.h \
+ /usr/include/gtk-3.0/gtk/gtk.h /usr/include/gtk-3.0/gdk/gdk.h \
+ /usr/include/gtk-3.0/gdk/gdkconfig.h \
  /usr/include/gtk-3.0/gdk/gdkapplaunchcontext.h \
  /usr/include/glib-2.0/gio/gio.h /usr/include/glib-2.0/gio/giotypes.h \
  /usr/include/glib-2.0/gio/gioenums.h \
@@ -1078,6 +1079,8 @@ Lrc.h:
 ../../core/conf.h:
 
 ../../core/db.h:
+
+../../core/playlist.h:
 
 ../../core/audio.h:
 

@@ -3,6 +3,7 @@ liblinnyacore_la_SOURCES=	global.c\
 							msg.c\
 							conf.c\
 							db.c\
+							playlist.c\
 							audio.c\
 							core.c
 INCLUDES = @GTK3_CFLAGS@\

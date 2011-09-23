@@ -561,7 +561,7 @@ global.lo: global.c global.h /usr/include/gtk-3.0/gtk/gtk.h \
  /usr/include/gstreamer-0.10/gst/gstparse.h \
  /usr/include/gstreamer-0.10/gst/gstxml.h \
  /usr/include/gstreamer-0.10/gst/gstcompat.h ../core/msg.h ../core/conf.h \
- ../core/db.h ../core/audio.h
+ ../core/db.h ../core/playlist.h ../core/audio.h
 
 global.h:
 
@@ -1890,5 +1890,7 @@ global.h:
 ../core/conf.h:
 
 ../core/db.h:
+
+../core/playlist.h:
 
 ../core/audio.h:

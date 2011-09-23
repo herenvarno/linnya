@@ -221,6 +221,7 @@ PLUGIN_DIR = ${prefix}/share/${PROGMAN_NAME}/plugin
 lib_LTLIBRARIES = libManager.la
 data_DATA = \
 				logo.png\
+				playing.svg\
 				plugin.xml
 
 libManager_la_SOURCES = \
