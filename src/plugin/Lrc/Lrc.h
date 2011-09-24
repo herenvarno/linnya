@@ -6,6 +6,7 @@
  */
 #include "core.h"
 #include "ui.h"
+#include "LrcConf.h"
 
 /*
  * TYPES
@@ -34,7 +35,6 @@ void g_module_unload(GModule *module);
 
 GtkWidget *ly_plugin_lrc_create();
 void ly_plugin_lrc_destroy();
-GtkWidget *ly_plugin_lrc_config();
 
 gboolean ly_plugin_lrc_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
 gboolean ly_plugin_lrc_seek_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);

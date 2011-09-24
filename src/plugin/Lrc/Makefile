@@ -72,7 +72,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libLrc_la_DEPENDENCIES =
-am_libLrc_la_OBJECTS = Lrc.lo
+am_libLrc_la_OBJECTS = Lrc.lo LrcConf.lo
 libLrc_la_OBJECTS = $(am_libLrc_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -225,7 +225,9 @@ data_DATA = \
 
 libLrc_la_SOURCES = \
 				Lrc.c\
-				Lrc.h
+				Lrc.h\
+				LrcConf.c\
+				LrcConf.h
 
 INCLUDES = \
 				-DGSEAL_ENABLE -pthread -I/usr/include/gtk-3.0 -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng14  \
@@ -317,6 +319,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/Lrc.Plo
+include ./$(DEPDIR)/LrcConf.Plo
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

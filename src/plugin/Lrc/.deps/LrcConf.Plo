@@ -1,4 +1,4 @@
-Lrc.lo: Lrc.c Lrc.h ../../core/core.h ../../core/global.h \
+LrcConf.lo: LrcConf.c LrcConf.h ../../core/core.h ../../core/global.h \
  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-32.h \
@@ -566,9 +566,9 @@ Lrc.lo: Lrc.c Lrc.h ../../core/core.h ../../core/global.h \
  /usr/include/gtk-3.0/gtk/gtkvscale.h \
  /usr/include/gtk-3.0/gtk/gtkvseparator.h ../../ui/../core/core.h \
  ../../ui/debug.h ../../ui/key.h ../../ui/theme.h ../../ui/win.h \
- ../../ui/session.h ../../ui/pl.h ../../ui/config.h LrcConf.h
+ ../../ui/session.h ../../ui/pl.h ../../ui/config.h
 
-Lrc.h:
+LrcConf.h:
 
 ../../core/core.h:
 
@@ -1919,5 +1919,3 @@ Lrc.h:
 ../../ui/pl.h:
 
 ../../ui/config.h:
-
-LrcConf.h:

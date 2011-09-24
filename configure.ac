@@ -49,7 +49,8 @@ AC_OUTPUT([Makefile \
             src/plugin/Info/Makefile\
             src/plugin/Lrc/Makefile\
             src/plugin/Manager/Makefile\
-            src/plugin/Python/Makefile
+            src/plugin/Python/Makefile\
+            src/plugin/Downlrc/Makefile\
             data/Makefile\
             data/icon/Makefile\
             data/theme/Makefile\

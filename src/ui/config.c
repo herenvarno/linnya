@@ -122,6 +122,7 @@ gboolean	ly_ui_config_on_key_change_cb			(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_key_press_cb			(GtkWidget *widget, GdkEvent  *event, gpointer data);
 gboolean	ly_ui_config_on_theme_changed_cb		(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_plugin_show_about_cb	(GtkWidget *widget, gpointer data);
+gboolean	ly_ui_config_on_plugin_show_config_cb	(GtkWidget *widget, gpointer data);
 gboolean	ly_ui_config_on_plugin_change_cb		(GtkWidget *widget, gpointer data);
 
 
@@ -353,7 +354,7 @@ ly_ui_config_new (void)
 
 	i=0;
 	lyUiPlPlugin *pl;
-	gboolean *(*f)(GtkWidget *widget, gpointer data);
+	GtkWidget* (*f)(void);
 	g_hash_table_iter_init (&iter1, ly_ui_pl_plugins);
 	while (g_hash_table_iter_next (&iter1, &key, &value)) 
 	{
@@ -374,7 +375,7 @@ ly_ui_config_new (void)
 			if(f)
 			{
 				button=gtk_button_new_from_stock(GTK_STOCK_PREFERENCES);
-				g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(f), NULL);
+				g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_ui_config_on_plugin_show_config_cb), f);
 				gtk_table_attach_defaults(GTK_TABLE(table),button,2,3,i,i+1);
 			}
 		}
@@ -515,6 +516,32 @@ gboolean ly_ui_config_on_change_selection_cb(GtkTreeSelection *selection, gpoint
 	str=gtk_tree_path_to_string(path);
 	sscanf(str,"%d",&num);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook),num);
+	return FALSE;
+}
+
+gboolean ly_ui_config_on_plugin_show_config_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget* (*f)(void);
+	f=data;
+	if(!f)
+	{
+		return FALSE;
+	}
+	GtkWidget *w=f();
+	if(!w)
+	{
+		return FALSE;
+	}
+	GtkWidget *dialog=gtk_dialog_new_with_buttons(_("Plugin Configureation"),
+									   GTK_WINDOW(ly_ui_config_dialog),
+									   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+									   GTK_STOCK_OK,
+									   GTK_RESPONSE_ACCEPT,
+									   NULL);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), w, FALSE, FALSE, 0);
+	gtk_widget_show_all(dialog);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 	return FALSE;
 }
 gboolean ly_ui_config_on_show_about_cb(GtkWidget *widget, gpointer data)

@@ -1,4 +1,4 @@
-Lrc.lo: Lrc.c Lrc.h ../../core/core.h ../../core/global.h \
+Downlrc.lo: Downlrc.c Downlrc.h ../../core/core.h ../../core/global.h \
  /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
  /usr/include/gnu/stubs-32.h \
@@ -566,9 +566,64 @@ Lrc.lo: Lrc.c Lrc.h ../../core/core.h ../../core/global.h \
  /usr/include/gtk-3.0/gtk/gtkvscale.h \
  /usr/include/gtk-3.0/gtk/gtkvseparator.h ../../ui/../core/core.h \
  ../../ui/debug.h ../../ui/key.h ../../ui/theme.h ../../ui/win.h \
- ../../ui/session.h ../../ui/pl.h ../../ui/config.h LrcConf.h
+ ../../ui/session.h ../../ui/pl.h ../../ui/config.h ../Lrc/Lrc.h \
+ ../Lrc/LrcConf.h ../Python/Python.h /usr/include/python3.2mu/Python.h \
+ /usr/include/python3.2mu/patchlevel.h \
+ /usr/include/python3.2mu/pyconfig.h \
+ /usr/include/python3.2mu/pymacconfig.h /usr/include/assert.h \
+ /usr/include/python3.2mu/pyport.h /usr/include/inttypes.h \
+ /usr/lib/gcc/i686-pc-linux-gnu/4.6.1/include/stdint.h \
+ /usr/include/stdint.h /usr/include/bits/wchar.h /usr/include/sys/time.h \
+ /usr/include/python3.2mu/pyatomic.h \
+ /usr/include/python3.2mu/dynamic_annotations.h \
+ /usr/include/python3.2mu/pymath.h /usr/include/python3.2mu/pytime.h \
+ /usr/include/python3.2mu/pymem.h /usr/include/python3.2mu/object.h \
+ /usr/include/python3.2mu/objimpl.h /usr/include/python3.2mu/typeslots.h \
+ /usr/include/python3.2mu/pydebug.h \
+ /usr/include/python3.2mu/bytearrayobject.h \
+ /usr/include/python3.2mu/bytesobject.h \
+ /usr/include/python3.2mu/unicodeobject.h /usr/include/ctype.h \
+ /usr/include/python3.2mu/longobject.h \
+ /usr/include/python3.2mu/longintrepr.h \
+ /usr/include/python3.2mu/boolobject.h \
+ /usr/include/python3.2mu/floatobject.h \
+ /usr/include/python3.2mu/complexobject.h \
+ /usr/include/python3.2mu/rangeobject.h \
+ /usr/include/python3.2mu/memoryobject.h \
+ /usr/include/python3.2mu/tupleobject.h \
+ /usr/include/python3.2mu/listobject.h \
+ /usr/include/python3.2mu/dictobject.h \
+ /usr/include/python3.2mu/enumobject.h \
+ /usr/include/python3.2mu/setobject.h \
+ /usr/include/python3.2mu/methodobject.h \
+ /usr/include/python3.2mu/moduleobject.h \
+ /usr/include/python3.2mu/funcobject.h \
+ /usr/include/python3.2mu/classobject.h \
+ /usr/include/python3.2mu/fileobject.h \
+ /usr/include/python3.2mu/pycapsule.h \
+ /usr/include/python3.2mu/traceback.h \
+ /usr/include/python3.2mu/sliceobject.h \
+ /usr/include/python3.2mu/cellobject.h \
+ /usr/include/python3.2mu/iterobject.h \
+ /usr/include/python3.2mu/genobject.h \
+ /usr/include/python3.2mu/descrobject.h \
+ /usr/include/python3.2mu/warnings.h \
+ /usr/include/python3.2mu/weakrefobject.h \
+ /usr/include/python3.2mu/structseq.h /usr/include/python3.2mu/codecs.h \
+ /usr/include/python3.2mu/pyerrors.h /usr/include/python3.2mu/pystate.h \
+ /usr/include/python3.2mu/pyarena.h /usr/include/python3.2mu/modsupport.h \
+ /usr/include/python3.2mu/pythonrun.h /usr/include/python3.2mu/ceval.h \
+ /usr/include/python3.2mu/sysmodule.h \
+ /usr/include/python3.2mu/intrcheck.h /usr/include/python3.2mu/import.h \
+ /usr/include/python3.2mu/abstract.h \
+ /usr/include/python3.2mu/bltinmodule.h \
+ /usr/include/python3.2mu/compile.h /usr/include/python3.2mu/code.h \
+ /usr/include/python3.2mu/eval.h /usr/include/python3.2mu/pyctype.h \
+ /usr/include/python3.2mu/pystrtod.h /usr/include/python3.2mu/pystrcmp.h \
+ /usr/include/python3.2mu/dtoa.h /usr/include/python3.2mu/fileutils.h \
+ /usr/include/python3.2mu/pyfpe.h
 
-Lrc.h:
+Downlrc.h:
 
 ../../core/core.h:
 
@@ -1920,4 +1975,152 @@ Lrc.h:
 
 ../../ui/config.h:
 
-LrcConf.h:
+../Lrc/Lrc.h:
+
+../Lrc/LrcConf.h:
+
+../Python/Python.h:
+
+/usr/include/python3.2mu/Python.h:
+
+/usr/include/python3.2mu/patchlevel.h:
+
+/usr/include/python3.2mu/pyconfig.h:
+
+/usr/include/python3.2mu/pymacconfig.h:
+
+/usr/include/assert.h:
+
+/usr/include/python3.2mu/pyport.h:
+
+/usr/include/inttypes.h:
+
+/usr/lib/gcc/i686-pc-linux-gnu/4.6.1/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/sys/time.h:
+
+/usr/include/python3.2mu/pyatomic.h:
+
+/usr/include/python3.2mu/dynamic_annotations.h:
+
+/usr/include/python3.2mu/pymath.h:
+
+/usr/include/python3.2mu/pytime.h:
+
+/usr/include/python3.2mu/pymem.h:
+
+/usr/include/python3.2mu/object.h:
+
+/usr/include/python3.2mu/objimpl.h:
+
+/usr/include/python3.2mu/typeslots.h:
+
+/usr/include/python3.2mu/pydebug.h:
+
+/usr/include/python3.2mu/bytearrayobject.h:
+
+/usr/include/python3.2mu/bytesobject.h:
+
+/usr/include/python3.2mu/unicodeobject.h:
+
+/usr/include/ctype.h:
+
+/usr/include/python3.2mu/longobject.h:
+
+/usr/include/python3.2mu/longintrepr.h:
+
+/usr/include/python3.2mu/boolobject.h:
+
+/usr/include/python3.2mu/floatobject.h:
+
+/usr/include/python3.2mu/complexobject.h:
+
+/usr/include/python3.2mu/rangeobject.h:
+
+/usr/include/python3.2mu/memoryobject.h:
+
+/usr/include/python3.2mu/tupleobject.h:
+
+/usr/include/python3.2mu/listobject.h:
+
+/usr/include/python3.2mu/dictobject.h:
+
+/usr/include/python3.2mu/enumobject.h:
+
+/usr/include/python3.2mu/setobject.h:
+
+/usr/include/python3.2mu/methodobject.h:
+
+/usr/include/python3.2mu/moduleobject.h:
+
+/usr/include/python3.2mu/funcobject.h:
+
+/usr/include/python3.2mu/classobject.h:
+
+/usr/include/python3.2mu/fileobject.h:
+
+/usr/include/python3.2mu/pycapsule.h:
+
+/usr/include/python3.2mu/traceback.h:
+
+/usr/include/python3.2mu/sliceobject.h:
+
+/usr/include/python3.2mu/cellobject.h:
+
+/usr/include/python3.2mu/iterobject.h:
+
+/usr/include/python3.2mu/genobject.h:
+
+/usr/include/python3.2mu/descrobject.h:
+
+/usr/include/python3.2mu/warnings.h:
+
+/usr/include/python3.2mu/weakrefobject.h:
+
+/usr/include/python3.2mu/structseq.h:
+
+/usr/include/python3.2mu/codecs.h:
+
+/usr/include/python3.2mu/pyerrors.h:
+
+/usr/include/python3.2mu/pystate.h:
+
+/usr/include/python3.2mu/pyarena.h:
+
+/usr/include/python3.2mu/modsupport.h:
+
+/usr/include/python3.2mu/pythonrun.h:
+
+/usr/include/python3.2mu/ceval.h:
+
+/usr/include/python3.2mu/sysmodule.h:
+
+/usr/include/python3.2mu/intrcheck.h:
+
+/usr/include/python3.2mu/import.h:
+
+/usr/include/python3.2mu/abstract.h:
+
+/usr/include/python3.2mu/bltinmodule.h:
+
+/usr/include/python3.2mu/compile.h:
+
+/usr/include/python3.2mu/code.h:
+
+/usr/include/python3.2mu/eval.h:
+
+/usr/include/python3.2mu/pyctype.h:
+
+/usr/include/python3.2mu/pystrtod.h:
+
+/usr/include/python3.2mu/pystrcmp.h:
+
+/usr/include/python3.2mu/dtoa.h:
+
+/usr/include/python3.2mu/fileutils.h:
+
+/usr/include/python3.2mu/pyfpe.h:

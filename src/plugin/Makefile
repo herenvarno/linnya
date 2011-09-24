@@ -210,7 +210,7 @@ top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
 EXTRA_DIST = m4/ChangeLog  BUGS ChangeLog.O
-SUBDIRS = Python Info Manager Lrc
+SUBDIRS = Python Info Manager Lrc Downlrc
 ACLOCAL_AMFLAGS = -I m4
 all: all-recursive
 

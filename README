@@ -18,25 +18,22 @@ Contact E-mail:		yy890521@gmail.com
 Installation
 ================
 
-Just run "make".
+FIRST:
+Configure your system information to create the makefile. Use the command below:
+	./configure --prefix=/usr
 
-///////////////////////////////NOT AVALABLE NOW/////////////////////////////////
-//FIRST:
-//Configure your system information to create the makefile. Use the command below:
-//	./configure --prefix=/usr
-//
-//SECOND:
-//Compile all the source file to excuteable file. Use the command below:
-//	make
-//
-//FINALLY:
-//Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the command below(please be root):
-//	make install
-//
-//NOT NECESSARY BUT RECOMMENDED STEP:
-//Clean up all the temp file for next compilation. Use the command below:
-//	./clear
-////////////////////////////////////////////////////////////////////////////////
+SECOND:
+Compile all the source file to excuteable file. Use the command below:
+	make
+
+FINALLY:
+Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the command below(please be root):
+	make install
+
+NOT NECESSARY BUT RECOMMENDED STEP:
+Clean up all the temp file for next compilation. Use the command below:
+	./clear
+
 
 DEVELOPMENT
 ================
@@ -66,21 +63,17 @@ Linnya 音乐播放器是一款在GNU GPLv3的授权下发布的自由软件。�
 安装
 ================
 
-直接运行“make”命令
+首先，运行配置程序生成makefile文件，命令如下：
+	./configure --prefix=/usr
 
-/////////////////////////目前不可用///////////////////////////////////////////////
-//首先，运行配置程序生成makefile文件，命令如下：
-//	./configure --prefix=/usr
-//
-//然后，编译所有的源文件，命令如下：
-//	make
-//
-//最后，安装软件，通常的位置为 /usr/share/linnya/... ，命令如下（请使用root权限）：
-//	make install
-//
-//最最后，建议你清理不用的交换文件以便下次编译，命令如下：
-//	./clear
-////////////////////////////////////////////////////////////////////////////////
+然后，编译所有的源文件，命令如下：
+	make
+
+最后，安装软件，通常的位置为 /usr/share/linnya/... ，命令如下（请使用root权限）：
+	make install
+
+最最后，建议你清理不用的交换文件以便下次编译，命令如下：
+	./clear
 
 开发
 ================

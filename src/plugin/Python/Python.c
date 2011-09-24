@@ -16,7 +16,7 @@ void g_module_unload(GModule *module)
 	Py_Finalize();
 }
 
-GtkWidget *ly_plugin_downlrc_config()
+GtkWidget *ly_plugin_python_config()
 {
 	return NULL;
 }
@@ -24,7 +24,7 @@ GtkWidget *ly_plugin_downlrc_config()
 
 gboolean ly_plugin_python_init_pyplugin(char *plugin_name)
 {
-		/*
+	/*
 	 * APPEND MODULE PATH
 	 */
 	PyRun_SimpleString("import sys");
@@ -46,7 +46,7 @@ PyObject* ly_plugin_python_load_module(char *modulename)
 	PyObject *pModule=NULL;
 	if(modulename==NULL|| g_str_equal(modulename, ""))
 	{
-		puts("Cannot load module!");
+		ly_msg_put("error", "plugin:python", _("Cannot load module!"));
 		return NULL;
 	}
 	

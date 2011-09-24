@@ -84,7 +84,6 @@ const gchar* g_module_check_init(GModule *module)
 }
 void g_module_unload(GModule *module)
 {
-	puts("************");
 	ly_plugin_lrc_quit_flag=FALSE;
 	ly_msg_unbind("meta_changed", "core:audio", ly_plugin_lrc_read_cb);
 }
@@ -235,7 +234,8 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 	lyPluginLrcLyric *tmplrc[1024];
 	
 	gint64 time;
-	gint time_delay=0;
+	gint64 time_delay=0;
+	gint tmptime=0;
 	gchar line[1024]="";
 	
 	gchar *p,*q;
@@ -250,7 +250,8 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 	while(fgets(line, sizeof(line), fp))
 	{
 		j=0;
-		line[strlen(line)-1]='\0';
+		if(line[strlen(line)-1]=='\n')
+			line[strlen(line)-1]=='\0';
 		lrc=NULL;
 		p=line;
 		while(*p)
@@ -286,8 +287,7 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 					lrc=(lyPluginLrcLyric*)malloc(sizeof(lyPluginLrcLyric));
 					lrc->time=0;
 					g_strlcpy(lrc->text, "", sizeof(lrc->text));
-					
-					time=ly_db_duration2dura(label);
+					time=(gint64)(ly_db_duration2dura(label))+(time_delay*1000000);
 					if(time<0)
 						time=0;
 					lrc->time=time;
@@ -363,7 +363,9 @@ void ly_plugin_lrc_read_lyrics(FILE *fp)
 					if(g_str_equal(label,"offset")||g_str_equal(label,"OFFSET"))
 					{
 						if(!g_str_equal(text,""))
-							sscanf(text,"%d",&time_delay);
+						{
+							sscanf(text,"%lld",&time_delay);
+						}
 					}
 					p++;
 					break;
@@ -380,7 +382,7 @@ static gint ly_plugin_lrc_sort_lyrics_cb(gconstpointer c, gconstpointer d, gpoin
 	lyPluginLrcLyric *a=*((lyPluginLrcLyric**)c);
 	lyPluginLrcLyric *b=*((lyPluginLrcLyric**)d);
 	
-	if(a->time<=b->time)
+	if(a->time<b->time)
 		return -1;
 	else
 		return 1;
@@ -857,9 +859,8 @@ gboolean ly_plugin_lrc_desktop_update_cb(gpointer data)
 	}
 	
 	ly_plugin_lrc_update_index();
-	int lrc_desktop=1;
-	int lrc_desktop_fix=0;
-	ly_conf_get("lrc_desktop", "%d:%d", &lrc_desktop, &lrc_desktop_fix);
+	int lrc_desktop=0;
+	ly_conf_get("lrc_desktop", "%d:%*d", &lrc_desktop);
 	if(!lrc_desktop)
 		return TRUE;
 	gtk_widget_queue_draw(ly_plugin_lrc_desktop);

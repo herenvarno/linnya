@@ -1,7 +1,7 @@
 <?xml version=1.0?>
 <plugin>
 	<!-- 别名 -->
-	<alias>Lyrics</alias>
+	<alias>Dwonload Lyrics</alias>
 	
 	<!-- 版本号 -->
 	<version>0.0</version>
@@ -15,14 +15,12 @@
 	<!-- 官方网站 -->
 	<website>http://www.linnya.org</website>
 	<!-- 说明 -->
-	<comment>A plugin for showing lyrics.</comment>
+	<comment>A plugin for downloading lrc file from Internet.</comment>
 	
-	
+	<!-- 依赖 -->
+	<depends>Python:Lrc</depends>
 	<!-- 后台运行标志 -->
-	<deamon>0</deamon>
+	<deamon>1</deamon>
 	<!-- 配置函数名 -->
-	<create_symbol>ly_plugin_lrc_create</create_symbol>
-	<refresh_symbol>ly_plugin_lrc_refresh</refresh_symbol>
-	<destroy_symbol>ly_plugin_lrc_destroy</destroy_symbol>
-	<config_symbol>ly_plugin_lrc_config</config_symbol>
+	<config_symbol>ly_plugin_downlrc_config</config_symbol>
 </plugin>

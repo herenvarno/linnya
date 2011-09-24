@@ -3,26 +3,27 @@
 
 PROGMAN_NAME	= linnya
 PLUGIN_DIR		= ${prefix}/share/${PROGMAN_NAME}/plugin
-libdir			= ${PLUGIN_DIR}/Lrc
-datadir			= ${PLUGIN_DIR}/Lrc
+libdir			= ${PLUGIN_DIR}/Downlrc
+datadir			= ${PLUGIN_DIR}/Downlrc
 
-lib_LTLIBRARIES = libLrc.la
+lib_LTLIBRARIES = libDownlrc.la
 data_DATA		=\
 				logo.png\
-				plugin.xml
-libLrc_la_SOURCES	=\
-				Lrc.c\
-				Lrc.h\
-				LrcConf.c\
-				LrcConf.h
+				plugin.xml\
+				Downlrc.py
+libDownlrc_la_SOURCES	=\
+				Downlrc.c\
+				Downlrc.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
 				-DLOCALEDIR=\"$(localedir)\"\
 				-I../../core\
-				-I../../ui
-libLrc_la_LIBADD	=\
+				-I../../ui\
+				-I../Python\
+				-I../Lrc
+libDownlrc_la_LIBADD	=\
 				@GTK3_LIBS@\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\

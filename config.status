@@ -405,7 +405,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile src/Makefile src/core/Makefile src/ui/Makefile src/plugin/Makefile src/plugin/Info/Makefile src/plugin/Lrc/Makefile src/plugin/Manager/Makefile src/plugin/Python/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
+config_files=" Makefile src/Makefile src/core/Makefile src/ui/Makefile src/plugin/Makefile src/plugin/Info/Makefile src/plugin/Lrc/Makefile src/plugin/Manager/Makefile src/plugin/Python/Makefile src/plugin/Downlrc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
 config_headers=" config.h"
 config_commands=" depfiles libtool"
 
@@ -768,6 +768,7 @@ do
     "src/plugin/Lrc/Makefile") CONFIG_FILES="$CONFIG_FILES src/plugin/Lrc/Makefile" ;;
     "src/plugin/Manager/Makefile") CONFIG_FILES="$CONFIG_FILES src/plugin/Manager/Makefile" ;;
     "src/plugin/Python/Makefile") CONFIG_FILES="$CONFIG_FILES src/plugin/Python/Makefile" ;;
+    "src/plugin/Downlrc/Makefile") CONFIG_FILES="$CONFIG_FILES src/plugin/Downlrc/Makefile" ;;
     "data/Makefile") CONFIG_FILES="$CONFIG_FILES data/Makefile" ;;
     "data/icon/Makefile") CONFIG_FILES="$CONFIG_FILES data/icon/Makefile" ;;
     "data/theme/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/Makefile" ;;

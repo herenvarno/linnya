@@ -1074,10 +1074,17 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 		g_free(filename);
 
 		md=ly_db_read_metadata(fileuri);
+		ly_global_replace_str(md->title, sizeof(md->title), "'", "''");
+		ly_global_replace_str(md->artist, sizeof(md->artist), "'", "''");
+		ly_global_replace_str(md->album, sizeof(md->album), "'", "''");
+		ly_global_replace_str(md->codec, sizeof(md->codec), "'", "''");
+		ly_global_replace_str(md->start, sizeof(md->start), "'", "''");
+		ly_global_replace_str(md->duration, sizeof(md->duration), "'", "''");
+		ly_global_replace_str(md->uri, sizeof(md->uri), "'", "''");
+		
 		if(index_left[0]==0)
 		{
 			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 0, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
 			ly_db_exec(sql,NULL,NULL);
 		}
 		else if(index_left[0]==1 && index_left[1]>0)
@@ -1089,7 +1096,6 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 		else if(index_left[0]==2)
 		{
 			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', ifnull((SELECT MAX(playing) FROM metadatas),0)+1, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
 			ly_db_exec(sql,NULL,NULL);
 		}
 		ly_db_free_metadata(md);

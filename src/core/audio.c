@@ -471,9 +471,6 @@ gboolean ly_audio_set_position(gdouble percent)
 	gint64 position=0;
 	gint64 start=0;
 	gint64 duration=0;
-	gint min=0;
-	gint second=0;
-	gint mis=0;
 
 
 	if(!ly_audio_meta||!(ly_audio_meta->uri))
@@ -482,10 +479,13 @@ gboolean ly_audio_set_position(gdouble percent)
 		return FALSE;
 	}
 
-	sscanf(ly_audio_meta->start,"%d:%d:%d",&min,&second,&mis);
-	start=((gint64)((min*60+second)*100+mis)*10000000);
-	sscanf(ly_audio_meta->duration,"%d:%d:%d",&min,&second,&mis);
-	duration=((gint64)((min*60+second)*100+mis)*10000000);
+	duration=ly_db_duration2dura(ly_audio_meta->duration);
+	if(duration<10)
+	{
+		return FALSE;
+	}
+	start=ly_db_duration2dura(ly_audio_meta->start);
+	
 	position=(duration*percent)+start;
 	if(!gst_element_seek(ly_audio_core->play,1.0,GST_FORMAT_TIME,GST_SEEK_FLAG_FLUSH,GST_SEEK_TYPE_SET,position,GST_SEEK_TYPE_SET,start+duration))
 	{
