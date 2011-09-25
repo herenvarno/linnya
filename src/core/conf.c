@@ -42,7 +42,7 @@ gboolean ly_conf_read(void)
 
 		g_hash_table_destroy(ly_conf_configurations);
 		ly_conf_configurations=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-		ly_conf_set("version","%lf",LY_GLOBAL_VERSION);
+		ly_conf_set("version","%lf",LY_GLOBAL_VERSION_NUM);
 	}
 	else
 	{
@@ -52,7 +52,7 @@ gboolean ly_conf_read(void)
 		gdouble version=0;
 		if(ly_conf_get("version","%lf",&version))
 		{
-			if(version>=LY_GLOBAL_VERSION)
+			if(version>=LY_GLOBAL_VERSION_NUM)
 			{
 				g_markup_parse_context_free(context);
 				return TRUE;
@@ -65,7 +65,7 @@ gboolean ly_conf_read(void)
 		
 		g_hash_table_destroy(ly_conf_configurations);
 		ly_conf_configurations=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-		ly_conf_set("version","%lf",LY_GLOBAL_VERSION);
+		ly_conf_set("version","%lf",LY_GLOBAL_VERSION_NUM);
 	}
 	
 	g_markup_parse_context_free(context);

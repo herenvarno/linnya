@@ -20,7 +20,8 @@
 /*
  * MACROS
  */
-#define LY_GLOBAL_VERSION 1.91
+#define LY_GLOBAL_VERSION_STR "2.0.0 alpha (1.9.1)"
+#define LY_GLOBAL_VERSION_NUM 1.91
 
 #define _(String) gettext(String)
 #define LY_GLOBAL_PACKAGE "linnya"
