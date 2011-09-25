@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xgettext -k_ -o po/en.po src/*.c src/*/*.c src/*/*/*.c --from-code UTF-8

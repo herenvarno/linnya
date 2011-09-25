@@ -1,0 +1,641 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-09-25 12:42+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/core/conf.c:41
+msgid ""
+"No configuration file found or read configurations error. Use default "
+"configurations!\n"
+msgstr ""
+
+#: src/core/conf.c:64
+msgid ""
+"The version of configuration file is too low. Use default configurations!\n"
+msgstr ""
+
+#: src/core/conf.c:133 src/core/conf.c:162
+msgid "Cannot write configurations to file!\n"
+msgstr ""
+
+#: src/core/conf.c:192
+msgid "Initial core module: CONF ...\n"
+msgstr ""
+
+#: src/core/conf.c:208
+msgid "Finalize core module: CONF ...\n"
+msgstr ""
+
+#: src/core/core.c:5
+msgid "Initial core module ...\n"
+msgstr ""
+
+#: src/core/core.c:15
+msgid "Finalize core module ...\n"
+msgstr ""
+
+#: src/core/db.c:32
+msgid "Initial core module: DB ...\n"
+msgstr ""
+
+#: src/core/db.c:60
+msgid "Failed to open database.\n"
+msgstr ""
+
+#: src/core/db.c:77
+msgid "Finalize core module: DB ...\n"
+msgstr ""
+
+#: src/core/db.c:388 src/core/db.c:400
+msgid "Cannot exec sql!"
+msgstr ""
+
+#: src/core/db.c:389 src/core/db.c:401
+#, c-format
+msgid "CANNOT EXEC SQL COMMAND: %s, FOR %s.\n"
+msgstr ""
+
+#: src/core/db.c:615
+#, c-format
+msgid "Cannot open file: %s\n"
+msgstr ""
+
+#: src/core/db.c:835
+msgid "Decoded pad with no caps or any caps, boring."
+msgstr ""
+
+#: src/core/global.c:5
+msgid "Initial core module: GLOBAL ...\n"
+msgstr ""
+
+#: src/core/global.c:56
+msgid "Finalize core module: GLOBAL ...\n"
+msgstr ""
+
+#: src/core/msg.c:53
+msgid "Initial core module: MSG ...\n"
+msgstr ""
+
+#: src/core/msg.c:58
+msgid "Linnya ERROR: Building the message bus failed!\n"
+msgstr ""
+
+#: src/core/msg.c:153
+msgid "Finalize core module: MSG ...\n"
+msgstr ""
+
+#: src/core/playlist.c:16
+msgid "playlist file doesn't exist!"
+msgstr ""
+
+#: src/core/playlist.c:32
+msgid "Illegal playlist file type!"
+msgstr ""
+
+#: src/core/playlist.c:70
+msgid "Cannot open playlist file!"
+msgstr ""
+
+#: src/core/playlist.c:113
+msgid "File is missing!"
+msgstr ""
+
+#: src/core/playlist.c:158
+msgid "Illegal playlist name!"
+msgstr ""
+
+#: src/core/playlist.c:169
+msgid "Playlist already exist!"
+msgstr ""
+
+#: src/ui/config.c:171 src/ui/win.c:349
+msgid "Configuration"
+msgstr ""
+
+#: src/ui/config.c:198
+msgid "Library"
+msgstr ""
+
+#: src/ui/config.c:200
+msgid "Audio"
+msgstr ""
+
+#: src/ui/config.c:202
+msgid "Keyboard"
+msgstr ""
+
+#: src/ui/config.c:204 src/ui/config.c:319
+msgid "Theme"
+msgstr ""
+
+#: src/ui/config.c:206
+msgid "Plug-ins"
+msgstr ""
+
+#: src/ui/config.c:208
+msgid "Options"
+msgstr ""
+
+#: src/ui/config.c:224
+msgid ""
+"<b>Library</b>\n"
+"All the Music Data"
+msgstr ""
+
+#: src/ui/config.c:226
+msgid "Library location"
+msgstr ""
+
+#: src/ui/config.c:229
+msgid "Lib Directory:"
+msgstr ""
+
+#: src/ui/config.c:240
+msgid "Backup Encoding"
+msgstr ""
+
+#: src/ui/config.c:263
+msgid ""
+"<b>Audio</b>\n"
+"Set all about playing audio"
+msgstr ""
+
+#: src/ui/config.c:265
+msgid "Play mode"
+msgstr ""
+
+#: src/ui/config.c:275
+msgid "Random"
+msgstr ""
+
+#: src/ui/config.c:279
+msgid "Repeat"
+msgstr ""
+
+#: src/ui/config.c:283
+msgid "Single"
+msgstr ""
+
+#: src/ui/config.c:292
+msgid ""
+"<b>Keyboard</b>\n"
+"Set all shortcut keys of Linnya"
+msgstr ""
+
+#: src/ui/config.c:293
+msgid "Shortcuts"
+msgstr ""
+
+#: src/ui/config.c:297
+msgid "Name and Keys"
+msgstr ""
+
+#: src/ui/config.c:298
+msgid "Preferense"
+msgstr ""
+
+#: src/ui/config.c:318
+msgid ""
+"<b>Theme</b>\n"
+"Set the looks of Linnya."
+msgstr ""
+
+#: src/ui/config.c:350
+msgid ""
+"<b>Plugins</b>\n"
+"All the plug-ins of Linnya."
+msgstr ""
+
+#: src/ui/config.c:351
+msgid "Plugins"
+msgstr ""
+
+#: src/ui/config.c:535
+msgid "Plugin Configureation"
+msgstr ""
+
+#: src/ui/config.c:562
+msgid ""
+"Linnya\n"
+"\n"
+"Copyright (C) 2010-2011 Edward\n"
+"\n"
+"Linnya is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 2 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"Linnya is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with Linnya; if not, write to the Free Software\n"
+"Foundation, Inc., 51 Franklin St, Fifth Floor, \n"
+"Boston, MA  02110-1301  USA"
+msgstr ""
+
+#: src/ui/config.c:581
+msgid "An audio player for Linux, with unlimited feathers by plug-ins."
+msgstr ""
+
+#: src/ui/config.c:582
+msgid "(c) 2010-2011 Edward<edward@linnya.org>"
+msgstr ""
+
+#: src/ui/config.c:585
+msgid "linnya"
+msgstr ""
+
+#: src/ui/config.c:587
+msgid "2.0.0 Alpha (1.9.0)"
+msgstr ""
+
+#: src/ui/config.c:589 src/ui/config.c:639
+msgid "Official Website"
+msgstr ""
+
+#: src/ui/config.c:606
+#, c-format
+msgid "(c) %s"
+msgstr ""
+
+#: src/ui/config.c:668 src/plugin/Lrc/LrcConf.c:127
+msgid "Select library directory"
+msgstr ""
+
+#: src/ui/config.c:708 src/ui/config.c:897
+msgid "Setting will not be actived until program restart!"
+msgstr ""
+
+#: src/ui/config.c:761
+msgid "Key"
+msgstr ""
+
+#: src/ui/config.c:771
+msgid "Press key to change shortcut ..."
+msgstr ""
+
+#: src/ui/debug.c:132
+#, c-format
+msgid ""
+"<b>INFO!</b>\n"
+"%s"
+msgstr ""
+
+#: src/ui/debug.c:156
+#, c-format
+msgid ""
+"<b>WARNING!</b>\n"
+"%s"
+msgstr ""
+
+#: src/ui/debug.c:178
+#, c-format
+msgid ""
+"<b>ERROR!</b>\n"
+"%s"
+msgstr ""
+
+#: src/ui/debug.c:199
+#, c-format
+msgid ""
+"<b>FATAL ERROR!</b>\n"
+"%s"
+msgstr ""
+
+#: src/ui/key.c:53
+msgid "No configuration file found or read configurations error. \n"
+msgstr ""
+
+#: src/ui/key.c:125
+msgid "Cannot write keybinds to file!\n"
+msgstr ""
+
+#: src/ui/key.c:174
+msgid "Initial ui module: KEY ...\n"
+msgstr ""
+
+#: src/ui/key.c:191
+msgid "Finalize ui module: KEY ...\n"
+msgstr ""
+
+#: src/ui/pl.c:5
+msgid "Initial plugin module ...\n"
+msgstr ""
+
+#: src/ui/pl.c:11
+msgid "Your system does not support plugin!\n"
+msgstr ""
+
+#: src/ui/pl.c:32
+msgid "Finalize plugin module ...\n"
+msgstr ""
+
+#: src/ui/pl.c:86
+#, c-format
+msgid "Read configuration file (%s) error.\n"
+msgstr ""
+
+#: src/ui/session.c:167
+msgid "New Session"
+msgstr ""
+
+#: src/ui/theme.c:12
+msgid "Initial ui module: THEME ...\n"
+msgstr ""
+
+#: src/ui/theme.c:25
+msgid "Finalize ui moudle: THEME ...\n"
+msgstr ""
+
+#: src/ui/theme.c:107
+msgid "Read theme configure file error!"
+msgstr ""
+
+#: src/ui/win.c:19
+msgid "Initial ui module: WIN ...\n"
+msgstr ""
+
+#: src/ui/win.c:340
+msgid "Play/Pause"
+msgstr ""
+
+#: src/ui/win.c:343
+msgid "Previous"
+msgstr ""
+
+#: src/ui/win.c:346
+msgid "Next"
+msgstr ""
+
+#: src/ui/win.c:354
+msgid "Show/Hide Main Window"
+msgstr ""
+
+#: src/ui/win.c:359
+msgid "Quit"
+msgstr ""
+
+#: src/ui/win.c:364
+msgid "<b>Linnya</b> Audio Player"
+msgstr ""
+
+#: src/ui/win.c:491
+msgid "Finalize ui module: WIN ...\n"
+msgstr ""
+
+#: src/plugin/Info/Info.c:33
+msgid "<span size='x-large'>Title</span>"
+msgstr ""
+
+#: src/plugin/Info/Info.c:37
+msgid "<span size='x-large'>Artist</span>"
+msgstr ""
+
+#: src/plugin/Info/Info.c:41
+msgid "<span size='x-large'>Album</span>"
+msgstr ""
+
+#: src/plugin/Info/Info.c:45
+msgid "<span size='x-large'>Duration</span>"
+msgstr ""
+
+#: src/plugin/Info/Info.c:52
+msgid "Unknown Title"
+msgstr ""
+
+#: src/plugin/Info/Info.c:60
+msgid "Unknown Artist"
+msgstr ""
+
+#: src/plugin/Info/Info.c:68
+msgid "Unknown Album"
+msgstr ""
+
+#: src/plugin/Info/Info.c:76
+msgid "Unknown Duration"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:26
+msgid "Desktop Lyrics"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:31
+msgid "Show desktop lyrics"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:35
+msgid "Set desktop lyrics FIXED"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:40
+msgid "LRC File Location"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:49 src/plugin/Lrc/LrcConf.c:59
+msgid "The same directory of music file"
+msgstr ""
+
+#: src/plugin/Lrc/LrcConf.c:55
+msgid "Custom LRC location:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:45 src/plugin/Manager/Manager.c:421
+msgid "Artists"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:49 src/plugin/Manager/Manager.c:425
+msgid "Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:53 src/plugin/Manager/Manager.c:429
+msgid "Playing"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:64
+msgid "Manager"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:86
+msgid "Page 1"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:101
+msgid "*"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:105
+msgid "Title"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:111
+msgid "Artist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:117
+msgid "Album"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:223
+msgid "Add Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:224
+msgid "Import Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:225 src/plugin/Manager/Manager.c:337
+msgid "Add to Play Queue"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:226
+msgid "Rename"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:227
+msgid "Export Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:229 src/plugin/Manager/Manager.c:341
+msgid "Refresh"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:230 src/plugin/Manager/Manager.c:342
+msgid "Delete"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:231 src/plugin/Manager/Manager.c:343
+msgid "Delete All"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:336
+msgid "Play"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:338
+msgid "Add to Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:339 src/plugin/Manager/Manager.c:892
+msgid "Information"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:340
+msgid "Add Files"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:371 src/plugin/Manager/Manager.c:725
+#: src/plugin/Manager/Manager.c:1301
+msgid "New Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:736 src/plugin/Manager/Manager.c:1312
+#: src/plugin/Manager/Manager.c:1455
+msgid "Name"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:904
+msgid "Basic Information"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:911
+msgid "Codec:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:914
+msgid "Start:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:917
+msgid "Duration:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:920
+msgid "Bitrate:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:923
+msgid "Uri:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:954
+msgid "Advance Information"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:959
+msgid "Title:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:962
+msgid "Artist:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:965
+msgid "Album:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:968
+msgid "genre:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:971
+msgid "track:"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1023
+msgid "Add From File..."
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1031
+msgid "Music File"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1119
+msgid "Warnning"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1159 src/plugin/Manager/Manager.c:1251
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1344
+msgid "Import Playlist..."
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1352
+msgid "Playlist File"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1444
+msgid "Rename Playlist"
+msgstr ""
+
+#: src/plugin/Manager/Manager.c:1481
+msgid ""
+"<b>Illeagl Playlist Name</b>\n"
+" The playlist name you just entered is illeagl. Please type again."
+msgstr ""
+
+#: src/plugin/Python/Python.c:49
+msgid "Cannot load module!"
+msgstr ""

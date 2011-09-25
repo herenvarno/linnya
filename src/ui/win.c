@@ -9,6 +9,7 @@
 cairo_surface_t *image=NULL;
 int nX, nY;
 gboolean drag=FALSE;
+int timeout_id=0;
 
 /*
  * FUNCTIONS
@@ -329,6 +330,45 @@ gboolean ly_ui_win_init()
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_audio_get_volume());
 
 
+	//设置图标
+	g_snprintf(path, sizeof(path), "%sui/icon/linnya.svg", LY_GLOBAL_PROGDIR);
+	GtkStatusIcon *tray_icon  = gtk_status_icon_new_from_file (path);
+
+	//设置右键菜单
+	GtkWidget *menu, *menu_item;
+	menu = gtk_menu_new();
+	menu_item = gtk_menu_item_new_with_label (_("Play/Pause"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(ly_ui_win_play_cb),	NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	menu_item = gtk_menu_item_new_with_label (_("Previous"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(ly_ui_win_prev_cb),	NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	menu_item = gtk_menu_item_new_with_label (_("Next"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(ly_ui_win_next_cb),	NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	menu_item = gtk_menu_item_new_with_label (_("Configuration"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(ly_ui_win_config_cb),	NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	menu_item=gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu),menu_item);
+	menu_item = gtk_menu_item_new_with_label (_("Show/Hide Main Window"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(ly_ui_win_change_visible_cb),	win);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	menu_item=gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu),menu_item);
+	menu_item = gtk_menu_item_new_with_label (_("Quit"));
+	g_signal_connect(G_OBJECT(menu_item),	"activate", 	G_CALLBACK(gtk_main_quit),	NULL);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	gtk_widget_show_all (menu);
+	//设置提示
+	gtk_status_icon_set_tooltip_markup(tray_icon,_("<b>Linnya</b> Audio Player"));
+
+	
+	//绑定鼠标事件和处理函数
+	g_signal_connect(GTK_STATUS_ICON (tray_icon), "activate", G_CALLBACK (ly_ui_win_change_visible_cb), win);
+	g_signal_connect(GTK_STATUS_ICON (tray_icon), "popup-menu", G_CALLBACK (ly_ui_win_tray_popup_cb), menu);
+
+
 	/*
 	 * set widget names
 	 */
@@ -357,13 +397,14 @@ gboolean ly_ui_win_init()
 	g_signal_connect(G_OBJECT(win), "motion_notify_event", G_CALLBACK(ly_ui_win_drag_cb), win);
 	g_signal_connect(G_OBJECT(win), "button_release_event", G_CALLBACK(ly_ui_win_drag_cb), win);
  	g_signal_connect(G_OBJECT(button_close),"clicked",G_CALLBACK(gtk_main_quit), NULL);
+ 	g_signal_connect(G_OBJECT(button_min),"clicked",G_CALLBACK(ly_ui_win_change_visible_cb), win);
 	g_signal_connect(G_OBJECT(button_play),"clicked",G_CALLBACK(ly_ui_win_play_cb),NULL);
 	g_signal_connect(G_OBJECT(button_prev),"clicked",G_CALLBACK(ly_ui_win_prev_cb),NULL);
 	g_signal_connect(G_OBJECT(button_next),"clicked",G_CALLBACK(ly_ui_win_next_cb),NULL);
 	g_signal_connect(G_OBJECT(button_volume),"value-changed",G_CALLBACK(ly_ui_win_volume_cb),NULL);
 	g_signal_connect(G_OBJECT(button_config),"clicked",G_CALLBACK(ly_ui_win_config_cb),NULL);
 	
-	g_timeout_add(1000,ly_ui_win_update_hscale_cb,NULL);
+	timeout_id = g_timeout_add(1000,ly_ui_win_update_hscale_cb,NULL);
 	g_signal_connect(G_OBJECT(hscale_seek),"button_press_event",G_CALLBACK(ly_ui_win_seek_cb),NULL);
 	g_signal_connect(G_OBJECT(hscale_seek),"button_release_event",G_CALLBACK(ly_ui_win_seek_cb),NULL);
 
@@ -623,11 +664,11 @@ gboolean ly_ui_win_update_button_cb(gpointer message, gpointer data)
 	gchar *signal=data;
 	if(g_str_equal(signal,"play") && !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_ui_win_window->button_play)))
 	{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_ui_win_window->button_play),TRUE);
+		gtk_widget_set_state(ly_ui_win_window->button_play,GTK_STATE_ACTIVE);
 	}
 	else if((g_str_equal(signal,"pause")||g_str_equal(signal,"stop")) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_ui_win_window->button_play)))
 	{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_ui_win_window->button_play),FALSE);
+		gtk_widget_set_state(ly_ui_win_window->button_play,GTK_STATE_NORMAL);
 	}
 	return FALSE;
 }
@@ -635,5 +676,25 @@ gboolean ly_ui_win_update_button_cb(gpointer message, gpointer data)
 gboolean ly_ui_win_config_cb(GtkWidget *widget, gpointer data)
 {
 	ly_msg_put("create_config","ui:win",NULL);
+	return FALSE;
+}
+
+
+gboolean ly_ui_win_tray_popup_cb(GtkStatusIcon *status_icon, guint button, guint32 activate_time, gpointer popUpMenu)
+{
+	gtk_menu_popup(GTK_MENU(popUpMenu), NULL, NULL, gtk_status_icon_position_menu, status_icon, button, activate_time);
+	return FALSE;
+}
+
+gboolean ly_ui_win_change_visible_cb(GtkWidget *widget, gpointer data)
+{
+	if(gtk_widget_get_visible(GTK_WIDGET(data))==TRUE)
+	{
+		gtk_widget_hide(GTK_WIDGET(data));
+	}
+	else
+	{
+		gtk_widget_show(GTK_WIDGET(data));
+	}
 	return FALSE;
 }

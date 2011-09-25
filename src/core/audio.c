@@ -329,11 +329,10 @@ gboolean ly_audio_play()
 	{
 		if(!ly_audio_set_position(0))
 		{
-			ly_msg_put("Error","ly_func_audio_play","Position not reachable");
+			ly_msg_put("error", "ly_func_audio_play", "Position not reachable");
 		}
 	}
 	
-
 	if(!gst_element_set_state(ly_audio_core->play,GST_STATE_PLAYING))
 	{
 		ly_msg_put("file_missed","core:audio",NULL);
@@ -342,9 +341,6 @@ gboolean ly_audio_play()
 
 	ly_msg_put("play","core:audio", NULL);
 	return TRUE;
-
-
-
 }
 
 /* *
@@ -355,9 +351,14 @@ gboolean ly_audio_play()
  * */
 gboolean ly_audio_pause()
 {
+	if(!((ly_audio_meta)&&(ly_audio_meta->uri)))
+	{
+		ly_msg_put("meta_missed","core:audio",NULL);
+		return FALSE;
+	}
+	
 	GstState state;
 	state=ly_audio_get_state();
-	
 
 	if((state==GST_STATE_PAUSED)||(state==GST_STATE_READY))
 	{
@@ -376,8 +377,6 @@ gboolean ly_audio_pause()
 
 	ly_msg_put("warnning","core:audio","Gstreamer States Error!");
 	return FALSE;
-
-
 }
 
 /* *
@@ -388,6 +387,12 @@ gboolean ly_audio_pause()
  * */
 gboolean ly_audio_stop()
 {
+	if(!((ly_audio_meta)&&(ly_audio_meta->uri)))
+	{
+		ly_msg_put("meta_missed","core:audio",NULL);
+		return FALSE;
+	}
+	
 	GstState state;
 	state=ly_audio_get_state();
 

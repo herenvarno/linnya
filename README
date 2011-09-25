@@ -1,11 +1,19 @@
 General Information
 ================
 
-Linnya Player is an excellent multimedia application for Linux users, which supporting music library, playlist, lyrics, and more features from plug-ins.
+Linnya Player is an excellent multimedia application for Linux users, which
+supporting music library, playlist, lyrics, and more features from plug-ins.
 
-Linnya Player is a free software, and published under the GNU GPLv3 Licence, you can easily find a copy of GPLv3 in the same directory of this file. Or if you don't find it, The official GNU GPL website http://www.gnu.org/licenses/gpl.html would be a good choice for you. If you do NOT understand English well, the translated GPL licence (http://www.gnu.org/licenses/translations.html) may do you a great favor.
+Linnya Player is a free software, and published under the GNU GPLv3 Licence,
+you can easily find a copy of GPLv3 in the same directory of this file. Or if
+you don't find it, The official GNU GPL website
+http://www.gnu.org/licenses/gpl.html would be a good choice for you. If you do
+NOT understand English well, the translated GPL licence (
+http://www.gnu.org/licenses/translations.html) may do you a great favor.
 
-WARNNING: If anybody especially Some Chinese Programmers want to modify or republish Linnya, you MUST go with the GNU GPLv3. To FULLY understand the licence is your responsibility.
+WARNNING: If anybody especially Some Chinese Programmers want to modify or
+republish Linnya, you MUST go with the GNU GPLv3. To FULLY understand the
+licence is your responsibility.
 
 
 About Us
@@ -19,7 +27,8 @@ Installation
 ================
 
 FIRST:
-Configure your system information to create the makefile. Use the command below:
+Configure your system information to create the makefile. Use the command
+below:
 	./configure --prefix=/usr
 
 SECOND:
@@ -27,7 +36,8 @@ Compile all the source file to excuteable file. Use the command below:
 	make
 
 FINALLY:
-Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the command below(please be root):
+Copy files to the proper directory, Usually in /usr/share/linnya/... .Use the
+command below(please be root):
 	make install
 
 NOT NECESSARY BUT RECOMMENDED STEP:
@@ -40,17 +50,23 @@ DEVELOPMENT
 
 The 2.0 version of Linnya is under development now, and is extremely unstable.
 We cannot promise it would never fire your house, or anything else.
-So, if you are not an expert, please do NOT install it untile the stable version is realsed. THANKS! 
+So, if you are not an expert, please do NOT install it untile the stable
+version is realsed. THANKS! 
 
 
 简介
 ================
 
-Linnya 音乐播放器是一款为Linux使用者量身定制的多媒体软件。它支持音乐库，播放列表，同步歌词，去除字符乱码等多种功能。
+Linnya 音乐播放器是一款为Linux使用者量身定制的多媒体软件。它支持音乐库，播放列表，同步歌词，
+去除字符乱码等多种功能。
 
-Linnya 音乐播放器是一款在GNU GPLv3的授权下发布的自由软件。你可以在本文件的同目录下找到一份GPLv3的拷贝，如果没有，你也可以访问GNU的官方网站查询，网址为： http://www.gnu.org/licenses/gpl.html 。不懂英文的用户可以在这个链接里找到你能看懂的版本： http://www.gnu.org/licenses/translations.html 。
+Linnya 音乐播放器是一款在GNU GPLv3的授权下发布的自由软件。你可以在本文件的同目录下找到一份
+GPLv3的拷贝，如果没有，你也可以访问GNU的官方网站查询，网址为：
+http://www.gnu.org/licenses/gpl.html 。不懂英文的用户可以在这个链接里找到你能看懂的版本：
+http://www.gnu.org/licenses/translations.html 。
 
-警告：如果有谁（尤其是某些国内的IT从业者）想要修改或再发布本软件，你必须严格遵照GPLv3的授权执行。你有责任和义务弄懂GPLv3授权协议的每一条规定。
+警告：如果有谁（尤其是某些国内的IT从业者）想要修改或再发布本软件，你必须严格遵照GPLv3的授权
+执行。你有责任和义务弄懂GPLv3授权协议的每一条规定。
 
 
 关于
@@ -74,6 +90,7 @@ Linnya 音乐播放器是一款在GNU GPLv3的授权下发布的自由软件。�
 
 最最后，建议你清理不用的交换文件以便下次编译，命令如下：
 	./clear
+
 
 开发
 ================

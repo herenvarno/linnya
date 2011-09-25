@@ -21,6 +21,8 @@ gboolean dragflag=FALSE;
 
 int index_mark=0;
 
+int timeout_id;
+
 gboolean ly_plugin_lrc_quit_flag=FALSE;
 
 const gchar* g_module_check_init(GModule *module)
@@ -77,14 +79,14 @@ const gchar* g_module_check_init(GModule *module)
 		g_signal_connect(G_OBJECT(ly_plugin_lrc_desktop), "leave_notify_event", G_CALLBACK(ly_plugin_lrc_desktop_drag_cb), NULL);
 		
 		ly_plugin_lrc_quit_flag=TRUE;
-		g_timeout_add(100,ly_plugin_lrc_desktop_update_cb, NULL);
+		timeout_id=g_timeout_add(100,ly_plugin_lrc_desktop_update_cb, NULL);
 		
 	}
 	return NULL;
 }
 void g_module_unload(GModule *module)
 {
-	ly_plugin_lrc_quit_flag=FALSE;
+	g_source_remove(timeout_id);
 	ly_msg_unbind("meta_changed", "core:audio", ly_plugin_lrc_read_cb);
 }
 
@@ -850,14 +852,6 @@ gboolean ly_plugin_lrc_desktop_drag_cb( GtkWidget * widget, GdkEvent *event, gpo
 
 gboolean ly_plugin_lrc_desktop_update_cb(gpointer data)
 {
-	if(!ly_plugin_lrc_quit_flag)
-	{
-		/*
-		 * FIXME: 无法阻止定时器再刷新
-		 */
-		return FALSE;
-	}
-	
 	ly_plugin_lrc_update_index();
 	int lrc_desktop=0;
 	ly_conf_get("lrc_desktop", "%d:%*d", &lrc_desktop);

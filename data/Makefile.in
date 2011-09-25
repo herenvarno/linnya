@@ -14,6 +14,7 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -52,6 +53,30 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-pdf-recursive install-ps-recursive install-recursive \
 	installcheck-recursive installdirs-recursive pdf-recursive \
 	ps-recursive uninstall-recursive
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__installdirs = "$(DESTDIR)$(linnya_uninstalldir)" \
+	"$(DESTDIR)$(linnyaicondir)" "$(DESTDIR)$(menudir)"
+DATA = $(linnya_uninstall_DATA) $(linnyaicon_DATA) $(menu_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
@@ -210,7 +235,20 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = icon theme
-ACLOCAL_AMFLAGS = -I m4
+EXTRA_DIST = \
+			linnya.svg\
+			linnya.desktop\
+			linnya-uninstall
+
+linnyaicondir = ${datadir}/icons/hicolor/scalable/apps
+linnyaicon_DATA = linnya.svg
+
+# Rule to update the icon cache after installing the icon
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
+menudir = ${datadir}/applications
+menu_DATA = linnya.desktop
+linnya_uninstalldir = ${datadir}/linnya
+linnya_uninstall_DATA = linnya-uninstall
 all: all-recursive
 
 .SUFFIXES:
@@ -250,6 +288,66 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-linnya_uninstallDATA: $(linnya_uninstall_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(linnya_uninstalldir)" || $(MKDIR_P) "$(DESTDIR)$(linnya_uninstalldir)"
+	@list='$(linnya_uninstall_DATA)'; test -n "$(linnya_uninstalldir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(linnya_uninstalldir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(linnya_uninstalldir)" || exit $$?; \
+	done
+
+uninstall-linnya_uninstallDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(linnya_uninstall_DATA)'; test -n "$(linnya_uninstalldir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(linnya_uninstalldir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(linnya_uninstalldir)" && rm -f $$files
+install-linnyaiconDATA: $(linnyaicon_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(linnyaicondir)" || $(MKDIR_P) "$(DESTDIR)$(linnyaicondir)"
+	@list='$(linnyaicon_DATA)'; test -n "$(linnyaicondir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(linnyaicondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(linnyaicondir)" || exit $$?; \
+	done
+
+uninstall-linnyaiconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(linnyaicon_DATA)'; test -n "$(linnyaicondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(linnyaicondir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(linnyaicondir)" && rm -f $$files
+install-menuDATA: $(menu_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(menudir)" || $(MKDIR_P) "$(DESTDIR)$(menudir)"
+	@list='$(menu_DATA)'; test -n "$(menudir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(menudir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(menudir)" || exit $$?; \
+	done
+
+uninstall-menuDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(menu_DATA)'; test -n "$(menudir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(menudir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(menudir)" && rm -f $$files
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -446,9 +544,12 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-recursive
-all-am: Makefile
+all-am: Makefile $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
+	for dir in "$(DESTDIR)$(linnya_uninstalldir)" "$(DESTDIR)$(linnyaicondir)" "$(DESTDIR)$(menudir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
@@ -494,8 +595,10 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
-
+install-data-am: install-linnya_uninstallDATA install-linnyaiconDATA \
+	install-menuDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-dvi: install-dvi-recursive
 
 install-dvi-am:
@@ -538,25 +641,42 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am:
-
+uninstall-am: uninstall-linnya_uninstallDATA uninstall-linnyaiconDATA \
+	uninstall-menuDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) ctags-recursive \
-	install-am install-strip tags-recursive
+	install-am install-data-am install-strip tags-recursive \
+	uninstall-am
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am check check-am clean clean-generic clean-libtool \
 	ctags ctags-recursive distclean distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am
+	install-data-am install-data-hook install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-linnya_uninstallDATA \
+	install-linnyaiconDATA install-man install-menuDATA \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
+	ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-hook uninstall-linnya_uninstallDATA \
+	uninstall-linnyaiconDATA uninstall-menuDATA
 
+
+install-data-hook: update-icon-cache
+uninstall-hook: update-icon-cache
+update-icon-cache:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache); \
+	else \
+		echo "*** Icon cache not updated.  After (un)install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

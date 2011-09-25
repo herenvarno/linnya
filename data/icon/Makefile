@@ -182,7 +182,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/yy/fakeroot
+prefix = /usr
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -193,9 +193,29 @@ target_alias =
 top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
-EXTRA_DIST = *
+EXTRA_DIST = \
+			linnya.svg\
+			icon.svg\
+			album_default.png\
+			audio.svg\
+			key.svg\
+			lib.svg\
+			null.png\
+			plugin.svg\
+			theme.svg
+
 icondir = ${datadir}/linnya/ui/icon
-icon_DATA = *
+icon_DATA = \
+			linnya.svg\
+			icon.svg\
+			album_default.png\
+			audio.svg\
+			key.svg\
+			lib.svg\
+			null.png\
+			plugin.svg\
+			theme.svg
+
 all: all-am
 
 .SUFFIXES:

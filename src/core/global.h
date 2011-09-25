@@ -20,11 +20,11 @@
 /*
  * MACROS
  */
-#define LY_GLOBAL_VERSION 1.90
+#define LY_GLOBAL_VERSION 1.91
 
-#define _(String)			gettext(String)
-#define LY_GLOBAL_PACKAGE	"linnya"
-#define LY_GLOBAL_LOCALEDIR	"./lyconf"
+#define _(String) gettext(String)
+#define LY_GLOBAL_PACKAGE "linnya"
+#define LY_GLOBAL_LOCALEDIR	LOCALEDIR
 
 #define LY_GLOBAL_HOMEDIR ly_global_homedir
 #define LY_GLOBAL_PROGDIR ly_global_progdir

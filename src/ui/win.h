@@ -63,6 +63,7 @@ gboolean ly_ui_win_update_hscale_cb(gpointer data);
 gboolean ly_ui_win_update_meta_cb(gpointer message, gpointer data);
 gboolean ly_ui_win_update_button_cb(gpointer message, gpointer data);
 gboolean ly_ui_win_config_cb(GtkWidget *widget, gpointer data);
-
+gboolean ly_ui_win_tray_popup_cb(GtkStatusIcon *status_icon, guint button, guint32 activate_time, gpointer popUpMenu);
+gboolean ly_ui_win_change_visible_cb(GtkWidget *widget, gpointer data);
 
 #endif
