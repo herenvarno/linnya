@@ -1,8 +1,6 @@
 #!/bin/sh
 
-make clean
-rm -f Makefile
-rm -f ./*/Makefile
+make maintainer-clean
 
 cd po
 rm -f Makefile.in

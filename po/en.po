@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-25 12:42+0800\n"
+"POT-Creation-Date: 2011-09-25 13:30+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,10 +260,6 @@ msgstr ""
 
 #: src/ui/config.c:585
 msgid "linnya"
-msgstr ""
-
-#: src/ui/config.c:587
-msgid "2.0.0 Alpha (1.9.0)"
 msgstr ""
 
 #: src/ui/config.c:589 src/ui/config.c:639

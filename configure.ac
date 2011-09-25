@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([linnya], [1.9.0], [http://linnya.org])
-AM_INIT_AUTOMAKE(linnya, 1.0.2)
+AC_INIT([linnya], [1.9.1], [http://www.linnya.org])
+AM_INIT_AUTOMAKE(linnya, 1.9.1)
 AC_CONFIG_SRCDIR([src/main.h])
 AC_CONFIG_HEADERS([config.h])
 

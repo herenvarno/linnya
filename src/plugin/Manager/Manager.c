@@ -40,7 +40,7 @@ GtkWidget *ly_plugin_manager_create()
 	
 	GtkTreeIter iter;
 	store_left = gtk_tree_store_new (3,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_INT);
-	
+
 	gtk_tree_store_append (store_left, &iter,NULL);
 	gtk_tree_store_set(store_left, &iter,0,NULL,1,_("Artists"),2,-1,-1);
 	ly_db_exec("SELECT DISTINCT artist FROM metadatas ORDER BY num", ly_plugin_manager_get_artists_cb, &iter);
@@ -95,8 +95,11 @@ GtkWidget *ly_plugin_manager_create()
 	gtk_container_add(GTK_CONTAINER(scrolled_window),treeview_right);
 	
 	store_right  = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
-	ly_db_exec("SELECT id,title,artist,album FROM metadatas ORDER BY num LIMIT 200", ly_plugin_manager_get_metadatas_cb, NULL);
-	
+
+	char sql[1024]="";
+	g_snprintf(sql, sizeof(sql), "SELECT id,title,artist,album FROM metadatas ORDER BY num LIMIT %d OFFSET %d", sql_right, limit_right, offset_right);
+	ly_db_exec(sql, ly_plugin_manager_get_metadatas_cb, NULL);
+
 	cell_renderer = gtk_cell_renderer_pixbuf_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("*"),cell_renderer,"pixbuf",0,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),FALSE);
@@ -122,7 +125,7 @@ GtkWidget *ly_plugin_manager_create()
 	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_right), GTK_TREE_MODEL(store_right ));
 	selection_right=gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_right));
 	gtk_tree_selection_set_mode(selection_right,GTK_SELECTION_MULTIPLE);
-	
+
 	g_signal_connect(G_OBJECT(treeview_right), "button_release_event", G_CALLBACK(ly_plugin_manager_popup_right_menu_cb), NULL);
 	g_signal_connect(G_OBJECT(treeview_left), "button_release_event", G_CALLBACK(ly_plugin_manager_popup_left_menu_cb), NULL);
 	g_signal_connect(G_OBJECT(selection_left), "changed", G_CALLBACK(ly_plugin_manager_left_change_cb), NULL);
@@ -189,7 +192,9 @@ gboolean ly_plugin_manager_get_metadatas_cb(gpointer stmt, gpointer data)
 	g_strlcpy(title,(const gchar *)sqlite3_column_text(stmt, 1),128);
 	g_strlcpy(artist,(const gchar *)sqlite3_column_text(stmt, 2),128);
 	g_strlcpy(album,(const gchar *)sqlite3_column_text(stmt, 3),128);
-	if(id==ly_audio_meta->id)
+	
+	
+	if(ly_audio_meta && id==ly_audio_meta->id)
 	{
 		gtk_tree_store_set(store_right, &iter, 0, icon_playing, 1,title, 2,artist, 3,album, 4, id, -1);
 	}
