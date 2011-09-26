@@ -1019,7 +1019,7 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 {
 	GSList *filelist;
 	GSList *q;
-	gchar *filename,*fileuri, tmp[1024];
+	gchar *filename, fileuri[1024], tmp[1024];
 	lyDbMetadata *md;
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
@@ -1075,10 +1075,13 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 	{
 		filename=g_filename_from_uri(q->data,NULL,NULL);
 		realpath(filename,tmp);
-		fileuri=g_strconcat("file://",tmp, NULL);
+		g_snprintf(fileuri, sizeof(fileuri), "file://%s", tmp);
 		g_free(filename);
 
 		md=ly_db_read_metadata(fileuri);
+		if(!md)
+			return FALSE;
+		
 		ly_global_replace_str(md->title, sizeof(md->title), "'", "''");
 		ly_global_replace_str(md->artist, sizeof(md->artist), "'", "''");
 		ly_global_replace_str(md->album, sizeof(md->album), "'", "''");
@@ -1104,6 +1107,7 @@ gboolean ly_plugin_manager_right_addfiles_cb(GtkWidget *widget, gpointer data)
 			ly_db_exec(sql,NULL,NULL);
 		}
 		ly_db_free_metadata(md);
+		md=NULL;
 		q=q->next;
 	}
 	ly_db_exec("commit",NULL,NULL);
