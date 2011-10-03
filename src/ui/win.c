@@ -268,12 +268,15 @@ gboolean ly_ui_win_init()
 	gtk_widget_set_size_request(button_play,th->size[0],th->size[1]);
 	gtk_fixed_put(GTK_FIXED(fixed_control_left),button_play,th->pos[0],th->pos[1]);
 
+	GtkWidget *vbox;
+	vbox=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hbox_control),vbox,TRUE,TRUE,0);
 	hscale_seek=gtk_hscale_new_with_range(0,1,0.0001);
 	gtk_widget_set_size_request(hscale_seek, 150, -1);
 	gtk_scale_set_draw_value(GTK_SCALE(hscale_seek),FALSE);
 	ly_ui_win_flag_seek=FALSE;
-	gtk_box_pack_start(GTK_BOX(hbox_control),hscale_seek,TRUE,TRUE,10);
-
+	gtk_box_pack_start(GTK_BOX(vbox),hscale_seek,TRUE,FALSE,10);
+		
 	th=ly_ui_theme_get("fixed_control_right");
 	if(!th)
 	{
