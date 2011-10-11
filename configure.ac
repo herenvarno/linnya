@@ -17,8 +17,9 @@ CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
 
 # Checks for libraries.
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
-PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.0.0, gthread-2.0])
 PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10 gstreamer-base-0.10])
+PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.0.0, gthread-2.0])
+PKG_CHECK_MODULES([CURL], [libcurl >= 7.0])
 
 # Checks for header files.
 AC_CHECK_HEADERS([libintl.h locale.h stdlib.h string.h unistd.h])

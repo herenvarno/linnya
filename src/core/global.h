@@ -31,6 +31,8 @@
 #define LY_GLOBAL_PROGDIR ly_global_progdir
 #define LY_GLOBAL_USERDIR ly_global_userdir
 #define LY_GLOBAL_TEMPDIR ly_global_tempdir
+#define LY_GLOBAL_UIDIR ly_global_uidir
+#define LY_GLOBAL_PLUGINDIR ly_global_plugindir
 
 #define LY_GLOBAL_CALLBACK(f) gboolean (*f)(gpointer object, gpointer data)
 
@@ -39,10 +41,12 @@
  */
 GMainLoop	*ly_global_mainloop;
 
-const gchar	*ly_global_homedir;
-const gchar	*ly_global_progdir;
-const gchar	*ly_global_userdir;
-const gchar	*ly_global_tempdir;
+const char	*ly_global_homedir;
+const char	*ly_global_progdir;
+const char	*ly_global_userdir;
+const char	*ly_global_tempdir;
+const char	*ly_global_uidir;
+const char	*ly_global_plugindir;
 
 int			*ly_global_argc;
 char		***ly_global_argv;

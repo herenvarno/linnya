@@ -22,18 +22,17 @@ gboolean ly_global_init(int *argc, char ***argv)
 	}
 	LY_GLOBAL_HOMEDIR=g_strconcat(str,"/",NULL);
 	LY_GLOBAL_PROGDIR=g_strconcat(INSTALL_PATH,NULL);
-//	LY_GLOBAL_PROGDIR=g_strconcat("./conf/",NULL);
 	LY_GLOBAL_USERDIR=g_strconcat(LY_GLOBAL_HOMEDIR,".linnya/",NULL);
 	LY_GLOBAL_TEMPDIR=g_strconcat("/tmp/linnya/",NULL);
 	
 	mkdir(LY_GLOBAL_USERDIR, 0755);
 	mkdir(LY_GLOBAL_TEMPDIR, 0755);
+	
+	LY_GLOBAL_UIDIR=g_strconcat(LY_GLOBAL_USERDIR,"ui/",NULL);
+	LY_GLOBAL_PLUGINDIR=g_strconcat(LY_GLOBAL_USERDIR,"plugin/",NULL);
 
-	gchar *path=(gchar*)g_malloc(128*sizeof(gchar));
-	g_snprintf(path,127,"%sui",LY_GLOBAL_USERDIR);
-	mkdir(path, 0755);
-	g_snprintf(path,127,"%splugin",LY_GLOBAL_USERDIR);
-	mkdir(path, 0755);
+	mkdir(LY_GLOBAL_UIDIR, 0755);
+	mkdir(LY_GLOBAL_PLUGINDIR, 0755);
 	
 	/*
 	 * localizition

@@ -6,8 +6,17 @@
  */
 #include "core.h"
 #include "ui.h"
+#include "InfoCover.h"
 
-GtkWidget *label_title, *label_artist, *label_album, *label_duration;
+/*
+ * MACRO
+ */
+#define LY_PLUGIN_INFODIR ly_plugin_infodir
+
+/*
+ * VARIABLES
+ */
+const char		*ly_plugin_infodir;
 
 /*
  * FUNCTIONS

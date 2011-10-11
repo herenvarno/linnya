@@ -30,7 +30,7 @@ gboolean ly_plugin_downlrc_download_cb(gpointer message, gpointer data)
 		return FALSE;
 	if(thread)
 		return FALSE;
-	thread=g_thread_create(ly_plugin_downlrc_create_thread_cb, ((lyMsgMessage*)(message))->msg, FALSE, NULL);
+	thread=g_thread_create(ly_plugin_downlrc_create_thread_cb, g_strdup(((lyMsgMessage*)(message))->msg), FALSE, NULL);
 	return TRUE;
 }
 
@@ -69,6 +69,7 @@ gpointer ly_plugin_downlrc_create_thread_cb(void *arg)
 			ly_plugin_lrc_sort_lyrics();
 		}
 	}
+	g_free(arg);
 	thread=NULL;
 	return NULL;
 }

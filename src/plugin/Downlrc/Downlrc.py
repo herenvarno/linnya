@@ -23,10 +23,7 @@ class LyricsDownloaderQianqian:
 		title_=self.ToQianQianHexString(title)
 		artist_=self.ToQianQianHexString(artist)
 		
-		print(title)
-		print(artist)
 		URL='http://ttlrcct2.qianqian.com/dll/lyricsvr.dll?sh?Artist=%s&Title=%s&Flags=0' % (artist_, title_)
-		print(URL)
 		#print search information
 		print("SEARCH\t[",title,"][",artist,"]");
 		

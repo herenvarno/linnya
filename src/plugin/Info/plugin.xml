@@ -11,7 +11,7 @@
 	<license>GPLv3</license>
 	
 	<!-- 图标 -->
-	<logo>logo.png</logo>
+	<logo>logo.svg</logo>
 	<!-- 官方网站 -->
 	<website>http://www.linnya.org</website>
 	<!-- 说明 -->
@@ -20,6 +20,7 @@
 	
 	<!-- 后台运行标志 -->
 	<deamon>0</deamon>
+	<depends>Python</depends>
 	<!-- 配置函数名 -->
 	<create_symbol>ly_plugin_info_create</create_symbol>
 	<refresh_symbol>ly_plugin_info_refresh</refresh_symbol>

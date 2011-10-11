@@ -8,21 +8,27 @@ datadir			= ${PLUGIN_DIR}/Info
 
 lib_LTLIBRARIES = libInfo.la
 data_DATA		=\
-				logo.png\
-				plugin.xml
+				logo.svg\
+				plugin.xml\
+				InfoCoverDown.py
 libInfo_la_SOURCES	=\
 				Info.c\
-				Info.h
+				Info.h\
+				InfoCover.c\
+				InfoCover.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
+				@CURL_CFLAGS@\
 				-DLOCALEDIR=\"$(localedir)\"\
 				-I../../core\
-				-I../../ui
+				-I../../ui\
+				-I../Python
 libInfo_la_LIBADD	=\
 				@GTK3_LIBS@\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\
+				@CURL_LIBS@\
 				-L../../core -llinnyacore\
 				-L../../ui -llinnyaui

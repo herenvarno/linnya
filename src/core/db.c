@@ -244,6 +244,11 @@ gboolean ly_db_check_database()
 		ly_db_exec("CREATE TRIGGER before_playlists_delete BEFORE DELETE ON playlists FOR EACH ROW BEGIN DELETE FROM connections WHERE pid=OLD.id; END;",NULL,NULL);
 	}
 	
+	/*
+	 * Set case sensitive
+	 */
+	ly_db_exec("PRAGMA case_sensitive_like = 1",NULL,NULL);
+
 	return TRUE;
 }
 
@@ -302,7 +307,6 @@ gboolean ly_db_check_library()
 	tmpsql=NULL;
 	
 	sql=g_strconcat("DELETE FROM metadatas WHERE uri like 'file://",tmppath,"%' AND tmpflag=0",NULL);
-	
 	ly_db_exec(sql,NULL,NULL);
 	g_free(sql);
 	

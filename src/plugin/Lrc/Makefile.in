@@ -106,6 +106,8 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CURL_CFLAGS = @CURL_CFLAGS@
+CURL_LIBS = @CURL_LIBS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -220,7 +222,7 @@ PROGMAN_NAME = linnya
 PLUGIN_DIR = ${prefix}/share/${PROGMAN_NAME}/plugin
 lib_LTLIBRARIES = libLrc.la
 data_DATA = \
-				logo.png\
+				logo.svg\
 				plugin.xml
 
 libLrc_la_SOURCES = \
