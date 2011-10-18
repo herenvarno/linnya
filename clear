@@ -1,0 +1,9 @@
+#!/bin/sh
+
+make maintainer-clean
+
+cd po
+rm -f Makefile.in
+rm -f linnya.pot
+rm -f *.gmo
+rm -f *.po~
