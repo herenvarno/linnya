@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<themes>
+	<theme name="gtk3" bg="gtk-3.0/gtk.css" />
+	<theme name="win" pos="10:10" size="800:600" border="10" decorated="0"  bg="window.png" />
+	<theme name="fixed_control_left" size="120:70" />
+	<theme name="fixed_control_right" size="90:70"/>
+	<theme name="button_close" size="16:16" />
+	<theme name="button_min" size="16:16" />
+	<theme name="button_max" size="16:16" />
+	<theme name="button_mini" size="16:16" />
+	<theme name="button_prev" pos="10:20" size="50:50" />
+	<theme name="button_next" pos="110:20" size="50:50" />
+	<theme name="button_play" pos="50:10" size="70:70" />
+	<theme name="button_config" pos="10:30" size="37:27" />
+	<theme name="button_volume" pos="45:28" size="37:27" />
+</themes>

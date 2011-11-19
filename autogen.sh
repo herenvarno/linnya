@@ -1,0 +1,1 @@
+gtkdocize || exit 1

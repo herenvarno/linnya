@@ -1,0 +1,3 @@
+EXTRA_DIST = m4/ChangeLog  BUGS ChangeLog.O
+SUBDIRS = inf
+ACLOCAL_AMFLAGS = -I m4
