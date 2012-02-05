@@ -7,6 +7,7 @@
 #include "cox.h"
 #include "uix.h"
 #include "inf_cover.h"
+#include "inf_config.h"
 
 /*
  * MACRO

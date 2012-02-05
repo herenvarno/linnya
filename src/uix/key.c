@@ -69,7 +69,7 @@ void		ly_key_fina	()
 
 LyKeyKeybind*	ly_key_new			(char *name)
 {
-	if(!name)
+	if((!name)||(g_str_equal(name, "")))
 	{
 		return NULL;
 	}
@@ -78,7 +78,7 @@ LyKeyKeybind*	ly_key_new			(char *name)
 	{
 		return NULL;
 	}
-	g_strlcpy(kb->name, "", sizeof(kb->name));
+	g_strlcpy(kb->name, name, sizeof(kb->name));
 	g_strlcpy(kb->mask0, "", sizeof(kb->mask0));
 	g_strlcpy(kb->mask1, "", sizeof(kb->mask1));
 	g_strlcpy(kb->key, "", sizeof(kb->key));
@@ -88,7 +88,7 @@ LyKeyKeybind*	ly_key_new			(char *name)
 	return kb;
 }
 
-void			ly_key_free			(gpointer *kb)
+void			ly_key_free			(gpointer kb)
 {
 	if(kb)
 		g_free(kb);
@@ -96,15 +96,12 @@ void			ly_key_free			(gpointer *kb)
 
 gboolean	ly_key_set		(char *name, char *mask0, char *mask1, char *key, int type, gpointer arg0, gpointer arg1)
 {
-	if(!name)
-	{
-		return FALSE;
-	}
-	
+	gboolean found=TRUE;
 	LyKeyKeybind *kb=NULL;
-	kb=ly_key_get("name");
+	kb=ly_key_get(name);
 	if(!kb)
 	{
+		found=FALSE;
 		kb=ly_key_new(name);
 		if(!kb)
 		{
@@ -122,7 +119,7 @@ gboolean	ly_key_set		(char *name, char *mask0, char *mask1, char *key, int type,
 	}
 	if(key)
 	{
-		g_strlcpy(kb->key, "", sizeof(kb->key));
+		g_strlcpy(kb->key, key, sizeof(kb->key));
 	}
 	if(type>KEY_BIND_TYPE_UNDEFINED && type<=KEY_BIND_TYPE_CALLBACK)
 	{
@@ -136,14 +133,19 @@ gboolean	ly_key_set		(char *name, char *mask0, char *mask1, char *key, int type,
 	{
 		kb->arg1=arg1;
 	}
-	
-	gchar *namestr=g_strconcat(kb->name,NULL);
-	g_hash_table_replace(ly_key_keybinds, namestr, kb);
+	if(!found)
+	{
+		gchar *namestr=g_strconcat(kb->name,NULL);
+		g_hash_table_replace(ly_key_keybinds, namestr, kb);
+	}
 	return TRUE;
 }
 
 LyKeyKeybind *ly_key_get(char *name)
 {
+	if((!name)||(g_str_equal(name, "")))
+		return NULL;
+
 	LyKeyKeybind *kb=NULL;
 	kb=g_hash_table_lookup(ly_key_keybinds, name);
 	return kb;
@@ -279,7 +281,7 @@ gboolean ly_key_unbind(char *name)
 
 gboolean ly_key_read(void)
 {
-	gchar path[128]="";
+	gchar path[1024]="";
 	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIDIR);
 	
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
@@ -331,35 +333,32 @@ void ly_key_read_start_cb(	GMarkupParseContext *context,
 {
 	if(g_str_equal(element_name,"keybind"))
 	{
-		gchar *name=NULL;
+		char name[1024]="";
+		char key[1024]="";
+		char mask0[1024]="";
+		char mask1[1024]="";
 		
 		const gchar **name_cursor = attribute_names;
 		const gchar **value_cursor = attribute_values;
 		
-		LyKeyKeybind *keybind=(LyKeyKeybind *)g_malloc(sizeof(LyKeyKeybind));
 		while (*name_cursor)
 		{
 			if (g_str_equal(*name_cursor, "name"))
-				name = g_strdup (*value_cursor);
+				g_strlcpy(name,*value_cursor,sizeof(name));
 			else if (g_str_equal(*name_cursor, "key"))
-				g_strlcpy(keybind->key,*value_cursor,sizeof(keybind->key));
+				g_strlcpy(key,*value_cursor,sizeof(key));
 			else if (g_str_equal(*name_cursor, "mask0"))
-				g_strlcpy(keybind->mask0,*value_cursor,sizeof(keybind->mask0));
+				g_strlcpy(mask0,*value_cursor,sizeof(mask0));
 			else if (g_str_equal(*name_cursor, "mask1"))
-				g_strlcpy(keybind->mask1,*value_cursor,sizeof(keybind->mask1));
+				g_strlcpy(mask1,*value_cursor,sizeof(mask1));
 			name_cursor++;
 			value_cursor++;
 		}
 		
-		if(!name)
+		if(!g_str_equal(name, ""))
 		{
-			if(name)
-				g_free(name);
-			if(keybind)
-				g_free(keybind);
-			return;
+			ly_key_set(name, mask0, mask1, key, KEY_BIND_TYPE_UNDEFINED, NULL, NULL);
 		}
-		g_hash_table_replace(ly_key_keybinds,name,keybind);
 	}
 }
 
@@ -371,7 +370,8 @@ void ly_key_read_start_cb(	GMarkupParseContext *context,
  */
 gboolean ly_key_write(void)
 {
-	gchar *path=g_strconcat(LY_GLA_USERDIR,"ui/key.xml",NULL);
+	gchar path[1024]="";
+	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIDIR);
 	
 	FILE *fp=NULL;
 	gchar *buf=NULL;
@@ -394,7 +394,7 @@ gboolean ly_key_write(void)
 	while (g_hash_table_iter_next (&iter, &name, &value)) 
 	{
 		k=(LyKeyKeybind *)value;
-		buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" key=\"%s\" mask0=\"%s\" mask1=\"%s\"/>\n", (gchar*)name, k->key, k->mask0, k->mask1);
+		buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" mask0=\"%s\" mask1=\"%s\" key=\"%s\"/>\n", (gchar*)name, k->mask0, k->mask1, k->key);
 		fputs(buf,fp);
 		g_free(buf);
 	}

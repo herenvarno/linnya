@@ -52,6 +52,8 @@ gboolean	ly_sss_tab_add_create	();
 gboolean	ly_sss_tab_add_refresh	();
 gboolean	ly_sss_tab_add_destroy	();
 
+GdkPixbuf* ly_sss_alloc_bg(char *bg);
+
 gboolean ly_sss_on_open_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
 gboolean ly_sss_on_close_cb(GtkWidget *widget, gpointer data);
 #endif

@@ -70,6 +70,10 @@ void		ly_3inf_cover_fina()
 	{
 		g_object_unref(ly_3inf_cover_pixbuf_default);
 	}
+	if(ly_3inf_cover_pixbuf)
+	{
+		g_object_unref(ly_3inf_cover_pixbuf);
+	}
 }
 
 
@@ -85,7 +89,11 @@ GdkPixbuf*		ly_3inf_cover_get()
 gboolean	ly_3inf_cover_on_cover_got()
 {
 	if(ly_3inf_cover_pixbuf)
-		return FALSE;
+	{
+		g_object_unref(ly_3inf_cover_pixbuf);
+		ly_3inf_cover_pixbuf=NULL;
+	}
+	
 	/*
 	 * get cover from GstBuffer
 	 */

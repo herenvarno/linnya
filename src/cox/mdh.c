@@ -280,6 +280,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri_full	(char *uri)
 	 * create and initial metadata
 	 */
 	LyMdhMetadata *metadata=ly_mdh_new();
+	g_strlcpy(metadata->uri, uri, sizeof(metadata->uri));
 
 	/*
 	 * build the pipeline

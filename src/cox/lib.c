@@ -67,6 +67,7 @@ enum{
  * FUNCTIONS
  */
 gboolean	ly_lib_get_md_cb	(gpointer stmt, gpointer data);
+gboolean	ly_lib_get_id_cb	(gpointer stmt, gpointer data);
 gboolean ly_lib_check_library_check_file_cb(gpointer stmt, gpointer data);
 gboolean ly_lib_check_library_check_newfile_cb(gpointer stmt, gpointer data);
 
@@ -103,8 +104,10 @@ void	ly_lib_fina()
 {
 }
 
-void	ly_lib_add_md(LyMdhMetadata *md)
+int	ly_lib_add_md(LyMdhMetadata *md)
 {
+	if(!md)
+		return -1;
 	ly_dbm_replace_str(md->title, sizeof(md->title));
 	ly_dbm_replace_str(md->artist, sizeof(md->artist));
 	ly_dbm_replace_str(md->album, sizeof(md->album));
@@ -112,7 +115,11 @@ void	ly_lib_add_md(LyMdhMetadata *md)
 
 	char sql[10240]="";
 	g_snprintf(sql, sizeof(sql), "INSERT OR IGNORE INTO metadatas (title, artist, album, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', 0, IFNULL((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->start, md->duration, md->uri);
-	ly_dbm_exec(sql, NULL, NULL);
+	if(ly_dbm_exec(sql, NULL, NULL)<0)
+	{
+		return -1;
+	}
+	return ly_dbm_get_last_insert_rowid();
 }
 
 void	ly_lib_del_md(int id)
@@ -131,7 +138,19 @@ void	ly_lib_del_md_by_where(char *where)
 		g_snprintf(sql,sizeof(sql),"DELETE FROM metadatas");
 	ly_dbm_exec(sql, NULL, NULL);
 }
-
+void			ly_lib_del_md_from_disk	(int id)
+{
+	LyMdhMetadata *md=ly_lib_get_md(id);
+	if(!md)
+		return;
+	if(!g_str_has_prefix(md->uri, "file://"))
+		return;
+	
+	char cmd[10240]="";
+	g_snprintf(cmd, sizeof(cmd), "rm -rf \"%s\"", md->uri+7);
+	system(cmd);
+	ly_mdh_free(md);
+}
 
 LyMdhMetadata*	ly_lib_get_md	(int id)
 {
@@ -174,6 +193,30 @@ gboolean	ly_lib_get_md_cb	(gpointer stmt, gpointer data)
 	g_strlcpy(md->start,(const gchar *)sqlite3_column_text(stmt, 4),sizeof(md->start));
 	g_strlcpy(md->duration,(const gchar *)sqlite3_column_text(stmt, 5),sizeof(md->duration));
 	g_strlcpy(md->uri,(const gchar *)sqlite3_column_text(stmt, 6),sizeof(md->uri));
+	return FALSE;
+}
+
+int				ly_lib_get_id			(LyMdhMetadata *md)
+{
+	if(!md)
+		return -1;
+	
+	int id=-1;
+	char sql[10240]="";
+	ly_dbm_replace_str(md->uri, sizeof(md->uri));
+	g_snprintf(sql, sizeof(sql), "SELECT id FROM metadatas WHERE start='%s' AND uri='%s' AND flag=%d", md->start, md->uri, md->flag);
+	puts(sql);
+	if(ly_dbm_exec(sql, ly_lib_get_id_cb, &id)>0);
+	{
+		return id;
+	}
+	return -1;
+}
+
+gboolean	ly_lib_get_id_cb	(gpointer stmt, gpointer data)
+{
+	int *id=data;
+	*id=(int)sqlite3_column_int(stmt, 0);
 	return FALSE;
 }
 

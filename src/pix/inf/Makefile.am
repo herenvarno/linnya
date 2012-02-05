@@ -14,7 +14,9 @@ libinf_la_SOURCES	=\
 				inf.c\
 				inf.h\
 				inf_cover.c\
-				inf_cover.h
+				inf_cover.h\
+				inf_config.c\
+				inf_config.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
@@ -28,5 +30,5 @@ libinf_la_LIBADD	=\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\
 				@CURL_LIBS@\
-				-L../../cox -llinnyacore\
-				-L../../uix -llinnyaui
+				-L../../cox -llinnyacox\
+				-L../../uix -llinnyauix

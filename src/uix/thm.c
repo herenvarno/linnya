@@ -28,11 +28,17 @@
  * FUNCTIONS
  */
 gboolean ly_thm_init()
-{
+{	
 	gboolean rt=FALSE;
 	ly_log_put(_("[info] Initial ui module: THEME ..."));
 	
 	char path[1024]="";
+	g_snprintf(path, sizeof(path), "%spictures/", LY_GLA_HOMEDIR);
+	if(!ly_reg_get("thm_sssbg", "%s", path))
+	{
+		ly_reg_set("thm_sssbg", "%s", path);
+	}
+	
 	g_snprintf(path, sizeof(path), "%sui/theme", LY_GLA_USERDIR);
 	mkdir(path,0755);
 	

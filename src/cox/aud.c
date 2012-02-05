@@ -75,7 +75,7 @@ void		ly_aud_init()
 	{
 		ly_aud_play();
 	}
-	
+	ly_msg_put("meta_changed", "core:aud", NULL);
 	ly_msg_bind("ppl_eos", "core:ppl", ly_aud_on_ppl_eos_cb, NULL);
 }
 
@@ -89,12 +89,13 @@ void		ly_aud_fina()
 	ly_aud_stop();
 }
 
-/* *
- * NAME:	ly_func_audio_next
- * VARS:	
- * RETN:	[gboolean]	
- * DESC:	search 4 next song to play.
- * */
+/**
+ * ly_aud_next:
+ *
+ * play the next song.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_next()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -138,12 +139,13 @@ gboolean ly_aud_next()
 	return TRUE;
 }
 
-/* *
- * NAME:	ly_func_audio_prev
- * VARS:	
- * RETN:	[boolean] 		
- * DESC:	search 4 the previous to play.
- * */
+/**
+ * ly_aud_prev:
+ *
+ * play the prev song.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_prev()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -187,12 +189,13 @@ gboolean ly_aud_prev()
 	return TRUE;
 }
 
-/* *
- * NAME:	ly_func_audio_get_state
- * VARS:	
- * RETN:	[GstState] state		
- * DESC:	ensure the state now.
- * */
+/**
+ * ly_aud_get_state:
+ *
+ * Get the state of playbin.
+ *
+ * Returns:	The GStreamer state of playbin.
+ */
 GstState ly_aud_get_state()
 {
 	GstState     state;
@@ -204,12 +207,13 @@ GstState ly_aud_get_state()
 	return state;
 }
 
-/* *
- * NAME:	ly_func_audio_play
- * VARS:	
- * RETN:	[gboolean] 		
- * DESC:	play a song.
- * */
+/**
+ * ly_aud_play:
+ *
+ * Set pipeline to be PLAYING.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_play()
 {	
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -237,12 +241,13 @@ gboolean ly_aud_play()
 	return TRUE;
 }
 
-/* *
- * NAME:	ly_func_audio_pause
- * VARS:	
- * RETN:	[gboolean] 		
- * DESC:	pause a song.
- * */
+/**
+ * ly_aud_pause:
+ *
+ * Set pipeline to be PAUSED.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_pause()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -267,12 +272,13 @@ gboolean ly_aud_pause()
 	return TRUE;
 }
 
-/* *
- * NAME:	ly_func_audio_stop
- * VARS:	
- * RETN:	[gboolean] 		
- * DESC:	stop a song.
- * */
+/**
+ * ly_aud_stop:
+ *
+ * Set pipeline to be STOPED.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_stop()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -299,16 +305,16 @@ gboolean ly_aud_stop()
 	return TRUE;
 }
 
-/* *
- *  volume
- * */
 
-/* *
- * NAME:	ly_aud_setvolume
- * VARS:	volume[gdouble] the volume;
- * RETN:	[gboolean] 		
- * DESC:	set volume.
- * */
+/**
+ * ly_aud_set_volume:
+ *
+ * @volume: The gdouble format of volume between 0 and 1.
+ *
+ * Set volume.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_set_volume(gdouble volume)
 {
 	GstElement *ele=ly_ppl_audio_get_element("volume");
@@ -322,12 +328,13 @@ gboolean ly_aud_set_volume(gdouble volume)
 
 }
 
-/* *
- * NAME:	ly_aud_get_volume
- * VARS:	
- * RETN:	[gdouble] volume		
- * DESC:	take out volume in double.
- * */
+/**
+ * ly_aud_get_volume:
+ *
+ * Get volume.
+ *
+ * Returns:	The gdouble format volume value.
+ */
 gdouble ly_aud_get_volume()
 {
 	gdouble volume;
@@ -342,16 +349,14 @@ gdouble ly_aud_get_volume()
 	return volume;
 }
 
-/* *
- *  seek position
- * */
-
-/* *
- * NAME:	ly_func_audio_setposition
- * VARS:	percent[gdouble] the position
- * RETN:	[gboolean] 		
- * DESC:	set position to play.
- * */
+/**
+ * ly_aud_set_position:
+ * @percent: The desire position you want to seek, it should be between 0 and 1.
+ *
+ * Seek.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
 gboolean ly_aud_set_position(gdouble percent)
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -382,12 +387,13 @@ gboolean ly_aud_set_position(gdouble percent)
 	return TRUE;	
 }
 
-/* *
- * NAME:	ly_func_audio_get_position
- * VARS:	
- * RETN:	[gdouble] position		
- * DESC:	take out play position in gdouble.
- * */
+/**
+ * ly_aud_get_position:
+ *
+ * Get the current postion in gdouble format.
+ *
+ * Returns:	The current position of pipeline.
+ */
 gdouble ly_aud_get_position()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
@@ -410,12 +416,13 @@ gdouble ly_aud_get_position()
 }
 
 
-/* *
- * NAME:	ly_aud_get_position_abs
- * VARS:	
- * RETN:	[gint] position		
- * DESC:	take out play position in gint.
- * */
+/**
+ * ly_aud_get_position_abs:
+ *
+ * Get the current position by GStreamer inner clock which is in a format of gint64. 
+ *
+ * Returns: The abusolute position time.
+ */
 gint64 ly_aud_get_position_abs()
 {
 	GstState state;
@@ -442,23 +449,29 @@ gint64 ly_aud_get_position_abs()
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
-		ly_msg_put("warning","core:aud", "Position Error!");
+		ly_log_put(_("[WARNING] Position Error!"));
 		return 0;
 	}
 	if(pos-start<-60000000000||dura-pos<-60000000000)
 	{
-		ly_msg_put("warning","core:aud", "Position Error!");
+		ly_log_put(_("[WARNING] Position Error!"));
 		return 0;
 	}
 	pos=pos-start;
-	if(pos<start)
-		pos=start;
+	if(pos<0)
+		pos=0;
 	else if(pos>dura)
 		pos=dura;
-	
 	return pos;
 }
 
+/**
+ * ly_aud_on_ppl_eos_cb:
+ *
+ * A callback function when pipeline EOS message occurs. 
+ *
+ * Returns: FALSE
+ */
 gboolean		ly_aud_on_ppl_eos_cb(gpointer message, gpointer data)
 {
 	ly_aud_next();

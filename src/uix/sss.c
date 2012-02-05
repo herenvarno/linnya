@@ -66,6 +66,7 @@ void	ly_sss_init()
 	
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_sss_tab_add_create), NULL);
 	g_timeout_add(100, ly_sss_refresh, NULL);
+
 }
 void	ly_sss_fina()
 {
@@ -114,9 +115,9 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 	g_module_symbol(session->module, session->create_symbol, (gpointer)&f);
 	if(f==NULL)
 		return FALSE;
-	
 	GtkWidget *widget=NULL;
 	widget=f();
+	
 	if(widget==NULL)
 		return FALSE;
 	session->widget=widget;
@@ -216,6 +217,7 @@ gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 	
 	ly_sss_store=gtk_list_store_new(2, G_TYPE_STRING, GDK_TYPE_PIXBUF);
 	GtkWidget *icon_view=gtk_icon_view_new_with_model(GTK_TREE_MODEL(ly_sss_store));
+	gtk_icon_view_set_reorderable(GTK_ICON_VIEW(icon_view), TRUE);
 	gtk_container_add(GTK_CONTAINER(sw), icon_view);
 	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view), 0);
 	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view), 1);
@@ -249,30 +251,127 @@ gboolean ly_sss_tab_add_refresh()
 	if(ly_sss_store)
 		gtk_list_store_clear(ly_sss_store);
 	
-	g_hash_table_foreach(ly_pli_get_plugins(), ly_sss_tab_add_refresh_cb, NULL);
+	GList *list=NULL;
+	GList *p=NULL;
+	g_hash_table_foreach(ly_pli_get_plugins(), ly_sss_tab_add_refresh_cb, &list);
+	
+	char plugin_str[10240]="";
+	ly_reg_get("sss_icon_order", "%s", plugin_str);
+	gchar **plugin_name_list=g_strsplit(plugin_str, ":", 0);
+	int i=0;
+	GtkTreeIter iter;
+	gchar *name;
+	GdkPixbuf *pixbuf;
+	p=list;
+	while(plugin_name_list[i])
+	{
+		LyPliPlugin *session=ly_pli_get(plugin_name_list[i]);
+		if(!session||!(session->module)||session->daemon)
+		{
+			i++;
+			continue;
+		}
+		name=g_strconcat(plugin_name_list[i],NULL);
+		pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
+		gtk_list_store_append(ly_sss_store, &iter);
+		gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
+		p=g_list_find_custom(list, plugin_name_list[i], g_strcmp0);
+		g_free(p->data);
+		list=g_list_delete_link(list, p);
+		i++;
+	}
+
+	g_strfreev(plugin_name_list);
+	p=list;
+	while(p)
+	{
+		LyPliPlugin *session=ly_pli_get(plugin_name_list[i]);
+		if(!session||!(session->module)||session->daemon)
+		{
+			p=p->next;
+			continue;
+		}
+		name=g_strconcat(plugin_name_list[i],NULL);
+		pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
+		gtk_list_store_append(ly_sss_store, &iter);
+		gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
+		p=g_list_find_custom(list, plugin_name_list[i], g_strcmp0);
+		g_free(p->data);
+		p=p->next;
+	}
+	g_list_free(list);
 	return TRUE;
 }
 gboolean ly_sss_tab_add_fina()
 {
+	GtkTreeIter iter;
+	char plugin_str[10240]="";
+	char *plugin_name=NULL;
+	if(gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_sss_store), &iter))
+	{
+		gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &plugin_name, -1);
+		g_snprintf(plugin_str, sizeof(plugin_str), "%s", plugin_name);
+		g_free(plugin_name);
+	}
+	while(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_sss_store), &iter))
+	{
+		gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &plugin_name, -1);
+		g_strlcat(plugin_str, ":", sizeof(plugin_str));
+		g_strlcat(plugin_str, plugin_name, sizeof(plugin_str));
+		g_free(plugin_name);
+	}
+	ly_reg_set("sss_icon_order", "%s", plugin_str);
 	if(ly_sss_store)
 		gtk_list_store_clear(ly_sss_store);
 	return TRUE;
 }
 
+GdkPixbuf* ly_sss_alloc_bg(char *bg)
+{
+	GdkPixbuf *image=NULL;
+	if(bg==NULL)
+	{
+		char dir[1024]="";
+		char *pic=NULL;
+		int i;
+		ly_reg_get("thm_sssbg", "%s", dir);
+		GList *list=ly_gla_traverse_dir(dir, 5, FALSE);
+		GList *p=list;
+		
+		if(!list)
+			return NULL;
+		/*
+		 * create random number
+		 */
+		srand(time(0));
+		i=random()%(g_list_length(list));
+		pic=(char *)(g_list_nth_data(list, i));
+		if(pic)
+		{
+			char *path=ly_gla_uri_get_path(pic);
+			image=gdk_pixbuf_new_from_file(path, NULL);
+			g_free(path);
+		}
+		while(p)
+		{
+			g_free(p->data);
+			p->data=NULL;
+			p=p->next;
+		}
+		g_list_free(list);
+	}
+	else
+	{
+		image=gdk_pixbuf_new_from_file(bg, NULL);
+	}
+	return image;
+}
+
+
 void ly_sss_tab_add_refresh_cb(gpointer key, gpointer value, gpointer data)
 {
-	LyPliPlugin *session=value;
-	if(!session)
-		return;
-	if(!(session->module))
-		return;
-	if(session->daemon)
-		return;
-	gchar *name=g_strconcat(key,NULL);
-	GtkTreeIter iter;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64,FALSE, NULL);
-	gtk_list_store_append(ly_sss_store, &iter);
-	gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
+	GList **list=(GList **)data;
+	*list=g_list_append(*list, g_strconcat(key, NULL));
 }
 
 gboolean ly_sss_active_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data)

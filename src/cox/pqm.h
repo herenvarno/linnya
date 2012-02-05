@@ -59,15 +59,19 @@ void			ly_pqm_init				();
 void			ly_pqm_fina				();
 
 void			ly_pqm_add_md			(int id);
-void			ly_pqm_add_md_by_where	(char *where);
+void			ly_pqm_add_md_by_where_from_lib	(char *where);
+void			ly_pqm_add_md_by_where_from_plm	(int pid, char *where);
 void			ly_pqm_del_md			(int id);
 void			ly_pqm_del_md_by_where	(char *where);
+void			ly_pqm_clear_md			();
 LyMdhMetadata*	ly_pqm_get_md			(int id);
 LyMdhMetadata*	ly_pqm_get_md_by_sql	(char *sql);
 
 LyMdhMetadata*	ly_pqm_get_current_md	();
+void			ly_pqm_set_current_md	(int id);
 void			ly_pqm_set_rand			();
 void			ly_pqm_set_next			();
 void			ly_pqm_set_prev			();
+
 
 #endif //LY_PQM_H

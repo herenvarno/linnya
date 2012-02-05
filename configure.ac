@@ -51,6 +51,8 @@ AC_OUTPUT([Makefile\
 			src/uix/Makefile\
 			src/pix/Makefile\
 			src/pix/inf/Makefile\
+			src/pix/opc/Makefile\
+			src/pix/lrc/Makefile\
             data/Makefile\
             data/icon/Makefile\
             data/audio/Makefile\

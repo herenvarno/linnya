@@ -57,7 +57,7 @@ void		ly_ppl_init		()
 	
 	bus=gst_pipeline_get_bus(GST_PIPELINE(playbin));
 	gst_element_set_state(playbin,GST_STATE_NULL);
-	gst_bus_add_watch(bus,(GstBusFunc)ly_ppl_bus_cb, ly_pqm_get_current_md());
+	gst_bus_add_watch(bus,(GstBusFunc)ly_ppl_bus_cb, NULL);
 	gst_object_unref(bus);
 	
 	ly_ppl_audio_bin=gst_bin_new("audio-bin");
@@ -123,7 +123,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 	guint tag_bitrate=0;
 	guint tag_track=0;
 	GstBuffer *tag_cover=NULL;
-	LyMdhMetadata *md=(LyMdhMetadata *)data;
+	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return TRUE;
 	

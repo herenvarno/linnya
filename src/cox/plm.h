@@ -48,16 +48,22 @@
 void		ly_plm_init				();
 void		ly_plm_fina				();
 
-void		ly_plm_add_pl			(char *name);
+int			ly_plm_add_pl			(char *name);
 void		ly_plm_del_pl			(int pid);
 void		ly_plm_del_pl_by_where	(char *where);
+void		ly_plm_clear_pl			();
+void		ly_plm_rename_pl		(int pid, char *name);
 
-gboolean	ly_plm_import_pl		(char *name, char *path);
-gboolean	ly_plm_export_pl		(char *name, char *path);
+gboolean	ly_plm_import_pl		(char *path);
+gboolean	ly_plm_export_pl		(int pid, char *path);
 
 void		ly_plm_add_md			(int pid, int mid);
+void		ly_plm_add_md_in_order	(int pid, int mid, int num);
 void		ly_plm_del_md			(int pid, int mid);
 void		ly_plm_del_md_by_where	(int pid, char *where);
+void		ly_plm_clear_md			(int pid);
+
+int			ly_plm_get_id			(char *name);
 
 
 #endif //LY_PLM_H

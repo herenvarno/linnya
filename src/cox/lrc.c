@@ -316,9 +316,26 @@ void		ly_lrc_free(LyLrcLyric *lyric)
 }
 
 
+LyLrcLyric**	ly_lrc_get_array()
+{
+	return ly_lrc_lyrics_array;
+}
+int			ly_lrc_get_index()
+{
+	return ly_lrc_lyrics_index;
+}
 
+int			ly_lrc_get_length()
+{
+	return ly_lrc_lyrics_length;
+}
 
-
+void		ly_lrc_set_index(int index)
+{
+	if(index<0||index>=ly_lrc_lyrics_length)
+		return;
+	ly_lrc_lyrics_index=index;
+}
 
 
 
@@ -337,25 +354,21 @@ gboolean	ly_lrc_on_md_changed_cb(gpointer message, gpointer data)
 gboolean ly_lrc_on_update_cb(gpointer data)
 {
 	if(ly_lrc_lyrics_length<=0)
-		return FALSE;
+		return TRUE;
 	
 	LyMdhMetadata *md=NULL;
 	md=ly_pqm_get_current_md();
 	if(!md)
-		return FALSE;
+		return TRUE;
 		
-	gint64 pos;
-	gint64 time;
-	gint64 start;
-	
-	pos=ly_aud_get_position_abs();	
-	start=ly_mdh_time_str2int(md->start);
-	time=pos-start;
-			
+	gint64 time=0;
+	time=ly_aud_get_position_abs();
+		
 	int min=0;
-	int max=ly_lrc_lyrics_length-1;
+	int max=ly_lrc_lyrics_length;
 	int index=(max-min)/2;
-	while(max-min>=2)
+
+	while(max-min>1)
 	{
 		if(ly_lrc_lyrics_array[index]->time<time)
 		{

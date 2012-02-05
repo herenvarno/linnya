@@ -191,6 +191,9 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 	else
 		path=g_strconcat(path,NULL);
 	
+	if(!g_file_test(path, G_FILE_TEST_EXISTS))
+		return NULL;
+		
 	GDir *dir=g_dir_open(path,0,NULL);
 	
 	const gchar *filename=NULL;	/* do not free it */
@@ -201,7 +204,10 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 	while(filename)
 	{
 		if(filename[0]=='.'&&(!showhide))
+		{
+			filename=g_dir_read_name(dir);
 			continue;
+		}
 		location=g_strconcat(path , filename, NULL);
 		if(g_file_test(location, G_FILE_TEST_IS_DIR))
 		{

@@ -207,6 +207,11 @@ void	ly_eql_fina	()
 }
 
 /**
+ * ly_eql_new:
+ *
+ * Create a new eq container.
+ *
+ * Returns: The LyEqlEqualizer* format eq container pointer.
  */
 LyEqlEqualizer*	ly_eql_new				()
 {
@@ -214,6 +219,14 @@ LyEqlEqualizer*	ly_eql_new				()
 	return eq;
 }
 
+/**
+ * ly_eql_new_with_name:
+ * @name: the eq name.
+ *
+ * Create a new eq container.
+ *
+ * Returns: The LyEqlEqualizer* format eq container pointer.
+ */
 LyEqlEqualizer*	ly_eql_new_with_name	(char *name)
 {
 	if(!name)
@@ -236,6 +249,13 @@ LyEqlEqualizer*	ly_eql_new_with_name	(char *name)
 	return NULL;
 }
 
+/**
+ * ly_eql_new_with_conf:
+ *
+ * Create a new eq container whose name is current actived (in reg hashtable).
+ *
+ * Returns: The LyEqlEqualizer* format eq container pointer.
+ */
 LyEqlEqualizer* ly_eql_new_with_conf	()
 {
 	char eq_name[1024]="default";
@@ -245,6 +265,12 @@ LyEqlEqualizer* ly_eql_new_with_conf	()
 	return eq;
 }
 
+/**
+ * ly_eql_free:
+ * @eq: The eq that to be freed.
+ *
+ * Free a eq container.
+ */
 void			ly_eql_free				(LyEqlEqualizer *eq)
 {
 	if(eq)
@@ -253,6 +279,15 @@ void			ly_eql_free				(LyEqlEqualizer *eq)
 	}
 }
 
+/**
+ * ly_eql_set_eq:
+ * @eq: the equalizer to be set to the current eq.
+ *
+ * Set a eq to be the current eq. which modify the config of a GStreamer
+ * element nameed "equalizer".
+ *
+ * Returns: The LyEqlEqualizer* format eq container pointer.
+ */
 gboolean		ly_eql_set_eq			(LyEqlEqualizer *eq)
 {
 	if(!eq)
@@ -277,7 +312,14 @@ gboolean		ly_eql_set_eq			(LyEqlEqualizer *eq)
 				NULL);
 	return TRUE;
 }
-
+/**
+ * ly_eql_put:
+ * @eq:		equalizer to be put into database.
+ *
+ * Put a eq into database.
+ *
+ * Returns:	The LyEqlEqualizer* format eq container pointer.
+ */
 gboolean		ly_eql_put			(LyEqlEqualizer *eq)
 {
 	if((!eq) ||(g_str_equal(eq->name, "")))
@@ -305,12 +347,15 @@ gboolean		ly_eql_put			(LyEqlEqualizer *eq)
 }
 
 
-
-
-
-
-
-
+/**
+ * ly_eql_on_equalizer_changed_cb:
+ * @message: the message struction.
+ * @data: the data passed in by ly_msg_put.
+ *
+ * A callback function when equalizer_changed message occurs.
+ *
+ * Returns: FALSE.
+ */
 gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data)
 {
 	LyMsgMsg *m=(LyMsgMsg*)message;
@@ -320,6 +365,15 @@ gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data)
 	return FALSE;
 }
 
+/**
+ * ly_eql_new_with_name_cb:
+ * @stmt: The SQL query result.
+ * @data: the data passed in by ly_dbm_exec.
+ *
+ * A callback function called by ly_eql_new_with_name
+ *
+ * Returns: TRUE.
+ */
 gboolean	ly_eql_new_with_name_cb(gpointer stmt, gpointer data)
 {
 	LyEqlEqualizer *eq= (LyEqlEqualizer *)data;

@@ -69,7 +69,7 @@ void			ly_key_init			();
 void			ly_key_fina			();
 
 LyKeyKeybind*	ly_key_new			(char *name);
-void			ly_key_free			(gpointer *kb);
+void			ly_key_free			(gpointer kb);
 
 LyKeyKeybind*	ly_key_get			(char *name);
 gboolean		ly_key_set			(char *name, char *mask0, char *mask1, char *key, int type, gpointer arg0, gpointer arg1);

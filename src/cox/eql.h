@@ -47,10 +47,10 @@ void			ly_eql_fina				();
 LyEqlEqualizer*	ly_eql_new				();
 LyEqlEqualizer*	ly_eql_new_with_name	(char *name);
 LyEqlEqualizer* ly_eql_new_with_conf	();
-void			ly_eql_free				();
+void			ly_eql_free				(LyEqlEqualizer *eq);
 
 gboolean		ly_eql_set_eq			(LyEqlEqualizer *eq);
-gboolean		ly_eql_store			(LyEqlEqualizer *eq);
+gboolean		ly_eql_put				(LyEqlEqualizer *eq);
 
 
 #endif

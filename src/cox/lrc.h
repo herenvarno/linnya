@@ -37,6 +37,7 @@
 #include "log.h"
 #include "pqm.h"
 #include "ppl.h"
+#include "aud.h"
 
 /*
  * TYPES
@@ -61,7 +62,9 @@ LyLrcLyric*	ly_lrc_new_full(gint64 time, gchar *text);
 void		ly_lrc_free(LyLrcLyric *lyric);
 
 
-
+LyLrcLyric**	ly_lrc_get_array();
+int			ly_lrc_get_index();
+int			ly_lrc_get_length();
 
 
 

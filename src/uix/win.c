@@ -468,18 +468,18 @@ LyWinWindow*	ly_win_new()
 	 */
 	gtk_window_add_accel_group(GTK_WINDOW(win),ly_key_get_accel());
 	
-	ly_key_set("close", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_close,"clicked");
-	ly_key_set("max", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_max,"clicked");
-	ly_key_set("min", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_min,"clicked");
-	ly_key_set("mini", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_mini,"clicked");
-	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_play,"clicked");
-	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_prev,"clicked");
-	ly_key_set("next", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_next,"clicked");
+	ly_key_set("close", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_close, "clicked");
+	ly_key_set("max", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_max, "clicked");
+	ly_key_set("min", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_min, "clicked");
+	ly_key_set("mini", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_mini, "clicked");
+	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_play, "clicked");
+	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_prev, "clicked");
+	ly_key_set("next", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_next, "clicked");
 	ly_key_set("config", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_config,"clicked");
-	ly_key_set("volume+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_volume_cb),"+");
-	ly_key_set("volume-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_volume_cb),"-");
-	ly_key_set("seek+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_seek_cb),"+");
-	ly_key_set("seek-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_seek_cb),"-");
+	ly_key_set("volume+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_volume_cb), "+");
+	ly_key_set("volume-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_volume_cb), "-");
+	ly_key_set("seek+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_seek_cb), "+");
+	ly_key_set("seek-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_change_seek_cb), "-");
 	
 	ly_key_bind("close");
 	ly_key_bind("max");

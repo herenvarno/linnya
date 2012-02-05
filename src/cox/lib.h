@@ -35,12 +35,14 @@
 void			ly_lib_init				();
 void			ly_lib_fina				();
 
-void			ly_lib_add_md			(LyMdhMetadata *md);
+int				ly_lib_add_md			(LyMdhMetadata *md);
 void			ly_lib_del_md			(int id);
 void			ly_lib_del_md_by_where	(char *sql);
+void			ly_lib_del_md_from_disk	(int id);
 
 LyMdhMetadata*	ly_lib_get_md			(int id);
 LyMdhMetadata*	ly_lib_get_md_by_sql	(char *sql);
+int				ly_lib_get_id			(LyMdhMetadata *md);
 
 void			ly_lib_check_library	();
 gboolean		ly_lib_check_is_audio	(char *uri);

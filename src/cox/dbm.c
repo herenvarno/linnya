@@ -73,7 +73,12 @@ void	ly_dbm_init	()
 				"playing INTEGER NOT NULL, "\
 				"num INTEGER NOT NULL, "\
 				"flag INTEGER NOT NULL, "\
-				"tmpflag INTEGER)",
+				"tmpflag INTEGER, "\
+				"codec TEXT, "\
+				"genre TEXT, "\
+				"date TEXT, "\
+				"comment TEXT, "\
+				"diskid TEXT)",
 				NULL,NULL);
 	/*
 	 * CREATE TABLE playlists
@@ -230,7 +235,8 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 		if( rt != SQLITE_OK )
 		{
 			g_snprintf(log, sizeof(log), _("Cannot exec sql command: %s, for %s."), sql, error);
-			ly_msg_put("warning", "core:dbm", log);
+			ly_log_put(log);
+			//ly_msg_put("warning", "core:dbm", log);
 			sqlite3_free(error);
 			return -1;
 		}
@@ -242,7 +248,8 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 	if( rt != SQLITE_OK )
 	{
 		g_snprintf(log, sizeof(log), _("Cannot exec sql command: %s, for %s."), sql, error);
-		ly_msg_put("warning", "core:dbm", log);
+		ly_log_put(log);
+		//ly_msg_put("warning", "core:dbm", log);
 		return -1;
 	}
 	r=sqlite3_step(stmt);

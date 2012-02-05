@@ -70,16 +70,46 @@ void	ly_pqm_fina	()
 void		ly_pqm_add_md			(int id)
 {
 	char sql[1024]="";
-	g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=ifnull((SELECT MAX(playing) FROM metadatas),0)+1) WHERE id=%d", id);
+	g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=ifnull((SELECT MAX(playing) FROM plist),0)+1 WHERE id=%d", id);
 	ly_dbm_exec(sql, NULL, NULL);
 }
-void		ly_pqm_add_md_by_where	(char *where)
+void		ly_pqm_add_md_by_where_from_lib	(char *where)
+{
+	char *sql=NULL;
+	char tmp[1024]="";
+	g_snprintf(tmp,sizeof(tmp),"UPDATE metadatas SET playing=(ifnull((SELECT MAX(playing) FROM plist),0)+num)");
+	if(where)
+	{
+		sql=g_strconcat(tmp, " WHERE ", where, NULL);
+		ly_dbm_exec(sql, NULL, NULL);
+		g_free(sql);
+	}
+	else
+	{
+		ly_dbm_exec(tmp, NULL, NULL);
+	}
+}
+void		ly_pqm_add_md_by_where_from_plm	(int pid, char *where)
 {
 	char sql[1024]="";
-	if(where)
-		g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=ifnull((SELECT MAX(playing) FROM metadatas),0)+1) WHERE %s", where);
+	char tmp[1024]="";
+	if(pid>0)
+	{
+		g_snprintf(tmp,sizeof(tmp),"UPDATE metadatas SET playing=(ifnull((SELECT MAX(playing) FROM plist),0)+(ifnull((SELECT connections.num FROM connections WHERE mid=metadatas.id AND pid=%d),1))) WHERE (id IN (SELECT mid FROM connections WHERE pid=%d))", pid, pid);
+	}
 	else
-		g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=ifnull((SELECT MAX(playing) FROM metadatas),0)+1)");
+	{
+		g_snprintf(tmp,sizeof(tmp),"UPDATE metadatas SET playing=(ifnull((SELECT MAX(playing) FROM plist),0)+1) WHERE (id IN (SELECT mid FROM connections))");
+	}
+		
+	if(where)
+	{
+		g_snprintf(sql, sizeof(sql), "%s AND (%s)", tmp, where);
+	}
+	else
+	{
+		g_strlcpy(sql, tmp, sizeof(sql));
+	}
 	ly_dbm_exec(sql, NULL, NULL);
 }
 void		ly_pqm_del_md			(int id)
@@ -90,11 +120,24 @@ void		ly_pqm_del_md			(int id)
 }
 void		ly_pqm_del_md_by_where	(char *where)
 {
-	char sql[1024]="";
+	char *sql=NULL;
+	char tmp[1024]="";
+	g_snprintf(tmp,sizeof(tmp),"UPDATE metadatas SET playing=0");
 	if(where)
-		g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=0 WHERE %s", where);
+	{
+		sql=g_strconcat(tmp, " WHERE ", where, NULL);
+		ly_dbm_exec(sql, NULL, NULL);
+		g_free(sql);
+	}
 	else
-		g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=0");
+	{
+		ly_dbm_exec(tmp, NULL, NULL);
+	}
+}
+void		ly_pqm_clear_md	()
+{
+	char sql[1024]="";
+	g_snprintf(sql,sizeof(sql),"UPDATE metadatas SET playing=0");
 	ly_dbm_exec(sql, NULL, NULL);
 }
 LyMdhMetadata*	ly_pqm_get_md			(int id)
@@ -104,7 +147,6 @@ LyMdhMetadata*	ly_pqm_get_md			(int id)
 		return NULL;
 	char sql[10240]="";
 	g_snprintf(sql, sizeof(sql), "SELECT * FROM plist WHERE id=%d", id);
-	puts(sql);
 	if(ly_dbm_exec(sql, ly_pqm_get_md_cb, md)>0)
 	{
 		return md;
@@ -151,7 +193,21 @@ LyMdhMetadata*	ly_pqm_get_current_md	()
 {
 	return ly_pqm_md;
 }
-
+void			ly_pqm_set_current_md	(int id)
+{
+	LyMdhMetadata *md=NULL;
+	md=ly_pqm_get_md(id);
+	if(!md)
+	{
+		ly_pqm_add_md(id);
+		md=ly_pqm_get_md(id);
+		if(!md)
+			return;
+	}
+	ly_mdh_free(ly_pqm_md);
+	ly_pqm_md=md;
+	ly_msg_put("meta_changed", "core:pqm", NULL);
+}
 void		ly_pqm_set_rand			()
 {
 	if(!ly_pqm_md)
@@ -170,7 +226,7 @@ void		ly_pqm_set_rand			()
 	ly_mdh_free(ly_pqm_md);
 	ly_pqm_md=NULL;
 	ly_pqm_md=ly_pqm_get_md_by_sql(sql);
-	ly_msg_put("meta_changed","core:pqm",NULL);
+	ly_msg_put("meta_changed","core:pqm", NULL);
 }
 void		ly_pqm_set_next			()
 {

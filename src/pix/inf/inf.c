@@ -28,6 +28,7 @@
  */
 GtkWidget *ly_3inf_widget=NULL;
 GdkPixbuf *ly_3inf_pixbuf_cd=NULL;
+GdkPixbuf *ly_3inf_pixbuf_bg=NULL;
 
 /*
  * FUNCTIONS
@@ -40,6 +41,13 @@ void ly_3inf_draw_text (cairo_t *cr, gchar *text, gchar *font);
 
 const gchar* g_module_check_init(GModule *module)
 {
+	gchar title_font[1024]="Sans Regular 18";
+	if(!ly_reg_get("3inf_title_font", "%1024[^\n]", title_font))
+		ly_reg_set("3inf_title_font", "%s", title_font);
+	gchar normal_font[1024]="Sans Regular 10";
+	if(!ly_reg_get("3inf_normal_font", "%1024[^\n]", normal_font))
+		ly_reg_set("3inf_normal_font", "%s", normal_font);
+		
 	ly_3inf_cover_init();
 	char path[1024]="";
 	g_snprintf(path, sizeof(path), "%sicon/cd.png", LY_GLB_PROG_UIDIR);
@@ -58,22 +66,31 @@ void g_module_unload(GModule *module)
 
 GtkWidget *ly_3inf_create()
 {
+	ly_3inf_pixbuf_bg=ly_sss_alloc_bg(NULL);
+	
 	GtkWidget *widget;
 	widget=gtk_event_box_new();
 	gtk_widget_set_app_paintable(widget, TRUE);
 	
-	g_signal_connect(widget, "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
+	g_signal_connect(G_OBJECT(widget), "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
 	ly_msg_bind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb, NULL);
-	ly_msg_bind("cover_got", "core:ppl", ly_3inf_on_meta_update_cb, NULL);
+	ly_msg_bind("meta_update", "core:ppl", ly_3inf_on_meta_update_cb, NULL);
+	ly_msg_bind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
+	ly_msg_bind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
 	
 	ly_3inf_widget=widget;
+	ly_3inf_cover_on_cover_got();
 	return widget;
 }
 
 void ly_3inf_destroy()
 {
+	if(ly_3inf_pixbuf_bg)
+		g_object_unref(ly_3inf_pixbuf_bg);
 	ly_msg_unbind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb);
-	ly_msg_unbind("cover_got", "core:ppl", ly_3inf_on_meta_update_cb);
+	ly_msg_unbind("meta_update", "core:ppl", ly_3inf_on_meta_update_cb);
+	ly_msg_unbind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
+	ly_msg_unbind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
 }
 
 gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -87,30 +104,32 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	gint y;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
+	
+	/*
+	 * draw bg
+	 */
+	if(ly_3inf_pixbuf_bg)
+	{
+		GdkPixbuf *pixbuf=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
+		gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+		cairo_paint(cr);
+		g_object_unref(pixbuf);
+	}
 
 	/*
-	 * draw background
+	 * draw banner
 	 */
-/*	x=width/15;
-	y=height/2-150;
-	cairo_pattern_t *pat;
-	pat = cairo_pattern_create_linear (0, 0, width-2*x, 290);
-	cairo_pattern_add_color_stop_rgba (pat, 0.0, 65535/65535.0, 65535/65535.0, 65535/65535.0, 1.0);
-	cairo_pattern_add_color_stop_rgba (pat, 0.1, 65535/65535.0, 65535/65535.0, 65535/65535.0, 0.9);
-	cairo_pattern_add_color_stop_rgba (pat, 0.3, 65535/65535.0, 65535/65535.0, 65535/65535.0, 0.1);
-	cairo_pattern_add_color_stop_rgba (pat, 0.7, 65535/65535.0, 65535/65535.0, 65535/65535.0, 0.1);
-	cairo_pattern_add_color_stop_rgba (pat, 0.9, 65535/65535.0, 65535/65535.0, 65535/65535.0, 0.9);
-	cairo_pattern_add_color_stop_rgba (pat, 1.0, 65535/65535.0, 65535/65535.0, 65535/65535.0, 1.0);
-	cairo_rectangle (cr, x, y, width-2*x, 300);
-	cairo_set_source (cr, pat);
-	cairo_stroke(cr);
-	cairo_pattern_destroy (pat);
-	cairo_rectangle (cr, x, y, width-2*x, 300);
-	cairo_set_source_rgba (cr, 1, 1, 1, 0.6);
+	cairo_rectangle (cr, 0, height/2-120, width, 240);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
 	cairo_fill(cr);
-*/
-
-
+	cairo_set_line_width (cr,0.5);
+	cairo_set_source_rgba (cr, 0.4, 0.4, 0.4, 0.8);
+	cairo_move_to(cr, 0, height/2-120);
+	cairo_line_to(cr, width, height/2-120);
+	cairo_move_to(cr, 0, height/2+120);
+	cairo_line_to(cr, width, height/2+120);
+	cairo_stroke(cr);
+	
 	/*
 	 * draw image
 	 */
@@ -134,26 +153,31 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	/*
 	 * draw information
 	 */
+	gchar title_font[1024]="Sans Regular 18";
+	ly_reg_get("3inf_title_font", "%1024[^\n]", title_font);
+	gchar normal_font[1024]="Sans Regular 10";
+	ly_reg_get("3inf_normal_font", "%1024[^\n]", normal_font);
+	
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
 	x=width/10+220;
 	y=height/2-60;
-	cairo_set_source_rgba ( cr, 0.2 , 0.2 , 0.2 ,1.0);
+	cairo_set_source_rgba ( cr, 0.9 , 0.9 , 0.9 ,1.0);
 	cairo_move_to ( cr, x, y);
-	ly_3inf_draw_text(cr, md->title, "Sans Regular 18");
+	ly_3inf_draw_text(cr, md->title, title_font);
 
 	x=x;
 	y=y+50;
 	char str[1024]="";
-	cairo_set_source_rgba ( cr, 0.4 , 0.4 , 0.4 ,0.8);
+	cairo_set_source_rgba ( cr, 0.7 , 0.7 , 0.7 ,0.8);
 	cairo_move_to ( cr, x, y);
-	ly_3inf_draw_text(cr, md->artist, "Sans Regular 10");
+	ly_3inf_draw_text(cr, md->artist, normal_font);
 	cairo_move_to ( cr, x, y+30);
-	ly_3inf_draw_text(cr, md->album, "Sans Regular 10");
+	ly_3inf_draw_text(cr, md->album, normal_font);
 	cairo_move_to ( cr, x, y+60);
 	g_snprintf(str, sizeof(str), "%s - %d kb/s", md->codec, md->bitrate/1024);
-	ly_3inf_draw_text(cr, str, "Sans Regular 10");
+	ly_3inf_draw_text(cr, str, normal_font);
 	
 	return FALSE;
 }
