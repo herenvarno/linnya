@@ -129,11 +129,31 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		cairo_paint(cr);
 		g_object_unref(pixbuf);
 	}
+	cairo_rectangle (cr, 0, 0, width, height);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
+	cairo_fill(cr);
 	
 	//画标题
-	cairo_set_source_rgba ( cr, 0.0, 0.0 , 0.0, 0.8);
-	cairo_rectangle (cr, 0, 0, width, 50);
+	cairo_pattern_t *pat;
+	pat = cairo_pattern_create_linear (0, 0, 0, 45);
+	cairo_pattern_add_color_stop_rgba (pat, 0, 1, 1, 1, 0.5);
+	cairo_pattern_add_color_stop_rgba (pat, 0.18, 1, 1, 1, 0.3);
+	cairo_pattern_add_color_stop_rgba (pat, 0.25, 1, 1, 1, 0.1);
+	cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 1, 0.1);
+	cairo_rectangle (cr, 0, 0, width, 45);
+	cairo_set_source (cr, pat);
 	cairo_fill(cr);
+	cairo_pattern_destroy (pat);
+
+	cairo_set_line_width(cr, 0.5);
+	cairo_set_source_rgba (cr, 0.9, 0.9, 0.9, 0.6);
+	cairo_move_to(cr, 0, 44);
+	cairo_line_to(cr, width, 44);
+	cairo_stroke(cr);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.9);
+	cairo_move_to(cr, 0, 44.5);
+	cairo_line_to(cr, width, 44.5);
+	cairo_stroke(cr);
 	
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	int length=ly_lrc_get_length();
@@ -145,10 +165,6 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		g_snprintf(title, sizeof(title), "%s - %s", md->title,md->artist);
 		ly_3lrc_widget_draw_text_midx(cr, title, title_font, width ,5);
 	}
-	
-	cairo_rectangle (cr, 0, 50, width, height-50);
-	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
-	cairo_fill(cr);
 	
 	
 	//没有找到歌词

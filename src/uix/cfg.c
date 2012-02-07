@@ -140,7 +140,8 @@ gboolean		ly_cfg_on_show_about_cb		(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_lib_changed_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_encoding_changed_cb(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_audio_mode_changed_cb(GtkWidget *widget, gpointer data);
-gboolean		ly_cfg_on_key_changed_cb		(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_eql_list_cb		(gpointer stmt, gpointer data);
+gboolean		ly_cfg_on_key_changed_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_key_press_cb		(GtkWidget *widget, GdkEvent  *event, gpointer data);
 gboolean		ly_cfg_on_thm_theme_changed_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_thm_sssbg_changed_cb(GtkWidget *widget, gpointer data);
@@ -255,6 +256,54 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),(gboolean)single);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_audio_mode_changed_cb), "single");
 	gtk_box_pack_start(GTK_BOX(vbox),check,FALSE,FALSE,0);
+	
+	//page3 Equalizer
+	g_snprintf(path, sizeof(path),"%sui/icon/equalizer.svg",LY_GLA_PROGDIR);
+	page=ly_cfg_page_new(_("Equalizer"), _("Set equalizer"), path);
+	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
+	
+	item=ly_cfg_item_new(_("Auto Equalizer"));
+	ly_cfg_page_append(LY_CFG_PAGE(page), item);
+	int eql_auto=1;
+	ly_reg_get("eql_auto", "%d", &eql_auto);
+	check=gtk_check_button_new_with_label(_("Choose Equalizer Setting by Linnya Automatically"));
+	ly_cfg_item_append(LY_CFG_ITEM(item), check);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),(gboolean)eql_auto);
+//	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_eql_auto_changed_cb), NULL);
+	
+	item=ly_cfg_item_new(_("Preset Equalizer"));
+	ly_cfg_page_append(LY_CFG_PAGE(page), item);
+	hbox=gtk_hbox_new(FALSE, 0);
+	ly_cfg_item_append(LY_CFG_ITEM(item), hbox);
+	char equalizer[1024]="default";
+	ly_reg_get("equalizer", "%1024[^\n]", equalizer);
+	combo=gtk_combo_box_text_new();
+	ly_dbm_exec("SELECT name FROM equalizers", ly_cfg_on_eql_list_cb, combo);
+//	g_signal_connect(G_OBJECT(gui_dialog_eq_combo_eq), "changed",G_CALLBACK(ly_cfg_eql_on_eq_changed_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),combo,TRUE,TRUE,0);
+	button=gtk_button_new_from_stock(GTK_STOCK_SAVE_AS);
+	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
+//	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_eql_on_eq_save_cb),NULL);
+	button=gtk_button_new_from_stock(GTK_STOCK_DELETE);
+	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
+//	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_eql_on_eq_delete_cb),NULL);
+	
+	item=ly_cfg_item_new(_("Custom Equalizer Setting"));
+	ly_cfg_page_append(LY_CFG_PAGE(page), item);
+	hbox=gtk_hbox_new(TRUE, 0);
+	ly_cfg_item_append(LY_CFG_ITEM(item), hbox);
+/*	eq=gl_eq->data;
+	for(i=0;i<10;i++)
+	{
+		gui_dialog_eq_vscale_band[i]=gtk_vscale_new_with_range(-24,12,0.1);
+		gtk_scale_set_value_pos(GTK_SCALE(gui_dialog_eq_vscale_band[i]),GTK_POS_BOTTOM);
+		gtk_range_set_inverted(GTK_RANGE(gui_dialog_eq_vscale_band[i]),TRUE);
+		gtk_range_set_value(GTK_RANGE(gui_dialog_eq_vscale_band[i]),eq->band[i]);
+		gtk_box_pack_start(GTK_BOX(hbox_temp),gui_dialog_eq_vscale_band[i],TRUE,TRUE,0);
+		g_signal_connect(G_OBJECT(gui_dialog_eq_vscale_band[i]),"value-changed",G_CALLBACK(gui_dialog_set_eq),NULL);
+	}
+	
+	gui_dialog_change_sensitive_eq(gui_dialog_eq_check_autoeq,NULL);*/
 	
 	//page3 Keyboard
 	g_snprintf(path,sizeof(path),"%sui/icon/key.svg",LY_GLA_PROGDIR);
@@ -828,7 +877,30 @@ gboolean ly_cfg_on_thm_sssbg_changed_cb(GtkWidget *widget, gpointer data)
 }
 	
 
+/*
+ * EQL
+ */
+gboolean ly_cfg_on_eql_list_cb(gpointer stmt, gpointer data)
+{
+	if(data==NULL||stmt==NULL)
+		return TRUE;
 
+	const char *name=sqlite3_column_text(stmt, 0);
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(data), name);
+	
+	char equalizer[1024]="default";
+	ly_reg_get("equalizer", "%[^\n]", equalizer);
+	if(g_str_equal(name, equalizer))
+	{
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		int index=0;
+		model=gtk_combo_box_get_model(GTK_COMBO_BOX(data));
+		index=gtk_tree_model_iter_n_children(GTK_TREE_MODEL(model), NULL);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(data), index-1);
+	}
+	return FALSE;
+}
 
 
 

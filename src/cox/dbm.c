@@ -109,7 +109,7 @@ void	ly_dbm_init	()
 	ly_dbm_exec(" "\
 				"CREATE TABLE IF NOT EXISTS "\
 				"equalizers( "\
-				"name TEXT, "\
+				"name TEXT PRIMARY KEY, "\
 				"band0 REAL, "\
 				"band1 REAL, "\
 				"band2 REAL, "\

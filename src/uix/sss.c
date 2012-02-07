@@ -275,7 +275,7 @@ gboolean ly_sss_tab_add_refresh()
 		pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
 		gtk_list_store_append(ly_sss_store, &iter);
 		gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
-		p=g_list_find_custom(list, plugin_name_list[i], g_strcmp0);
+		p=g_list_find_custom(list, plugin_name_list[i], (GCompareFunc)(g_strcmp0));
 		g_free(p->data);
 		list=g_list_delete_link(list, p);
 		i++;
@@ -295,7 +295,7 @@ gboolean ly_sss_tab_add_refresh()
 		pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
 		gtk_list_store_append(ly_sss_store, &iter);
 		gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
-		p=g_list_find_custom(list, plugin_name_list[i], g_strcmp0);
+		p=g_list_find_custom(list, plugin_name_list[i], (GCompareFunc)(g_strcmp0));
 		g_free(p->data);
 		p=p->next;
 	}

@@ -122,12 +122,14 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_rectangle (cr, 0, height/2-120, width, 240);
 	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
 	cairo_fill(cr);
-	cairo_set_line_width (cr,0.5);
-	cairo_set_source_rgba (cr, 0.4, 0.4, 0.4, 0.8);
-	cairo_move_to(cr, 0, height/2-120);
-	cairo_line_to(cr, width, height/2-120);
-	cairo_move_to(cr, 0, height/2+120);
-	cairo_line_to(cr, width, height/2+120);
+	
+	cairo_set_line_width(cr, 0.5);
+	cairo_set_source_rgba (cr, 0.9, 0.9, 0.9, 0.7);
+	cairo_move_to(cr, 0, height/2-118.5);
+	cairo_line_to(cr, width, height/2-118.5);
+	cairo_stroke(cr);
+	cairo_move_to(cr, 0, height/2+118.5);
+	cairo_line_to(cr, width, height/2+118.5);
 	cairo_stroke(cr);
 	
 	/*

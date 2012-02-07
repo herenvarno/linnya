@@ -176,8 +176,13 @@ void	ly_eql_init	()
 	/*
 	 * set equalizer
 	 */
+	int eql_auto=1;
+	if(!ly_reg_get("eql_auto", "%d", &eql_auto))
+	{
+		ly_reg_set("eql_auto", "%d", eql_auto);
+	}
 	char eq_name[1024]="default";
-	if(ly_reg_get("equalizer", "%s", eq_name))
+	if(!ly_reg_get("equalizer", "%s", eq_name))
 	{
 		ly_reg_set("equalizer", "%s", eq_name);
 	}
