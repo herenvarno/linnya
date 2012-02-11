@@ -130,7 +130,7 @@ void		ly_3opc_left_refresh	()
 
 	gtk_tree_store_append (store_left, &iter,NULL);
 	gtk_tree_store_set(store_left, &iter, 0, -1, 1, _("Artists"), -1);
-	ly_dbm_exec("SELECT DISTINCT artist FROM metadatas WHERE flag>=0 AND flag<=9 ORDER BY num", ly_3opc_left_on_get_artists_cb, &iter);
+	ly_dbm_exec("SELECT DISTINCT artist FROM metadatas WHERE flag>=0 AND flag<=9 ORDER BY artist", ly_3opc_left_on_get_artists_cb, &iter);
 	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_left), GTK_TREE_MODEL(store_left));
 	return;
 }

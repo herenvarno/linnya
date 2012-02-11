@@ -161,9 +161,11 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 	if(md)
 	{
 		gchar title[1024]="";
-		cairo_set_source_rgb ( cr, 0.8, 0.8 , 0.8);
 		g_snprintf(title, sizeof(title), "%s - %s", md->title,md->artist);
-		ly_3lrc_widget_draw_text_midx(cr, title, title_font, width ,5);
+		cairo_set_source_rgb ( cr, 0.1, 0.1, 0.1);
+		ly_3lrc_widget_draw_text_midx(cr, title, title_font, width ,6);
+		cairo_set_source_rgb ( cr, 0.9, 0.9, 0.9);
+		ly_3lrc_widget_draw_text_midx(cr, title, title_font, width ,7);
 	}
 	
 	

@@ -33,7 +33,9 @@
  */
 
 gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data);
-gboolean	ly_eql_new_with_name_cb(gpointer stmt, gpointer data);
+gboolean	ly_eql_on_meta_update_cb(gpointer message, gpointer data);
+gboolean	ly_eql_new_from_database_cb(gpointer stmt, gpointer data);
+gboolean	ly_eql_conf_set_by_genre_cb(gpointer stmt, gpointer data);
 
 /**
  * ly_eql_init:
@@ -186,17 +188,15 @@ void	ly_eql_init	()
 	{
 		ly_reg_set("equalizer", "%s", eq_name);
 	}
-	LyEqlEqualizer *eq=ly_eql_new_with_conf();
+	LyEqlEqualizer *eq=ly_eql_new_by_conf();
 	ly_eql_set_eq(eq);
 	ly_eql_free(eq);
 
 	/*
 	 * bind message
 	 */
-	ly_msg_bind("reg_equalizer_changed",
-				"core:reg",
-				ly_eql_on_equalizer_changed_cb,
-				NULL);
+	ly_msg_bind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb, NULL);
+	ly_msg_bind("meta_update", "core:ppl", ly_eql_on_meta_update_cb, NULL);
 }
 
 /**
@@ -206,9 +206,8 @@ void	ly_eql_init	()
  */
 void	ly_eql_fina	()
 {
-	ly_msg_unbind("reg_equalizer_changed",
-				"core:reg",
-				ly_eql_on_equalizer_changed_cb);
+	ly_msg_unbind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb);
+	ly_msg_unbind("meta_update", "core:ppl", ly_eql_on_meta_update_cb);
 }
 
 /**
@@ -225,14 +224,14 @@ LyEqlEqualizer*	ly_eql_new				()
 }
 
 /**
- * ly_eql_new_with_name:
+ * ly_eql_new_from_database:
  * @name: the eq name.
  *
  * Create a new eq container.
  *
  * Returns: The LyEqlEqualizer* format eq container pointer.
  */
-LyEqlEqualizer*	ly_eql_new_with_name	(char *name)
+LyEqlEqualizer*	ly_eql_new_from_database	(char *name)
 {
 	if(!name)
 		return NULL;
@@ -245,7 +244,7 @@ LyEqlEqualizer*	ly_eql_new_with_name	(char *name)
 	g_strlcpy(eq->name, name, sizeof(eq->name));
 	char sql[1024]="";
 	g_snprintf(sql, sizeof(sql), "SELECT * FROM equalizers WHERE name='%s'", eq->name);
-	if(ly_dbm_exec(sql, ly_eql_new_with_name_cb, eq)>0)
+	if(ly_dbm_exec(sql, ly_eql_new_from_database_cb, eq)>0)
 	{
 		return eq;
 	}
@@ -255,20 +254,38 @@ LyEqlEqualizer*	ly_eql_new_with_name	(char *name)
 }
 
 /**
- * ly_eql_new_with_conf:
+ * ly_eql_new_by_conf:
  *
  * Create a new eq container whose name is current actived (in reg hashtable).
  *
  * Returns: The LyEqlEqualizer* format eq container pointer.
  */
-LyEqlEqualizer* ly_eql_new_with_conf	()
+LyEqlEqualizer* ly_eql_new_by_conf	()
 {
 	char eq_name[1024]="default";
 	ly_reg_get("equalizer", "%s", eq_name);
 	LyEqlEqualizer *eq=NULL;
-	eq=ly_eql_new_with_name(eq_name);
+	eq=ly_eql_new_from_database(eq_name);
 	return eq;
 }
+
+/**
+ * ly_eql_new_by_genre:
+ *
+ * Set the equalizer setting whose name is similar to the genre of the current song
+ *
+ * Returns: TRUE for success, others FALSE.
+ */
+void ly_eql_conf_set_by_genre	()
+{
+	gchar name[1024]="default";
+	if((ly_pqm_get_current_md())->genre!=NULL || !g_str_equal((ly_pqm_get_current_md())->genre, ""))
+	{
+		ly_dbm_exec("SELECT * FROM equalizers", ly_eql_conf_set_by_genre_cb, name);
+	}
+	ly_reg_set("equalizer", "%s", name);
+}
+
 
 /**
  * ly_eql_free:
@@ -364,22 +381,48 @@ gboolean		ly_eql_put			(LyEqlEqualizer *eq)
 gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data)
 {
 	LyMsgMsg *m=(LyMsgMsg*)message;
-	LyEqlEqualizer *eq=ly_eql_new_with_conf(m->msg);
+	LyEqlEqualizer *eq=ly_eql_new_by_conf(m->msg);
 	ly_eql_set_eq(eq);
 	ly_eql_free(eq);
 	return FALSE;
 }
 
 /**
- * ly_eql_new_with_name_cb:
+ * ly_eql_on_meta_update_cb:
+ * @message: the message struction.
+ * @data: the data passed in by ly_msg_put.
+ *
+ * A callback function when meta_update message occurs.
+ *
+ * Returns: FALSE.
+ */
+gboolean	ly_eql_on_meta_update_cb(gpointer message, gpointer data)
+{
+	LyMsgMsg *m=(LyMsgMsg*)message;
+	if(!g_str_equal(m->msg, "genre"))
+		return FALSE;
+
+	int eql_auto=1;
+	ly_reg_get("eql_auto", "%d", &eql_auto);
+	if(eql_auto)
+	{
+		ly_eql_conf_set_by_genre();
+	}
+	return FALSE;
+}
+
+
+
+/**
+ * ly_eql_new_from_database_cb:
  * @stmt: The SQL query result.
  * @data: the data passed in by ly_dbm_exec.
  *
- * A callback function called by ly_eql_new_with_name
+ * A callback function called by ly_eql_new_from_database
  *
  * Returns: TRUE.
  */
-gboolean	ly_eql_new_with_name_cb(gpointer stmt, gpointer data)
+gboolean	ly_eql_new_from_database_cb(gpointer stmt, gpointer data)
 {
 	LyEqlEqualizer *eq= (LyEqlEqualizer *)data;
 	int i=0;
@@ -388,4 +431,34 @@ gboolean	ly_eql_new_with_name_cb(gpointer stmt, gpointer data)
 		eq->band[i]=sqlite3_column_double(stmt, i+1);
 	}
 	return TRUE;
+}
+
+/**
+ * ly_eql_conf_set_by_genre_cb:
+ * @stmt: The SQL query result.
+ * @data: the data passed in by ly_dbm_exec.
+ *
+ * A callback function called by ly_eql_new_from_genre
+ *
+ * Returns: TRUE.
+ */
+gboolean	ly_eql_conf_set_by_genre_cb(gpointer stmt, gpointer data)
+{
+	int i=0;
+	char *name=g_utf8_strdown(sqlite3_column_text(stmt, 0), -1);
+	char *genre=g_utf8_strdown((ly_pqm_get_current_md())->genre, -1);
+	if(g_strcmp0(name, genre)==0)
+	{
+		g_strlcpy(data, name, 1024);
+		g_free(name);
+		g_free(genre);
+		return TRUE;
+	}
+	else if(g_strrstr(name, genre)||g_strrstr(genre, name))
+	{
+		g_strlcpy(data, name, 1024);
+	}
+	g_free(name);
+	g_free(genre);
+	return FALSE;
 }

@@ -163,7 +163,6 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	{
 		module=g_module_open(path,G_MODULE_BIND_LAZY);
 	}
-	
 	plugin->module=module;
 
 	if(g_str_equal(plugin->alias,""))

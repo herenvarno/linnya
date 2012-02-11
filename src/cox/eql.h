@@ -28,6 +28,7 @@
 #include "msg.h"
 #include "log.h"
 #include "dbm.h"
+#include "pqm.h"
 #include "ppl.h"
 
 /*
@@ -45,8 +46,9 @@ void			ly_eql_init				();
 void			ly_eql_fina				();
 
 LyEqlEqualizer*	ly_eql_new				();
-LyEqlEqualizer*	ly_eql_new_with_name	(char *name);
-LyEqlEqualizer* ly_eql_new_with_conf	();
+LyEqlEqualizer*	ly_eql_new_from_database(char *name);
+LyEqlEqualizer* ly_eql_new_by_conf		();
+void			ly_eql_conf_set_by_genre();
 void			ly_eql_free				(LyEqlEqualizer *eq);
 
 gboolean		ly_eql_set_eq			(LyEqlEqualizer *eq);

@@ -46,7 +46,7 @@ void	ly_sss_init()
 {
 	ly_sss_tab_add_init();
 	ly_sss_tab_add_create();
-	
+
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	gchar path[1024]="";
 	g_snprintf(path, sizeof(path), "%sui/icon/icon.svg", LY_GLA_PROGDIR);
@@ -214,14 +214,14 @@ gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 	
 	GtkWidget *sw = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	
+
 	ly_sss_store=gtk_list_store_new(2, G_TYPE_STRING, GDK_TYPE_PIXBUF);
 	GtkWidget *icon_view=gtk_icon_view_new_with_model(GTK_TREE_MODEL(ly_sss_store));
 	gtk_icon_view_set_reorderable(GTK_ICON_VIEW(icon_view), TRUE);
 	gtk_container_add(GTK_CONTAINER(sw), icon_view);
 	gtk_icon_view_set_text_column(GTK_ICON_VIEW(icon_view), 0);
 	gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(icon_view), 1);
-	
+			
 	gtk_notebook_append_page(GTK_NOTEBOOK(ly_win_get_window()->notebook_session),sw, hbox);
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(ly_win_get_window()->notebook_session),sw,TRUE);
 	gtk_widget_show_all(hbox);
@@ -285,17 +285,16 @@ gboolean ly_sss_tab_add_refresh()
 	p=list;
 	while(p)
 	{
-		LyPliPlugin *session=ly_pli_get(plugin_name_list[i]);
+		LyPliPlugin *session=ly_pli_get(p->data);
 		if(!session||!(session->module)||session->daemon)
 		{
 			p=p->next;
 			continue;
 		}
-		name=g_strconcat(plugin_name_list[i],NULL);
+		name=g_strconcat(p->data,NULL);
 		pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
 		gtk_list_store_append(ly_sss_store, &iter);
 		gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, -1);
-		p=g_list_find_custom(list, plugin_name_list[i], (GCompareFunc)(g_strcmp0));
 		g_free(p->data);
 		p=p->next;
 	}

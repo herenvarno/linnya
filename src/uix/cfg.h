@@ -105,15 +105,18 @@ void			ly_cfg_fina					();
 GType			ly_cfg_dialog_get_type		();
 GtkWidget*		ly_cfg_dialog_new			(gchar *name);
 void			ly_cfg_dialog_append		(LyCfgDialog *dialog, GtkWidget *widget);
+void			ly_cfg_dialog_set_nav_visible		(LyCfgDialog *dialog, gboolean visible);
 
 GType			ly_cfg_page_get_type		();
 GtkWidget*		ly_cfg_page_new				(gchar *name, gchar *desc, gchar *image);
 gchar*			ly_cfg_page_get_name		(LyCfgPage *page);
 void			ly_cfg_page_append			(LyCfgPage *page, GtkWidget *widget);
+GtkWidget*		ly_cfg_page_get_content_area		(LyCfgPage *page);
 
 GType			ly_cfg_item_get_type		();
 GtkWidget*		ly_cfg_item_new				(gchar *name);
 gchar*			ly_cfg_item_get_name		(LyCfgItem *item);
 void			ly_cfg_item_append			(LyCfgItem *item, GtkWidget *widget);
+GtkWidget*		ly_cfg_item_get_content_area		(LyCfgItem *item);
  
 #endif	//LY_CFG_H

@@ -165,6 +165,9 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 		return FALSE;
 	x=width/10+220;
 	y=height/2-60;
+	cairo_set_source_rgba ( cr, 0.1 , 0.1 , 0.1 ,1.0);
+	cairo_move_to ( cr, x, y-2);
+	ly_3inf_draw_text(cr, md->title, title_font);
 	cairo_set_source_rgba ( cr, 0.9 , 0.9 , 0.9 ,1.0);
 	cairo_move_to ( cr, x, y);
 	ly_3inf_draw_text(cr, md->title, title_font);
