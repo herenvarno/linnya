@@ -221,7 +221,7 @@ void		ly_pqm_set_rand			()
 	flag_min=(ly_pqm_md->flag/10)*10;
 	flag_max=(ly_pqm_md->flag/10)*10+9;
 	
-	g_snprintf(where,sizeof(where),"(flag>=%d AND flag<=%d)", flag_min, flag_max);
+	g_snprintf(where,sizeof(where),"(flag>=%d AND flag<=%d AND playing>0)", flag_min, flag_max);
 	g_snprintf(sql,sizeof(sql),"SELECT * FROM plist WHERE %s ORDER BY RANDOM() LIMIT 1", where);
 	ly_mdh_free(ly_pqm_md);
 	ly_pqm_md=NULL;
@@ -273,7 +273,7 @@ void		ly_pqm_set_prev			()
 	g_snprintf(where,sizeof(where),"(flag>=%d AND flag<=%d)", flag_min, flag_max);
 	if(ly_pqm_md)
 	{
-		g_snprintf(sql,sizeof(sql),"SELECT * FROM plist WHERE playing<%d AND %s ORDER BY playing DESC LIMIT 1",ly_pqm_md->playing, where);
+		g_snprintf(sql,sizeof(sql),"SELECT * FROM plist WHERE playing<%d AND playing>0 AND %s ORDER BY playing DESC LIMIT 1",ly_pqm_md->playing, where);
 		ly_mdh_free(ly_pqm_md);
 		ly_pqm_md=NULL;
 		ly_pqm_md=ly_pqm_get_md_by_sql(sql);

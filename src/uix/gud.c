@@ -270,7 +270,6 @@ gpointer ly_gud_on_load_lib_cb(void *data)
 	/*
 	 * add new music
 	 */
-
 	ly_lib_check_is_exist_list(&list);
 	
 	int l=g_list_length(list);

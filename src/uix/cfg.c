@@ -151,8 +151,12 @@ gboolean		ly_cfg_on_eql_eq_save_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_eql_eq_delete_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_key_changed_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_key_press_cb		(GtkWidget *widget, GdkEvent  *event, gpointer data);
-gboolean		ly_cfg_on_thm_theme_changed_cb	(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_thm_theme_changed_cb(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_thm_decorated_changed_cb(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_thm_winbg_changed_cb(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_thm_custom_winbg_changed_cb(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_thm_sssbg_changed_cb(GtkWidget *widget, gpointer data);
+gboolean		ly_cfg_on_thm_custom_sssbg_changed_cb(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_pli_show_about_cb	(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_pli_show_config_cb(GtkWidget *widget, gpointer data);
 gboolean		ly_cfg_on_pli_changed_cb	(GtkWidget *widget, gpointer data);
@@ -365,7 +369,7 @@ ly_cfg_new (void)
 	item=ly_cfg_item_new(_("Theme"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	char theme_name[128]="default";
-	ly_reg_get("theme", "%s", theme_name);
+	ly_reg_get("thm_theme", "%s", theme_name);
 	combo=gtk_combo_box_text_new();
 	ly_cfg_item_append(LY_CFG_ITEM(item), combo);
 	GList *list=ly_thm_get_list();
@@ -386,9 +390,39 @@ ly_cfg_new (void)
 		p=p->next;
 	}
 	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_cfg_on_thm_theme_changed_cb), NULL);
-	
-	item=ly_cfg_item_new(_("Session Background Image"));
+
+	item=ly_cfg_item_new(_("Main Window Style"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
+	check=gtk_check_button_new_with_label(_("Enable Window Manager's Decorated"));
+	int decorated=0;
+	ly_reg_get("thm_decorated", "%d", &decorated);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)decorated);
+	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_decorated_changed_cb), NULL);
+	ly_cfg_item_append(LY_CFG_ITEM(item), check);
+	check=gtk_check_button_new_with_label(_("Enable Transparent Effective"));
+	int custom_winbg=0;
+	ly_reg_get("thm_custom_winbg", "%d", &custom_winbg);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_winbg);
+	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_winbg_changed_cb), NULL);
+	ly_cfg_item_append(LY_CFG_ITEM(item), check);
+	GdkColor *color=(GdkColor *)g_malloc(sizeof(GdkColor));
+	guint color_alpha=65535;
+	ly_reg_get("thm_winbg", "%d:%d:%d:%d", &(color->red), &(color->green), &(color->blue), &color_alpha);
+	button=gtk_color_button_new_with_color(color);
+	gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(button), TRUE);
+	g_free(color);
+	gtk_color_button_set_alpha(GTK_COLOR_BUTTON(button), color_alpha);
+	ly_cfg_item_append(LY_CFG_ITEM(item), button);
+	g_signal_connect(G_OBJECT(button), "color-set", G_CALLBACK(ly_cfg_on_thm_winbg_changed_cb), hbox);
+	
+	item=ly_cfg_item_new(_("Session Style"));
+	ly_cfg_page_append(LY_CFG_PAGE(page), item);
+	check=gtk_check_button_new_with_label(_("Use Custom Session Background Image"));
+	int custom_sssbg=0;
+	ly_reg_get("thm_custom_sssbg", "%d", &custom_sssbg);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_sssbg);
+	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_sssbg_changed_cb), NULL);
+	ly_cfg_item_append(LY_CFG_ITEM(item), check);
 	ly_reg_get("thm_sssbg", "%s", str);
 	hbox=gtk_hbox_new(FALSE,0);
 	ly_cfg_item_append(LY_CFG_ITEM(item), hbox);
@@ -854,11 +888,38 @@ gboolean ly_cfg_on_key_press_cb(GtkWidget *widget, GdkEvent  *event, gpointer da
 gboolean ly_cfg_on_thm_theme_changed_cb(GtkWidget *widget, gpointer data)
 {
 	char *theme_name=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
-	ly_reg_set("theme", "%s", theme_name);
+	ly_reg_set("thm_theme", "%s", theme_name);
 	ly_msg_put("info", "ui:config", _("Setting will not be actived until program restart!"));
 	return FALSE;
 }
 
+gboolean ly_cfg_on_thm_decorated_changed_cb(GtkWidget *widget, gpointer data)
+{
+	ly_reg_set("thm_decorated", "%d", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+	return FALSE;
+}
+
+gboolean ly_cfg_on_thm_custom_winbg_changed_cb(GtkWidget *widget, gpointer data)
+{
+	ly_reg_set("thm_custom_winbg", "%d", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+	return FALSE;
+}
+
+gboolean ly_cfg_on_thm_winbg_changed_cb(GtkWidget *widget, gpointer data)
+{
+	GdkColor *color=(GdkColor *)g_malloc(sizeof(GdkColor));
+	guint color_alpha=65535;
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), color);
+	color_alpha=gtk_color_button_get_alpha(GTK_COLOR_BUTTON(widget));
+	ly_reg_set("thm_winbg", "%d:%d:%d:%d", (color->red), (color->green), (color->blue), color_alpha);
+	g_free(color);
+	return FALSE;
+}
+gboolean ly_cfg_on_thm_custom_sssbg_changed_cb(GtkWidget *widget, gpointer data)
+{
+	ly_reg_set("thm_custom_sssbg", "%d", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+	return FALSE;
+}
 gboolean ly_cfg_on_thm_sssbg_changed_cb(GtkWidget *widget, gpointer data)
 {
 	gint result=0;

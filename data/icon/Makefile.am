@@ -8,7 +8,8 @@ EXTRA_DIST =\
 			lib.svg\
 			null.png\
 			plugin.svg\
-			theme.svg
+			theme.svg\
+			equalizer.svg
 icondir = ${datadir}/linnya/ui/icon
 icon_DATA =\
 			linnya.svg\
@@ -20,4 +21,5 @@ icon_DATA =\
 			lib.svg\
 			null.png\
 			plugin.svg\
-			theme.svg
+			theme.svg\
+			equalizer.svg

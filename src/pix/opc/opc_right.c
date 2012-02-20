@@ -58,19 +58,24 @@ const char *cover_type[]={
 /*
  * VARIABLES
  */
-GtkWidget			*treeview_right=NULL;
-GtkTreeStore		*store_right=NULL;
-GtkTreeSelection	*selection_right=NULL;
-GdkPixbuf			*icon_playing=NULL;
-gchar				*str_old=NULL;
+GtkWidget			*ly_3opc_right_treeview_right=NULL;
+GtkWidget			*ly_3opc_right_label_page=NULL;
+GtkTreeStore		*ly_3opc_right_store_right=NULL;
+GtkTreeSelection	*ly_3opc_right_selection_right=NULL;
+GdkPixbuf			*ly_3opc_right_icon_playing=NULL;
+gchar				*ly_3opc_right_str_old=NULL;
 
 /*
  * FUNCTIONS
  */
 gboolean ly_3opc_right_on_get_metadatas_cb(gpointer stmt, gpointer data);
 char *ly_3opc_right_build_sql();
+gboolean ly_3opc_right_on_button_p_clicked_cb(GtkWidget *widget, gpointer data);
+gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data);
+
 gboolean ly_3opc_right_on_active_cb(GtkTreeView *tree_view,GtkTreePath *path,GtkTreeViewColumn *column,gpointer user_data);
-gboolean ly_3opc_right_force_refresh_cb(gpointer message, gpointer data);
+gboolean ly_3opc_right_on_select_changed_cb(gpointer message, gpointer data);
+gboolean ly_3opc_right_on_limit_changed_cb(gpointer message, gpointer data);
 gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data);
 gboolean ly_3opc_right_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -90,12 +95,12 @@ void		ly_3opc_right_init		()
 {
 	char path[1024]="";
 	g_snprintf(path, sizeof(path), "%sopc/playing.svg", LY_GLB_PROG_PLUGINDIR);
-	icon_playing=gdk_pixbuf_new_from_file_at_size(path, 20, 20, NULL);
+	ly_3opc_right_icon_playing=gdk_pixbuf_new_from_file_at_size(path, 20, 20, NULL);
 }
 void		ly_3opc_right_fina		()
 {
-	if(icon_playing)
-		g_object_unref(icon_playing);
+	if(ly_3opc_right_icon_playing)
+		g_object_unref(ly_3opc_right_icon_playing);
 }
 
 GtkWidget*	ly_3opc_right_create		()
@@ -118,19 +123,17 @@ GtkWidget*	ly_3opc_right_create		()
 	gtk_widget_set_size_request(button_p, 100, -1);
 	gtk_box_pack_start(GTK_BOX(hbox), button_p,FALSE,FALSE,0);
 	label=gtk_label_new(_("Page 1"));
+	ly_3opc_right_label_page=label;
 	gtk_box_pack_start(GTK_BOX(hbox), label,TRUE,TRUE,0);
 	button_n=gtk_button_new_from_stock(GTK_STOCK_MEDIA_NEXT);
 	gtk_widget_set_size_request(button_n, 100, -1);
 	gtk_box_pack_start(GTK_BOX(hbox), button_n,FALSE,FALSE,0);
-//	g_signal_connect(G_OBJECT(button_p), "clicked", G_CALLBACK(ly_3opc_on_button_p_clicked_cb), label);
-//	g_signal_connect(G_OBJECT(button_n), "clicked", G_CALLBACK(ly_3opc_on_button_n_clicked_cb), label);
+	g_signal_connect(G_OBJECT(button_p), "clicked", G_CALLBACK(ly_3opc_right_on_button_p_clicked_cb), NULL);
+	g_signal_connect(G_OBJECT(button_n), "clicked", G_CALLBACK(ly_3opc_right_on_button_n_clicked_cb), NULL);
 	
-	treeview_right=gtk_tree_view_new();
-	gtk_container_add(GTK_CONTAINER(scrolled_window),treeview_right);
-	store_right  = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
-
-	int limit=0;
-	int offset=0;
+	ly_3opc_right_treeview_right=gtk_tree_view_new();
+	gtk_container_add(GTK_CONTAINER(scrolled_window),ly_3opc_right_treeview_right);
+	ly_3opc_right_store_right  = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
 	
 	char *sql=NULL;
 	sql=ly_3opc_right_build_sql();
@@ -145,53 +148,56 @@ GtkWidget*	ly_3opc_right_create		()
 	cell_renderer = gtk_cell_renderer_pixbuf_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("*"),cell_renderer,"pixbuf",0,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),FALSE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (ly_3opc_right_treeview_right), column);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Title"),cell_renderer,"text",1,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
 	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
 	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),200);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (ly_3opc_right_treeview_right), column);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Artist"),cell_renderer,"text",2,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
 	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
 	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),250);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (ly_3opc_right_treeview_right), column);
 	cell_renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes(_("Album"),cell_renderer,"text",3,NULL);
 	gtk_tree_view_column_set_resizable  (GTK_TREE_VIEW_COLUMN(column),TRUE);
 	gtk_tree_view_column_set_min_width  (GTK_TREE_VIEW_COLUMN(column),100);
 	gtk_tree_view_column_set_max_width  (GTK_TREE_VIEW_COLUMN(column),200);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_right), column);
-	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_right), GTK_TREE_MODEL(store_right ));
-	selection_right=gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_right));
-	gtk_tree_selection_set_mode(selection_right,GTK_SELECTION_MULTIPLE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (ly_3opc_right_treeview_right), column);
+	gtk_tree_view_set_model(GTK_TREE_VIEW (ly_3opc_right_treeview_right), GTK_TREE_MODEL(ly_3opc_right_store_right ));
+	ly_3opc_right_selection_right=gtk_tree_view_get_selection(GTK_TREE_VIEW(ly_3opc_right_treeview_right));
+	gtk_tree_selection_set_mode(ly_3opc_right_selection_right,GTK_SELECTION_MULTIPLE);
 	
-	g_signal_connect(G_OBJECT(treeview_right), "row-activated", G_CALLBACK(ly_3opc_right_on_active_cb), NULL);
-	g_signal_connect(G_OBJECT(treeview_right), "button_release_event", G_CALLBACK(ly_3opc_right_popup_menu_cb), NULL);
-	g_signal_connect(G_OBJECT(treeview_right), "button_press_event", G_CALLBACK(ly_3opc_right_mask_cb), NULL);
+	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "row-activated", G_CALLBACK(ly_3opc_right_on_active_cb), NULL);
+	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_release_event", G_CALLBACK(ly_3opc_right_popup_menu_cb), NULL);
+	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_press_event", G_CALLBACK(ly_3opc_right_mask_cb), NULL);
 	
-	ly_msg_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_force_refresh_cb, NULL);
-	ly_msg_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_force_refresh_cb, NULL);
+	ly_msg_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb, NULL);
+	ly_msg_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb, NULL);
 	ly_msg_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
-	
+
 	return vbox;
 
 }
 void		ly_3opc_right_destroy	()
 {
-	ly_msg_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_force_refresh_cb);
-	ly_msg_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_force_refresh_cb);
+	if(ly_3opc_right_str_old)
+		g_free(ly_3opc_right_str_old);
+	ly_3opc_right_str_old=NULL;
+	ly_msg_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb);
+	ly_msg_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb);
 	ly_msg_unbind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb);
 }
 void		ly_3opc_right_refresh	()
 {
-	if(store_right)
-		g_object_unref(store_right);
-	store_right=NULL;
+	if(ly_3opc_right_store_right)
+		g_object_unref(ly_3opc_right_store_right);
+	ly_3opc_right_store_right=NULL;
 	
-	store_right = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
+	ly_3opc_right_store_right = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
 	char *sql=NULL;
 	sql=ly_3opc_right_build_sql();
 	if(sql)
@@ -199,7 +205,20 @@ void		ly_3opc_right_refresh	()
 		ly_dbm_exec(sql, ly_3opc_right_on_get_metadatas_cb, NULL);
 		g_free(sql);
 	}
-	gtk_tree_view_set_model(GTK_TREE_VIEW (treeview_right), GTK_TREE_MODEL(store_right));
+	gtk_tree_view_set_model(GTK_TREE_VIEW (ly_3opc_right_treeview_right), GTK_TREE_MODEL(ly_3opc_right_store_right));
+	char str[1024]="";
+	int offset=0;
+	int limit=-1;
+	ly_reg_get("3opc_limit", "%d:%d", &offset, &limit);
+	if(limit>0)
+	{
+		g_snprintf(str, sizeof(str), _("Page %d"), offset/limit+1);
+	}
+	else
+	{
+		g_snprintf(str, sizeof(str), _("Page 1"));
+	}
+	gtk_label_set_text(GTK_LABEL(ly_3opc_right_label_page), str);
 }
 
 gboolean ly_3opc_right_on_get_metadatas_cb(gpointer stmt, gpointer data)
@@ -210,7 +229,7 @@ gboolean ly_3opc_right_on_get_metadatas_cb(gpointer stmt, gpointer data)
 	gchar artist[128]="";
 	gchar album[128]="";
 
-	gtk_tree_store_append (store_right , &iter, NULL);
+	gtk_tree_store_append (ly_3opc_right_store_right , &iter, NULL);
 	id=sqlite3_column_int(stmt, 0);
 	g_strlcpy(title,(const gchar *)sqlite3_column_text(stmt, 1),128);
 	g_strlcpy(artist,(const gchar *)sqlite3_column_text(stmt, 2),128);
@@ -219,18 +238,18 @@ gboolean ly_3opc_right_on_get_metadatas_cb(gpointer stmt, gpointer data)
 	md=ly_pqm_get_current_md();
 	if(!md)
 	{
-		gtk_tree_store_set(store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
+		gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
 		return FALSE;
 	}
 	if(md->id==id)
 	{
-		if(str_old)
-			g_free(str_old);
-		gtk_tree_store_set(store_right, &iter, 0, icon_playing, 1,title, 2,artist, 3,album, 4, id, -1);
-		str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(store_right), &iter);
+		if(ly_3opc_right_str_old)
+			g_free(ly_3opc_right_str_old);
+		gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, ly_3opc_right_icon_playing, 1,title, 2,artist, 3,album, 4, id, -1);
+		ly_3opc_right_str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter);
 	}
 	else
-		gtk_tree_store_set(store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
+		gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, NULL, 1,title, 2,artist, 3,album, 4, id, -1);
 	return FALSE;
 }
 
@@ -278,7 +297,7 @@ char *ly_3opc_right_build_sql()
 	if(!g_str_equal(sql, ""))
 	{
 		g_strlcpy(tmp, sql, sizeof(tmp));
-		g_snprintf(sql, sizeof(sql), "%s LIMIT %d OFFSET %d", tmp, limit, offset);	
+		g_snprintf(sql, sizeof(sql), "%s LIMIT %d OFFSET %d", tmp, limit, offset);
 		return g_strdup(sql);
 	}
 	return NULL;
@@ -288,7 +307,7 @@ gboolean ly_3opc_right_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointe
 {
 	if (event->button==3)
 	{
-		GList *selectlist=gtk_tree_selection_get_selected_rows(selection_right,NULL);
+		GList *selectlist=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right,NULL);
 		if (g_list_length(selectlist)>1)
 			return TRUE;
 	}
@@ -296,13 +315,26 @@ gboolean ly_3opc_right_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointe
 }
 
 
-gboolean ly_3opc_right_force_refresh_cb(gpointer message, gpointer data)
+gboolean ly_3opc_right_on_select_changed_cb(gpointer message, gpointer data)
 {
-	g_free(str_old);
-	str_old=NULL;
+	int limit=-1;
+	ly_reg_get("3opc_limit", "%*d:%d", &limit);
+	ly_reg_set("3opc_limit", "0:%d", limit);
+	g_free(ly_3opc_right_str_old);
+	ly_3opc_right_str_old=NULL;
 	ly_3opc_right_refresh();
 	return FALSE;
 }
+gboolean ly_3opc_right_on_limit_changed_cb(gpointer message, gpointer data)
+{
+	g_free(ly_3opc_right_str_old);
+	ly_3opc_right_str_old=NULL;
+
+	//refresh
+	ly_3opc_right_refresh();
+	return FALSE;
+}
+
 
 gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data)
 {
@@ -312,36 +344,37 @@ gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data)
 
 	int id;
 	GtkTreeIter iter;
-	if(str_old)
+	if(ly_3opc_right_str_old)
 	{
-		gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(store_right), &iter, str_old);
-		if(gtk_tree_store_iter_is_valid(store_right, &iter))
+		gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, ly_3opc_right_str_old);
+		if(gtk_tree_store_iter_is_valid(ly_3opc_right_store_right, &iter))
 		{
-			gtk_tree_store_set(store_right, &iter, 0, NULL, -1);
+			gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, NULL, -1);
 		}
-		g_free(str_old);
+		g_free(ly_3opc_right_str_old);
+		ly_3opc_right_str_old=NULL;
 	}
 	
-	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store_right), &iter))
+	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 	{
 		return FALSE;
 	}
-	gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	if(id==md->id)
 	{
-		str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(store_right), &iter);
-		gtk_tree_store_set(store_right, &iter, 0, icon_playing, -1);
+		ly_3opc_right_str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter);
+		gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, ly_3opc_right_icon_playing, -1);
 		return FALSE;
 	}
 	else
 	{
-		while(gtk_tree_model_iter_next(GTK_TREE_MODEL(store_right), &iter))
+		while(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 		{
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(id==md->id)
 			{
-				str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(store_right), &iter);
-				gtk_tree_store_set(store_right, &iter, 0, icon_playing, -1);
+				ly_3opc_right_str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter);
+				gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, ly_3opc_right_icon_playing, -1);
 				return FALSE;
 			}
 		}
@@ -431,7 +464,7 @@ gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, g
 	char name[1024]="";
 	ly_reg_get("3opc_select", "%d:%d:%d:%[^\n]s", &index0, &index1, &id, name);
 	
-	selectlist=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+	selectlist=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 	
 	if(g_list_length(selectlist)==0)
 	{
@@ -477,15 +510,15 @@ gboolean ly_3opc_right_play_cb(GtkWidget *widget, gpointer data)
 	if(index0==1||index0==2)
 	{
 		ly_pqm_clear_md();
-		if(gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store_right), &iter))
+		if(gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 		{
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			g_snprintf(tmp, sizeof(tmp), "id=%d", id);
 			where=g_strconcat(tmp, NULL);
 		}
-		while(gtk_tree_model_iter_next(GTK_TREE_MODEL(store_right), &iter))
+		while(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 		{
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			g_snprintf(tmp, sizeof(tmp), " OR id=%d", id);
 			tmpwhere=g_strconcat(where, tmp, NULL);
 			g_free(where);
@@ -502,11 +535,11 @@ gboolean ly_3opc_right_play_cb(GtkWidget *widget, gpointer data)
 	}
 
 	GList *list=NULL;
-	list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
-	gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(list->data));
+	list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(list->data));
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
-	gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	ly_aud_stop();
 	ly_pqm_set_current_md(id);
 	ly_aud_play();
@@ -528,12 +561,12 @@ gboolean ly_3opc_right_addtoqueue_cb(GtkWidget *widget, gpointer data)
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
 	if(index0==1||index0==2)
 	{
-		list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+		list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 		p=list;
 		while(p)
 		{
-			gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(p->data));
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(p==list)
 			{
 				g_snprintf(tmp, sizeof(tmp), "id=%d", id);
@@ -618,15 +651,15 @@ gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event
 		}
 		gtk_widget_destroy(dialog);
 	}
-	list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+	list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 	if(list==NULL)
 		return FALSE;
 	p=list;
 	ly_dbm_exec("begin",NULL,NULL);
 	while(p)
 	{
-		gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
-		gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &mid, -1);
+		gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(p->data));
+		gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &mid, -1);
 		ly_plm_add_md(pid, mid);
 		p=p->next;
 	}
@@ -644,11 +677,11 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gint id=0;
 	LyMdhMetadata *md=NULL;
 	
-	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(selection_right), NULL);
+	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(ly_3opc_right_selection_right), NULL);
 	if(g_list_length(list)==0)
 		return FALSE;
-	gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(list->data));
-	gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(list->data));
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	md=ly_lib_get_md(id);
 	
 	if(md->flag!=MDH_FLAG_CUE_AUDIO)
@@ -788,8 +821,6 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_MIDDLE);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),30);
 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-	
-	
 	
 
 	frame=gtk_frame_new(_("Advance Information"));
@@ -998,7 +1029,7 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 	gchar *tmpwhere=NULL;
 	gchar tmp[1024]="";
 	
-	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(selection_right),NULL);
+	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(ly_3opc_right_selection_right),NULL);
 	if(list==NULL)
 		return FALSE;
 	
@@ -1021,12 +1052,12 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 				break;
 		}
 		gtk_widget_destroy(dialog);
-		list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+		list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 		p=list;
 		while(p)
 		{
-			gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(p->data));
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(p==list)
 			{
 				g_snprintf(tmp, sizeof(tmp), "id=%d", id);
@@ -1049,12 +1080,12 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 	}
 	else if(index0==1)
 	{
-		list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+		list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 		p=list;
 		while(p)
 		{
-			gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(p->data));
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(p==list)
 			{
 				g_snprintf(tmp, sizeof(tmp), "mid=%d", id);
@@ -1075,12 +1106,12 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 	}
 	else if(index0==0)
 	{
-		list=gtk_tree_selection_get_selected_rows(selection_right, NULL);
+		list=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
 		p=list;
 		while(p)
 		{
-			gtk_tree_model_get_iter(GTK_TREE_MODEL(store_right), &iter, (GtkTreePath *)(p->data));
-			gtk_tree_model_get(GTK_TREE_MODEL(store_right), &iter, 4, &id, -1);
+			gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(p->data));
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(p==list)
 			{
 				g_snprintf(tmp, sizeof(tmp), "id=%d", id);
@@ -1140,3 +1171,28 @@ gboolean ly_3opc_right_deleteall_cb(GtkWidget *widget, gpointer data)
 	return FALSE;
 }
 
+gboolean ly_3opc_right_on_button_p_clicked_cb(GtkWidget *widget, gpointer data)
+{
+	gint limit=-1;
+	gint offset=0;
+	
+	ly_reg_get("3opc_limit", "%d:%d", &offset, &limit);
+	limit=limit>=-1?limit:-1;
+	if(limit<0)
+		return FALSE;
+	
+	offset=offset-limit>=0?offset-limit:0;
+	ly_reg_set("3opc_limit", "%d:%d", offset, limit);
+}
+gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data)
+{
+	gint limit=-1;
+	gint offset=0;
+	
+	ly_reg_get("3opc_limit", "%d:%d", &offset, &limit);
+	limit=limit>=-1?limit:-1;
+	if(limit<0)
+		return FALSE;
+	offset=offset>=0?offset+limit:limit;
+	ly_reg_set("3opc_limit", "%d:%d", offset, limit);
+}

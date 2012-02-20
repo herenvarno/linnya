@@ -321,15 +321,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.76"
-     inkscape:cx="70.509773"
-     inkscape:cy="59.75821"
+     inkscape:zoom="4"
+     inkscape:cx="70.300501"
+     inkscape:cy="48.332142"
      inkscape:current-layer="layer1"
      id="namedview3771"
      showgrid="false"
      units="px"
      inkscape:window-width="1280"
-     inkscape:window-height="747"
+     inkscape:window-height="749"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -343,7 +343,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -433,28 +433,36 @@
            d="M 44,70 21,86 21,90 44,74 z" />
       </g>
     </g>
+    <rect
+       style="opacity:0.5;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="rect3059"
+       width="84.374992"
+       height="34.895832"
+       x="5.208334"
+       y="913.18054" />
     <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:3px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
-       x="16.930557"
-       y="943.21527"
-       id="text4130-9"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#b3b3b3;fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
+       x="38.505627"
+       y="944.34198"
+       id="text4130-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan4132-8"
-         x="16.930557"
-         y="943.21527">Ctrl</tspan></text>
+         id="tspan4132-9"
+         x="38.505627"
+         y="944.34198"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;letter-spacing:0px;fill:#b3b3b3;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold">Ctrl</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:3px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-       x="16.145836"
-       y="942.60419"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
+       x="38.527782"
+       y="945.0498"
        id="text4130"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan4132"
-         x="16.145836"
-         y="942.60419"
-         style="font-weight:bold;-inkscape-font-specification:Sans Bold;font-size:28px">Ctrl</tspan></text>
+         x="38.527782"
+         y="945.0498"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;letter-spacing:0px;fill:#ffffff;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold">Ctrl</tspan></text>
   </g>
 </svg>

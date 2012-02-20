@@ -1,3 +1,24 @@
+/*
+ * thm.h
+ * This file is part of linnya
+ *
+ * Copyright (C) 2012 - Edward Yang
+ *
+ * linnya is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * linnya is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with linnya. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 #ifndef UI_THEME_H
 #define UI_THEME_H
 
@@ -12,35 +33,26 @@
  */
 typedef struct _LyThmItem
 {
-	gint pos[2];
-	gint size[2];
-	gint border;
-	gint decorated;
-	gchar bg[512];
+	gchar name[128];
+	gchar style[512];
+	gchar sssbg[512];
 }LyThmItem;
 
 /*
  * VARIABLES
  */
-GHashTable *ly_thm_table;
+
 
 /*
  * FUNCTIONS
  */
-gboolean ly_thm_init();
-gboolean ly_thm_finalize();
+void		ly_thm_init();
+void		ly_thm_fina();
 
-GList* ly_thm_get_list();
-gboolean ly_thm_table_new();
-gboolean ly_thm_table_destroy();
+GList*		ly_thm_get_list();
+LyThmItem*	ly_thm_item_new();
+LyThmItem*	ly_thm_item_new_with_name(gchar *name);
+LyThmItem*	ly_thm_item_new_from_conf();
 
-LyThmItem* ly_thm_get(char *name);
-gboolean ly_thm_set(char *name, LyThmItem *th);
-
-void ly_thm_start_cb(	GMarkupParseContext *context,
-							const gchar *element_name,
-							const gchar **attribute_names,
-							const gchar **attribute_values,
-							gpointer data,
-							GError **error);
+void		ly_thm_item_free(LyThmItem* item);
 #endif

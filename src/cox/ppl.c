@@ -47,13 +47,12 @@ void		ly_ppl_init		()
 	GstPad*     mpad;
 	GstBus* bus=NULL;
 
-	
 	playbin=gst_element_factory_make("playbin", "playbin");
 	equalizer=gst_element_factory_make("equalizer-10bands","equalizer");
 	volume= gst_element_factory_make("volume","volume");
 	convert=gst_element_factory_make("audioconvert","autoconvert");
 	audiosink=gst_element_factory_make("autoaudiosink","autoaudiosink");
-	fakesink=gst_element_factory_make("fakesink", "fakesink");
+	fakesink=gst_element_factory_make("fakesink","fakesink");
 	
 	bus=gst_pipeline_get_bus(GST_PIPELINE(playbin));
 	gst_element_set_state(playbin,GST_STATE_NULL);
@@ -68,10 +67,10 @@ void		ly_ppl_init		()
 	g_object_set(G_OBJECT(playbin),"audio-sink",ly_ppl_audio_bin,NULL);
 	
 	ly_ppl_video_bin=gst_bin_new("video-bin");
-/*	gst_bin_add_many(GST_BIN(ly_ppl_video_bin), fakesink,NULL);
+	gst_bin_add_many(GST_BIN(ly_ppl_video_bin), fakesink,NULL);
 	mpad = gst_element_get_static_pad(fakesink, "sink");
 	gst_element_add_pad(ly_ppl_video_bin, gst_ghost_pad_new(NULL,mpad));
-	g_object_set(G_OBJECT(playbin),"video-sink",ly_ppl_video_bin,NULL);*/
+	g_object_set(G_OBJECT(playbin),"video-sink",ly_ppl_video_bin,NULL);
 	
 	ly_ppl_playbin=playbin;
 }
@@ -90,27 +89,12 @@ GstElement*			ly_ppl_audio_get_element		(char *name)
 	ele=gst_bin_get_by_name(GST_BIN(ly_ppl_audio_bin), name);
 	return ele;
 }
-gboolean			ly_ppl_audio_bin_insert_before	(GstElement *ele, char *back_name)
-{
-	
-	
-}
-gboolean			ly_ppl_audio_bin_insert_after	(GstElement *ele, char *front_name);
-gboolean			ly_ppl_audio_bin_prepend		(GstElement *ele);
-gboolean			ly_ppl_audio_bin_append			(GstElement *ele);
-gboolean			ly_ppl_audio_bin_delete			(char *name);
-
 GstElement*			ly_ppl_video_get_element		(char *name)
 {
 	GstElement *ele=NULL;
 	ele=gst_bin_get_by_name(GST_BIN(ly_ppl_video_bin), name);
 	return ele;
 }
-gboolean			ly_ppl_video_bin_insert_before	(GstElement *ele, char *before_name);
-gboolean			ly_ppl_video_bin_insert_after	(GstElement *ele, char *after_name);
-gboolean			ly_ppl_video_bin_prepend		(GstElement *ele);
-gboolean			ly_ppl_video_bin_append			(GstElement *ele);
-gboolean			ly_ppl_video_bin_delete			(char *name);
 
 gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 {

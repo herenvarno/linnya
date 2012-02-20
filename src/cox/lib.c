@@ -114,7 +114,7 @@ int	ly_lib_add_md(LyMdhMetadata *md)
 	ly_dbm_replace_str(md->uri, sizeof(md->uri));
 
 	char sql[10240]="";
-	g_snprintf(sql, sizeof(sql), "INSERT OR IGNORE INTO metadatas (title, artist, album, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', 0, IFNULL((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->start, md->duration, md->uri);
+	g_snprintf(sql, sizeof(sql), "INSERT OR IGNORE INTO metadatas (title, artist, album, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', 0, IFNULL((SELECT MAX(num) FROM metadatas),0)+1, %d, 1)", md->title, md->artist, md->album, md->start, md->duration, md->uri, md->flag);
 	if(ly_dbm_exec(sql, NULL, NULL)<0)
 	{
 		return -1;
@@ -205,7 +205,6 @@ int				ly_lib_get_id			(LyMdhMetadata *md)
 	char sql[10240]="";
 	ly_dbm_replace_str(md->uri, sizeof(md->uri));
 	g_snprintf(sql, sizeof(sql), "SELECT id FROM metadatas WHERE start='%s' AND uri='%s' AND flag=%d", md->start, md->uri, md->flag);
-	puts(sql);
 	if(ly_dbm_exec(sql, ly_lib_get_id_cb, &id)>0);
 	{
 		return id;
@@ -282,7 +281,7 @@ void			ly_lib_check_library		()
 	gchar *tmpsql=NULL;
 	gchar *sql=NULL;
 	ly_dbm_replace_str(tmppath,sizeof(tmppath));
-	sql=g_strconcat("UPDATE metadatas SET tmpflag=1 WHERE uri like 'file://",tmppath,"%' AND ( uri='0'",NULL);
+	sql=g_strconcat("UPDATE metadatas SET tmpflag=1 WHERE (flag=000 OR flag=001) AND uri like 'file://",tmppath,"%' AND ( uri='0'",NULL);
 	while(p)
 	{
 		if(!ly_lib_check_is_audio(p->data))
@@ -305,12 +304,12 @@ void			ly_lib_check_library		()
 	g_free(sql);
 	tmpsql=NULL;
 	
-	sql=g_strconcat("DELETE FROM metadatas WHERE uri like 'file://",tmppath,"%' AND tmpflag=0",NULL);
+	sql=g_strconcat("DELETE FROM metadatas WHERE (flag=000 OR flag=001) AND uri like 'file://",tmppath,"%' AND tmpflag=0",NULL);
 	ly_dbm_exec(sql,NULL,NULL);
 	g_free(sql);
 	
 	tmpsql=NULL;
-	sql=g_strconcat("SELECT uri FROM metadatas WHERE tmpflag=0",NULL);
+	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND tmpflag=0",NULL);
 	ly_dbm_exec(sql, ly_lib_check_library_check_file_cb, &tmpsql);
 	g_free(sql);
 	if(tmpsql)
@@ -327,7 +326,7 @@ void			ly_lib_check_library		()
 	/*
 	 * add new music
 	 */
-	sql=g_strconcat("SELECT uri FROM metadatas WHERE uri LIKE 'file://",tmppath,"%'",NULL);
+	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND uri LIKE 'file://",tmppath,"%'",NULL);
 	ly_dbm_exec(sql,ly_lib_check_library_check_newfile_cb,&list);
 	g_free(sql);
 	
@@ -368,7 +367,7 @@ gboolean ly_lib_check_library_check_file_cb(gpointer stmt, gpointer data)
 		ly_dbm_replace_str(uri,sizeof(uri));
 		if(sql==NULL)
 		{
-			*(gchar **)data=g_strconcat("DELETE FROM metadatas WHERE uri='",uri,"' ",NULL);
+			*(gchar **)data=g_strconcat("DELETE FROM metadatas WHERE (flag=000 OR flag=001) AND uri='",uri,"' ",NULL);
 		}
 		else
 		{

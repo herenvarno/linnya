@@ -17,7 +17,9 @@ libopc_la_SOURCES	=\
 					opc_left.c\
 					opc_left.h\
 					opc_right.c\
-					opc_right.h
+					opc_right.h\
+					opc_config.c\
+					opc_config.h
 INCLUDES			=\
 					@GTK3_CFLAGS@\
 					@GSTREAMER_CFLAGS@\

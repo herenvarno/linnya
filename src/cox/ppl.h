@@ -52,13 +52,7 @@ gboolean			ly_ppl_audio_bin_insert_after	(GstElement *ele, char *after_name);
 gboolean			ly_ppl_audio_bin_prepend		(GstElement *ele);
 gboolean			ly_ppl_audio_bin_append			(GstElement *ele);
 gboolean			ly_ppl_audio_bin_delete			(char *name);
-
 GstElement*			ly_ppl_video_get_element		(char *name);
-gboolean			ly_ppl_video_bin_insert_before	(GstElement *ele, char *before_name);
-gboolean			ly_ppl_video_bin_insert_after	(GstElement *ele, char *after_name);
-gboolean			ly_ppl_video_bin_prepend		(GstElement *ele);
-gboolean			ly_ppl_video_bin_append			(GstElement *ele);
-gboolean			ly_ppl_video_bin_delete			(char *name);
 
 
 #endif //LY_PPL_H

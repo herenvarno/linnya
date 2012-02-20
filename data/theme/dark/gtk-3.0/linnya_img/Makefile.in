@@ -37,7 +37,10 @@ host_triplet = @host@
 subdir = data/theme/dark/gtk-3.0/linnya_img
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -73,8 +76,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(themedarkcssimgdir)"
-DATA = $(themedarkcssimg_DATA)
+am__installdirs = "$(DESTDIR)$(themedarkcsslinnyaimgdir)"
+DATA = $(themedarkcsslinnyaimg_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALLOCA = @ALLOCA@
@@ -208,8 +211,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = 
-themedarkcssimgdir = ${datadir}/linnya/ui/theme/dark/gtk-3.0/linnya_img
-themedarkcssimg_DATA = *
+themedarkcsslinnyaimgdir = ${datadir}/linnya/ui/theme/dark/gtk-3.0/linnya_img
+themedarkcsslinnyaimg_DATA = *
 all: all-am
 
 .SUFFIXES:
@@ -249,24 +252,24 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-themedarkcssimgDATA: $(themedarkcssimg_DATA)
+install-themedarkcsslinnyaimgDATA: $(themedarkcsslinnyaimg_DATA)
 	@$(NORMAL_INSTALL)
-	test -z "$(themedarkcssimgdir)" || $(MKDIR_P) "$(DESTDIR)$(themedarkcssimgdir)"
-	@list='$(themedarkcssimg_DATA)'; test -n "$(themedarkcssimgdir)" || list=; \
+	test -z "$(themedarkcsslinnyaimgdir)" || $(MKDIR_P) "$(DESTDIR)$(themedarkcsslinnyaimgdir)"
+	@list='$(themedarkcsslinnyaimg_DATA)'; test -n "$(themedarkcsslinnyaimgdir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(themedarkcssimgdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(themedarkcssimgdir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(themedarkcsslinnyaimgdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(themedarkcsslinnyaimgdir)" || exit $$?; \
 	done
 
-uninstall-themedarkcssimgDATA:
+uninstall-themedarkcsslinnyaimgDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(themedarkcssimg_DATA)'; test -n "$(themedarkcssimgdir)" || list=; \
+	@list='$(themedarkcsslinnyaimg_DATA)'; test -n "$(themedarkcsslinnyaimgdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(themedarkcssimgdir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(themedarkcsslinnyaimgdir)'; $(am__uninstall_files_from_dir)
 tags: TAGS
 TAGS:
 
@@ -308,7 +311,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(themedarkcssimgdir)"; do \
+	for dir in "$(DESTDIR)$(themedarkcsslinnyaimgdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -361,7 +364,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-themedarkcssimgDATA
+install-data-am: install-themedarkcsslinnyaimgDATA
 
 install-dvi: install-dvi-am
 
@@ -405,7 +408,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-themedarkcssimgDATA
+uninstall-am: uninstall-themedarkcsslinnyaimgDATA
 
 .MAKE: install-am install-strip
 
@@ -416,10 +419,11 @@ uninstall-am: uninstall-themedarkcssimgDATA
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
-	install-themedarkcssimgDATA installcheck installcheck-am \
+	install-themedarkcsslinnyaimgDATA installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
-	ps ps-am uninstall uninstall-am uninstall-themedarkcssimgDATA
+	ps ps-am uninstall uninstall-am \
+	uninstall-themedarkcsslinnyaimgDATA
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

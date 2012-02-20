@@ -1,3 +1,3 @@
 EXTRA_DIST = m4/ChangeLog  BUGS ChangeLog.O
-SUBDIRS = inf opc lrc
+SUBDIRS = inf opc lrc rdo
 ACLOCAL_AMFLAGS = -I m4

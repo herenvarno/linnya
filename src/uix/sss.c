@@ -48,9 +48,9 @@ void	ly_sss_init()
 	ly_sss_tab_add_create();
 
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-	gchar path[1024]="";
-	g_snprintf(path, sizeof(path), "%sui/icon/icon.svg", LY_GLA_PROGDIR);
-	GtkWidget *logo = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_file_at_scale(path,50,16,FALSE,NULL));
+	char path[1024]="";
+ 	g_snprintf(path, sizeof(path), "%sui/icon/icon.svg", LY_GLA_PROGDIR);
+	GtkWidget *logo = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_file_at_scale(path,60,20,FALSE,NULL));
 	gtk_box_pack_start(GTK_BOX(hbox), logo, FALSE,0,0);
 
 	GtkWidget *button = gtk_button_new();
@@ -330,10 +330,26 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 	GdkPixbuf *image=NULL;
 	if(bg==NULL)
 	{
+		LyThmItem *th=NULL;
 		char dir[1024]="";
 		char *pic=NULL;
+		int custom_sssbg=0;
 		int i;
-		ly_reg_get("thm_sssbg", "%s", dir);
+		ly_reg_get("thm_custom_sssbg", "%d", &custom_sssbg);
+		if(custom_sssbg)
+		{
+			ly_reg_get("thm_sssbg", "%s", dir);
+		}
+		else
+		{
+			th=ly_thm_item_new_from_conf();
+			if(!th || g_str_equal(th->sssbg, ""))
+			{
+				ly_thm_item_free(th);
+				return NULL;
+			}
+			g_strlcpy(dir, th->sssbg, sizeof(dir));
+		}
 		GList *list=ly_gla_traverse_dir(dir, 5, FALSE);
 		GList *p=list;
 		
