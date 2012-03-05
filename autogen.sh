@@ -1,1 +1,12 @@
-gtkdocize || exit 1
+#!/bin/sh -e
+echo "aclocal..."
+aclocal
+echo "autoconf..."
+autoconf
+echo "autoheader..."
+autoheader
+echo "automake..."
+automake --add-missing --copy
+echo
+echo "Now run: ./configure --enable-gtk-doc --prefix="
+echo

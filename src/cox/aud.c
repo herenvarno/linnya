@@ -228,7 +228,6 @@ gboolean ly_aud_play()
 	{
 		ly_aud_set_position(0);
 	}
-	
 	GstState state;
 	state=ly_aud_get_state();
 	

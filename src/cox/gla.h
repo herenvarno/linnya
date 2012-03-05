@@ -76,28 +76,14 @@ GNU General Public License for more details.\
 You should have received a copy of the GNU General Public License\
 along with linnya. If not, see <http://www.gnu.org/licenses/>."
 
-#define LY_GLA_VERSION_STR	"2.0.0 alpha (1.9.1)\
+#define LY_GLA_VERSION_STR	"2.0.0 beta3 (1.9.6)\
 "
-#define LY_GLA_VERSION_NUM	1.91
+#define LY_GLA_VERSION_NUM	1.96
 
-/*
- * NOTICE: for windows
- */
-#ifdef WIN32_BUILD
-#define INSTALL_PATH "d:\\prefix\\share\\linnya"
-#define LOCALEDIR "d:\\prefix\\share\\locale"
-#endif
 
-/*
- * NOTICE: for windows
- */
-#ifdef WIN32_BUILD
-#define _(String)			String
-#else
 #define _(String)			gettext(String)
 #define LY_GLA_PACKAGE		"linnya"
 #define LY_GLA_LOCALEDIR	LOCALEDIR
-#endif
 
 #define LY_GLA_HOMEDIR		ly_gla_homedir
 #define LY_GLA_PROGDIR		ly_gla_progdir
