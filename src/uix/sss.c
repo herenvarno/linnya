@@ -338,7 +338,7 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 		ly_reg_get("thm_custom_sssbg", "%d", &custom_sssbg);
 		if(custom_sssbg)
 		{
-			ly_reg_get("thm_sssbg", "%s", dir);
+			ly_reg_get("thm_sssbg", "%[^\n]", dir);
 		}
 		else
 		{

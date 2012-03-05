@@ -423,7 +423,7 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_sssbg);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_sssbg_changed_cb), NULL);
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);
-	ly_reg_get("thm_sssbg", "%s", str);
+	ly_reg_get("thm_sssbg", "%[^\n]", str);
 	hbox=gtk_hbox_new(FALSE,0);
 	ly_cfg_item_append(LY_CFG_ITEM(item), hbox);
 	entry=gtk_entry_new();
