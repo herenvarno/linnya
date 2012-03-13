@@ -57,7 +57,6 @@ AC_OUTPUT([Makefile\
 			src/pix/dnc/Makefile\
             data/Makefile\
             data/icon/Makefile\
-            data/audio/Makefile\
             data/theme/Makefile\
             data/theme/default/Makefile\
             data/theme/dark/Makefile\

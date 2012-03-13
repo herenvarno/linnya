@@ -1,4 +1,4 @@
-SUBDIRS = icon theme audio
+SUBDIRS = icon theme
 
 EXTRA_DIST =\
 			linnya.svg\
