@@ -528,6 +528,7 @@ gboolean ly_win_update_button_cb(gpointer message, gpointer data)
 	}
 	else if((g_str_equal(signal,"pause")||g_str_equal(signal,"stop")) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play)))
 	{
+		puts("***********");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play), FALSE);
 	}
 	return FALSE;

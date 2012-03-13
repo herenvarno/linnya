@@ -143,8 +143,12 @@ gboolean	ly_3inf_cover_on_meta_changed()
 		if(g_file_test(path, G_FILE_TEST_EXISTS))
 		{
 			ly_3inf_cover_pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 164, 164, TRUE, NULL);
-			if(ly_3inf_cover_pixbuf)
+			if(!ly_3inf_cover_pixbuf)
+			{
 				return FALSE;
+			}
+			return TRUE;
 		}
 	}
+	return ly_3inf_cover_on_cover_got();
 }

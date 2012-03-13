@@ -3,30 +3,30 @@
 
 PROGMAN_NAME	= linnya
 PLUGIN_DIR		= ${prefix}/share/${PROGMAN_NAME}/plugin
-libdir			= ${PLUGIN_DIR}/inf
-datadir			= ${PLUGIN_DIR}/inf
+libdir			= ${PLUGIN_DIR}/dnc
+datadir			= ${PLUGIN_DIR}/dnc
 
-lib_LTLIBRARIES = libinf.la
+lib_LTLIBRARIES = libdnc.la
 data_DATA		=\
-				logo.svg\
+				logo.png\
 				plugin.xml
-libinf_la_SOURCES	=\
-				inf.c\
-				inf.h\
-				inf_cover.c\
-				inf_cover.h\
-				inf_config.c\
-				inf_config.h
+libdnc_la_SOURCES	=\
+				dnc.c\
+				dnc.h\
+				dnc_cov_lastfm.c\
+				dnc_cov_lastfm.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
+				@CURL_CFLAGS@\
 				-DLOCALEDIR=\"$(localedir)\"\
 				-I../../cox\
 				-I../../uix
-libinf_la_LIBADD	=\
+libdnc_la_LIBADD	=\
 				@GTK3_LIBS@\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\
+				@CURL_LIBS@\
 				-L../../cox -llinnyacox\
 				-L../../uix -llinnyauix

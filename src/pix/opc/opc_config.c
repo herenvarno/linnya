@@ -41,7 +41,7 @@ GtkWidget* ly_3opc_config()
 	GtkWidget *label;
 	
 	char name[1024]="";
-	LyPliPlugin *pl=ly_pli_get("inf");
+	LyPliPlugin *pl=ly_pli_get("opc");
 	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
 	page=ly_cfg_page_new(name, pl->alias, pl->logo);
 	

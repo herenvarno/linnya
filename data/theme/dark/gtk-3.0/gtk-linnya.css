@@ -7,7 +7,7 @@
 #ly_hbox_title .button:active,
 #ly_hbox_title .button:active:hover{
     color: #fff;
-    border-style:none;
+	border-width:0;
 }
 #ly_btn_close,
 #ly_btn_close:hover,
@@ -26,6 +26,13 @@
     background-image: url("linnya_img/ly_btn_min.svg");
 }
 
+#ly_hbox_control .button,
+#ly_hbox_control .button:hover,
+#ly_hbox_control .button:active,
+#ly_hbox_control .button:active:hover{
+    border-width:0;
+    border-style:none;
+}
 #ly_btn_play,
 #ly_btn_play:hover{
     background-image: url("linnya_img/ly_btn_play.png");
@@ -119,7 +126,6 @@
     border-color: alpha (#fff, 0.3);
 
 }
-
 #ly_hscale_seek {
     -GtkScale-slider-length: 16;
     -GtkRange-slider-width: 22;

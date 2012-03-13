@@ -54,6 +54,7 @@ AC_OUTPUT([Makefile\
 			src/pix/opc/Makefile\
 			src/pix/lrc/Makefile\
 			src/pix/rdo/Makefile\
+			src/pix/dnc/Makefile\
             data/Makefile\
             data/icon/Makefile\
             data/audio/Makefile\

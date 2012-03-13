@@ -131,11 +131,11 @@ gboolean ly_aud_next()
 	}
 
 	ly_aud_play();
+	
 	if(state!=GST_STATE_PLAYING)
 	{
 		ly_aud_pause();
 	}
-	
 	return TRUE;
 }
 
@@ -300,7 +300,6 @@ gboolean ly_aud_stop()
 		ly_msg_put("warning","core:aud","2Gstreamer States Error!");
 		return FALSE;
 	}
-	ly_msg_put("stop","core:aud",NULL);
 	return TRUE;
 }
 
