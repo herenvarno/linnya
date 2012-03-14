@@ -62,8 +62,6 @@ AC_OUTPUT([Makefile\
             data/theme/dark/Makefile\
             data/theme/dark/sssbg/Makefile\
             data/theme/dark/gtk-3.0/Makefile\
-            data/theme/dark/gtk-3.0/img/Makefile\
-            data/theme/dark/gtk-3.0/assets/Makefile\
             data/theme/dark/gtk-3.0/linnya_img/Makefile\
             doc/Makefile\
             doc/reference/Makefile])

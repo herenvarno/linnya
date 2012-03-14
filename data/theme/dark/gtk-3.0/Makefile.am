@@ -1,12 +1,8 @@
-SUBDIRS = linnya_img img assets
+SUBDIRS = linnya_img
 
 EXTRA_DIST		= gtk.css\
-			gtk-widgets.css\
-			gtk-linnya.css\
-			settings.ini
+					gtk-linnya.css
 			
 themedarkcssdir	= ${datadir}/linnya/ui/theme/dark/gtk-3.0
 themedarkcss_DATA	= gtk.css\
-			gtk-widgets.css\
-			gtk-linnya.css\
-			settings.ini
+						gtk-linnya.css
