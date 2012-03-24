@@ -8,7 +8,7 @@ AC_CONFIG_SRCDIR([src/app.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Set of available languages.
-ALL_LINGUAS="en zh_CN zh_HK zh_TW"
+#ALL_LINGUAS="en zh_CN zh_HK zh_TW"
 
 # Checks for programs.
 AC_PROG_CC
@@ -16,7 +16,7 @@ AC_ISC_POSIX
 CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
 
 #check for gtk-doc
-GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+#GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 
 # Checks for libraries.
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
@@ -62,6 +62,4 @@ AC_OUTPUT([Makefile\
             data/theme/dark/Makefile\
             data/theme/dark/sssbg/Makefile\
             data/theme/dark/gtk-3.0/Makefile\
-            data/theme/dark/gtk-3.0/linnya_img/Makefile\
-            doc/Makefile\
-            doc/reference/Makefile])
+            data/theme/dark/gtk-3.0/linnya_img/Makefile])

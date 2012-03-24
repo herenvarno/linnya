@@ -10,21 +10,42 @@ size_t ly_3dnc_cov_lastfm_save_cb(char *buffer, size_t size, size_t nitems, void
 gchar* ly_3dnc_cov_lastfm_search(gchar *artist, gchar *album)
 {
 
+	gchar ar_str[1024]="";
+	gchar al_str[1024]="";
+	gchar *p_str=NULL;
+	
+	static GRegex *regex = NULL;
+    regex = g_regex_new(" +", G_REGEX_OPTIMIZE, 0, NULL);
+    p_str=g_regex_replace(regex, artist, strlen(artist), 0, "+", 0, NULL);
+    if(p_str)
+    {
+    	g_strlcpy(ar_str, p_str, sizeof(ar_str));
+    	g_free(p_str);
+    	p_str=NULL;
+    }
+	p_str=g_regex_replace(regex, album, strlen(album), 0, "+", 0, NULL);
+    if(p_str)
+    {
+    	g_strlcpy(al_str, p_str, sizeof(al_str));
+    	g_free(p_str);
+    	p_str=NULL;
+    }
+	g_regex_unref (regex);
+
 	char tmp[1024]="http://www.last.fm/search?q=";
 	char url[1024]="";
-	static GRegex *regex = NULL;
     regex = g_regex_new(" +", G_REGEX_OPTIMIZE, 0, NULL);
 	char *p_al=g_regex_replace(regex, album, strlen(album), 0, "+", 0, NULL);
 	g_snprintf(url, sizeof(url), "%s%s&type=album", tmp, p_al);
 	g_free(p_al);
 	g_regex_unref (regex);
-	puts(url);
 	CURL* pCurl = curl_easy_init();
 	char *html=g_strconcat("", NULL);
 	curl_easy_setopt(pCurl, CURLOPT_WRITEDATA, (void*)(&html));
 	curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, ly_3dnc_cov_lastfm_search_cb);
 	curl_easy_setopt(pCurl, CURLOPT_URL, url);
 	curl_easy_setopt(pCurl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux i686; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
+	curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 30L);
 	curl_easy_perform(pCurl);
 	curl_easy_cleanup(pCurl);
 	
@@ -46,7 +67,7 @@ gchar* ly_3dnc_cov_lastfm_search(gchar *artist, gchar *album)
 		word= g_match_info_fetch (match_info, 0);
 		sscanf(word, "<strong><a href=\"/music/%[^/]/%[^\"]\" class=\"summary\">", ar, al);
 		
-		if(g_str_equal(ar, artist) && g_str_equal(al, album))
+		if(g_str_equal(ar, ar_str) && g_str_equal(al, al_str))
 		{
 			flag_find=TRUE;
 			break;
@@ -121,14 +142,13 @@ gchar* ly_3dnc_cov_lastfm_search(gchar *artist, gchar *album)
 	}
 	g_list_free(list);
 	
-	puts(url);
-	
 	pCurl = curl_easy_init();
 	html=g_strconcat("", NULL);
 	curl_easy_setopt(pCurl, CURLOPT_WRITEDATA, (void*)(&html));
 	curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, ly_3dnc_cov_lastfm_search_cb);
 	curl_easy_setopt(pCurl, CURLOPT_URL, url);
 	curl_easy_setopt(pCurl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux i686; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
+	curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 30L);
 	curl_easy_perform(pCurl);
 	curl_easy_cleanup(pCurl);
 	
@@ -159,6 +179,7 @@ gboolean ly_3dnc_cov_lastfm_save(gchar *url, gchar *path)
 	curl_easy_setopt(pCurl, CURLOPT_WRITEFUNCTION, ly_3dnc_cov_lastfm_save_cb);
 	curl_easy_setopt(pCurl, CURLOPT_URL, url);
 	curl_easy_setopt(pCurl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux i686; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
+	curl_easy_setopt(pCurl, CURLOPT_TIMEOUT, 30L);
 	curl_easy_perform(pCurl);
 	curl_easy_cleanup(pCurl);
 	fclose(fp);

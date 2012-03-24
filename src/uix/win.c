@@ -369,9 +369,7 @@ gboolean ly_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	gint custom_winbg=0;
 	ly_reg_get("thm_custom_winbg", "%d", &custom_winbg);
 	
-	char path[1024]="";
-	g_snprintf(path, sizeof(path), "%sicon/null.png", LY_GLB_PROG_UIDIR);
-	cairo_surface_t *image=cairo_image_surface_create_from_png(path);
+	cairo_surface_t *image=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,1,1);
 	cairo_set_source_surface(cr, image, 0, 0);
 	cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
 	cairo_paint(cr);

@@ -80,6 +80,7 @@
 
     -GtkNotebook-tab-overlap: 0;
     -GtkNotebook-tab-curvature: 2;
+     color: #333;
 }
 
 #ly_notebook_session tab {
@@ -89,19 +90,15 @@
                        from (alpha (#fff, 0.20)),
                        to (alpha (#000, 0.0)));
 
-    -adwaita-focus-border-radius: 10;
+    -adwaita-focus-border-radius: 4;
     color: #fff;
 }
 
 #ly_notebook_session tab:active {
-
-
     background-image: -gtk-gradient (linear,
                 left top, left bottom,
                 from (alpha (#fff, 0.50)),
               to (alpha (#000, 0.0)));
-
-
 
     border-color: alpha (#fff, 0.3);
 
@@ -124,5 +121,4 @@
                        from (alpha (#fff, 0.50)),
                        to (alpha (#000, 0.0)));
     border-color: alpha (#fff, 0.3);
-
 }

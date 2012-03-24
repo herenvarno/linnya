@@ -8,5 +8,5 @@ autoheader
 echo "automake..."
 automake --add-missing --copy
 echo
-echo "Now run: ./configure --enable-gtk-doc --prefix="
+echo "Now run: ./configure --prefix="
 echo

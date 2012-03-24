@@ -655,22 +655,6 @@ GSTREAMER_LIBS
 GSTREAMER_CFLAGS
 SQLITE3_LIBS
 SQLITE3_CFLAGS
-GTK_DOC_USE_REBASE_FALSE
-GTK_DOC_USE_REBASE_TRUE
-GTK_DOC_USE_LIBTOOL_FALSE
-GTK_DOC_USE_LIBTOOL_TRUE
-GTK_DOC_BUILD_PDF_FALSE
-GTK_DOC_BUILD_PDF_TRUE
-GTK_DOC_BUILD_HTML_FALSE
-GTK_DOC_BUILD_HTML_TRUE
-ENABLE_GTK_DOC_FALSE
-ENABLE_GTK_DOC_TRUE
-GTKDOC_DEPS_LIBS
-GTKDOC_DEPS_CFLAGS
-HTML_DIR
-GTKDOC_MKPDF
-GTKDOC_REBASE
-GTKDOC_CHECK
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -756,10 +740,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_dependency_tracking
-with_html_dir
-enable_gtk_doc
-enable_gtk_doc_html
-enable_gtk_doc_pdf
 enable_shared
 enable_static
 with_pic
@@ -779,8 +759,6 @@ CPPFLAGS
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
-GTKDOC_DEPS_CFLAGS
-GTKDOC_DEPS_LIBS
 SQLITE3_CFLAGS
 SQLITE3_LIBS
 GSTREAMER_CFLAGS
@@ -1412,9 +1390,6 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
-  --enable-gtk-doc        use gtk-doc to build documentation [[default=no]]
-  --enable-gtk-doc-html   build documentation in html format [[default=yes]]
-  --enable-gtk-doc-pdf    build documentation in pdf format [[default=no]]
   --enable-shared[=PKGS]  build shared libraries [default=yes]
   --enable-static[=PKGS]  build static libraries [default=yes]
   --enable-fast-install[=PKGS]
@@ -1424,7 +1399,6 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-html-dir=PATH    path to installed docs
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
@@ -1444,10 +1418,6 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
-  GTKDOC_DEPS_CFLAGS
-              C compiler flags for GTKDOC_DEPS, overriding pkg-config
-  GTKDOC_DEPS_LIBS
-              linker flags for GTKDOC_DEPS, overriding pkg-config
   SQLITE3_CFLAGS
               C compiler flags for SQLITE3, overriding pkg-config
   SQLITE3_LIBS
@@ -2868,7 +2838,7 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 # Set of available languages.
-ALL_LINGUAS="en zh_CN zh_HK zh_TW"
+#ALL_LINGUAS="en zh_CN zh_HK zh_TW"
 
 # Checks for programs.
 ac_ext=c
@@ -3912,6 +3882,9 @@ fi
 CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
 
 #check for gtk-doc
+#GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+
+# Checks for libraries.
 
 
 
@@ -4032,329 +4005,6 @@ $as_echo "no" >&6; }
 		PKG_CONFIG=""
 	fi
 fi
-
-
-
-    # Extract the first word of "gtkdoc-check", so it can be a program name with args.
-set dummy gtkdoc-check; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_GTKDOC_CHECK+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $GTKDOC_CHECK in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_GTKDOC_CHECK="$GTKDOC_CHECK" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_GTKDOC_CHECK="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-GTKDOC_CHECK=$ac_cv_path_GTKDOC_CHECK
-if test -n "$GTKDOC_CHECK"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GTKDOC_CHECK" >&5
-$as_echo "$GTKDOC_CHECK" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  for ac_prog in gtkdoc-rebase
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_GTKDOC_REBASE+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $GTKDOC_REBASE in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_GTKDOC_REBASE="$GTKDOC_REBASE" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_GTKDOC_REBASE="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-GTKDOC_REBASE=$ac_cv_path_GTKDOC_REBASE
-if test -n "$GTKDOC_REBASE"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GTKDOC_REBASE" >&5
-$as_echo "$GTKDOC_REBASE" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$GTKDOC_REBASE" && break
-done
-test -n "$GTKDOC_REBASE" || GTKDOC_REBASE="true"
-
-  # Extract the first word of "gtkdoc-mkpdf", so it can be a program name with args.
-set dummy gtkdoc-mkpdf; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_GTKDOC_MKPDF+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $GTKDOC_MKPDF in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_GTKDOC_MKPDF="$GTKDOC_MKPDF" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_GTKDOC_MKPDF="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-GTKDOC_MKPDF=$ac_cv_path_GTKDOC_MKPDF
-if test -n "$GTKDOC_MKPDF"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GTKDOC_MKPDF" >&5
-$as_echo "$GTKDOC_MKPDF" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-
-
-# Check whether --with-html-dir was given.
-if test "${with_html_dir+set}" = set; then :
-  withval=$with_html_dir;
-else
-  with_html_dir='${datadir}/gtk-doc/html'
-fi
-
-  HTML_DIR="$with_html_dir"
-
-
-    # Check whether --enable-gtk-doc was given.
-if test "${enable_gtk_doc+set}" = set; then :
-  enableval=$enable_gtk_doc;
-else
-  enable_gtk_doc=no
-fi
-
-
-  if test x$enable_gtk_doc = xyes; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtk-doc >= 1.14\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtk-doc >= 1.14") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  :
-else
-  as_fn_error $? "You need to have gtk-doc >= 1.14 installed to build $PACKAGE_NAME" "$LINENO" 5
-fi
-        if test "x$PACKAGE_NAME" != "xglib"; then
-
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GTKDOC_DEPS" >&5
-$as_echo_n "checking for GTKDOC_DEPS... " >&6; }
-
-if test -n "$GTKDOC_DEPS_CFLAGS"; then
-    pkg_cv_GTKDOC_DEPS_CFLAGS="$GTKDOC_DEPS_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_GTKDOC_DEPS_CFLAGS=`$PKG_CONFIG --cflags "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$GTKDOC_DEPS_LIBS"; then
-    pkg_cv_GTKDOC_DEPS_LIBS="$GTKDOC_DEPS_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_GTKDOC_DEPS_LIBS=`$PKG_CONFIG --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        GTKDOC_DEPS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>&1`
-        else
-	        GTKDOC_DEPS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GTKDOC_DEPS_PKG_ERRORS" >&5
-
-	as_fn_error $? "Package requirements (glib-2.0 >= 2.10.0 gobject-2.0  >= 2.10.0) were not met:
-
-$GTKDOC_DEPS_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables GTKDOC_DEPS_CFLAGS
-and GTKDOC_DEPS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details." "$LINENO" 5
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-Alternatively, you may set the environment variables GTKDOC_DEPS_CFLAGS
-and GTKDOC_DEPS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
-See \`config.log' for more details" "$LINENO" 5; }
-else
-	GTKDOC_DEPS_CFLAGS=$pkg_cv_GTKDOC_DEPS_CFLAGS
-	GTKDOC_DEPS_LIBS=$pkg_cv_GTKDOC_DEPS_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-fi
-    fi
-  fi
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to build gtk-doc documentation" >&5
-$as_echo_n "checking whether to build gtk-doc documentation... " >&6; }
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_gtk_doc" >&5
-$as_echo "$enable_gtk_doc" >&6; }
-
-    # Check whether --enable-gtk-doc-html was given.
-if test "${enable_gtk_doc_html+set}" = set; then :
-  enableval=$enable_gtk_doc_html;
-else
-  enable_gtk_doc_html=yes
-fi
-
-    # Check whether --enable-gtk-doc-pdf was given.
-if test "${enable_gtk_doc_pdf+set}" = set; then :
-  enableval=$enable_gtk_doc_pdf;
-else
-  enable_gtk_doc_pdf=no
-fi
-
-
-  if test -z "$GTKDOC_MKPDF"; then
-    enable_gtk_doc_pdf=no
-  fi
-
-
-   if test x$enable_gtk_doc = xyes; then
-  ENABLE_GTK_DOC_TRUE=
-  ENABLE_GTK_DOC_FALSE='#'
-else
-  ENABLE_GTK_DOC_TRUE='#'
-  ENABLE_GTK_DOC_FALSE=
-fi
-
-   if test x$enable_gtk_doc_html = xyes; then
-  GTK_DOC_BUILD_HTML_TRUE=
-  GTK_DOC_BUILD_HTML_FALSE='#'
-else
-  GTK_DOC_BUILD_HTML_TRUE='#'
-  GTK_DOC_BUILD_HTML_FALSE=
-fi
-
-   if test x$enable_gtk_doc_pdf = xyes; then
-  GTK_DOC_BUILD_PDF_TRUE=
-  GTK_DOC_BUILD_PDF_FALSE='#'
-else
-  GTK_DOC_BUILD_PDF_TRUE='#'
-  GTK_DOC_BUILD_PDF_FALSE=
-fi
-
-   if test -n "$LIBTOOL"; then
-  GTK_DOC_USE_LIBTOOL_TRUE=
-  GTK_DOC_USE_LIBTOOL_FALSE='#'
-else
-  GTK_DOC_USE_LIBTOOL_TRUE='#'
-  GTK_DOC_USE_LIBTOOL_FALSE=
-fi
-
-   if test -n "$GTKDOC_REBASE"; then
-  GTK_DOC_USE_REBASE_TRUE=
-  GTK_DOC_USE_REBASE_FALSE='#'
-else
-  GTK_DOC_USE_REBASE_TRUE='#'
-  GTK_DOC_USE_REBASE_FALSE=
-fi
-
-
-
-# Checks for libraries.
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for SQLITE3" >&5
@@ -9065,10 +8715,6 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
-## CAVEAT EMPTOR:
-## There is no encapsulation within the following macros, do not change
-## the running order or otherwise move them around unless you know exactly
-## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=
@@ -12610,7 +12256,7 @@ CC="$lt_save_CC"
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/rdo/Makefile src/pix/dnc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/sssbg/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile doc/Makefile doc/reference/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/rdo/Makefile src/pix/dnc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/sssbg/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -12735,26 +12381,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ENABLE_GTK_DOC_TRUE}" && test -z "${ENABLE_GTK_DOC_FALSE}"; then
-  as_fn_error $? "conditional \"ENABLE_GTK_DOC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${GTK_DOC_BUILD_HTML_TRUE}" && test -z "${GTK_DOC_BUILD_HTML_FALSE}"; then
-  as_fn_error $? "conditional \"GTK_DOC_BUILD_HTML\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${GTK_DOC_BUILD_PDF_TRUE}" && test -z "${GTK_DOC_BUILD_PDF_FALSE}"; then
-  as_fn_error $? "conditional \"GTK_DOC_BUILD_PDF\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${GTK_DOC_USE_LIBTOOL_TRUE}" && test -z "${GTK_DOC_USE_LIBTOOL_FALSE}"; then
-  as_fn_error $? "conditional \"GTK_DOC_USE_LIBTOOL\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${GTK_DOC_USE_REBASE_TRUE}" && test -z "${GTK_DOC_USE_REBASE_FALSE}"; then
-  as_fn_error $? "conditional \"GTK_DOC_USE_REBASE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -13659,8 +13285,6 @@ do
     "data/theme/dark/sssbg/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/sssbg/Makefile" ;;
     "data/theme/dark/gtk-3.0/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/gtk-3.0/Makefile" ;;
     "data/theme/dark/gtk-3.0/linnya_img/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/gtk-3.0/linnya_img/Makefile" ;;
-    "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
-    "doc/reference/Makefile") CONFIG_FILES="$CONFIG_FILES doc/reference/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

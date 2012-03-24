@@ -37,10 +37,7 @@ host_triplet = @host@
 subdir = data/theme/dark/sssbg
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -151,12 +148,6 @@ GSTREAMER_CFLAGS = @GSTREAMER_CFLAGS@
 GSTREAMER_LIBS = @GSTREAMER_LIBS@
 GTK3_CFLAGS = @GTK3_CFLAGS@
 GTK3_LIBS = @GTK3_LIBS@
-GTKDOC_CHECK = @GTKDOC_CHECK@
-GTKDOC_DEPS_CFLAGS = @GTKDOC_DEPS_CFLAGS@
-GTKDOC_DEPS_LIBS = @GTKDOC_DEPS_LIBS@
-GTKDOC_MKPDF = @GTKDOC_MKPDF@
-GTKDOC_REBASE = @GTKDOC_REBASE@
-HTML_DIR = @HTML_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -251,9 +242,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = 
-EXTRA_DIST = *.png
+EXTRA_DIST = *.svg
 themedarksssbgdir = ${datadir}/linnya/ui/theme/dark/sssbg
-themedarksssbg_DATA = *.png
+themedarksssbg_DATA = *.svg
 all: all-recursive
 
 .SUFFIXES:
