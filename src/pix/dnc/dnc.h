@@ -4,7 +4,8 @@
 /*
  * HEADERS
  */
-#include "dnc_cov_lastfm.h"
+#include "dnc_cov.h"
+#include "dnc_lrc.h"
 
 /*
  * FUNCTIONS

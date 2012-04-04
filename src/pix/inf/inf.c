@@ -51,8 +51,8 @@ const gchar* g_module_check_init(GModule *module)
 		
 	ly_3inf_cover_init();
 	char path[1024]="";
-	g_snprintf(path, sizeof(path), "%sicon/cd.png", LY_GLB_PROG_UIDIR);
-	ly_3inf_pixbuf_cd=gdk_pixbuf_new_from_file_at_scale(path, 200, 200, TRUE, NULL);
+	g_snprintf(path, sizeof(path), "%sicon/cd.svg", LY_GLB_PROG_UIDIR);
+	ly_3inf_pixbuf_cd=gdk_pixbuf_new_from_file_at_scale(path, 250, 200, TRUE, NULL);
 	return NULL;
 }
 void g_module_unload(GModule *module)
@@ -149,7 +149,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	pixbuf=ly_3inf_cover_get();
 	if(pixbuf)
 	{
-		gdk_cairo_set_source_pixbuf(cr,	pixbuf, x+25, y+9);
+		gdk_cairo_set_source_pixbuf(cr,	pixbuf, x, y);
 		cairo_paint(cr);
 		g_object_unref(pixbuf);
 	}
@@ -171,7 +171,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
-	x=width/10+220;
+	x=width/10+270;
 	y=height/2-60;
 	cairo_set_source_rgba ( cr, 0.1 , 0.1 , 0.1 ,1.0);
 	cairo_move_to ( cr, x, y-2);
@@ -254,6 +254,6 @@ gboolean ly_3inf_on_meta_update_cb(gpointer message, gpointer data)
 
 gboolean ly_3inf_on_get_button_clicked_cb(GtkWidget *widget, gpointer data)
 {
-	ly_msg_put("download_cover_request", "plugin:inf", NULL);
+	ly_msg_put("cov_missing", "plugin:inf", NULL);
 	return FALSE;
 }

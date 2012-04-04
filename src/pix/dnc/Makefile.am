@@ -8,13 +8,19 @@ datadir			= ${PLUGIN_DIR}/dnc
 
 lib_LTLIBRARIES = libdnc.la
 data_DATA		=\
-				logo.png\
+				logo.svg\
 				plugin.xml
 libdnc_la_SOURCES	=\
 				dnc.c\
 				dnc.h\
+				dnc_cov.c\
+				dnc_cov.h\
 				dnc_cov_lastfm.c\
-				dnc_cov_lastfm.h
+				dnc_cov_lastfm.h\
+				dnc_lrc.c\
+				dnc_lrc.h\
+				dnc_lrc_lrc123.c\
+				dnc_lrc_lrc123.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\

@@ -78,7 +78,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdnc_la_DEPENDENCIES =
-am_libdnc_la_OBJECTS = dnc.lo dnc_cov_lastfm.lo
+am_libdnc_la_OBJECTS = dnc.lo dnc_cov.lo dnc_cov_lastfm.lo dnc_lrc.lo \
+	dnc_lrc_lrc123.lo
 libdnc_la_OBJECTS = $(am_libdnc_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -228,14 +229,20 @@ PROGMAN_NAME = linnya
 PLUGIN_DIR = ${prefix}/share/${PROGMAN_NAME}/plugin
 lib_LTLIBRARIES = libdnc.la
 data_DATA = \
-				logo.png\
+				logo.svg\
 				plugin.xml
 
 libdnc_la_SOURCES = \
 				dnc.c\
 				dnc.h\
+				dnc_cov.c\
+				dnc_cov.h\
 				dnc_cov_lastfm.c\
-				dnc_cov_lastfm.h
+				dnc_cov_lastfm.h\
+				dnc_lrc.c\
+				dnc_lrc.h\
+				dnc_lrc_lrc123.c\
+				dnc_lrc_lrc123.h
 
 INCLUDES = \
 				@GTK3_CFLAGS@\
@@ -329,7 +336,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov_lastfm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc_lrc123.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

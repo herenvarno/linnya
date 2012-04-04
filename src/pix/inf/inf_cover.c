@@ -60,8 +60,8 @@ void		ly_3inf_cover_init()
 	LY_3INF_COVERDIR=g_strconcat(LY_GLB_USER_PLUGINDIR, "inf/cover/",NULL);
 	mkdir(LY_3INF_COVERDIR, 0755);
 
-	g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIDIR);
-	ly_3inf_cover_pixbuf_default=gdk_pixbuf_new_from_file_at_scale(path, 164, 164, TRUE, NULL);
+	g_snprintf(path, sizeof(path), "%sicon/default_album.svg", LY_GLB_PROG_UIDIR);
+	ly_3inf_cover_pixbuf_default=gdk_pixbuf_new_from_file_at_scale(path, 200, 200, TRUE, NULL);
 }
 
 void		ly_3inf_cover_fina()
@@ -114,7 +114,7 @@ gboolean	ly_3inf_cover_on_cover_got()
         return FALSE;
     }
 	pixbuf_old = gdk_pixbuf_loader_get_pixbuf(loader);
-	ly_3inf_cover_pixbuf=gdk_pixbuf_scale_simple(pixbuf_old, 164, 164, GDK_INTERP_BILINEAR);
+	ly_3inf_cover_pixbuf=gdk_pixbuf_scale_simple(pixbuf_old, 200, 200, GDK_INTERP_BILINEAR);
     if(pixbuf_old)
     	g_object_ref(pixbuf_old);
     gdk_pixbuf_loader_close(loader, NULL);
@@ -142,7 +142,7 @@ gboolean	ly_3inf_cover_on_meta_changed()
 		g_snprintf(path, sizeof(path), "%s%s-%s.%s",LY_3INF_COVERDIR, md->artist, md->album, cover_type[i]);
 		if(g_file_test(path, G_FILE_TEST_EXISTS))
 		{
-			ly_3inf_cover_pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 164, 164, TRUE, NULL);
+			ly_3inf_cover_pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 200, 200, TRUE, NULL);
 			if(!ly_3inf_cover_pixbuf)
 			{
 				return FALSE;

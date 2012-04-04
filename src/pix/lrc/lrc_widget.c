@@ -33,6 +33,7 @@ gboolean	ly_3lrc_widget_on_expose_cb		(GtkWidget *widget, cairo_t *cr, gpointer 
 gboolean	ly_3lrc_widget_on_seek_cb		(GtkWidget *widget, GdkEventButton *event, gpointer data);
 void ly_3lrc_widget_draw_text (cairo_t *cr, gchar *text, gchar *font);
 void ly_3lrc_widget_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint width_x, gint height_y);
+gboolean ly_3lrc_widget_on_get_button_clicked_cb(GtkWidget *widget, gpointer data);
 
 GtkWidget *ly_3lrc_widget_create()
 {
@@ -41,6 +42,12 @@ GtkWidget *ly_3lrc_widget_create()
 	GtkWidget *widget;
 	widget=gtk_event_box_new();
 	gtk_widget_set_app_paintable(widget, TRUE);
+
+	GtkWidget *fixed=gtk_fixed_new();
+	gtk_container_add(GTK_CONTAINER(widget), fixed);
+	GtkWidget *button=gtk_button_new_with_label("download lyrics");
+	gtk_fixed_put(GTK_FIXED(fixed),button, 30, 30);
+	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_widget_on_get_button_clicked_cb), NULL);
 	
 	g_signal_connect(widget, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL) ;
 	g_signal_connect(widget, "button_press_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
@@ -351,4 +358,10 @@ void ly_3lrc_widget_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint 
 	pango_cairo_show_layout (cr, layout);
 	
 	g_object_unref (layout);
+}
+
+gboolean ly_3lrc_widget_on_get_button_clicked_cb(GtkWidget *widget, gpointer data)
+{
+	ly_msg_put("lrc_missing", "plugin:lrc", NULL);
+	return FALSE;
 }

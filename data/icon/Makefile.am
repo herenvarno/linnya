@@ -1,8 +1,8 @@
 EXTRA_DIST =\
 			linnya.svg\
 			icon.svg\
-			default_album.png\
-			cd.png\
+			default_album.svg\
+			cd.svg\
 			audio.svg\
 			key.svg\
 			lib.svg\
@@ -14,8 +14,8 @@ icondir = ${datadir}/linnya/ui/icon
 icon_DATA =\
 			linnya.svg\
 			icon.svg\
-			default_album.png\
-			cd.png\
+			default_album.svg\
+			cd.svg\
 			audio.svg\
 			key.svg\
 			lib.svg\

@@ -129,12 +129,9 @@ gboolean ly_aud_next()
 			ly_pqm_set_next();
 		}
 	}
-
-	ly_aud_play();
-	
-	if(state!=GST_STATE_PLAYING)
+	if(state==GST_STATE_PLAYING)
 	{
-		ly_aud_pause();
+		ly_aud_play();
 	}
 	return TRUE;
 }
@@ -181,10 +178,9 @@ gboolean ly_aud_prev()
 		}
 	}
 
-	ly_aud_play();
-	if(state!=GST_STATE_PLAYING)
+	if(state==GST_STATE_PLAYING)
 	{
-		ly_aud_pause();
+		ly_aud_play();
 	}
 	return TRUE;
 }

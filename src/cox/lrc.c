@@ -44,12 +44,14 @@ gboolean	ly_lrc_on_update_cb(gpointer data);
 void		ly_lrc_init		()
 {
 	ly_msg_bind("meta_changed", "core:", ly_lrc_on_md_changed_cb, NULL);
+	ly_msg_bind("lrc_update", "", ly_lrc_on_md_changed_cb, NULL);
 	ly_lrc_timeout=g_timeout_add(100, ly_lrc_on_update_cb, NULL);
 }
 
 void		ly_lrc_fina		()
 {
 	ly_msg_unbind("meta_changed", "core:", ly_lrc_on_md_changed_cb);
+	ly_msg_unbind("lrc_update", "", ly_lrc_on_md_changed_cb);
 	g_source_remove(ly_lrc_timeout);
 }
 
@@ -107,7 +109,6 @@ gboolean ly_lrc_load(char *path)
 	fp=fopen(path,"r");
 	if(fp==NULL)
 	{
-		ly_msg_put("lrc_missing", "core:lrc", path);
 		return FALSE;
 	}
 	ly_lrc_read(fp);

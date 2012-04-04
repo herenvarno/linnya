@@ -1,5 +1,8 @@
 * {
 	engine: unico;
 }
-
+* {
+  transition-property: color, background-color, background-image;
+  transition-duration: 0.5s;
+}
 @import url("gtk-linnya.css");

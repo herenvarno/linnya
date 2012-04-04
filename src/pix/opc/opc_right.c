@@ -798,7 +798,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 		}
 		else
 		{
-			g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIDIR);
+			g_snprintf(path, sizeof(path), "%sicon/default_album.svg", LY_GLB_PROG_UIDIR);
 			pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 120, 120, TRUE, NULL);
 		}
 	}

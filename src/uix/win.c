@@ -20,6 +20,7 @@ gboolean ly_win_quit_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
 gboolean ly_win_drag_cb(GtkWidget * widget,GdkEventButton * event, gpointer data);
 gboolean ly_win_play_cb(GtkWidget *widget, gpointer data);
+gboolean ly_win_on_play_toggle_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_prev_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_next_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_volume_cb(GtkScaleButton *button,gdouble  value,gpointer   data);
@@ -69,8 +70,8 @@ LyWinWindow*	ly_win_new()
 	GtkWidget *hbox_control;
  	GtkWidget *button_close;
  	GtkWidget *button_min;
-	GtkWidget *fixed_control_left;
-	GtkWidget *fixed_control_right;
+	GtkWidget *control_left;
+	GtkWidget *control_right;
 	GtkWidget *button_play;
 	GtkWidget *button_prev;
 	GtkWidget *button_next;
@@ -164,24 +165,20 @@ LyWinWindow*	ly_win_new()
 	/*
 	 * the third part: control area
 	 */
-	hbox_control=gtk_hbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox_main),hbox_control,FALSE,FALSE,0);
-
-	fixed_control_left=gtk_fixed_new();
-	gtk_widget_set_size_request(fixed_control_left, 120, 70);
-	gtk_box_pack_start(GTK_BOX(hbox_control),fixed_control_left,FALSE,FALSE,0);
-
+	hbox_control=gtk_hbox_new(FALSE,10);
+	gtk_box_pack_start(GTK_BOX(vbox_main),hbox_control,FALSE,FALSE,10);
+		
+	control_left=gtk_grid_new();
+	gtk_box_pack_start(GTK_BOX(hbox_control), control_left, FALSE, FALSE, 10);
 	button_prev=gtk_button_new();
 	gtk_widget_set_size_request(button_prev,40,40);
-	gtk_fixed_put(GTK_FIXED(fixed_control_left),button_prev,20,15);
-	
-	button_next=gtk_button_new();
-	gtk_widget_set_size_request(button_next,40,40);
-	gtk_fixed_put(GTK_FIXED(fixed_control_left),button_next,100,15);
-
+	gtk_grid_attach(GTK_GRID(control_left), button_prev, 0, 0, 1, 1);
 	button_play=gtk_toggle_button_new();
 	gtk_widget_set_size_request(button_play,40,40);
-	gtk_fixed_put(GTK_FIXED(fixed_control_left),button_play,60,15);
+	gtk_grid_attach(GTK_GRID(control_left), button_play, 1, 0, 1, 1);
+	button_next=gtk_button_new();
+	gtk_widget_set_size_request(button_next,40,40);
+	gtk_grid_attach(GTK_GRID(control_left), button_next, 2, 0, 1, 1);
 
 	GtkWidget *vbox;
 	vbox=gtk_vbox_new(FALSE,0);
@@ -191,19 +188,15 @@ LyWinWindow*	ly_win_new()
 	gtk_scale_set_draw_value(GTK_SCALE(hscale_seek),FALSE);
 	ly_win_flag_seek=FALSE;
 	gtk_box_pack_start(GTK_BOX(vbox),hscale_seek,TRUE,FALSE,10);
-
-	fixed_control_right=gtk_fixed_new();
-	gtk_widget_set_size_request(fixed_control_right,90,70);
-	gtk_box_pack_start(GTK_BOX(hbox_control),fixed_control_right,FALSE,FALSE,0);
-
+	
+	control_right=gtk_grid_new();
+	gtk_box_pack_start(GTK_BOX(hbox_control), control_right, FALSE, FALSE, 10);
 	button_config=gtk_button_new();
 	gtk_widget_set_size_request(button_config,40,40);
-	gtk_fixed_put(GTK_FIXED(fixed_control_right),button_config,10,15);
-	
+	gtk_grid_attach(GTK_GRID(control_right), button_config, 0, 0, 1, 1);
 	button_volume=gtk_volume_button_new();
 	gtk_widget_set_size_request(button_volume,40,40);
-	gtk_fixed_put(GTK_FIXED(fixed_control_right),button_volume,50,15);
-	
+	gtk_grid_attach(GTK_GRID(control_right), button_volume, 1, 0, 1, 1);
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_aud_get_volume());
 
 	//tray icon
@@ -278,7 +271,7 @@ LyWinWindow*	ly_win_new()
 	g_signal_connect(G_OBJECT(win), "button_press_event", G_CALLBACK(ly_win_drag_cb), win);
 	g_signal_connect(G_OBJECT(win), "motion_notify_event", G_CALLBACK(ly_win_drag_cb), win);
 	g_signal_connect(G_OBJECT(win), "button_release_event", G_CALLBACK(ly_win_drag_cb), win);
-	g_signal_connect(G_OBJECT(button_play),"clicked",G_CALLBACK(ly_win_play_cb),NULL);
+	g_signal_connect(G_OBJECT(button_play),"clicked",G_CALLBACK(ly_win_on_play_toggle_cb),NULL);
 	g_signal_connect(G_OBJECT(button_prev),"clicked",G_CALLBACK(ly_win_prev_cb),NULL);
 	g_signal_connect(G_OBJECT(button_next),"clicked",G_CALLBACK(ly_win_next_cb),NULL);
 	g_signal_connect(G_OBJECT(button_volume),"value-changed",G_CALLBACK(ly_win_volume_cb),NULL);
@@ -335,8 +328,8 @@ LyWinWindow*	ly_win_new()
 	window->hbox_title=hbox_title;
 	window->notebook_session=notebook_session;
 	window->hbox_control=hbox_control;
-	window->fixed_control_left=fixed_control_left;
-	window->fixed_control_right=fixed_control_right;
+	window->control_left=control_left;
+	window->control_right=control_right;
 	window->button_play=button_play;
 	window->button_prev=button_prev;
 	window->button_next=button_next;
@@ -415,7 +408,14 @@ gboolean ly_win_drag_cb(GtkWidget * widget,GdkEventButton * event, gpointer data
         return FALSE;
 }
 
+
 gboolean ly_win_play_cb(GtkWidget *widget, gpointer data)
+{
+	gtk_button_clicked(GTK_BUTTON(ly_win_window->button_play));
+	return FALSE;
+}
+
+gboolean ly_win_on_play_toggle_cb(GtkWidget *widget, gpointer data)
 {
 	gboolean state;
 	state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
@@ -526,7 +526,6 @@ gboolean ly_win_update_button_cb(gpointer message, gpointer data)
 	}
 	else if((g_str_equal(signal,"pause")||g_str_equal(signal,"stop")) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play)))
 	{
-		puts("***********");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play), FALSE);
 	}
 	return FALSE;
