@@ -1,0 +1,124 @@
+#ly_win {
+	color: #EEE;
+}
+
+#ly_hbox_title .button,
+#ly_hbox_title .button:hover,
+#ly_hbox_title .button:active,
+#ly_hbox_title .button:active:hover{
+    color: #fff;
+	border-width:0;
+}
+#ly_btn_close,
+#ly_btn_close:hover,
+#ly_btn_close:active,
+#ly_btn_close:hover:active,
+#ly_btn_close:focused,
+#ly_btn_close.default {
+    background-image: url("linnya_img/ly_btn_close.svg");
+    background-color: alpha (#FFF,0.0);
+}
+
+#ly_btn_min,
+#ly_btn_min:hover,
+#ly_btn_min:active,
+#ly_btn_min:focused {
+    background-image: url("linnya_img/ly_btn_min.svg");
+}
+
+#ly_hbox_control .button,
+#ly_hbox_control .button:hover,
+#ly_hbox_control .button:active,
+#ly_hbox_control .button:active:hover{
+    border-width:0;
+    border-style:none;
+}
+#ly_btn_play,
+#ly_btn_play:hover{
+    background-image: url("linnya_img/ly_btn_play.png");
+}
+#ly_btn_play:active,
+#ly_btn_play:active:hover{
+    background-image: url("linnya_img/ly_btn_pause.png");
+}
+
+
+#ly_btn_prev,
+#ly_btn_prev:hover,
+#ly_btn_prev:active,
+#ly_btn_prev:focused {
+    background-image: url("linnya_img/ly_btn_prev.png");
+}
+
+#ly_btn_next,
+#ly_btn_next:hover,
+#ly_btn_next:active,
+#ly_btn_next:focused {
+    background-image: url("linnya_img/ly_btn_next.png");
+}
+
+#ly_btn_config,
+#ly_btn_config:hover,
+#ly_btn_config:active,
+#ly_btn_config:focused {
+    background-image: url("linnya_img/ly_btn_config.png");
+}
+
+#ly_btn_volume,
+#ly_btn_volume:hover,
+#ly_btn_volume:active,
+#ly_btn_volume:focused {
+    background-image : url("linnya_img/null.png");
+}
+
+#ly_notebook_session {
+    border-color: alpha (#fff, 0.3);
+    border-style: solid;
+    border-width: 1;
+    border-radius: 2;
+    background-color: alpha (#000, 0.8);
+
+    -GtkNotebook-tab-overlap: 0;
+    -GtkNotebook-tab-curvature: 2;
+     color: #333;
+}
+
+#ly_notebook_session tab {
+    padding: 2;
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#000, 0.0)));
+
+    -adwaita-focus-border-radius: 4;
+    color: #fff;
+}
+
+#ly_notebook_session tab:active {
+    background-image: -gtk-gradient (linear,
+                left top, left bottom,
+                from (alpha (#fff, 0.50)),
+              to (alpha (#000, 0.0)));
+
+    border-color: alpha (#fff, 0.3);
+
+    border-width: 1;
+        -adwaita-border-gradient: -gtk-gradient (linear,
+                                   left top, left bottom,
+                                   from (alpha (#fff, 0.3)),
+                                   to (alpha (#fff, 0.3)));
+       -adwaita-selected-tab-color: alpha (#fff, 0.10);
+     
+    color: #fff;
+}
+
+#ly_notebook_session .button,
+#ly_notebook_session .button:hover,
+#ly_notebook_session .button:hover:active {
+
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.50)),
+                       to (alpha (#000, 0.0)));
+    border-color: alpha (#fff, 0.3);
+}
