@@ -16,7 +16,6 @@ gboolean ly_win_flag_seek;
 /*
  * FUNCTIONS
  */
-gboolean ly_win_quit_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
 gboolean ly_win_drag_cb(GtkWidget * widget,GdkEventButton * event, gpointer data);
 gboolean ly_win_play_cb(GtkWidget *widget, gpointer data);
@@ -345,12 +344,6 @@ LyWinWindow*	ly_win_new()
 	return window;
 }
 
-
-gboolean ly_win_quit_cb(GtkWidget *widget, gpointer data)
-{
-	g_main_loop_quit((GMainLoop*)data);
-	return TRUE;
-}
 
 gboolean ly_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {

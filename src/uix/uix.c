@@ -52,13 +52,22 @@ void ly_uix_init(int *argc, char ***argv)
  */
 void ly_uix_fina()
 {
+	ly_log_put(_("[info] Finalize core module: CFG ..."));
 	ly_cfg_fina();
+	ly_log_put(_("[info] Finalize core module: SSS ..."));
 	ly_sss_fina();
+	ly_log_put(_("[info] Finalize core module: PLI ..."));
 	ly_pli_fina();
+	ly_log_put(_("[info] Finalize core module: WIN ..."));
 	ly_win_fina();
+	ly_log_put(_("[info] Finalize core module: THM ..."));
 	ly_thm_fina();
+	ly_log_put(_("[info] Finalize core module: KEY ..."));
 	ly_key_fina();
+	ly_log_put(_("[info] Finalize core module: GUD ..."));
 //	ly_gud_fina();
+	ly_log_put(_("[info] Finalize core module: DBG ..."));
 	ly_dbg_fina();
+	ly_log_put(_("[info] Finalize core module: GLB ..."));
 	ly_glb_fina();
 }

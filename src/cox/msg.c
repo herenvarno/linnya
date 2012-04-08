@@ -62,6 +62,7 @@ void	 ly_msg_init()
  */
 void ly_msg_fina()
 {
+	ly_log_put(_("[info] Finalize core module: MSG ..."));
 	/*
 	 * free messages
 	 */

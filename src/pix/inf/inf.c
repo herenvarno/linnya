@@ -70,22 +70,26 @@ GtkWidget *ly_3inf_create()
 	ly_3inf_pixbuf_bg=ly_sss_alloc_bg(NULL);
 	
 	GtkWidget *widget;
-	widget=gtk_event_box_new();
-	gtk_widget_set_app_paintable(widget, TRUE);
+	GtkWidget *event_box;
+	GtkWidget *button;
 	
-	GtkWidget *fixed=gtk_fixed_new();
-	gtk_container_add(GTK_CONTAINER(widget), fixed);
-	GtkWidget *button=gtk_button_new_with_label("download cover");
-	gtk_fixed_put(GTK_FIXED(fixed),button, 30, 30);
+	widget=gtk_vbox_new(FALSE, 0);
+	
+	event_box=gtk_event_box_new();
+	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
+	gtk_widget_set_app_paintable(event_box, TRUE);
+	g_signal_connect(G_OBJECT(event_box), "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
+	
+	button=gtk_button_new_with_label(_("Download Album Cover From Web ..."));
+	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3inf_on_get_button_clicked_cb), NULL);
 	
-	g_signal_connect(G_OBJECT(widget), "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
 	ly_msg_bind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb, NULL);
 	ly_msg_bind("meta_update", "", ly_3inf_on_meta_update_cb, NULL);
 	ly_msg_bind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
 	ly_msg_bind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
 	
-	ly_3inf_widget=widget;
+	ly_3inf_widget=event_box;
 	ly_3inf_cover_on_meta_changed();
 	
 	return widget;

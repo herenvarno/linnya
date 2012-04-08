@@ -169,6 +169,7 @@ ly_cfg_init ()
 void
 ly_cfg_fina ()
 {
+	ly_log_put(_("[info] Finalize UIX module: CFG ..."));
 }
 
 GtkWidget*

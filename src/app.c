@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	 */
 	ly_cox_init(&argc, &argv);
 	ly_uix_init(&argc, &argv);
-	
+
 	/*
 	 * Finalzie
 	 */

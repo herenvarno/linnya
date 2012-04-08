@@ -49,7 +49,7 @@ void		ly_reg_read_start_cb	(GMarkupParseContext *context,
  */
 void		ly_reg_init		()
 {
-	ly_log_put(_("[info] Initial core module: CONF ..."));
+	ly_log_put(_("[info] Initial core module: REG ..."));
 	g_snprintf(ly_reg_file, sizeof(ly_reg_file), "%sconf.xml", LY_GLA_USERDIR);
 	ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 	if(!ly_reg_read())
@@ -67,7 +67,7 @@ void		ly_reg_init		()
  */
 void		ly_reg_fina		()
 {
-	ly_log_put(_("[info] Finalize core module: CONF ..."));
+	ly_log_put(_("[info] Finalize core module: REG ..."));
 	ly_reg_write();
 	g_hash_table_destroy(ly_reg_table);
 }

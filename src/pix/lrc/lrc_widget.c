@@ -12,7 +12,7 @@ enum{
 /*
  * VARIABLES
  */
-GtkWidget *ly_3lrc_widget;
+GtkWidget *ly_3lrc_widget=NULL;
 GdkPixbuf *ly_3lrc_pixbuf_bg=NULL;
 
 cairo_surface_t	*image	=	NULL;
@@ -40,25 +40,31 @@ GtkWidget *ly_3lrc_widget_create()
 	ly_3lrc_pixbuf_bg=ly_sss_alloc_bg(NULL);
 	
 	GtkWidget *widget;
-	widget=gtk_event_box_new();
-	gtk_widget_set_app_paintable(widget, TRUE);
-
-	GtkWidget *fixed=gtk_fixed_new();
-	gtk_container_add(GTK_CONTAINER(widget), fixed);
-	GtkWidget *button=gtk_button_new_with_label("download lyrics");
-	gtk_fixed_put(GTK_FIXED(fixed),button, 30, 30);
+	GtkWidget *event_box;
+	GtkWidget *button;
+	
+	widget=gtk_vbox_new(FALSE, 0);
+	
+	event_box=gtk_event_box_new();
+	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
+	gtk_widget_set_app_paintable(event_box, TRUE);
+	g_signal_connect(G_OBJECT(event_box), "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL);
+	
+	button=gtk_button_new_with_label(_("Download Lyrics From Web ..."));
+	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_widget_on_get_button_clicked_cb), NULL);
 	
-	g_signal_connect(widget, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL) ;
+	g_signal_connect(event_box, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL) ;
 	g_signal_connect(widget, "button_press_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "motion_notify_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "button_release_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 
-	ly_3lrc_widget=widget;
+	ly_3lrc_widget=event_box;
 	return widget;
 }
 void ly_3lrc_widget_refresh()
 {
+
 	gtk_widget_queue_draw (ly_3lrc_widget);
 }
 void ly_3lrc_widget_destroy()
