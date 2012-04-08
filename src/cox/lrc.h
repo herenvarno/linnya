@@ -64,7 +64,10 @@ void		ly_lrc_free(LyLrcLyric *lyric);
 
 LyLrcLyric**	ly_lrc_get_array();
 int			ly_lrc_get_index();
+void		ly_lrc_set_index(int index);
 int			ly_lrc_get_length();
+
+void		ly_lrc_set_update_state(gboolean state);
 
 
 

@@ -64,7 +64,6 @@ GtkWidget *ly_3lrc_widget_create()
 }
 void ly_3lrc_widget_refresh()
 {
-
 	gtk_widget_queue_draw (ly_3lrc_widget);
 }
 void ly_3lrc_widget_destroy()
@@ -84,6 +83,7 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 		return FALSE;
 		
 	GdkCursor *cursor;
+	int index=0;
 	if (event->button == 1)
 	{
 		switch(event->type)
@@ -98,11 +98,12 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 				if(flag_seek==TRUE&&flag_seeked==TRUE)
 				{
 					LyLrcLyric **array=ly_lrc_get_array();
-					int index=ly_lrc_get_index();
+					index=ly_lrc_get_index();
 					ly_aud_set_position(array[index]->time/(double)ly_mdh_time_str2int(md->duration));
 				}
 				flag_seek = FALSE;
 				flag_seeked=FALSE;
+				ly_lrc_set_update_state(TRUE);
 
 				break;
 			default:
@@ -116,6 +117,33 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 		ly_3lrc_widget_pos_delta[Y]=pos[Y]-ly_3lrc_widget_pos_old[Y];
 		if(pos[Y]-ly_3lrc_widget_pos_old[Y])
 			flag_seeked=TRUE;
+			ly_lrc_set_update_state(FALSE);
+	}
+	if(flag_seek&&flag_seeked)
+	{
+		gint lrc_gap=20;
+		if(!ly_reg_get("lrc_gap","%d",&lrc_gap))
+		{
+			ly_reg_set("lrc_gap","%d",lrc_gap);
+		}
+		index=index_mark;
+		if(ly_3lrc_widget_pos_delta[Y]>=0)
+		{
+			index-=(int)(abs(ly_3lrc_widget_pos_delta[Y])/lrc_gap);
+			if(index<0)
+			{
+				index=0;
+			}
+		}
+		else
+		{
+			index+=(int)(abs(ly_3lrc_widget_pos_delta[Y])/lrc_gap);
+			if(index>=length)
+			{
+				index=length-1;
+			}
+		}
+		ly_lrc_set_index(index);
 	}
 	return TRUE;
 }
@@ -242,7 +270,6 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		int y=height/2;
 		LyLrcLyric **array=ly_lrc_get_array();
 		int index=ly_lrc_get_index();
-		
 		if(flag_seek&&flag_seeked)
 		{
 			cairo_set_source_rgba ( cr, 0.8, 0.8, 0.8, 0.8);
@@ -251,32 +278,10 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 			cairo_move_to(cr, 10.0, height/2.0+8);
 			cairo_line_to(cr, width-10.0, height/2.0+8);
 			cairo_stroke (cr);
-			
-			index=index_mark;
-			if(ly_3lrc_widget_pos_delta[Y]>=0)
-			{
-				
-				index-=(int)(abs(ly_3lrc_widget_pos_delta[Y])/lrc_gap);
-				if(index<0)
-				{
-					index=0;
-				}
-			}
-			else
-			{
-				index+=(int)(abs(ly_3lrc_widget_pos_delta[Y])/lrc_gap);
-				if(index>=length)
-				{
-					index=length-1;
-				}
-			}
-			ly_lrc_set_index(index);
 			y=height/2.0;
-
 		}
 		else
 		{
-			
 			gint64 t1=0;
 			gint64 t2=0;
 			

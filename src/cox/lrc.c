@@ -30,6 +30,7 @@ LyLrcLyric	*ly_lrc_lyrics_array[10240];
 gint		ly_lrc_lyrics_length=0;
 gint		ly_lrc_lyrics_index=0;
 gint		ly_lrc_timeout=0;
+gboolean	ly_lrc_flag_update_state=TRUE;
 
 /*
  * FUNCTIONS
@@ -354,6 +355,9 @@ gboolean	ly_lrc_on_md_changed_cb(gpointer message, gpointer data)
 
 gboolean ly_lrc_on_update_cb(gpointer data)
 {
+	if(!ly_lrc_flag_update_state)
+		return TRUE;
+		
 	if(ly_lrc_lyrics_length<=0)
 		return TRUE;
 	
@@ -389,4 +393,9 @@ gboolean ly_lrc_on_update_cb(gpointer data)
 	}
 	ly_lrc_lyrics_index=(max-index>=index-min)?min:max;
 	return TRUE;
+}
+
+void		ly_lrc_set_update_state(gboolean state)
+{
+	ly_lrc_flag_update_state=state;
 }
