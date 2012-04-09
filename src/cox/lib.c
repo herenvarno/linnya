@@ -70,6 +70,7 @@ gboolean	ly_lib_get_md_cb	(gpointer stmt, gpointer data);
 gboolean	ly_lib_get_id_cb	(gpointer stmt, gpointer data);
 gboolean ly_lib_check_library_check_file_cb(gpointer stmt, gpointer data);
 gboolean ly_lib_check_library_check_newfile_cb(gpointer stmt, gpointer data);
+gpointer ly_lib_check_library_add_music_cb(gpointer data);
 
 void	ly_lib_init()
 {
@@ -145,6 +146,17 @@ void			ly_lib_del_md_from_disk	(int id)
 		return;
 	if(!g_str_has_prefix(md->uri, "file://"))
 		return;
+	gchar path[1024]="";
+	gchar temp[1024]="";
+	g_snprintf(path,sizeof(temp),"%smusic/", LY_GLA_HOMEDIR);
+	ly_reg_get("lib_path","%s",temp);
+	g_snprintf(path,sizeof(path),"file://%s", temp);
+	
+	if(!g_str_has_prefix(md->uri, path))
+	{
+		ly_lib_del_md(id);
+		return;
+	}
 	
 	char cmd[10240]="";
 	g_snprintf(cmd, sizeof(cmd), "rm -rf \"%s\"", md->uri+7);
@@ -274,7 +286,6 @@ void			ly_lib_check_library		()
 	/*
 	 * get filenames
 	 */
-	ly_dbm_exec("begin",NULL,NULL);
 	gchar tmpstr[1024]="";
 	GList *list=ly_gla_traverse_dir(path, 5, TRUE);
 	GList *p=list;
@@ -326,34 +337,7 @@ void			ly_lib_check_library		()
 	/*
 	 * add new music
 	 */
-	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND uri LIKE 'file://",tmppath,"%'",NULL);
-	ly_dbm_exec(sql,ly_lib_check_library_check_newfile_cb,&list);
-	g_free(sql);
-	
-	LyMdhMetadata *md=NULL;
-	p=list;
-	while(p)
-	{
-		if(!ly_lib_check_is_audio((gchar *)(p->data)))
-		{
-			g_free(p->data);
-			p->data=NULL;
-			p=p->next;
-			continue;
-		}
-		md=ly_mdh_new_with_uri((gchar *)(p->data));
-		if(md)
-		{
-			ly_lib_add_md(md);
-		}
-		ly_mdh_free(md);
-		md=NULL;
-		g_free(p->data);
-		p->data=NULL;
-		p=p->next;
-	}
-	g_list_free(list);
-	ly_dbm_exec("commit",NULL,NULL);
+	g_thread_create(ly_lib_check_library_add_music_cb, list, FALSE, NULL);
 }
 
 gboolean ly_lib_check_library_check_file_cb(gpointer stmt, gpointer data)
@@ -398,4 +382,46 @@ gboolean ly_lib_check_library_check_newfile_cb(gpointer stmt, gpointer data)
 	}
 	g_free(uri);
 	return FALSE;
+}
+
+gpointer ly_lib_check_library_add_music_cb(gpointer data)
+{
+	gchar *sql=NULL;
+	GList *list=(GList*)data;
+	GList *p=NULL;
+	
+	gchar tmppath[10240]="";
+	g_snprintf(tmppath,sizeof(tmppath),"%smusic/", LY_GLA_HOMEDIR);
+	ly_reg_get("lib_path","%s",tmppath);
+	
+	ly_dbm_exec("begin",NULL,NULL);
+	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND uri LIKE 'file://",tmppath,"%'",NULL);
+	ly_dbm_exec(sql,ly_lib_check_library_check_newfile_cb,&list);
+	g_free(sql);
+	
+	LyMdhMetadata *md=NULL;
+	p=list;
+	while(p)
+	{
+		if(!ly_lib_check_is_audio((gchar *)(p->data)))
+		{
+			g_free(p->data);
+			p->data=NULL;
+			p=p->next;
+			continue;
+		}
+		md=ly_mdh_new_with_uri((gchar *)(p->data));
+		if(md)
+		{
+			ly_lib_add_md(md);
+		}
+		ly_mdh_free(md);
+		md=NULL;
+		g_free(p->data);
+		p->data=NULL;
+		p=p->next;
+	}
+	ly_dbm_exec("commit",NULL,NULL);
+	g_list_free(list);
+	return NULL;
 }

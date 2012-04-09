@@ -84,9 +84,12 @@ gboolean ly_3opc_right_play_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_addtoqueue_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data);
+gboolean ly_3opc_right_addfiles_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_refresh_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_deleteall_cb(GtkWidget *widget, gpointer data);
+
+gpointer ly_3opc_right_addfiles_cb_cb(gpointer data);
 
 GtkWidget* ly_3opc_warning_dialog_create(gchar *str);
 
@@ -453,7 +456,7 @@ gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, g
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_PLAY]), "activate", G_CALLBACK(ly_3opc_right_play_cb),NULL);
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_ADDTOQUEUE]), "activate", G_CALLBACK(ly_3opc_right_addtoqueue_cb),NULL);
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_INFORMATION]), "activate", G_CALLBACK(ly_3opc_right_information_cb),NULL);
-/*	g_signal_connect(G_OBJECT(menuitem[RIGHT_ADDFILES]), "activate", G_CALLBACK(ly_3opc_right_addfiles_cb),NULL);*/
+	g_signal_connect(G_OBJECT(menuitem[RIGHT_ADDFILES]), "activate", G_CALLBACK(ly_3opc_right_addfiles_cb),NULL);
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_REFRESH]), "activate", G_CALLBACK(ly_3opc_right_refresh_cb),NULL);
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_DELETE]), "activate", G_CALLBACK(ly_3opc_right_delete_cb),NULL);
 	g_signal_connect(G_OBJECT(menuitem[RIGHT_DELETEALL]), "activate", G_CALLBACK(ly_3opc_right_deleteall_cb),NULL);
@@ -883,19 +886,15 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	return FALSE;
 }
 
-/*
+
 gboolean ly_3opc_right_addfiles_cb(GtkWidget *widget, gpointer data)
 {
 	GSList *filelist;
-	GSList *q;
-	gchar *filename,*fileuri, tmp[1024];
-	lyDbMetadata *md;
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
-	gchar sql[1024];
 	
 	dialog =gtk_file_chooser_dialog_new(	_("Add From File..."),
-						GTK_WINDOW(ly_ui_win_window->win),
+						GTK_WINDOW(ly_win_get_window()->win),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
@@ -938,48 +937,102 @@ gboolean ly_3opc_right_addfiles_cb(GtkWidget *widget, gpointer data)
 	}
 	
 	filelist=gtk_file_chooser_get_uris(GTK_FILE_CHOOSER (dialog));
-	q=filelist;
+	g_thread_create(ly_3opc_right_addfiles_cb_cb, filelist, FALSE, NULL);
+	gtk_widget_destroy (dialog);
+	return FALSE;
+}
+gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
+{
+	GSList *filelist=(GSList*)data;
+	GSList *q=filelist;
+	int index0=0;
+	int pid=0;
+	int mid=0;
+	gchar *filename,*fileuri, tmp[1024];
+	LyMdhMetadata *md;
+	
+	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
+	
 	ly_dbm_exec("begin",NULL,NULL);
-	while(q)
+	if(index0==0)
 	{
-		filename=g_filename_from_uri(q->data,NULL,NULL);
-		realpath(filename,tmp);
-		fileuri=g_strconcat("file://",tmp, NULL);
-		g_free(filename);
-
-		md=ly_db_read_metadata(fileuri);
-		if(index_left[0]==0)
+		while(q)
 		{
-			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 0, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
-			ly_dbm_exec(sql,NULL,NULL);
+			filename=g_filename_from_uri(q->data,NULL,NULL);
+			realpath(filename,tmp);
+			fileuri=g_strconcat("file://",tmp, NULL);
+			g_free(filename);
+			
+			md=ly_mdh_new_with_uri(fileuri);
+			if(md)
+			{
+				mid=ly_lib_get_id(md);
+				if(mid<0)
+				{
+					ly_lib_add_md(md);
+					mid=ly_lib_get_id(md);
+				}
+				if(mid>0)
+					ly_pqm_add_md(mid);
+				ly_mdh_free(md);
+			}
+			q=q->next;
 		}
-		else if(index_left[0]==1 && index_left[1]>0)
-		{
-			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 0, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
-			ly_dbm_exec(sql,NULL,NULL);
-			g_snprintf(sql, sizeof(sql), "INSERT INTO connections(pid, mid, num) VALUES ( %d, %d, ifnull((SELECT MAX(num) FROM connections WHERE pid=%d),0)+1)",index_left[1], (gint)ly_db_get_last_insert_rowid(), index_left[1]);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
-			ly_dbm_exec(sql,NULL,NULL);
-		}
-		else if(index_left[0]==1)
-		{
-			g_snprintf(sql, sizeof(sql), "INSERT INTO metadatas(title, artist, album, codec, start, duration, uri, playing, num, flag, tmpflag) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', ifnull((SELECT MAX(playing) FROM metadatas),0)+1, ifnull((SELECT MAX(num) FROM metadatas),0)+1, 0, 1)", md->title, md->artist, md->album, md->codec, md->start, md->duration, md->uri);
-			ly_global_replace_str(sql, sizeof(sql), "'", "''");
-			ly_dbm_exec(sql,NULL,NULL);
-		}
-		ly_db_free_metadata(md);
-		q=q->next;
 	}
+	else if(index0==1&& pid>0)
+	{
+		while(q)
+		{
+			filename=g_filename_from_uri(q->data,NULL,NULL);
+			realpath(filename,tmp);
+			fileuri=g_strconcat("file://",tmp, NULL);
+			g_free(filename);
+			
+			md=ly_mdh_new_with_uri(fileuri);
+			if(md)
+			{
+				mid=ly_lib_get_id(md);
+				if(mid<0)
+				{
+					ly_lib_add_md(md);
+					mid=ly_lib_get_id(md);
+				}
+				if(mid>0)
+					ly_plm_add_md(pid, mid);
+				ly_mdh_free(md);
+			}
+			q=q->next;
+		}
+	}
+	else if(index0==2)
+	{
+		while(q)
+		{
+			filename=g_filename_from_uri(q->data,NULL,NULL);
+			realpath(filename,tmp);
+			fileuri=g_strconcat("file://",tmp, NULL);
+			g_free(filename);
+			
+			md=ly_mdh_new_with_uri(fileuri);
+			if(md)
+			{
+				ly_lib_add_md(md);
+				ly_mdh_free(md);
+			}
+			q=q->next;
+		}
+	}
+	
 	ly_dbm_exec("commit",NULL,NULL);
 	g_slist_free(filelist);
 	
 	ly_3opc_left_refresh_cb(NULL,NULL);
 	ly_3opc_right_refresh_cb(NULL,NULL);
-	gtk_widget_destroy (dialog);
-	return FALSE;
+	return NULL;
 }
-*/
+
+
+
 gboolean ly_3opc_right_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ly_3opc_right_refresh();
