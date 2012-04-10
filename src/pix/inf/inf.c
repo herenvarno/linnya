@@ -29,6 +29,7 @@
 GtkWidget *ly_3inf_widget=NULL;
 GdkPixbuf *ly_3inf_pixbuf_cd=NULL;
 GdkPixbuf *ly_3inf_pixbuf_bg=NULL;
+GdkPixbuf *ly_3inf_pixbuf_bg_copy=NULL;
 
 /*
  * FUNCTIONS
@@ -68,6 +69,7 @@ void g_module_unload(GModule *module)
 GtkWidget *ly_3inf_create()
 {
 	ly_3inf_pixbuf_bg=ly_sss_alloc_bg(NULL);
+	ly_3inf_pixbuf_bg_copy=gdk_pixbuf_copy(ly_3inf_pixbuf_bg);
 	
 	GtkWidget *widget;
 	GtkWidget *event_box;
@@ -99,6 +101,8 @@ void ly_3inf_destroy()
 {
 	if(ly_3inf_pixbuf_bg)
 		g_object_unref(ly_3inf_pixbuf_bg);
+	if(ly_3inf_pixbuf_bg_copy)
+		g_object_unref(ly_3inf_pixbuf_bg_copy);
 	ly_msg_unbind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb);
 	ly_msg_unbind("meta_update", "", ly_3inf_on_meta_update_cb);
 	ly_msg_unbind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
@@ -122,11 +126,22 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	 */
 	if(ly_3inf_pixbuf_bg)
 	{
-		GdkPixbuf *pixbuf=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
-		gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+		int h=gdk_pixbuf_get_height(ly_3inf_pixbuf_bg_copy);
+		int w=gdk_pixbuf_get_width(ly_3inf_pixbuf_bg_copy);
+		if(!ly_3inf_pixbuf_bg_copy||h<height||h-height>2||w<width||w-width>2)
+		{
+			if(ly_3inf_pixbuf_bg_copy)
+			{
+				g_object_unref(ly_3inf_pixbuf_bg_copy);
+			}
+			ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_NEAREST);	
+		}
+		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);	
 		cairo_paint(cr);
-		g_object_unref(pixbuf);
 	}
+	cairo_rectangle (cr, 0, 0, width, height);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
+	cairo_fill(cr);
 
 	/*
 	 * draw banner

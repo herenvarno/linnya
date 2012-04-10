@@ -62,6 +62,7 @@ gpointer		ly_3dnc_lrc_search(gpointer data)
 		return NULL;
 	}
 	g_idle_add(ly_3dnc_lrc_notify, store);
+	return NULL;
 }
 gboolean	ly_3dnc_lrc_notify(gpointer data)
 {

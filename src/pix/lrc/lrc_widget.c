@@ -14,6 +14,7 @@ enum{
  */
 GtkWidget *ly_3lrc_widget=NULL;
 GdkPixbuf *ly_3lrc_pixbuf_bg=NULL;
+GdkPixbuf *ly_3lrc_pixbuf_bg_copy=NULL;
 
 cairo_surface_t	*image	=	NULL;
 
@@ -38,6 +39,7 @@ gboolean ly_3lrc_widget_on_get_button_clicked_cb(GtkWidget *widget, gpointer dat
 GtkWidget *ly_3lrc_widget_create()
 {
 	ly_3lrc_pixbuf_bg=ly_sss_alloc_bg(NULL);
+	ly_3lrc_pixbuf_bg_copy=gdk_pixbuf_copy(ly_3lrc_pixbuf_bg);
 	
 	GtkWidget *widget;
 	GtkWidget *event_box;
@@ -48,13 +50,12 @@ GtkWidget *ly_3lrc_widget_create()
 	event_box=gtk_event_box_new();
 	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
 	gtk_widget_set_app_paintable(event_box, TRUE);
-	g_signal_connect(G_OBJECT(event_box), "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL);
 	
 	button=gtk_button_new_with_label(_("Download Lyrics From Web ..."));
 	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_widget_on_get_button_clicked_cb), NULL);
 	
-	g_signal_connect(event_box, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL) ;
+	g_signal_connect(event_box, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL);
 	g_signal_connect(widget, "button_press_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "motion_notify_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "button_release_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
@@ -70,6 +71,8 @@ void ly_3lrc_widget_destroy()
 {
 	if(ly_3lrc_pixbuf_bg)
 		g_object_unref(ly_3lrc_pixbuf_bg);
+	if(ly_3lrc_pixbuf_bg_copy)
+		g_object_unref(ly_3lrc_pixbuf_bg_copy);
 }
 
 gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gpointer data)
@@ -145,16 +148,17 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 		}
 		ly_lrc_set_index(index);
 	}
-	return TRUE;
+	return FALSE;
 }
 
 gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 {
+	
 	gint width;
 	gint height;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
-	
+
 	gchar title_font[1024]="Sans Regular 18";
 	ly_reg_get("3lrc_title_font", "%1024[^\n]", title_font);
 	gchar normal_font[1024]="Sans Regular 10";
@@ -165,15 +169,23 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 	 */
 	if(ly_3lrc_pixbuf_bg)
 	{
-		GdkPixbuf *pixbuf=gdk_pixbuf_scale_simple(ly_3lrc_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
-		gdk_cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+		int h=gdk_pixbuf_get_height(ly_3lrc_pixbuf_bg_copy);
+		int w=gdk_pixbuf_get_width(ly_3lrc_pixbuf_bg_copy);
+		if(!ly_3lrc_pixbuf_bg_copy||h<height||h-height>2||w<width||w-width>2)
+		{
+			if(ly_3lrc_pixbuf_bg_copy)
+			{
+				g_object_unref(ly_3lrc_pixbuf_bg_copy);
+			}
+			ly_3lrc_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3lrc_pixbuf_bg, width, height, GDK_INTERP_NEAREST);	
+		}
+		gdk_cairo_set_source_pixbuf(cr, ly_3lrc_pixbuf_bg_copy, 0, 0);	
 		cairo_paint(cr);
-		g_object_unref(pixbuf);
 	}
 	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
 	cairo_fill(cr);
-	
+
 	//画标题
 	cairo_pattern_t *pat;
 	pat = cairo_pattern_create_linear (0, 0, 0, 45);
@@ -195,7 +207,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 	cairo_move_to(cr, 0, 44.5);
 	cairo_line_to(cr, width, 44.5);
 	cairo_stroke(cr);
-	
+
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	int length=ly_lrc_get_length();
 

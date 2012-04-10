@@ -62,6 +62,7 @@ gpointer		ly_3dnc_cov_search(gpointer data)
 		return NULL;
 	}
 	g_idle_add(ly_3dnc_cov_notify, store);
+	return NULL;
 }
 gboolean	ly_3dnc_cov_notify(gpointer data)
 {
@@ -73,7 +74,7 @@ gboolean	ly_3dnc_cov_notify(gpointer data)
 	GtkCellRenderer *cell_renderer;
 	GtkTreeSelection *selection;
 	gint rt=0;
-	dialog=gtk_dialog_new_with_buttons(_("Album Found ..."),
+	dialog=gtk_dialog_new_with_buttons(_("Albums Found ..."),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_STOCK_OK,
