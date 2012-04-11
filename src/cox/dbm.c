@@ -42,7 +42,7 @@ gboolean ly_dbm_get_count_cb(gpointer stmt, gpointer data);
  */
 void	ly_dbm_init	()
 {
-	ly_log_put(_("[INFO] Initial core module: DBM ..."));
+	ly_log_put(_("[info] Init COX module: DBM"));
 
 	/*
 	 * open sqlite3
@@ -52,7 +52,7 @@ void	ly_dbm_init	()
 	rc=sqlite3_open(ly_dbm_file, &ly_dbm_conn);
 	if(rc != SQLITE_OK)
 	{
-		ly_log_put(_("[WARNING] Failed to open database. Abort ..."));
+		ly_log_put(_("[warning] Failed to open database. Abort ..."));
 		exit(0);
 	}
 
@@ -201,7 +201,7 @@ void	ly_dbm_init	()
  */
 void		ly_dbm_fina		()
 {
-	ly_log_put(_("[INFO] Finalize core module: DB ..."));
+	ly_log_put(_("[info] Fina COX module: DBM"));
 	if(ly_dbm_conn)
 		sqlite3_close(ly_dbm_conn);
 }

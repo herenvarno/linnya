@@ -65,7 +65,6 @@ void	ly_log_init		()
  */
 void	ly_log_fina		()
 {
-	ly_log_put(_("[info] Finalize core module: LOG ..."));
 	ly_msg_unbind("info", NULL, ly_log_bind_cb);
 	ly_msg_unbind("warning", NULL, ly_log_bind_cb);
 	ly_msg_unbind("error", NULL, ly_log_bind_cb);

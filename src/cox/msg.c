@@ -43,11 +43,12 @@ void		ly_msg_on_clear_cb		(gpointer message, gpointer data);
  */
 void	 ly_msg_init()
 {
+	ly_log_put(_("[info] Init COX module: MSG"));
 	ly_msg_messages=NULL;
 	ly_msg_messages=g_queue_new();
 	if(ly_msg_messages==NULL)
 	{
-		printf(_("[ERROR] Linnya ERROR: Building the message bus failed!\n"));
+		printf(_("[error] Linnya ERROR: Building the message bus failed!\n"));
 		exit(0);
 	}
 
@@ -62,7 +63,7 @@ void	 ly_msg_init()
  */
 void ly_msg_fina()
 {
-	ly_log_put(_("[info] Finalize core module: MSG ..."));
+	ly_log_put(_("[info] Fina COX module: MSG"));
 	/*
 	 * free messages
 	 */

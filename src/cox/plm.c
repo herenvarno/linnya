@@ -37,11 +37,11 @@ gboolean	ly_plm_get_id_cb	(gpointer stmt, gpointer data);
 
 void			ly_plm_init				()
 {
-	
+	ly_log_put(_("[info] Init COX module: PLM"));
 }
 void			ly_plm_fina				()
 {
-	
+	ly_log_put(_("[info] Fina COX module: PLM"));
 }
 
 int		ly_plm_add_pl			(char *name)
@@ -63,7 +63,7 @@ int		ly_plm_add_pl			(char *name)
 		g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
 		if(ly_dbm_exec(sql, NULL, NULL)<0)
 		{
-			ly_msg_put("error", "core:plm", _("Playlist exist！"));
+			ly_msg_put("error", "core:plm", _("Playlist exist!"));
 			return -1;
 		}
 	}

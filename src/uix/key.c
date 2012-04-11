@@ -50,7 +50,6 @@ guint		ly_key_get_mask			(gchar *mask);
  */
 void		ly_key_init	()
 {
-	ly_log_put(_("[info] Initial ui module: KEY ..."));
 	ly_key_accel=gtk_accel_group_new();
 	ly_key_keybinds=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, ly_key_free);
 	ly_key_read();
@@ -60,7 +59,6 @@ void		ly_key_init	()
  */
 void		ly_key_fina	()
 {
-	ly_log_put(_("[info] Finalize ui module: KEY ..."));
 	ly_key_write();
 	g_hash_table_destroy(ly_key_keybinds);
 	g_object_unref(ly_key_accel);

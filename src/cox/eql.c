@@ -44,6 +44,7 @@ gboolean	ly_eql_conf_set_by_genre_cb(gpointer stmt, gpointer data);
  */
 void	ly_eql_init	()
 {
+	ly_log_put(_("[info] Init COX module: EQL"));
 	/*
 	 * check database
 	 */
@@ -206,6 +207,7 @@ void	ly_eql_init	()
  */
 void	ly_eql_fina	()
 {
+	ly_log_put(_("[info] Fina COX module: EQL"));
 	ly_msg_unbind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb);
 	ly_msg_unbind("meta_update", "core:ppl", ly_eql_on_meta_update_cb);
 }

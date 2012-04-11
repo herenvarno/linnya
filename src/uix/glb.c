@@ -51,5 +51,4 @@ void		ly_glb_init		(int *argc, char ***argv)
 
 void ly_glb_fina()
 {
-
 } 

@@ -30,6 +30,33 @@
 void ly_gla_init(int *argc, char ***argv)
 {
 	/*
+	 * fill application information
+	 */
+	const char *ly_gla_application = _("linnya");
+	const char *ly_gla_author = _("Edward<yy890521@gmail.com>");
+	const char *ly_gla_website = _("http://www.linnya.org");
+	const char *ly_gla_comments = _("A free music player on Linux, with unlimited feathers from plug-ins.");
+	const char *ly_gla_copyright = _("Copyright (C) 2010-2012 Edward Yang");
+	const char *ly_gla_version_str = _("2.0.0 beta4 (1.9.9)");
+	const char *ly_gla_license	= _("GPLv3");
+	const char *ly_gla_license_full = _("LINNYA\n\
+\n\
+Copyright (C) 2010-2012 Edward Yang\n\
+\n\
+linnya is free software; you can redistribute it and/or modify\n\
+it under the terms of the GNU General Public License as published by\n\
+the Free Software Foundation; either version 3 of the License, or\n\
+(at your option) any later version.\n\
+\n\
+linnya is distributed in the hope that it will be useful,\n\
+but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+GNU General Public License for more details.\n\
+\n\
+You should have received a copy of the GNU General Public License\n\
+along with linnya. If not, see <http://www.gnu.org/licenses/>.");
+
+	/*
 	 * creating global dirs
 	 */
 	LY_GLA_HOMEDIR=NULL;

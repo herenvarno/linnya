@@ -169,7 +169,6 @@ ly_cfg_init ()
 void
 ly_cfg_fina ()
 {
-	ly_log_put(_("[info] Finalize UIX module: CFG ..."));
 }
 
 GtkWidget*
@@ -512,7 +511,7 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 	gchar *path=NULL;
 	GdkPixbuf *logo=NULL;
 	
-	path=g_strconcat(LY_GLA_PROGDIR,"ui/icon/linnya.svg",NULL);
+	path=g_strconcat(LY_GLB_PROG_UIDIR,"icon/linnya.svg",NULL);
 	logo=gdk_pixbuf_new_from_file_at_size(path,100,100,NULL);
 	g_free(path);
 	
@@ -520,35 +519,16 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 	char *authors[]={"Edward<edward@linnya.org>","Carl Yu<shdxcy@gmail.com>",NULL};
 	char translators[]={"Edward<edward@linnya.org>"};
 	
-	char license[102400]="";
-	g_strlcpy(license, 
-			  _("Linnya\n\n\
-Copyright (C) 2010-2011 Edward\n\n\
-Linnya is free software; you can redistribute it and/or modify\n\
-it under the terms of the GNU General Public License as published by\n\
-the Free Software Foundation; either version 2 of the License, or\n\
-(at your option) any later version.\n\n\
-Linnya is distributed in the hope that it will be useful,\n\
-but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
-GNU General Public License for more details.\n\n\
-You should have received a copy of the GNU General Public License\n\
-along with Linnya; if not, write to the Free Software\n\
-Foundation, Inc., 51 Franklin St, Fifth Floor, \n\
-Boston, MA  02110-1301  USA"),
-		sizeof(license));
-	
 	gtk_show_about_dialog(GTK_WINDOW(ly_cfg_dialog),
 						  "artists",		&artists,
 						  "authors",		&authors,
-						  "comments",		_("An audio player for Linux, with unlimited feathers by plug-ins."),
-						  "copyright",		_("(c) 2010-2011 Edward<edward@linnya.org>"),
-						  "license",		license,
+						  "comments",		LY_GLA_COMMENTS,
+						  "copyright",		LY_GLA_COPYRIGHT,
+						  "license",		LY_GLA_LICENSE_FULL,
 						  "logo",			logo,
-						  "logo-icon-name",	_("linnya"),
 						  "translator-credits",&translators,
 						  "version",		LY_GLA_VERSION_STR,
-						  "website",		"http://linnya.org",
+						  "website",		LY_GLA_WEBSITE,
 						  "website-label",	_("Official Website"),
 						  "wrap-license",	TRUE,
 						  NULL);

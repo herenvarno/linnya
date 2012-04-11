@@ -55,30 +55,31 @@
  */
 #define UNIX_BUILD
 
-#define	LY_GLA_APPLICATION	"linnya"
-#define	LY_GLA_AUTHOR		"Edward<yy890521@gmail.com>"
-#define	LY_GLA_LINCENSE		"GPLv3"
-#define	LY_GLA_LINCENSE_FULL	"\
-LINNYA\
-\
-Copyright (C) 2011 - Edward Yang\
-\
-linnya is free software; you can redistribute it and/or modify\
-it under the terms of the GNU General Public License as published by\
-the Free Software Foundation; either version 3 of the License, or\
-(at your option) any later version.\
-\
-linnya is distributed in the hope that it will be useful,\
-but WITHOUT ANY WARRANTY; without even the implied warranty of\
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\
-GNU General Public License for more details.\
-\
-You should have received a copy of the GNU General Public License\
-along with linnya. If not, see <http://www.gnu.org/licenses/>."
+#define	LY_GLA_APPLICATION	_("linnya")
+#define	LY_GLA_AUTHOR		_("Edward<yy890521@gmail.com>")
+#define	LY_GLA_WEBSITE		_("http://www.linnya.org")
+#define LY_GLA_COMMENTS		_("A free music player on Linux, with unlimited feathers from plug-ins.")
+#define LY_GLA_COPYRIGHT	_("Copyright (C) 2010-2012 Edward Yang")
 
-#define LY_GLA_VERSION_STR	"2.0.0 beta3 (1.9.6)\
-"
-#define LY_GLA_VERSION_NUM	1.96
+#define LY_GLA_VERSION_STR	_("2.0.0 beta4 (1.9.9)")
+#define LY_GLA_VERSION_NUM	1.99
+#define	LY_GLA_LICENSE		_("GPLv3")
+#define	LY_GLA_LICENSE_FULL	_("LINNYA\n\
+\n\
+Copyright (C) 2010-2012 Edward Yang\n\
+\n\
+linnya is free software; you can redistribute it and/or modify\n\
+it under the terms of the GNU General Public License as published by\n\
+the Free Software Foundation; either version 3 of the License, or\n\
+(at your option) any later version.\n\
+\n\
+linnya is distributed in the hope that it will be useful,\n\
+but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+GNU General Public License for more details.\n\
+\n\
+You should have received a copy of the GNU General Public License\n\
+along with linnya. If not, see <http://www.gnu.org/licenses/>.")
 
 
 #define _(String)			gettext(String)

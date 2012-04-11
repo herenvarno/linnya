@@ -1,4 +1,5 @@
 #!/bin/sh -e
+
 echo "aclocal..."
 aclocal
 echo "autoconf..."

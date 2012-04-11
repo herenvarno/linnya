@@ -75,7 +75,6 @@ void ly_pli_init()
 
 void	ly_pli_fina()
 {
-
 }
 
 

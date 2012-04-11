@@ -29,7 +29,6 @@
  */
 void	ly_thm_init()
 {
-	ly_log_put(_("[info] Initial ui module: THEME ..."));
 	
 	/*
 	 * REGIST CONF: thm_theme

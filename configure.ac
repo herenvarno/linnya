@@ -8,7 +8,7 @@ AC_CONFIG_SRCDIR([src/app.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Set of available languages.
-#ALL_LINGUAS="en zh_CN zh_HK zh_TW"
+ALL_LINGUAS="zh_CN"
 
 # Checks for programs.
 AC_PROG_CC
@@ -34,9 +34,9 @@ AC_FUNC_ALLOCA
 AC_FUNC_MALLOC
 
 # Add the languages which your application supports to po/LINGUAS
-#GETTEXT_PACKAGE=linnya
-#AM_GNU_GETTEXT_VERSION([0.18.1])
-#AM_GNU_GETTEXT([external])
+GETTEXT_PACKAGE=linnya
+AM_GNU_GETTEXT_VERSION([0.18.1])
+AM_GNU_GETTEXT([external])
 
 # Check for st_blksize in struct stat
 AC_ST_BLKSIZE
@@ -46,6 +46,7 @@ LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_OUTPUT([Makefile\
+			po/Makefile.in\
 			src/Makefile\
 			src/cox/Makefile\
 			src/uix/Makefile\

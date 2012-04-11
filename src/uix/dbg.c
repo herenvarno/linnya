@@ -51,7 +51,6 @@ void		ly_dbg_init()
 
 void	 ly_dbg_fina()
 {
-
 }
 
 gboolean ly_dbg_get_visible(int type)

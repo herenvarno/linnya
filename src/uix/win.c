@@ -37,8 +37,6 @@ gboolean ly_win_change_visible_cb(GtkWidget *widget, gpointer data);
 
 void ly_win_init()
 {
-	ly_log_put(_("[info] Initial ui module: WIN ..."));
-
 	ly_win_window=ly_win_new();
 	if(!ly_win_window)
 	{
@@ -51,7 +49,6 @@ void ly_win_init()
 
 void	ly_win_fina	()
 {
-	ly_log_put(_("[info] Finalize ui module: WIN ..."));
 	ly_win_free(ly_win_window);
 }
 

@@ -37,6 +37,8 @@ gboolean		ly_aud_on_ppl_eos_cb(gpointer message, gpointer data);
  */
 void		ly_aud_init()
 {
+	ly_log_put(_("[info] Init COX module: AUD"));
+
 	/*
 	 * mode
 	 */
@@ -86,6 +88,7 @@ void		ly_aud_init()
  */
 void		ly_aud_fina()
 {
+	ly_log_put(_("[info] Fina COX module: AUD"));
 	ly_aud_stop();
 }
 
@@ -443,12 +446,12 @@ gint64 ly_aud_get_position_abs()
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
-		ly_log_put(_("[WARNING] Position Error!"));
+		ly_log_put(_("[warning] Position Error!"));
 		return 0;
 	}
 	if(pos-start<-60000000000||dura-pos<-60000000000)
 	{
-		ly_log_put(_("[WARNING] Position Error!"));
+		ly_log_put(_("[warning] Position Error!"));
 		return 0;
 	}
 	pos=pos-start;

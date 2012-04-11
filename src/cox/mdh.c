@@ -48,7 +48,7 @@ void		ly_mdh_new_with_uri_pipe_cb	(GstElement *decodebin,GstPad *pad, gboolean l
  */
 void			ly_mdh_init				()
 {
-	ly_log_put(_("[info]  Initial core module: MDH ..."));
+	ly_log_put(_("[info] Init COX module: MDH"));
 
 	char extra_encoding[1024]="GB18030";
 	if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
@@ -66,6 +66,7 @@ void			ly_mdh_init				()
  */
 void			ly_mdh_fina				()
 {
+	ly_log_put(_("[info] Fina COX module: MDH"));
 }
 
 /**

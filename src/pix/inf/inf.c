@@ -139,9 +139,6 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);	
 		cairo_paint(cr);
 	}
-	cairo_rectangle (cr, 0, 0, width, height);
-	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
-	cairo_fill(cr);
 
 	/*
 	 * draw banner
