@@ -43,6 +43,7 @@ typedef struct _LyWinWindow
 	GtkWidget *hbox_control;
 	GtkWidget *button_close;
 	GtkWidget *button_min;
+	GtkWidget *button_mini;
 	GtkWidget *control_left;
 	GtkWidget *control_right;
 	GtkWidget *button_play;

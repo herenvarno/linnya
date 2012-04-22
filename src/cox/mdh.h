@@ -57,11 +57,13 @@ typedef struct _LyMdhMetadata{
 	gchar		start[64];
 	gchar		duration[64];
 	gchar		uri[1024];
+	gint		date;
 	gint		playing;
 	gint		num;
 	gint		flag;
 	gint		tmpflag;
 	GstBuffer	*cover;
+	gchar		lrc[5120];
 }LyMdhMetadata;
 
 enum{
@@ -89,6 +91,8 @@ void			ly_mdh_free				(LyMdhMetadata* md);
 
 char*			ly_mdh_time_int2str		(gint64 t_int);
 gint64			ly_mdh_time_str2int		(char *t_str);
+
+gboolean		ly_mdh_push(LyMdhMetadata *md);
 
 
 #endif

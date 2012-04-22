@@ -21,6 +21,12 @@ size_t		ly_3dnc_lrc_down_cb(char *buffer, size_t size, size_t nitems, void *outs
 
 void		ly_3dnc_lrc_init()
 {
+	char server[128]="qianqian";
+	if(!ly_reg_get("3dnc_lrc_server", "%[^\n]", server))
+	{
+		ly_reg_set("3dnc_lrc_server", "%s", server);
+	}
+
 	ly_3dnc_lrc_mutex = g_mutex_new();
 	ly_msg_bind("lrc_missing", "", ly_3dnc_lrc_check, NULL);
 }
@@ -54,7 +60,25 @@ gboolean	ly_3dnc_lrc_check(gpointer message, gpointer data)
 gpointer		ly_3dnc_lrc_search(gpointer data)
 {
 	GtkTreeStore *store=NULL;
-	store=ly_3dnc_lrc_lrc123_search(ly_3dnc_lrc_title, ly_3dnc_lrc_artist);
+
+	char server[128]="qianqian";
+	ly_reg_get("3dnc_lrc_server", "%[^\n]", server);
+	if(g_str_equal(server, "qianqian"))
+	{
+		store=ly_3dnc_lrc_qianqian_search(ly_3dnc_lrc_title, ly_3dnc_lrc_artist);
+	}
+	else if(g_str_equal(server, "lrc123"))
+	{
+		store=ly_3dnc_lrc_lrc123_search(ly_3dnc_lrc_title, ly_3dnc_lrc_artist);
+	}
+	else
+	{
+		g_mutex_unlock(ly_3dnc_lrc_mutex);
+		ly_msg_put("info", "plugin:dnc", _("Bad server name, Download Failed!"));
+		return NULL;
+	}
+	
+	
 	if(!store)
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
@@ -122,7 +146,24 @@ gboolean	ly_3dnc_lrc_notify(gpointer data)
 gpointer	ly_3dnc_lrc_analysis(gpointer data)
 {
 	gchar *url=NULL;
-	url=ly_3dnc_lrc_lrc123_analysis((gchar *)(data));
+
+	char server[128]="qianqian";
+	ly_reg_get("3dnc_lrc_server", "%[^\n]", server);
+	if(g_str_equal(server, "qianqian"))
+	{
+		url=ly_3dnc_lrc_qianqian_analysis((gchar *)(data));
+	}
+	else if(g_str_equal(server, "lrc123"))
+	{
+		url=ly_3dnc_lrc_lrc123_analysis((gchar *)(data));
+	}
+	else
+	{
+		g_mutex_unlock(ly_3dnc_lrc_mutex);
+		ly_msg_put("info", "plugin:dnc", _("Bad server name, Download Failed!"));
+		return NULL;
+	}
+	
 	g_free(data);
 	if(!url)
 	{

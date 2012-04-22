@@ -125,6 +125,24 @@ int	ly_lib_add_md(LyMdhMetadata *md)
 	return ly_dbm_get_last_insert_rowid();
 }
 
+int	ly_lib_update_md(LyMdhMetadata *md)
+{
+	if(!md||md->id<=0)
+		return -1;	
+	ly_dbm_replace_str(md->title, sizeof(md->title));
+	ly_dbm_replace_str(md->artist, sizeof(md->artist));
+	ly_dbm_replace_str(md->album, sizeof(md->album));
+	ly_dbm_replace_str(md->uri, sizeof(md->uri));
+
+	char sql[10240]="";
+	g_snprintf(sql, sizeof(sql), "UPDATE metadatas SET title='%s', artist='%s', album='%s', start='%s', duration='%s', uri='%s', flag=%d WHERE id=%d", md->title, md->artist, md->album, md->start, md->duration, md->uri, md->flag, md->id);
+	if(ly_dbm_exec(sql, NULL, NULL)<0)
+	{
+		return -1;
+	}
+	return md->id;
+}
+
 void	ly_lib_del_md(int id)
 {
 	char sql[10240];
@@ -171,7 +189,7 @@ LyMdhMetadata*	ly_lib_get_md	(int id)
 	LyMdhMetadata *md=ly_mdh_new();
 	if(!md)
 		return NULL;
-
+	md->id=id;
 	char sql[10240]="";
 	g_snprintf(sql, sizeof(sql), "SELECT * FROM metadatas WHERE id=%d", id);
 	if(ly_dbm_exec(sql, ly_lib_get_md_cb, md)>0);
@@ -207,6 +225,7 @@ gboolean	ly_lib_get_md_cb	(gpointer stmt, gpointer data)
 	g_strlcpy(md->start,(const gchar *)sqlite3_column_text(stmt, 4),sizeof(md->start));
 	g_strlcpy(md->duration,(const gchar *)sqlite3_column_text(stmt, 5),sizeof(md->duration));
 	g_strlcpy(md->uri,(const gchar *)sqlite3_column_text(stmt, 6),sizeof(md->uri));
+	md->flag=sqlite3_column_int(stmt, 9);
 	return FALSE;
 }
 

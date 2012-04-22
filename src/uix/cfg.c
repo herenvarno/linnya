@@ -520,6 +520,7 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 	char translators[]={"Edward<edward@linnya.org>"};
 	
 	gtk_show_about_dialog(GTK_WINDOW(ly_cfg_dialog),
+						  "program-name",	LY_GLA_APPLICATION,
 						  "artists",		&artists,
 						  "authors",		&authors,
 						  "comments",		LY_GLA_COMMENTS,

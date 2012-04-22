@@ -29,6 +29,9 @@
 GstElement *ly_mdh_pipeline;
 gboolean ly_mdh_md_eos;
 
+GstElement *ly_mdh_put_pipeline;
+GMutex *ly_mdh_put_mutex;
+
 
 
 /*
@@ -40,6 +43,10 @@ gboolean	ly_mdh_new_with_uri_full_bus_cb	(GstBus *bus, GstMessage *message, gpoi
 void		ly_mdh_new_with_uri_loop_cb	(LyMdhMetadata *md, GstElement *element, gboolean block);
 void		ly_mdh_new_with_uri_full_loop_cb	(LyMdhMetadata *md, GstElement *element, gboolean block);
 void		ly_mdh_new_with_uri_pipe_cb	(GstElement *decodebin,GstPad *pad, gboolean last, gpointer data);
+int			ly_mdh_push_handler_cb(GstBus *bus, GstMessage *msg, gpointer data);
+void		ly_mdh_push_add_ogg_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger);
+void		ly_mdh_push_add_id3_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger);
+void		ly_mdh_push_move_file_cb();
 
 /**
  * ly_mdh_init:
@@ -58,6 +65,8 @@ void			ly_mdh_init				()
 	char encoding[1024]="";
 	g_snprintf(encoding, sizeof(encoding), "%s:UTF-8", extra_encoding);
 	g_setenv("GST_ID3_TAG_ENCODING", encoding, TRUE);
+	
+	ly_mdh_put_mutex=g_mutex_new();
 }
 /**
  * ly_mdh_fina:
@@ -67,6 +76,7 @@ void			ly_mdh_init				()
 void			ly_mdh_fina				()
 {
 	ly_log_put(_("[info] Fina COX module: MDH"));
+	g_mutex_free(ly_mdh_put_mutex);
 }
 
 /**
@@ -659,13 +669,226 @@ gint64 ly_mdh_time_str2int(gchar *t_str)
 	return t_int;
 }
 
+gboolean	ly_mdh_push(LyMdhMetadata *md)
+{
+	if(!md||!g_str_has_prefix(md->uri, "file://"))
+		return FALSE;
+	
+	if(!g_mutex_trylock(ly_mdh_put_mutex))
+	{
+		ly_msg_put("error", "core:mdh", "An old task is running, Tag Failed!");
+		return FALSE;
+	}
+	/*
+	 * BUILD
+	 */
+	GstElement *filesrc=NULL;
+	GstElement *demux=NULL;
+	GstElement *mux=NULL;
+	GstElement *parse=NULL;
+	GstElement *filesink=NULL;
+	GstElement *tagger=NULL;
+	GstBus *bus=NULL;
+	
+	const gchar *codec=NULL;
+	ly_mdh_put_pipeline=gst_pipeline_new("pipeline");
+	filesrc=gst_element_factory_make("filesrc","filesrc");
+	filesink=gst_element_factory_make("filesink","filesink");
+	if(!ly_mdh_put_pipeline||!filesrc||!filesink)
+	{
+		if(ly_mdh_put_pipeline);
+			gst_object_unref(ly_mdh_put_pipeline);
+		g_mutex_unlock(ly_mdh_put_mutex);
+		return FALSE;
+	}
+	
+	//MP3
+	if(strstr(md->codec,"MP3")!=NULL)
+	{
+		demux=gst_element_factory_make("id3demux","demux");
+		tagger=gst_element_factory_make("id3v2mux","tagger");
+		codec = "LAME";
+		if(!demux||!tagger)
+		{
+			gst_object_unref(ly_mdh_put_pipeline);
+			g_mutex_unlock(ly_mdh_put_mutex);
+			return FALSE;
+		}
+	}
+	//OGG
+	else if(strstr(md->codec,"Vorbis")!=NULL)
+	{
+		tagger = gst_element_factory_make("vorbistag", "tagger");
+		demux=gst_element_factory_make("oggdemux","demux");
+		mux=gst_element_factory_make("oggmux","mux");
+		parse = gst_element_factory_make("vorbisparse", "parse");
+		codec = "Vorbis";
+		if(!demux||!mux||!tagger||!parse)
+		{
+			gst_object_unref(ly_mdh_put_pipeline);
+			g_mutex_unlock(ly_mdh_put_mutex);
+			return FALSE;
+		}
+	}
+	//FLAC
+	else if(strstr(md->codec,"FLAC")!=NULL)
+	{
+		tagger = gst_element_factory_make("flactag", "tagger");
+		codec="FLAC";
+		if(!tagger)
+		{
+			gst_object_unref(ly_mdh_put_pipeline);
+			g_mutex_unlock(ly_mdh_put_mutex);
+			return FALSE;
+		}
+	}
+	//APE
+	else if(strstr(md->codec,"Monkey's Audio")!=NULL)
+	{
+		demux=gst_element_factory_make("apedemux","demux");
+		tagger=gst_element_factory_make("apev2mux","tagger");
+		codec="LAME";
+		if(!demux||!tagger)
+		{
+			gst_object_unref(ly_mdh_put_pipeline);
+			g_mutex_unlock(ly_mdh_put_mutex);
+			return FALSE;
+		}
+	}
+	else
+	{
+		gst_object_unref(ly_mdh_put_pipeline);
+		g_mutex_unlock(ly_mdh_put_mutex);
+		return FALSE;
+	}
 
+	/*
+	 * SET
+	 */
+	gchar location_i[1024]="";
+	gchar location_o[1024]="";
+	g_snprintf(location_i, sizeof(location_i), "%s", md->uri+7);
+	g_snprintf(location_o, sizeof(location_o), "%s%s-%s.audio", LY_GLA_TEMPDIR, md->artist, md->title);
+	g_object_set(G_OBJECT(filesrc), "location", location_i, NULL);
+	g_object_set(G_OBJECT(filesink), "location", location_o, NULL);
 
+	gst_tag_setter_add_tags(GST_TAG_SETTER(tagger),
+							GST_TAG_MERGE_REPLACE_ALL,
+							GST_TAG_TITLE, md->title,
+							GST_TAG_ARTIST, md->artist,
+							GST_TAG_ALBUM, md->album,
+							GST_TAG_GENRE, md->genre,
+							GST_TAG_TRACK_NUMBER, md->track,
+							GST_TAG_ENCODER, "Linnya",
+							GST_TAG_ENCODER_VERSION, 1,
+							GST_TAG_CODEC,codec,
+							NULL);
+	
+	/*
+	 *LINK
+	 */
+	//MP3
+	if(strstr(md->codec,"MP3")!=NULL)
+	{
+		gst_bin_add_many(GST_BIN(ly_mdh_put_pipeline), filesrc, demux,tagger,filesink, NULL);
+		g_signal_connect(demux, "pad-added",G_CALLBACK(ly_mdh_push_add_id3_pad_cb), tagger);
+		gst_element_link(filesrc, demux);
+		gst_element_link(tagger, filesink);
+	}
+	//OGG
+	else if(strstr(md->codec,"Vorbis")!=NULL)
+	{
+		gst_bin_add_many(GST_BIN(ly_mdh_put_pipeline), filesrc, demux, tagger, parse, mux, filesink, NULL);
+		g_signal_connect(demux, "pad-added",G_CALLBACK(ly_mdh_push_add_ogg_pad_cb), tagger);
+		gst_element_link(filesrc, demux);
+		gst_element_link_many(tagger, parse, mux, filesink,NULL);
+	}
+	//FLAC
+	else if(strstr(md->codec,"FLAC")!=NULL)
+	{
+		gst_bin_add_many(GST_BIN(ly_mdh_put_pipeline), filesrc, tagger, filesink, NULL);
+		gst_element_link_many(filesrc, tagger, filesink, NULL);
+	}
+	//APE
+	else if(strstr(md->codec,"Monkey's Audio")!=NULL)
+	{
+		gst_bin_add_many(GST_BIN(ly_mdh_put_pipeline), filesrc, demux,tagger,filesink, NULL);
+		g_signal_connect(demux, "pad-added",G_CALLBACK(ly_mdh_push_add_id3_pad_cb), tagger);
+		gst_element_link(filesrc, demux);
+		gst_element_link(tagger, filesink);
+	}
+	else
+	{
+		gst_object_unref(ly_mdh_put_pipeline);
+		g_mutex_unlock(ly_mdh_put_mutex);
+		return FALSE;
+	}
+	
+	bus = gst_pipeline_get_bus(GST_PIPELINE(ly_mdh_put_pipeline));
+	gst_bus_add_watch(bus, (GstBusFunc)ly_mdh_push_handler_cb,  g_memdup(md,sizeof(LyMdhMetadata)));
+	gst_object_unref(bus);
+	gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_NULL);
+	gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_READY);
+	if(gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_PLAYING)==GST_STATE_CHANGE_FAILURE)
+	{
+		gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_NULL);
+		gst_object_unref(ly_mdh_put_pipeline);
+		g_mutex_unlock(ly_mdh_put_mutex);
+		return FALSE;
+	}
+	return TRUE;
+}
 
+int ly_mdh_push_handler_cb(GstBus *bus, GstMessage *msg, gpointer data)
+{
+	switch(GST_MESSAGE_TYPE(msg))
+	{
+		case GST_MESSAGE_EOS:
+			ly_mdh_push_move_file_cb((LyMdhMetadata*)data);	
+			break;
+		default:
+			break;
+	}
+	return GST_BUS_ASYNC;
+}
 
+void ly_mdh_push_add_ogg_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger)
+{
+	GstCaps *caps;
+	GstPad *conn_pad = NULL;
+	caps = gst_pad_get_caps (pad);
+	conn_pad = gst_element_get_compatible_pad(tagger, pad, NULL);
+	gst_pad_link(pad, conn_pad);
+	gst_object_unref(conn_pad);
+}
+void ly_mdh_push_add_id3_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger)
+{
+	GstCaps *caps;
+	GstPad *conn_pad = NULL;
+	caps = gst_pad_get_caps (pad);
+	conn_pad = gst_element_get_compatible_pad(tagger, pad, NULL);
+	gst_pad_link(pad, conn_pad);
+	gst_object_unref(conn_pad);
+}
 
-
-
-
-
-
+void ly_mdh_push_move_file_cb(LyMdhMetadata* md)
+{
+	if(ly_mdh_put_pipeline)
+	{
+		gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_NULL);
+		gst_object_unref(ly_mdh_put_pipeline);
+		ly_mdh_put_pipeline = NULL;
+		
+		gchar location_i[1024]="";
+		gchar location_o[1024]="";
+		g_snprintf(location_i, sizeof(location_i), "%s", md->uri+7);
+		g_snprintf(location_o, sizeof(location_o), "%s%s-%s.audio", LY_GLA_TEMPDIR, md->artist, md->title);
+		int output;
+		char cmd[10240]="";
+		g_snprintf(cmd, sizeof(cmd), "mv \"%s\" \"%s\"", location_o, location_i);
+		puts(cmd);
+		output=system(cmd);
+	}
+	g_free(md);
+	g_mutex_unlock(ly_mdh_put_mutex);
+}

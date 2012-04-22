@@ -105,6 +105,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 	char *tag_album=NULL;
 	char *tag_comment=NULL;
 	char *tag_genre=NULL;
+	char *tag_lrc=NULL;
 	guint tag_bitrate=0;
 	guint tag_track=0;
 	GstBuffer *tag_cover=NULL;
@@ -170,6 +171,17 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
  				md->cover=tag_cover;
  				ly_msg_put("meta_update", "core:ppl", "cover");
 			}
+			//lyrics
+			if(gst_tag_list_get_string(tags,GST_TAG_LYRICS, &tag_lrc))
+			{
+				if(g_utf8_validate(tag_lrc,-1,NULL))
+				{
+					g_utf8_strncpy((gchar *)(md->lrc), tag_lrc, sizeof(md->lrc));
+				}
+				g_free(tag_lrc);
+				ly_msg_put("meta_update", "core:ppl", "lrc");
+			}
+			
 			break;
 			
 		}

@@ -6,6 +6,7 @@
  */
 #include "dnc_cov.h"
 #include "dnc_lrc.h"
+#include "dnc_config.h"
 
 /*
  * FUNCTIONS

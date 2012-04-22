@@ -95,8 +95,9 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdnc_la_DEPENDENCIES =
-am_libdnc_la_OBJECTS = dnc.lo dnc_cov.lo dnc_cov_lastfm.lo dnc_lrc.lo \
-	dnc_lrc_lrc123.lo
+am_libdnc_la_OBJECTS = dnc.lo dnc_cov.lo dnc_cov_lastfm.lo \
+	dnc_cov_top100.lo dnc_lrc.lo dnc_lrc_lrc123.lo \
+	dnc_lrc_qianqian.lo dnc_config.lo
 libdnc_la_OBJECTS = $(am_libdnc_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -278,10 +279,16 @@ libdnc_la_SOURCES = \
 				dnc_cov.h\
 				dnc_cov_lastfm.c\
 				dnc_cov_lastfm.h\
+				dnc_cov_top100.c\
+				dnc_cov_top100.h\
 				dnc_lrc.c\
 				dnc_lrc.h\
 				dnc_lrc_lrc123.c\
-				dnc_lrc_lrc123.h
+				dnc_lrc_lrc123.h\
+				dnc_lrc_qianqian.c\
+				dnc_lrc_qianqian.h\
+				dnc_config.c\
+				dnc_config.h
 
 INCLUDES = \
 				@GTK3_CFLAGS@\
@@ -376,10 +383,13 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_config.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov_lastfm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov_top100.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc_lrc123.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc_qianqian.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

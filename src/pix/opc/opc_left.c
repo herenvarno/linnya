@@ -59,6 +59,7 @@ gboolean ly_3opc_left_add_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_import_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_addtoqueue_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_rename_cb(GtkWidget *widget, gpointer data);
+gboolean ly_3opc_left_export_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_refresh_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_delete_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_left_deleteall_cb(GtkWidget *widget, gpointer data);
@@ -243,8 +244,8 @@ gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gp
 		g_signal_connect(G_OBJECT(menuitem[LEFT_IMPORT]), "activate", G_CALLBACK(ly_3opc_left_import_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_ADDTOQUEUE]), "activate", G_CALLBACK(ly_3opc_left_addtoqueue_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_RENAME]), "activate", G_CALLBACK(ly_3opc_left_rename_cb),NULL);
-/*		g_signal_connect(G_OBJECT(menuitem[LEFT_EXPORT]), "activate", G_CALLBACK(ly_3opc_left_export_cb),NULL);
-		//g_signal_connect(G_OBJECT(menuitem[LEFT_SORT]), "activate", G_CALLBACK(gui_treeview_callback_left_sort),NULL);*/
+		g_signal_connect(G_OBJECT(menuitem[LEFT_EXPORT]), "activate", G_CALLBACK(ly_3opc_left_export_cb),NULL);
+		//g_signal_connect(G_OBJECT(menuitem[LEFT_SORT]), "activate", G_CALLBACK(gui_treeview_callback_left_sort),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_REFRESH]), "activate", G_CALLBACK(ly_3opc_left_refresh_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_DELETE]), "activate", G_CALLBACK(ly_3opc_left_delete_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_DELETEALL]), "activate", G_CALLBACK(ly_3opc_left_deleteall_cb),NULL);
@@ -330,7 +331,7 @@ ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 	name=gtk_entry_get_text(GTK_ENTRY(entry));
 	if(name&&!g_str_equal(name,""))
 	{
-		ly_plm_add_pl(name);
+		ly_plm_add_pl((char*)name);
 	}
 	gtk_widget_destroy(dialog);
 	ly_3opc_left_refresh();
@@ -473,11 +474,91 @@ ly_3opc_left_rename_cb(GtkWidget *widget, gpointer data)
 			break;
 	}
 	name=gtk_entry_get_text(GTK_ENTRY(entry));
-	ly_plm_rename_pl(id, name);
+	ly_plm_rename_pl(id,(char *)name);
 	gtk_widget_destroy(dialog);
 	return FALSE;
 }
 
+gboolean
+ly_3opc_left_export_cb(GtkWidget *widget, gpointer data)
+{
+	int index0=0;
+	int id=0;
+	ly_reg_get("3opc_select", "%d:%*d:%d:%*[^\n]", &index0, &id);
+	if((index0!=1)||(id<=0))
+	{
+		return FALSE;
+	}
+	
+	GSList *filelist;
+	GSList *q;
+	gchar *path;
+	GtkFileFilter *filter;
+	GtkWidget *dialog;
+	
+	dialog =gtk_file_chooser_dialog_new(	_("Export Playlist..."),
+						GTK_WINDOW(ly_win_get_window()->win),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				      NULL);
+	filter=gtk_file_filter_new();
+	gtk_file_filter_set_name(filter,_("M3U Playlist File"));
+	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.m3u");
+	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.M3U");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog),GTK_FILE_FILTER(filter));
+	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+	switch (result)
+	{
+		case GTK_RESPONSE_ACCEPT:
+			break;
+		case GTK_RESPONSE_REJECT:
+			gtk_widget_destroy (dialog);
+			return FALSE;
+			break;
+		default:
+			gtk_widget_destroy (dialog);
+			return FALSE;
+			break;
+	}
+	
+	filelist=gtk_file_chooser_get_uris(GTK_FILE_CHOOSER (dialog));
+	q=filelist;
+	gboolean flag=TRUE;
+	if(q)
+	{
+		path=g_filename_from_uri (q->data,NULL,NULL);
+		if(g_file_test(path, G_FILE_TEST_EXISTS))
+		{
+			GtkWidget *d=gtk_message_dialog_new(GTK_WINDOW(dialog),
+					GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_QUESTION,
+					GTK_BUTTONS_OK_CANCEL,
+					_("File exist, Replace it anyway?"));
+			result = gtk_dialog_run (GTK_DIALOG (d));
+			gtk_widget_destroy (d);
+			switch (result)
+			{
+				case GTK_RESPONSE_OK:
+					break;
+				case GTK_RESPONSE_CANCEL:
+					flag=FALSE;
+					break;
+				default:
+					flag=FALSE;
+					break;
+			}
+		}
+		if(flag==TRUE)
+		{
+			ly_plm_export_pl(id, path);
+		}
+		g_free(path);
+	}
+	g_slist_free(filelist);
+	gtk_widget_destroy (dialog);
+	return FALSE;
+}
 
 gboolean
 ly_3opc_left_refresh_cb(GtkWidget *widget, gpointer data)

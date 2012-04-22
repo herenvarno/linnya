@@ -20,5 +20,5 @@
 	<!-- 后台运行标志 -->
 	<daemon>1</daemon>
 	<!-- 配置函数名 -->
-	<config_symbol>ly_plugin_downlrc_config</config_symbol>
+	<config_symbol>ly_3dnc_config</config_symbol>
 </plugin>

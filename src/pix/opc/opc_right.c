@@ -687,10 +687,11 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	md=ly_lib_get_md(id);
 	
-	if(md->flag!=MDH_FLAG_CUE_AUDIO)
+	if(md->flag==0)
 	{
 		LyMdhMetadata *md0=NULL;
 		md0=ly_mdh_new_with_uri_full(md->uri);
+		md0->id=md->id;
 		ly_mdh_free(md);
 		md=md0;
 	}
@@ -812,8 +813,6 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 		g_object_unref(pixbuf);
 	}
 
-
-
 	hbox=gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 	label=gtk_label_new(_("Uri:"));
@@ -826,7 +825,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 	
 
-	frame=gtk_frame_new(_("Advance Information"));
+	frame=gtk_frame_new(_("Advanced Information"));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),frame,TRUE,TRUE,0);
 	table=gtk_table_new(5,2,FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(table),5);
@@ -876,13 +875,28 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 			break;
 		case GTK_RESPONSE_REJECT:
 			gtk_widget_destroy (dialog);
+			ly_mdh_free(md);
 			return FALSE;
 			break;
 		default:
 			gtk_widget_destroy (dialog);
+			ly_mdh_free(md);
 			return FALSE;
 			break;
 	}
+	g_snprintf(md->title, sizeof(md->title), gtk_entry_get_text(GTK_ENTRY(entry[INFO_TITLE])));
+	g_snprintf(md->artist, sizeof(md->artist), gtk_entry_get_text(GTK_ENTRY(entry[INFO_ARTIST])));
+	g_snprintf(md->album, sizeof(md->album), gtk_entry_get_text(GTK_ENTRY(entry[INFO_ALBUM])));
+	g_snprintf(md->genre, sizeof(md->genre), gtk_entry_get_text(GTK_ENTRY(entry[INFO_GENRE])));
+	sscanf(gtk_entry_get_text(GTK_ENTRY(entry[INFO_TITLE])), "%d", &md->track);
+	ly_lib_update_md(md);
+	if(md->flag==0)
+	{
+		ly_mdh_push(md);
+	}
+	gtk_widget_destroy (dialog);
+	ly_mdh_free(md);
+	ly_3opc_right_refresh();
 	return FALSE;
 }
 

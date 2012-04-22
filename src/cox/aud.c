@@ -222,20 +222,31 @@ gboolean ly_aud_play()
 	if(!play)
 		return FALSE;
 	
-	g_object_set(G_OBJECT(play),"uri",md->uri,NULL);
-	if(md->flag==1)	//cue play
-	{
-		ly_aud_set_position(0);
-	}
 	GstState state;
 	state=ly_aud_get_state();
-	
-	if(!gst_element_set_state(play,GST_STATE_PLAYING))
+	if(state!=GST_STATE_PAUSED)
 	{
-		ly_msg_put("file_missed", "core:aud", NULL);
-		return FALSE;
+		g_object_set(G_OBJECT(play),"uri",md->uri,NULL);
+		if(!gst_element_set_state(play,GST_STATE_PLAYING))
+		{
+			ly_msg_put("file_missed", "core:aud", NULL);
+			return FALSE;
+		}
+		if(md->flag==1)	//cue play
+		{
+			g_usleep(0.1*G_USEC_PER_SEC);
+			ly_aud_set_position(0);
+		}
 	}
-	ly_msg_put("play","core:aud", NULL);
+	else
+	{
+		if(!gst_element_set_state(play,GST_STATE_PLAYING))
+		{
+			ly_msg_put("file_missed", "core:aud", NULL);
+			return FALSE;
+		}
+	}
+	ly_msg_put("play", "core:aud", NULL);
 	return TRUE;
 }
 
@@ -393,6 +404,8 @@ gboolean ly_aud_set_position(gdouble percent)
  */
 gdouble ly_aud_get_position()
 {
+	gint64 pos=0;
+	pos=ly_aud_get_position_abs();
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return 0;
@@ -401,13 +414,12 @@ gdouble ly_aud_get_position()
 		return 0;
 		
 	gint64 dura=0;
-	gint64 pos=0;
 	gdouble position;
 	
 	dura=ly_mdh_time_str2int(md->duration);
 	if(dura<=0)
 		return 0;
-	pos=ly_aud_get_position_abs();
+	
 	position=pos/(double)dura;
 	return position;
 }
@@ -441,15 +453,25 @@ gint64 ly_aud_get_position_abs()
 	
 	start=ly_mdh_time_str2int(md->start);
 	dura=ly_mdh_time_str2int(md->duration);
+	
 	if(dura<=0)
-		return 0;
+	{
+		gst_element_query_duration(play, &fmt, &dura);
+		dura-=start;
+		gchar *str=ly_mdh_time_int2str(dura);
+		gchar sql[128]="";
+		g_snprintf(sql, sizeof(sql), "UPDATE metadatas SET duration='%s' WHERE id=%d", str, md->id);
+		g_free(str);
+		ly_dbm_exec(sql, NULL, NULL);
+		ly_pqm_set_current_md(md->id);
+	}
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
 		ly_log_put(_("[warning] Position Error!"));
 		return 0;
 	}
-	if(pos-start<-60000000000||dura-pos<-60000000000)
+	if(pos-start<-60000000000)
 	{
 		ly_log_put(_("[warning] Position Error!"));
 		return 0;

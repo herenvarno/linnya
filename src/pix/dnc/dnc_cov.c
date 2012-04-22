@@ -21,6 +21,12 @@ size_t		ly_3dnc_cov_down_cb(char *buffer, size_t size, size_t nitems, void *outs
 
 void		ly_3dnc_cov_init()
 {
+	char server[128]="last.fm";
+	if(!ly_reg_get("3dnc_cov_server", "%[^\n]", server))
+	{
+		ly_reg_set("3dnc_cov_server", "%s", server);
+	}
+
 	ly_3dnc_cov_mutex = g_mutex_new();
 	ly_msg_bind("cov_missing", "", ly_3dnc_cov_check, NULL);
 }
@@ -54,7 +60,24 @@ gboolean	ly_3dnc_cov_check(gpointer message, gpointer data)
 gpointer		ly_3dnc_cov_search(gpointer data)
 {
 	GtkTreeStore *store=NULL;
-	store=ly_3dnc_cov_lastfm_search(ly_3dnc_cov_artist, ly_3dnc_cov_album);
+	
+	char server[128]="last.fm";
+	ly_reg_get("3dnc_cov_server", "%[^\n]", server);
+	if(g_str_equal(server, "last.fm"))
+	{
+		store=ly_3dnc_cov_lastfm_search(ly_3dnc_cov_artist, ly_3dnc_cov_album);
+	}
+	else if(g_str_equal(server, "top100"))
+	{
+		store=ly_3dnc_cov_top100_search(ly_3dnc_cov_artist, ly_3dnc_cov_album);
+	}
+	else
+	{
+		g_mutex_unlock(ly_3dnc_cov_mutex);
+		ly_msg_put("info", "plugin:dnc", _("Bad server name, Download Failed!"));
+		return NULL;
+	}
+	
 	if(!store)
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
@@ -122,7 +145,24 @@ gboolean	ly_3dnc_cov_notify(gpointer data)
 gpointer	ly_3dnc_cov_analysis(gpointer data)
 {
 	gchar *url=NULL;
-	url=ly_3dnc_cov_lastfm_analysis((gchar *)(data));
+	
+	char server[128]="last.fm";
+	ly_reg_get("3dnc_cov_server", "%[^\n]", server);
+	if(g_str_equal(server, "last.fm"))
+	{
+		url=ly_3dnc_cov_lastfm_analysis((gchar *)(data));
+	}
+	else if(g_str_equal(server, "top100"))
+	{
+		url=ly_3dnc_cov_top100_analysis((gchar *)(data));
+	}
+	else
+	{
+		g_mutex_unlock(ly_3dnc_cov_mutex);
+		ly_msg_put("info", "plugin:dnc", _("Bad server name, Download Failed!"));
+		return NULL;
+	}
+
 	g_free(data);
 	if(!url)
 	{

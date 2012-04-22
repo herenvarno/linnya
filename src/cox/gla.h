@@ -50,6 +50,11 @@
 /*
  * MACROS
  */
+
+#define _(String)			gettext(String)
+#define LY_GLA_PACKAGE		"linnya"
+#define LY_GLA_LOCALEDIR	LOCALEDIR
+
 /*
  * BUILD DEFINE
  */
@@ -80,11 +85,6 @@ GNU General Public License for more details.\n\
 \n\
 You should have received a copy of the GNU General Public License\n\
 along with linnya. If not, see <http://www.gnu.org/licenses/>.")
-
-
-#define _(String)			gettext(String)
-#define LY_GLA_PACKAGE		"linnya"
-#define LY_GLA_LOCALEDIR	LOCALEDIR
 
 #define LY_GLA_HOMEDIR		ly_gla_homedir
 #define LY_GLA_PROGDIR		ly_gla_progdir

@@ -34,7 +34,6 @@ gboolean ly_win_tray_popup_cb(GtkStatusIcon *status_icon, guint button, guint32 
 gboolean ly_win_change_visible_cb(GtkWidget *widget, gpointer data);
 
 
-
 void ly_win_init()
 {
 	ly_win_window=ly_win_new();
@@ -66,6 +65,7 @@ LyWinWindow*	ly_win_new()
 	GtkWidget *hbox_control;
  	GtkWidget *button_close;
  	GtkWidget *button_min;
+ 	GtkWidget *button_mini;
 	GtkWidget *control_left;
 	GtkWidget *control_right;
 	GtkWidget *button_play;
@@ -98,7 +98,7 @@ LyWinWindow*	ly_win_new()
 	 * create window
 	 */
 	win=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(win),"Linnya");
+	gtk_window_set_title(GTK_WINDOW(win), LY_GLA_APPLICATION);
 	g_snprintf(path,sizeof(path),"%s%s",LY_GLA_PROGDIR,"ui/icon/linnya.svg");
 	gtk_window_set_icon_from_file(GTK_WINDOW(win),path,NULL);
 	gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
@@ -148,6 +148,9 @@ LyWinWindow*	ly_win_new()
  		button_min=gtk_button_new();
  		gtk_widget_set_size_request(button_min, 16, 16);
  		gtk_box_pack_end(GTK_BOX(hbox_title),button_min,FALSE,FALSE,0);
+ 		button_mini=gtk_button_new();
+ 		gtk_widget_set_size_request(button_mini, 16, 16);
+ 		gtk_box_pack_end(GTK_BOX(hbox_title),button_mini,FALSE,FALSE,0);
  	}
 
 	/*
@@ -241,6 +244,7 @@ LyWinWindow*	ly_win_new()
 		gtk_widget_set_name(hbox_title,"ly_hbox_title");
 		gtk_widget_set_name(button_close,"ly_btn_close");
 		gtk_widget_set_name(button_min,"ly_btn_min");
+		gtk_widget_set_name(button_mini,"ly_btn_mini");
 	}
 	gtk_widget_set_name(button_play,"ly_btn_play");
 	gtk_widget_set_name(button_prev,"ly_btn_prev");
@@ -262,6 +266,7 @@ LyWinWindow*	ly_win_new()
 	{
  	g_signal_connect(G_OBJECT(button_close),"clicked",G_CALLBACK(gtk_main_quit), NULL);
  	g_signal_connect(G_OBJECT(button_min),"clicked",G_CALLBACK(ly_win_change_visible_cb), win);
+ 	g_signal_connect(G_OBJECT(button_mini),"clicked",G_CALLBACK(ly_win_change_visible_cb), notebook_session);
 	}
 	g_signal_connect(G_OBJECT(win),"destroy",G_CALLBACK(gtk_main_quit),NULL);
 	g_signal_connect(G_OBJECT(win), "button_press_event", G_CALLBACK(ly_win_drag_cb), win);
@@ -294,6 +299,7 @@ LyWinWindow*	ly_win_new()
 	{
 		ly_key_set("close", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_close, "clicked");
 		ly_key_set("min", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_min, "clicked");
+		ly_key_set("mini", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_min, "clicked");
 	}
 	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_play, "clicked");
 	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, button_prev, "clicked");
@@ -308,6 +314,7 @@ LyWinWindow*	ly_win_new()
 	{
 		ly_key_bind("close");
 		ly_key_bind("min");
+		ly_key_bind("mini");
 	}
 	ly_key_bind("play");
 	ly_key_bind("prev");
@@ -335,6 +342,7 @@ LyWinWindow*	ly_win_new()
 	{
  		window->button_close=button_close;
  		window->button_min=button_min;
+ 		window->button_mini=button_mini;
  	}
 	window->hscale_seek=hscale_seek;
 	

@@ -32,8 +32,8 @@ int ly_plm_import_pid=-1;
 /*
  * FUNCTIONS
  */
-gboolean	ly_plm_import_pl_check_exist_cb(gpointer stmt, gpointer data);
 gboolean	ly_plm_get_id_cb	(gpointer stmt, gpointer data);
+gboolean	ly_plm_export_pl_cb	(gpointer stmt, gpointer data);
 
 void			ly_plm_init				()
 {
@@ -147,6 +147,17 @@ gboolean		ly_plm_import_pl		(char *path)
 
 gboolean		ly_plm_export_pl		(int pid, char *path)
 {
+	FILE *fp=fopen(path, "w+");
+	if(!fp)
+	{
+		ly_msg_put("error", "core:plm", _("Cannot open a file to save playlist!"));
+		return FALSE;
+	}
+	
+	char sql[1024]="";
+	g_snprintf(sql, sizeof(sql), "SELECT title, uri FROM metadatas, connections WHERE connections.pid=%d AND metadatas.id=connections.mid ORDER BY connections.num", pid);
+	ly_dbm_exec(sql, ly_plm_export_pl_cb, fp);
+	fclose(fp);
 	return TRUE;
 }
 
@@ -229,211 +240,287 @@ ly_plm_import_pl_from_cue(int pid, char *path)
 {
 	if(pid<=0)
 		return FALSE;
+	
 	gchar *buffer=NULL;
+	gchar *buffer_tmp=NULL;
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
 		ly_msg_put("error", "core:plm", _("Cannot open playlsit file!"));
+		return FALSE;
 	}
+	
+	char extra_encoding[1024]="GB18030";
+	if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
+	{
+		ly_reg_set("dbm_extra_encoding", "Chinese Simplified (GB18030)");
+	}
+	if(!g_utf8_validate(buffer,-1,NULL))
+	{
+		buffer_tmp = g_convert(buffer, -1, "UTF-8", extra_encoding, NULL, NULL, NULL);
+		g_free(buffer);
+		buffer = buffer_tmp;
+	}
+	
+	
+	char *dir=ly_gla_uri_get_dir(path);
     
-    char *sql=NULL;
-    char *tmpsql=NULL;
-    char tmp[1024]="";    
-    char uri[1024]="";
-    char *dir=NULL;
-    int i;
-    gchar *word=NULL; 
+    char tmp[1024]="";
     LyMdhMetadata *md=NULL;
+    LyMdhMetadata *md_prev=NULL;
     int mid=-1;
-    GList *list=NULL;
-    GList *p=NULL;
-    
-    char genre[1024]="";
-    char diskid[128]="";
-    char artist[1024]="";
-    char album[1024]="";
-    char date[1024]="";
-    char comment[1024]="";
-    
+	char *time_str=NULL;
+	
+	char title[512]="";
+	char artist[128]="";
+	char comment[1024]="";
+	char genre[128]="";
+	char codec[128]="";
+	int date=0;
+	int track=0;
+	char file[1024]="";
+	char file_tmp[1024]="";
+	
+	int min=0;
+	int sec=0;
+	int frm=0;
+	char temp[64]="";
     
     GRegex* regex;
-    GMatchInfo *match_info;
     GError *error = NULL;
-    
-    /*
-     * GENRE
-     */
-    regex = g_regex_new("REM GENRE \"[^\n\"]*\"", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
+    regex = g_regex_new("#.*$", G_REGEX_MULTILINE, 0, &error);
+	buffer_tmp=g_regex_replace(regex, buffer, strlen(buffer), 0, "",  0, NULL);
+	g_free(buffer);
     g_regex_unref(regex);
-    
-    /*
-     * DATE
-     */
-    regex = g_regex_new("REM DATE [^\n]*", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
+    regex = g_regex_new("^[ \t]*", G_REGEX_MULTILINE, 0, &error);
+	buffer=g_regex_replace(regex, buffer_tmp, strlen(buffer_tmp), 0, "",  0, NULL);
+	g_free(buffer_tmp);
     g_regex_unref(regex);
-    
-    /*
-     * DISCID
-     */
-    regex = g_regex_new("REM DISCID [^\n]*", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
-    g_regex_unref(regex);
-    
-    /*
-     * COMMENT
-     */
-    regex = g_regex_new("REM COMMENT \"[^\n\"]*\"", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
-    g_regex_unref(regex);
-    
-    /*
-     * ARTIST
-     */
-    regex = g_regex_new("PERFORMER \"[^\n\"]*\"", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
-    g_regex_unref(regex);
-    
-    /*
-     * ALBUM
-     */
-    regex = g_regex_new("TITLE \"[^\n\"]*\"", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-		g_strlcpy(genre, word, sizeof(genre));
-		g_free(word);
-    }
-    g_match_info_free(match_info);
-    g_regex_unref(regex);
-
-    /*
-     * URI
-     */
-    regex = g_regex_new("FILE \"[^\n\"]*\"", 0, 0, &error);
-    g_regex_match(regex, buffer, 0, &match_info);
-    if (g_match_info_matches(match_info))
-    {
-        gint count = g_match_info_get_match_count( match_info );
-        word = g_match_info_fetch(match_info, 0);
-        if(*word!='/')
-        {
-       		dir = ly_gla_uri_get_dir(path);
-			g_snprintf(uri, sizeof(uri), "file://%s%s", dir, word);
-			g_free(dir);
-		}
-		else
-		{
-			g_snprintf(uri, sizeof(uri), "file://%s", word);
-		}
-		g_free(word);
-    }
-    g_match_info_free(match_info);
-    g_regex_unref(regex);
-    
-    /*
-     * TRACKS
-     */
-    //TODO
-    
-    
-    g_free(buffer);
-    
-    if(!list)
-    	return TRUE;
-    ly_dbm_exec("begin",NULL,NULL);
-    
-	sql=g_strconcat("SELECT id, uri FROM metadatas WHERE flag=0 AND (", NULL);
-	g_strlcpy(tmp, (char *)(list->data), sizeof(tmp));
-	ly_dbm_replace_str(tmp, sizeof(tmp));
-	tmpsql=g_strconcat(sql, " uri='", tmp,"'", NULL);
-	g_free(sql);
-	sql=tmpsql;
-	p=list->next;
-	while(p)
+	
+	ly_dbm_exec("begin", NULL, NULL);
+	
+	char **array=NULL;
+	int i=0;
+	array=g_strsplit(buffer,"\n",-1);
+	for(i=0; i<g_strv_length(array); i++)
 	{
-		g_strlcpy(tmp, (char *)(p->data), sizeof(tmp));
-		ly_dbm_replace_str(tmp, sizeof(tmp));
-		tmpsql=g_strconcat(sql, " OR uri='", tmp,"'", NULL);
-		g_free(sql);
-		sql=tmpsql;
-		p=p->next;
-	}
-	tmpsql=g_strconcat(sql, ")", NULL);
-	g_free(sql);
-	sql=tmpsql;
-	ly_dbm_exec(sql, ly_plm_import_pl_check_exist_cb, &list);
-	g_free(sql);
-	p=list;
-	while(p)
-	{
-		if(!p->data)
+		if(sscanf(array[i], "%*[Tt]%*[Rr]%*[Aa]%*[Cc]%*[Kk]%*[ \t]%d", &track))
 		{
-			p=p->next;
+			if(md!=NULL)
+			{
+				if(md_prev)
+				{
+					//duration
+					if(g_str_equal(md_prev->duration, "00:00.00"))
+					{
+						time_str=ly_mdh_time_int2str(ly_mdh_time_str2int(md->start)-ly_mdh_time_str2int(md_prev->start));
+						g_strlcpy(md_prev->duration, time_str, sizeof(md_prev->duration));
+					}
+					//title
+					if(g_str_equal(md_prev->title, "unknown"))
+					{
+						g_snprintf(md_prev->title, sizeof(md_prev->title), "%s %d", title, md_prev->track);
+					}
+					//artist
+					if(g_str_equal(md_prev->artist, "unknown")&&(!g_str_equal(artist, "")))
+					{
+						g_snprintf(md_prev->artist, sizeof(md_prev->title), "%s %d", md_prev->title, md_prev->track);
+					}
+					//album
+					if(g_str_equal(md_prev->album, "unknown")&&(!g_str_equal(title, "")))
+					{
+						g_strlcpy(md_prev->album, title, sizeof(md_prev->album));
+					}
+					//comment
+					if(g_str_equal(md_prev->comment, "unknown")&&(!g_str_equal(comment, "")))
+					{
+						g_strlcpy(md_prev->comment, comment, sizeof(md_prev->comment));
+					}
+					//genre
+					if(g_str_equal(md_prev->genre, "unknown")&&(!g_str_equal(genre, "")))
+					{
+						g_strlcpy(md_prev->genre, genre, sizeof(md_prev->genre));
+					}
+					//uri
+					if(g_str_equal(md_prev->uri, "unknown")&&(!g_str_equal(file, "")))
+					{
+						if(g_str_has_prefix(file, "/"))
+						{
+							g_snprintf(md_prev->uri, sizeof(md_prev->uri), "file://%s", file);
+						}
+						else
+						{
+							g_snprintf(md_prev->uri, sizeof(md_prev->uri), "file://%s%s", dir, file);
+						}
+					}
+					//date
+					md_prev->date=date;
+					mid=ly_lib_add_md(md_prev);
+					if(mid<=0)
+					{
+						mid=ly_lib_get_id(md_prev);
+					}
+					if(mid>0)
+					{
+						puts(md_prev->title);
+						ly_plm_add_md(pid, mid);
+					}
+					ly_mdh_free(md_prev);
+				}
+				md_prev=md;
+			}
+			md=ly_mdh_new();
+			if(!md)
+			{
+				return FALSE;
+			}
+			md->track=track;
+			md->flag=1;
+			i++;
+			for(; i<g_strv_length(array); i++)
+			{
+				if(sscanf(array[i], "%*[Tt]%*[Rr]%*[Aa]%*[Cc]%*[Kk]%*[ \t]%d", &track))
+				{
+					i--;
+					break;
+				}
+				if(sscanf(array[i], "%*[Tt]%*[Ii]%*[Tt]%*[Ll]%*[Ee]%*[ \t]\"%[^\"\n]\"", md->title))
+				{
+					continue;
+				}
+				if(sscanf(array[i], "%*[Pp]%*[Ee]%*[Rr]%*[Ff]%*[Oo]%*[Rr]%*[Mm]%*[Ee]%*[Rr]%*[ \t]\"%[^\"\n]\"", md->artist))
+				{
+					continue;
+				}
+				if(sscanf(array[i], "%*[Ff]%*[Ii]%*[Ll]%*[Ee]%*[ \t]\"%[^\"\n]\"%*[ \t]%[^\n]", file_tmp, md->codec))
+				{
+					if(g_str_has_prefix(file_tmp, "/"))
+					{
+						g_snprintf(md->uri, sizeof(md->uri), "file://%s", file_tmp);
+					}
+					else
+					{
+						g_snprintf(md->uri, sizeof(md->uri), "file://%s%s", dir, file_tmp);
+					}
+					continue;
+				}
+				if(sscanf(array[i], "%*[Ii]%*[Nn]%*[Dd]%*[Ee]%*[Xx]%*[ \t]00%*[ \t]%d:%d:%d", &min, &sec, &frm))
+				{
+					if(!md_prev)
+					{
+						continue;
+					}
+					g_snprintf(temp, sizeof(temp), "%d:%d.%d", min, sec, frm);
+					time_str=ly_mdh_time_int2str(ly_mdh_time_str2int(temp)-ly_mdh_time_str2int(md_prev->start));
+					g_strlcpy(md_prev->duration, time_str, sizeof(md_prev->duration));
+					g_free(time_str);
+					continue;
+				}
+				if(sscanf(array[i], "%*[Ii]%*[Nn]%*[Dd]%*[Ee]%*[Xx]%*[ \t]01%*[ \t]%d:%d:%d", &min, &sec, &frm))
+				{
+					g_snprintf(md->start, sizeof(md->start), "%d:%d.%d", min, sec, frm);
+					continue;
+				}
+			}
 			continue;
 		}
-
-		md=ly_mdh_new_with_uri((char *)(p->data));
-		g_free(p->data);
-		p->data=NULL;
-		mid=ly_lib_add_md(md);
-		if(mid<=0)
-		{
-			mid=ly_lib_get_id(md);
-		}
-		if(mid<=0)
+		if(sscanf(array[i], "%*[Rr]%*[Ee]%*[Mm]%*[ \t]%*[Gg]%*[Ee]%*[Nn]%*[Rr]%*[Ee]%*[ \t]%[^\n]", genre))
 		{
 			continue;
 		}
-		ly_plm_add_md_in_order(pid, mid, g_list_position(list, p)+1);
+		if(sscanf(array[i], "%*[Rr]%*[Ee]%*[Mm]%*[ \t]%*[Dd]%*[Aa]%*[Tt]%*[Ee]%*[ \t]%d", &date))
+		{
+			continue;
+		}
+		if(sscanf(array[i], "%*[Rr]%*[Ee]%*[Mm]%*[ \t]%*[Cc]%*[Oo]%*[Mm]%*[Mm]%*[Ee]%*[Nn]%*[Tt]%*[ \t]\"%[^\"\n]\"", comment))
+		{
+			continue;
+		}
+		if(sscanf(array[i], "%*[Pp]%*[Ee]%*[Rr]%*[Ff]%*[Oo]%*[Rr]%*[Mm]%*[Ee]%*[Rr]%*[ \t]\"%[^\"\n]\"", artist))
+		{
+			continue;
+		}
+		if(sscanf(array[i], "%*[Tt]%*[Ii]%*[Tt]%*[Ll]%*[Ee]%*[ \t]\"%[^\"\n]\"", title))
+		{
+			continue;
+		}
+		if(sscanf(array[i], "%*[Ff]%*[Ii]%*[Ll]%*[Ee]%*[ \t]\"%[^\"\n]\"%*[ \t]%[^\n]", file, codec))
+		{
+			continue;
+		}
 	}
-	g_list_free(list);
-	ly_dbm_exec("commit",NULL,NULL);
+
+	if(md)
+	{
+		if(md_prev)
+		{
+			//duration
+			if(g_str_equal(md_prev->duration, "00:00.00"))
+			{
+				time_str=ly_mdh_time_int2str(ly_mdh_time_str2int(md->start)-ly_mdh_time_str2int(md_prev->start));
+				g_strlcpy(md_prev->duration, time_str, sizeof(md_prev->duration));
+			}
+			//title
+			if(g_str_equal(md_prev->title, "unknown"))
+			{
+				g_snprintf(md_prev->title, sizeof(md_prev->title), "%s %d", title, md_prev->track);
+			}
+			//artist
+			if(g_str_equal(md_prev->artist, "unknown")&&(!g_str_equal(artist, "")))
+			{
+				g_snprintf(md_prev->artist, sizeof(md_prev->title), "%s %d", md_prev->title, md_prev->track);
+			}
+			//album
+			if(g_str_equal(md_prev->album, "unknown")&&(!g_str_equal(title, "")))
+			{
+				g_strlcpy(md_prev->album, title, sizeof(md_prev->album));
+			}
+			//comment
+			if(g_str_equal(md_prev->comment, "unknown")&&(!g_str_equal(comment, "")))
+			{
+				g_strlcpy(md_prev->comment, comment, sizeof(md_prev->comment));
+			}
+			//genre
+			if(g_str_equal(md_prev->genre, "unknown")&&(!g_str_equal(genre, "")))
+			{
+				g_strlcpy(md_prev->genre, genre, sizeof(md_prev->genre));
+			}
+			//uri
+			if(g_str_equal(md_prev->uri, "unknown")&&(!g_str_equal(file, "")))
+			{
+				if(g_str_has_prefix(file, "/"))
+				{
+					g_snprintf(md_prev->uri, sizeof(md_prev->uri), "file://%s", file);
+				}
+				else
+				{
+					g_snprintf(md_prev->uri, sizeof(md_prev->uri), "file://%s%s", dir, file);
+				}
+			}
+			//date
+			md_prev->date=date;
+			mid=ly_lib_add_md(md_prev);
+			if(mid<=0)
+			{
+				mid=ly_lib_get_id(md_prev);
+			}
+			if(mid>0)
+			{
+				ly_plm_add_md(pid, mid);
+			}
+			ly_mdh_free(md_prev);
+		}
+		ly_mdh_free(md);
+	}
+	g_strfreev(array);
+	ly_dbm_exec("commit", NULL, NULL);
 	return TRUE;
 }
+
+
+
+
+
 
 gboolean
 ly_plm_import_pl_from_m3u(int pid, char *path)
@@ -441,12 +528,25 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
 	if(pid<=0)
 		return FALSE;
 	gchar *buffer=NULL;
+	gchar *buffer_tmp=NULL;
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
 		ly_msg_put("error", "core:plm", _("Cannot open playlsit file!"));
+		return FALSE;
 	}
-    
+	char extra_encoding[1024]="GB18030";
+	if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
+	{
+		ly_reg_set("dbm_extra_encoding", "Chinese Simplified (GB18030)");
+	}
+	if(!g_utf8_validate(buffer,-1,NULL))
+	{
+		buffer_tmp = g_convert(buffer, -1, "UTF-8", extra_encoding, NULL, NULL, NULL);
+		g_free(buffer);
+		buffer = buffer_tmp;
+	}
+	
     char *sql=NULL;
     char *tmpsql=NULL;
     char tmp[1024]="";    
@@ -480,28 +580,6 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
     if(!list)
     	return TRUE;
     ly_dbm_exec("begin",NULL,NULL);
-    
-	sql=g_strconcat("SELECT id, uri FROM metadatas WHERE flag=0 AND (", NULL);
-	g_strlcpy(tmp, (char *)(list->data), sizeof(tmp));
-	ly_dbm_replace_str(tmp, sizeof(tmp));
-	tmpsql=g_strconcat(sql, " uri='", tmp,"'", NULL);
-	g_free(sql);
-	sql=tmpsql;
-	p=list->next;
-	while(p)
-	{
-		g_strlcpy(tmp, (char *)(p->data), sizeof(tmp));
-		ly_dbm_replace_str(tmp, sizeof(tmp));
-		tmpsql=g_strconcat(sql, " OR uri='", tmp,"'", NULL);
-		g_free(sql);
-		sql=tmpsql;
-		p=p->next;
-	}
-	tmpsql=g_strconcat(sql, ")", NULL);
-	g_free(sql);
-	sql=tmpsql;
-	ly_dbm_exec(sql, ly_plm_import_pl_check_exist_cb, &list);
-	g_free(sql);
 	p=list;
 	while(p)
 	{
@@ -531,38 +609,6 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
 }
 
 
-
-gboolean
-ly_plm_import_pl_check_exist_cb(gpointer stmt, gpointer data)
-{
-	gint mid=-1;
-	gchar *uri=NULL;
-	GList *list=*(GList**)data;
-	GList *p=list;
-	mid=(int)sqlite3_column_int(stmt, 0);
-	uri=g_strconcat((const gchar *)sqlite3_column_text(stmt, 1),NULL);
-
-	while(p)
-	{
-		if(!p->data)
-		{
-			p=p->next;
-			continue;
-		}
-		if(g_str_equal(uri,p->data))
-		{
-			ly_plm_add_md_in_order(ly_plm_import_pid, mid, g_list_position(list, p)+1);
-			g_free(p->data);
-			p->data=NULL;
-			break;
-		}
-		p=p->next;
-	}
-	g_free(uri);
-	return FALSE;
-}
-
-
 int			ly_plm_get_id			(char *name)
 {
 	if((!name)||(g_str_equal(name, "")))
@@ -584,6 +630,27 @@ gboolean	ly_plm_get_id_cb	(gpointer stmt, gpointer data)
 {
 	int *id=data;
 	*id=(int)sqlite3_column_int(stmt, 0);
+	return FALSE;
+}
+
+gboolean	ly_plm_export_pl_cb	(gpointer stmt, gpointer data)
+{
+	FILE *fp=(FILE *)data;
+	const char *title=NULL;
+	const char *location=NULL;
+	
+	title=sqlite3_column_text(stmt, 0);
+	location=sqlite3_column_text(stmt, 1);
+	
+	if(!g_str_has_prefix(location, "file://"))
+	{
+		return FALSE;
+	}
+	
+	char text[1024]="";
+	g_snprintf(text, sizeof(text), "#EXTM3U %s\n%s\n", title, location+7);
+	fputs(text, fp);
+	
 	return FALSE;
 }
 

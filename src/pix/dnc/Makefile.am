@@ -17,10 +17,16 @@ libdnc_la_SOURCES	=\
 				dnc_cov.h\
 				dnc_cov_lastfm.c\
 				dnc_cov_lastfm.h\
+				dnc_cov_top100.c\
+				dnc_cov_top100.h\
 				dnc_lrc.c\
 				dnc_lrc.h\
 				dnc_lrc_lrc123.c\
-				dnc_lrc_lrc123.h
+				dnc_lrc_lrc123.h\
+				dnc_lrc_qianqian.c\
+				dnc_lrc_qianqian.h\
+				dnc_config.c\
+				dnc_config.h
 INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.6\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-04-11 00:22+0800\n"
-"PO-Revision-Date: 2012-04-11 00:09+0800\n"
+"POT-Creation-Date: 2012-04-20 13:03+0800\n"
+"PO-Revision-Date: 2012-04-12 11:04+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
 "Language: zh_CN\n"
@@ -90,25 +90,25 @@ msgstr ""
 "您应当已经和聆雅一道收到 GNU 通用公共许可证的一份副本；如果没有，请访问 "
 "<http://www.gnu.org/licenses/>"
 
-#: src/cox/mdh.c:51
+#: src/cox/mdh.c:58
 msgid "[info] Init COX module: MDH"
 msgstr "[信息] 初始化COX模块：MDH"
 
-#: src/cox/mdh.c:69
+#: src/cox/mdh.c:78
 msgid "[info] Fina COX module: MDH"
 msgstr "[信息]销毁COX模块：MDH"
 
-#: src/cox/mdh.c:145 src/cox/mdh.c:265
+#: src/cox/mdh.c:155 src/cox/mdh.c:275
 #, c-format
 msgid "[warning] Cannot open file: %s. unsupported protocol!"
 msgstr "[警告] 无法打开文件：%s。协议错误！"
 
-#: src/cox/mdh.c:153 src/cox/mdh.c:272
+#: src/cox/mdh.c:163 src/cox/mdh.c:282
 #, c-format
 msgid "[warning] Cannot open file: %s. file not found!"
 msgstr "[警告] 无法打开文件：%s。文件未找到！"
 
-#: src/cox/mdh.c:601
+#: src/cox/mdh.c:611
 msgid "[warning] Decoded pad with no caps or any caps, Abort..."
 msgstr "[警告] 解析器没有caps，退出 ..."
 
@@ -207,7 +207,7 @@ msgstr "播放列表文件不存在！"
 msgid "Illegal playlist file type!"
 msgstr "非法的播放列表文件格式！"
 
-#: src/cox/plm.c:236 src/cox/plm.c:447
+#: src/cox/plm.c:236 src/cox/plm.c:442
 msgid "Cannot open playlsit file!"
 msgstr "无法打开播放列表文件！"
 
@@ -223,7 +223,7 @@ msgstr "[信息]销毁COX模块：EQL"
 msgid "[info] Init COX module: LRC"
 msgstr "[信息] 初始化COX模块：LRC"
 
-#: src/cox/lrc.c:55
+#: src/cox/lrc.c:56
 msgid "[info] Fina COX module: LRC"
 msgstr "[信息]销毁COX模块：LRC"
 
@@ -235,48 +235,61 @@ msgstr "[信息] 初始化COX模块：PPL"
 msgid "[info] Fina COX module: PPL"
 msgstr "[信息]初始化COX模块：PPL"
 
-#: src/pix/dnc/dnc_cov.c:36 src/pix/dnc/dnc_lrc.c:36
+#: src/pix/dnc/dnc_config.c:35
+msgid "Album Cover Download Server"
+msgstr "专辑封面下载服务器"
+
+#: src/pix/dnc/dnc_config.c:50
+msgid "Lyrics Download Server"
+msgstr "歌词下载服务器"
+
+#: src/pix/dnc/dnc_cov.c:42 src/pix/dnc/dnc_lrc.c:42
 msgid "A download task is exist, try again later!"
 msgstr "一个下载任务正在进行，请稍候重试！"
 
-#: src/pix/dnc/dnc_cov.c:45 src/pix/dnc/dnc_lrc.c:45
+#: src/pix/dnc/dnc_cov.c:51 src/pix/dnc/dnc_lrc.c:51
 msgid "No Playing Track, Download Failed!"
 msgstr "当前无曲目，下载失败！"
 
-#: src/pix/dnc/dnc_cov.c:61 src/pix/dnc/dnc_lrc.c:61
+#: src/pix/dnc/dnc_cov.c:77 src/pix/dnc/dnc_cov.c:162 src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_lrc.c:163
+msgid "Bad server name, Download Failed!"
+msgstr "服务器名称错误，下载失败！"
+
+#: src/pix/dnc/dnc_cov.c:84 src/pix/dnc/dnc_lrc.c:85
 msgid "Find nothing by searching the web, Download Failed!"
 msgstr "搜索一无所获，下载失败！"
 
-#: src/pix/dnc/dnc_cov.c:77
+#: src/pix/dnc/dnc_cov.c:100
 msgid "Albums Found ..."
 msgstr "找到专辑 ..."
 
-#: src/pix/dnc/dnc_cov.c:90 src/pix/dnc/dnc_lrc.c:94
+#: src/pix/dnc/dnc_cov.c:113 src/pix/dnc/dnc_lrc.c:118
 #: src/pix/opc/opc_right.c:162
 msgid "Artist"
 msgstr "艺术家"
 
-#: src/pix/dnc/dnc_cov.c:94 src/pix/opc/opc_right.c:168
+#: src/pix/dnc/dnc_cov.c:117 src/pix/opc/opc_right.c:168
 msgid "Album"
 msgstr "专辑"
 
-#: src/pix/dnc/dnc_cov.c:130 src/pix/dnc/dnc_lrc.c:130
+#: src/pix/dnc/dnc_cov.c:170 src/pix/dnc/dnc_lrc.c:171
 msgid "Cannot get the real adress, Download Failed!"
 msgstr "无法获取真实地址，下载失败！"
 
-#: src/pix/dnc/dnc_cov.c:141 src/pix/dnc/dnc_lrc.c:141
+#: src/pix/dnc/dnc_cov.c:181 src/pix/dnc/dnc_lrc.c:182
 msgid "Illigle url adress, Download Failed!"
 msgstr "非法的地址，下载失败！"
 
-#: src/pix/dnc/dnc_cov.c:155 src/pix/dnc/dnc_lrc.c:158
+#: src/pix/dnc/dnc_cov.c:195 src/pix/dnc/dnc_lrc.c:199
 msgid "Cannot open file stream, Download Failed!"
 msgstr "无法打开文件流，下载失败！"
 
-#: src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_lrc.c:101
 msgid "Lyrics Found ..."
 msgstr "找到歌词 ..."
 
-#: src/pix/dnc/dnc_lrc.c:90 src/pix/opc/opc_right.c:156
+#: src/pix/dnc/dnc_lrc.c:114 src/pix/opc/opc_right.c:156
 msgid "Title"
 msgstr "歌曲名"
 
@@ -324,7 +337,7 @@ msgstr "自定义LRC文件位置："
 msgid "Desktop Font: "
 msgstr "桌面歌词字体："
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:636 src/uix/gud.c:207
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:637 src/uix/gud.c:207
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
 
@@ -417,10 +430,10 @@ msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL playlists?"
 msgstr ""
-"<b>这是一个危险到功能！！</b>\n"
-"你真到确定要删除所有到播放列表？"
+"<b>这是一个危险的功能！！</b>\n"
+"你真的确定要删除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:536 src/pix/opc/opc_right.c:1049
+#: src/pix/opc/opc_left.c:536 src/pix/opc/opc_right.c:1060
 msgid "Warning"
 msgstr "警告"
 
@@ -445,7 +458,7 @@ msgstr "播放"
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: src/pix/opc/opc_right.c:418 src/pix/opc/opc_right.c:717
+#: src/pix/opc/opc_right.c:418 src/pix/opc/opc_right.c:718
 #: src/pix/rdo/rdo.c:247
 msgid "Information"
 msgstr "属性"
@@ -454,63 +467,63 @@ msgstr "属性"
 msgid "Add Files"
 msgstr "添加文件"
 
-#: src/pix/opc/opc_right.c:729
+#: src/pix/opc/opc_right.c:730
 msgid "Basic Information"
 msgstr "基本信息"
 
-#: src/pix/opc/opc_right.c:738
+#: src/pix/opc/opc_right.c:739
 msgid "Start:"
 msgstr "开始时间："
 
-#: src/pix/opc/opc_right.c:741
+#: src/pix/opc/opc_right.c:742
 msgid "Duration:"
 msgstr "持续时长："
 
-#: src/pix/opc/opc_right.c:744
+#: src/pix/opc/opc_right.c:745
 msgid "Bitrate:"
 msgstr "比特率："
 
-#: src/pix/opc/opc_right.c:747
+#: src/pix/opc/opc_right.c:748
 msgid "Codec:"
 msgstr "文件编码："
 
-#: src/pix/opc/opc_right.c:819 src/pix/rdo/rdo.c:352
+#: src/pix/opc/opc_right.c:818 src/pix/rdo/rdo.c:352
 msgid "Uri:"
 msgstr "地址："
 
-#: src/pix/opc/opc_right.c:829
+#: src/pix/opc/opc_right.c:828
 msgid "Advance Information"
 msgstr "高级信息"
 
-#: src/pix/opc/opc_right.c:834 src/pix/rdo/rdo.c:343
+#: src/pix/opc/opc_right.c:833 src/pix/rdo/rdo.c:343
 msgid "Title:"
 msgstr "歌曲名："
 
-#: src/pix/opc/opc_right.c:837
+#: src/pix/opc/opc_right.c:836
 msgid "Artist:"
 msgstr "艺术家："
 
-#: src/pix/opc/opc_right.c:840
+#: src/pix/opc/opc_right.c:839
 msgid "Album:"
 msgstr "专辑："
 
-#: src/pix/opc/opc_right.c:843
+#: src/pix/opc/opc_right.c:842
 msgid "genre:"
 msgstr "风格："
 
-#: src/pix/opc/opc_right.c:846
+#: src/pix/opc/opc_right.c:845
 msgid "track:"
 msgstr "曲目："
 
-#: src/pix/opc/opc_right.c:896
+#: src/pix/opc/opc_right.c:907
 msgid "Add From File..."
 msgstr "从文件添加 ..."
 
-#: src/pix/opc/opc_right.c:904
+#: src/pix/opc/opc_right.c:915
 msgid "Music File"
 msgstr "音乐文件"
 
-#: src/pix/opc/opc_right.c:1096
+#: src/pix/opc/opc_right.c:1107
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -518,17 +531,17 @@ msgid ""
 " Do you really want to do it?"
 msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
-" 您将要删除到文件附属于您到音乐库,\n"
-" 它将从物理上被永久到删除。\n"
+" 您将要删除的文件附属于您的音乐库,\n"
+" 它将从物理上被永久地删除。\n"
 " 您真的想要这么做么？"
 
-#: src/pix/opc/opc_right.c:1201
+#: src/pix/opc/opc_right.c:1212
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
 msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
-" 你真到希望删除所有附属于当前列表中到信息么？"
+" 你真的希望删除所有附属于当前列表中的信息么？"
 
 #: src/pix/rdo/rdo.c:100
 msgid "Chanel"
@@ -558,7 +571,7 @@ msgstr "作者："
 msgid "Category:"
 msgstr "类别："
 
-#: src/uix/cfg.c:203 src/uix/win.c:213
+#: src/uix/cfg.c:203 src/uix/win.c:216
 msgid "Configuration"
 msgstr "首选项"
 
@@ -592,7 +605,7 @@ msgstr "音频"
 
 #: src/uix/cfg.c:259
 msgid "Set all about playing audio"
-msgstr "设置所有关于音频播放到配置"
+msgstr "设置所有关于音频播放的配置"
 
 #: src/uix/cfg.c:262
 msgid "Auto Play When Program Start"
@@ -632,7 +645,7 @@ msgstr "自动均衡器"
 
 #: src/uix/cfg.c:300
 msgid "Choose Equalizer Setting by Linnya Automatically"
-msgstr "让聆雅自动选择合适到均衡器"
+msgstr "让聆雅自动选择合适的均衡器"
 
 #: src/uix/cfg.c:304
 msgid "Custom Equalizer Setting"
@@ -664,7 +677,7 @@ msgstr "主题"
 
 #: src/uix/cfg.c:367
 msgid "Set the looks of Linnya."
-msgstr "设置所有有关聆雅外观到配置"
+msgstr "设置所有有关聆雅外观的配置"
 
 #: src/uix/cfg.c:394
 msgid "Main Window Style"
@@ -694,46 +707,46 @@ msgstr "插件"
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:532 src/uix/cfg.c:582
+#: src/uix/cfg.c:533 src/uix/cfg.c:583
 msgid "Official Website"
 msgstr "官方网站"
 
-#: src/uix/cfg.c:549
+#: src/uix/cfg.c:550
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:599
+#: src/uix/cfg.c:600
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:623
+#: src/uix/cfg.c:624
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
-msgstr "此插件到配置按钮直到配置对话框重启之后才会更新！"
+msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
 
-#: src/uix/cfg.c:735
+#: src/uix/cfg.c:736
 msgid "Key"
 msgstr "按键"
 
-#: src/uix/cfg.c:745
+#: src/uix/cfg.c:746
 msgid "Press key to change shortcut ..."
 msgstr "按下键盘以设置快捷键"
 
-#: src/uix/cfg.c:873
+#: src/uix/cfg.c:874
 msgid "Setting will not be actived until program restart!"
 msgstr "设置将在程序下次启动生效！"
 
-#: src/uix/cfg.c:907
+#: src/uix/cfg.c:908
 msgid "Select Session Background directory"
 msgstr "选择会话背景目录"
 
-#: src/uix/cfg.c:1045
+#: src/uix/cfg.c:1046
 msgid "Save Equalizer As ..."
 msgstr "保持均衡器配置为 ..."
 
-#: src/uix/cfg.c:1056
+#: src/uix/cfg.c:1057
 msgid "Eq Name :"
 msgstr "均衡器名："
 
@@ -844,12 +857,12 @@ msgstr "[警告] 无法将按钮绑定写入文件"
 
 #: src/uix/pli.c:44
 msgid "[fatal] Your system does not support plugin!"
-msgstr "[致命错误] 您到系统不支持插件！"
+msgstr "[致命错误] 您的系统不支持插件！"
 
 #: src/uix/pli.c:45
 #, c-format
 msgid "[fatal] Your system does not support plugin!\n"
-msgstr "[致命错误] 您到系统不支持插件！\n"
+msgstr "[致命错误] 您的系统不支持插件！\n"
 
 #: src/uix/pli.c:137
 msgid "[warning] Read configuration file error."
@@ -939,27 +952,27 @@ msgstr "[信息]销毁UIX模块：DBG"
 msgid "[info] Fina UIX module: GLB"
 msgstr "[信息]销毁UIX模块：GLB"
 
-#: src/uix/win.c:204
+#: src/uix/win.c:207
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: src/uix/win.c:207
+#: src/uix/win.c:210
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:210
+#: src/uix/win.c:213
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:218
+#: src/uix/win.c:221
 msgid "Show/Hide Main Window"
 msgstr "显示/隐藏主窗口"
 
-#: src/uix/win.c:223
+#: src/uix/win.c:226
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:228
+#: src/uix/win.c:231
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
 

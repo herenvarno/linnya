@@ -36,6 +36,7 @@ void			ly_lib_init				();
 void			ly_lib_fina				();
 
 int				ly_lib_add_md			(LyMdhMetadata *md);
+int				ly_lib_update_md		(LyMdhMetadata *md);
 void			ly_lib_del_md			(int id);
 void			ly_lib_del_md_by_where	(char *sql);
 void			ly_lib_del_md_from_disk	(int id);

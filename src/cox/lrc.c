@@ -46,6 +46,7 @@ void		ly_lrc_init		()
 {
 	ly_log_put(_("[info] Init COX module: LRC"));
 	ly_msg_bind("meta_changed", "core:", ly_lrc_on_md_changed_cb, NULL);
+	ly_msg_bind("meta_update", "core:", ly_lrc_on_md_changed_cb, NULL);
 	ly_msg_bind("lrc_update", "", ly_lrc_on_md_changed_cb, NULL);
 	ly_lrc_timeout=g_timeout_add(100, ly_lrc_on_update_cb, NULL);
 }
@@ -53,6 +54,7 @@ void		ly_lrc_init		()
 void		ly_lrc_fina		()
 {
 	ly_log_put(_("[info] Fina COX module: LRC"));
+	ly_msg_unbind("meta_update", "core:", ly_lrc_on_md_changed_cb);
 	ly_msg_unbind("meta_changed", "core:", ly_lrc_on_md_changed_cb);
 	ly_msg_unbind("lrc_update", "", ly_lrc_on_md_changed_cb);
 	g_source_remove(ly_lrc_timeout);
@@ -99,11 +101,15 @@ char*		ly_lrc_build_path	(LyMdhMetadata *md)
 }
 
 gboolean ly_lrc_load(char *path)
-{	
+{
 	LyMdhMetadata *md=NULL;
 	md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
+	if(!path)
+	{
+		return FALSE;
+	}
 
 	ly_lrc_lyrics_length=0;
 	ly_lrc_lyrics_index=0;
@@ -348,10 +354,26 @@ void		ly_lrc_set_index(int index)
 
 gboolean	ly_lrc_on_md_changed_cb(gpointer message, gpointer data)
 {
+	LyMsgMsg *m=(LyMsgMsg*)message;
+	if(g_str_equal(m->type,"meta_update")&&!g_str_equal(m->msg, "lrc"))
+	{
+		return FALSE;
+	}
 	char *path=ly_lrc_build_path(ly_pqm_get_current_md());
 	if(!path)
 		return FALSE;
-	ly_lrc_load(path);
+	if(!ly_lrc_load(path))
+	{
+		LyMdhMetadata *md=NULL;
+		md=ly_pqm_get_current_md();
+		if(!md)
+			return FALSE;
+		if(!g_str_equal(md->lrc,""))
+		{
+			g_file_set_contents(path,md->lrc,-1,NULL);
+			ly_lrc_load(path);
+		}
+	}
 	return FALSE;
 }
 
