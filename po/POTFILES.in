@@ -39,7 +39,6 @@ src/pix/rdo/rdo_config.c
 src/uix/cfg.c
 src/uix/dbg.c
 src/uix/glb.c
-src/uix/gud.c
 src/uix/key.c
 src/uix/pli.c
 src/uix/sss.c
