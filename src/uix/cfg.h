@@ -27,7 +27,6 @@
  */
 #include "glb.h"
 #include "dbg.h"
-#include "gud.h"
 #include "key.h"
 #include "thm.h"
 #include "win.h"

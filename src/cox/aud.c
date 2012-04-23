@@ -37,7 +37,6 @@ gboolean		ly_aud_on_ppl_eos_cb(gpointer message, gpointer data);
  */
 void		ly_aud_init()
 {
-	ly_log_put(_("[info] Init COX module: AUD"));
 
 	/*
 	 * mode
@@ -88,7 +87,6 @@ void		ly_aud_init()
  */
 void		ly_aud_fina()
 {
-	ly_log_put(_("[info] Fina COX module: AUD"));
 	ly_aud_stop();
 }
 

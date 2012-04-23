@@ -74,7 +74,6 @@ gpointer ly_lib_check_library_add_music_cb(gpointer data);
 
 void	ly_lib_init()
 {
-	ly_log_put(_("[info] Init COX module: LIB"));
 	/*
 	 * library setting
 	 */
@@ -104,7 +103,6 @@ void	ly_lib_init()
 
 void	ly_lib_fina()
 {
-	ly_log_put(_("[info] Fina COX module: LIB"));
 }
 
 int	ly_lib_add_md(LyMdhMetadata *md)

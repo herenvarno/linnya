@@ -66,8 +66,10 @@ GtkWidget *ly_3opc_create()
 	gtk_paned_set_position (GTK_PANED(hpaned),180);
 	gtk_container_add(GTK_CONTAINER(widget),hpaned);
 	
-	gtk_container_add(GTK_CONTAINER(hpaned), ly_3opc_left_create());
-	gtk_container_add(GTK_CONTAINER(hpaned), ly_3opc_right_create());
+	GtkWidget *w_l=ly_3opc_left_create();
+	GtkWidget *w_r=ly_3opc_right_create();
+	gtk_container_add(GTK_CONTAINER(hpaned), w_l);
+	gtk_container_add(GTK_CONTAINER(hpaned), w_r);
 
 	gtk_widget_set_name(widget, "ly_pl_treeview_manager");
 	return widget;

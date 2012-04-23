@@ -42,7 +42,6 @@ gboolean ly_dbm_get_count_cb(gpointer stmt, gpointer data);
  */
 void	ly_dbm_init	()
 {
-	ly_log_put(_("[info] Init COX module: DBM"));
 
 	/*
 	 * open sqlite3
@@ -201,7 +200,6 @@ void	ly_dbm_init	()
  */
 void		ly_dbm_fina		()
 {
-	ly_log_put(_("[info] Fina COX module: DBM"));
 	if(ly_dbm_conn)
 		sqlite3_close(ly_dbm_conn);
 }

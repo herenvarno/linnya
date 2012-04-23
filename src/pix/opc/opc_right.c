@@ -183,7 +183,6 @@ GtkWidget*	ly_3opc_right_create		()
 	ly_msg_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
 
 	return vbox;
-
 }
 void		ly_3opc_right_destroy	()
 {
@@ -715,14 +714,29 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *image;
 	char str[1024]="";
 	
-	dialog=gtk_dialog_new_with_buttons(	_("Information"),
+	GFile *file=g_file_new_for_uri(md->uri);
+	GFileInfo *info=g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, FALSE, NULL);
+	guint64 size=g_file_info_get_size(info);
+	if(md->flag==0 && size>1024*1024*50)
+	{
+		dialog=gtk_dialog_new_with_buttons(	_("Information"),
 						GTK_WINDOW(ly_win_get_window()->win),
 						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_STOCK_SAVE,
-				     GTK_RESPONSE_ACCEPT,
 				     GTK_STOCK_CANCEL,
 				     GTK_RESPONSE_REJECT,
 				     NULL);
+	}
+	else
+	{
+		dialog=gtk_dialog_new_with_buttons(	_("Information"),
+						GTK_WINDOW(ly_win_get_window()->win),
+						GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+//				     GTK_STOCK_SAVE,
+//				     GTK_RESPONSE_ACCEPT,
+				     GTK_STOCK_CANCEL,
+				     GTK_RESPONSE_REJECT,
+				     NULL);
+	}
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
 	gtk_window_set_default_size(GTK_WINDOW(dialog),400,350);
 

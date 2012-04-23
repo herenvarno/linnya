@@ -46,7 +46,6 @@ gboolean	ly_pqm_get_md_cb	(gpointer stmt, gpointer data);
  */
 void	ly_pqm_init	()
 {
-	ly_log_put(_("[info] Init COX module: PQM"));
 	int mid=1;
 	if(!ly_reg_get("pqm_playing","%d",&mid))
 	{
@@ -62,7 +61,6 @@ void	ly_pqm_init	()
  */
 void	ly_pqm_fina	()
 {
-	ly_log_put(_("[info] Fina COX module: PQM"));
 	if(ly_pqm_md)
 	{
 		ly_reg_set("pqm_playing","%d", ly_pqm_md->id);
@@ -257,7 +255,7 @@ void		ly_pqm_set_next			()
 		ly_pqm_md=ly_pqm_get_md_by_sql(sql);
 	}
 	ly_msg_put("meta_changed","core:pqm",NULL);
-	return TRUE;
+	return;
 }
 void		ly_pqm_set_prev			()
 {
@@ -286,7 +284,7 @@ void		ly_pqm_set_prev			()
 		ly_pqm_md=ly_pqm_get_md_by_sql(sql);
 	}
 	ly_msg_put("meta_changed","core:pqm",NULL);
-	return TRUE;
+	return;
 }
 
 

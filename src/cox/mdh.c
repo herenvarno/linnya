@@ -55,8 +55,6 @@ void		ly_mdh_push_move_file_cb();
  */
 void			ly_mdh_init				()
 {
-	ly_log_put(_("[info] Init COX module: MDH"));
-
 	char extra_encoding[1024]="GB18030";
 	if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
 	{
@@ -75,7 +73,6 @@ void			ly_mdh_init				()
  */
 void			ly_mdh_fina				()
 {
-	ly_log_put(_("[info] Fina COX module: MDH"));
 	g_mutex_free(ly_mdh_put_mutex);
 }
 

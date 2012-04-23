@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.6\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-04-20 13:03+0800\n"
+"POT-Creation-Date: 2012-04-22 14:36+0800\n"
 "PO-Revision-Date: 2012-04-12 11:04+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
@@ -26,7 +26,7 @@ msgstr "[信息] 初始化COX模块：AUD"
 msgid "[info] Fina COX module: AUD"
 msgstr "[信息]销毁COX模块：AUD"
 
-#: src/cox/aud.c:449 src/cox/aud.c:454
+#: src/cox/aud.c:471 src/cox/aud.c:476
 msgid "[warning] Position Error!"
 msgstr "[警告] 位置错误！"
 
@@ -207,7 +207,12 @@ msgstr "播放列表文件不存在！"
 msgid "Illegal playlist file type!"
 msgstr "非法的播放列表文件格式！"
 
-#: src/cox/plm.c:236 src/cox/plm.c:442
+#: src/cox/plm.c:153
+#, fuzzy
+msgid "Cannot open a file to save playlist!"
+msgstr "无法打开播放列表文件！"
+
+#: src/cox/plm.c:249 src/cox/plm.c:535
 msgid "Cannot open playlsit file!"
 msgstr "无法打开播放列表文件！"
 
@@ -353,79 +358,93 @@ msgstr "每页显示数量限制"
 msgid "Attention: \"-1\" is for Unlimited!"
 msgstr "注意：“-1”表示无限制！"
 
-#: src/pix/opc/opc_left.c:96
+#: src/pix/opc/opc_left.c:97
 msgid "Manager"
 msgstr "管理器"
 
-#: src/pix/opc/opc_left.c:125
+#: src/pix/opc/opc_left.c:126
 msgid "Playing Queue"
 msgstr "播放队列"
 
-#: src/pix/opc/opc_left.c:128
+#: src/pix/opc/opc_left.c:129
 msgid "Playlists"
 msgstr "播放列表"
 
-#: src/pix/opc/opc_left.c:132
+#: src/pix/opc/opc_left.c:133
 msgid "Artists"
 msgstr "艺术家"
 
-#: src/pix/opc/opc_left.c:212
+#: src/pix/opc/opc_left.c:213
 msgid "Add Playlist"
 msgstr "添加播放列表"
 
-#: src/pix/opc/opc_left.c:213
+#: src/pix/opc/opc_left.c:214
 msgid "Import Playlist"
 msgstr "导入播放列表"
 
-#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:416
+#: src/pix/opc/opc_left.c:215 src/pix/opc/opc_right.c:416
 msgid "Add to Play Queue"
 msgstr "添加到播放队列中"
 
-#: src/pix/opc/opc_left.c:215
+#: src/pix/opc/opc_left.c:216
 msgid "Rename"
 msgstr "重命名"
 
-#: src/pix/opc/opc_left.c:216
+#: src/pix/opc/opc_left.c:217
 msgid "Export Playlist"
 msgstr "导出播放列表"
 
-#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:420
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:420
 #: src/pix/rdo/rdo.c:248
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:421
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:421
 #: src/pix/rdo/rdo.c:249
 msgid "Delete"
 msgstr "删除"
 
-#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:422
+#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:422
 msgid "Delete All"
 msgstr "删除全部"
 
-#: src/pix/opc/opc_left.c:304 src/pix/opc/opc_right.c:448
+#: src/pix/opc/opc_left.c:305 src/pix/opc/opc_right.c:448
 #: src/pix/opc/opc_right.c:621
 msgid "New Playlist"
 msgstr "新建播放列表"
 
-#: src/pix/opc/opc_left.c:315 src/pix/opc/opc_left.c:460
+#: src/pix/opc/opc_left.c:316 src/pix/opc/opc_left.c:461
 #: src/pix/opc/opc_right.c:632
 msgid "Name"
 msgstr "名称"
 
-#: src/pix/opc/opc_left.c:351
+#: src/pix/opc/opc_left.c:352
 msgid "Import Playlist..."
 msgstr "导入播放列表 ..."
 
-#: src/pix/opc/opc_left.c:359
+#: src/pix/opc/opc_left.c:360
 msgid "Playlist File"
 msgstr "播放列表文件"
 
-#: src/pix/opc/opc_left.c:449
+#: src/pix/opc/opc_left.c:450
 msgid "Rename Playlist"
 msgstr "重命名播放列表"
 
-#: src/pix/opc/opc_left.c:512
+#: src/pix/opc/opc_left.c:499
+#, fuzzy
+msgid "Export Playlist..."
+msgstr "导出播放列表"
+
+#: src/pix/opc/opc_left.c:506
+#, fuzzy
+msgid "M3U Playlist File"
+msgstr "播放列表文件"
+
+#: src/pix/opc/opc_left.c:537
+msgid "File exist, Replace it anyway?"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:593
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL playlists?"
@@ -433,7 +452,7 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 "你真的确定要删除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:536 src/pix/opc/opc_right.c:1060
+#: src/pix/opc/opc_left.c:617 src/pix/opc/opc_right.c:1075
 msgid "Warning"
 msgstr "警告"
 
@@ -458,8 +477,8 @@ msgstr "播放"
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: src/pix/opc/opc_right.c:418 src/pix/opc/opc_right.c:718
-#: src/pix/rdo/rdo.c:247
+#: src/pix/opc/opc_right.c:418 src/pix/opc/opc_right.c:720
+#: src/pix/opc/opc_right.c:731 src/pix/rdo/rdo.c:247
 msgid "Information"
 msgstr "属性"
 
@@ -467,63 +486,64 @@ msgstr "属性"
 msgid "Add Files"
 msgstr "添加文件"
 
-#: src/pix/opc/opc_right.c:730
+#: src/pix/opc/opc_right.c:742
 msgid "Basic Information"
 msgstr "基本信息"
 
-#: src/pix/opc/opc_right.c:739
+#: src/pix/opc/opc_right.c:751
 msgid "Start:"
 msgstr "开始时间："
 
-#: src/pix/opc/opc_right.c:742
+#: src/pix/opc/opc_right.c:754
 msgid "Duration:"
 msgstr "持续时长："
 
-#: src/pix/opc/opc_right.c:745
+#: src/pix/opc/opc_right.c:757
 msgid "Bitrate:"
 msgstr "比特率："
 
-#: src/pix/opc/opc_right.c:748
+#: src/pix/opc/opc_right.c:760
 msgid "Codec:"
 msgstr "文件编码："
 
-#: src/pix/opc/opc_right.c:818 src/pix/rdo/rdo.c:352
+#: src/pix/opc/opc_right.c:830 src/pix/rdo/rdo.c:352
 msgid "Uri:"
 msgstr "地址："
 
-#: src/pix/opc/opc_right.c:828
-msgid "Advance Information"
+#: src/pix/opc/opc_right.c:840
+#, fuzzy
+msgid "Advanced Information"
 msgstr "高级信息"
 
-#: src/pix/opc/opc_right.c:833 src/pix/rdo/rdo.c:343
+#: src/pix/opc/opc_right.c:845 src/pix/rdo/rdo.c:343
 msgid "Title:"
 msgstr "歌曲名："
 
-#: src/pix/opc/opc_right.c:836
+#: src/pix/opc/opc_right.c:848
 msgid "Artist:"
 msgstr "艺术家："
 
-#: src/pix/opc/opc_right.c:839
+#: src/pix/opc/opc_right.c:851
 msgid "Album:"
 msgstr "专辑："
 
-#: src/pix/opc/opc_right.c:842
+#: src/pix/opc/opc_right.c:854
 msgid "genre:"
 msgstr "风格："
 
-#: src/pix/opc/opc_right.c:845
+#: src/pix/opc/opc_right.c:857
 msgid "track:"
 msgstr "曲目："
 
-#: src/pix/opc/opc_right.c:907
+#: src/pix/opc/opc_right.c:922
 msgid "Add From File..."
 msgstr "从文件添加 ..."
 
-#: src/pix/opc/opc_right.c:915
+#: src/pix/opc/opc_right.c:930
 msgid "Music File"
 msgstr "音乐文件"
 
-#: src/pix/opc/opc_right.c:1107
+#: src/pix/opc/opc_right.c:1122
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -535,7 +555,7 @@ msgstr ""
 " 它将从物理上被永久地删除。\n"
 " 您真的想要这么做么？"
 
-#: src/pix/opc/opc_right.c:1212
+#: src/pix/opc/opc_right.c:1227
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"

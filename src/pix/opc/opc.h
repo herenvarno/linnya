@@ -6,6 +6,7 @@
  */
 #include "opc_left.h"
 #include "opc_right.h"
+#include "opc_config.h"
 
 /*
  * VARABLES
@@ -22,6 +23,5 @@ void			g_module_unload		(GModule *module);
 
 GtkWidget*		ly_3opc_create		();
 void			ly_3opc_destroy		();
-GtkWidget*		ly_3opc_config		();
 
 #endif	//LY_3OPC_H

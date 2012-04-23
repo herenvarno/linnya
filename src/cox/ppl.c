@@ -38,7 +38,6 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data);
 
 void		ly_ppl_init		()
 {
-	ly_log_put(_("[info] Init COX module: PPL"));
 	GstElement* playbin=NULL;
 	GstElement* equalizer=NULL;
 	GstElement* convert=NULL;
@@ -77,7 +76,6 @@ void		ly_ppl_init		()
 }
 void		ly_ppl_fina		()
 {
-	ly_log_put(_("[info] Fina COX module: PPL"));
 }
 GstElement*			ly_ppl_get_playbin				()
 {

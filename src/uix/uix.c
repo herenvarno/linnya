@@ -36,8 +36,6 @@ void ly_uix_init(int *argc, char ***argv)
 	ly_glb_init(argc, argv);
 	ly_log_put(_("[info] Init UIX module: DBG"));
 	ly_dbg_init();
-	ly_log_put(_("[info] Init UIX module: GUD"));
-//	ly_gud_init();
 	ly_log_put(_("[info] Init UIX module: KEY"));
 	ly_key_init();
 	ly_log_put(_("[info] Init UIX module: THM"));
@@ -63,7 +61,7 @@ void ly_uix_init(int *argc, char ***argv)
  */
 void ly_uix_fina()
 {
-	ly_log_put(_("[info] Init UIX module"));
+	ly_log_put(_("[info] Fina UIX module"));
 	ly_log_put(_("[info] Fina UIX module: CFG"));
 	ly_cfg_fina();
 	ly_log_put(_("[info] Fina UIX module: SSS"));
@@ -76,8 +74,6 @@ void ly_uix_fina()
 	ly_thm_fina();
 	ly_log_put(_("[info] Fina UIX module: KEY"));
 	ly_key_fina();
-	ly_log_put(_("[info] Fina UIX module: GUD"));
-//	ly_gud_fina();
 	ly_log_put(_("[info] Fina UIX module: DBG"));
 	ly_dbg_fina();
 	ly_log_put(_("[info] Fina UIX module: GLB"));

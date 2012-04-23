@@ -673,7 +673,7 @@ gboolean ly_cfg_on_lib_changed_cb(GtkWidget *widget, gpointer data)
 gboolean ly_cfg_on_encoding_changed_cb(GtkWidget *widget, gpointer data)
 {
 	char *encoding=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
-	ly_reg_set("db_extra_encoding", "%s", encoding);
+	ly_reg_set("dbm_extra_encoding", "%s", encoding);
 	return FALSE;
 }
 

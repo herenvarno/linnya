@@ -37,11 +37,9 @@ gboolean	ly_plm_export_pl_cb	(gpointer stmt, gpointer data);
 
 void			ly_plm_init				()
 {
-	ly_log_put(_("[info] Init COX module: PLM"));
 }
 void			ly_plm_fina				()
 {
-	ly_log_put(_("[info] Fina COX module: PLM"));
 }
 
 int		ly_plm_add_pl			(char *name)

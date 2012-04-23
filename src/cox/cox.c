@@ -31,18 +31,33 @@
  */
 void ly_cox_init(int *argc, char ***argv)
 {
+
 	ly_gla_init(argc, argv);
-	ly_log_init();
 	ly_msg_init();
+	ly_log_init();
+	ly_log_put(_("[info] Init COX module"));
+	ly_log_put(_("[info] Init COX module: GLA"));
+	ly_log_put(_("[info] Init COX module: MSG"));
+	ly_log_put(_("[info] Init COX module: LOG"));
+	ly_log_put(_("[info] Init COX module: REG"));
 	ly_reg_init();
+	ly_log_put(_("[info] Init COX module: DBM"));
 	ly_dbm_init();
+	ly_log_put(_("[info] Init COX module: MDH"));
 	ly_mdh_init();
+	ly_log_put(_("[info] Init COX module: LIB"));
 	ly_lib_init();
+	ly_log_put(_("[info] Init COX module: PLM"));
 	ly_plm_init();
+	ly_log_put(_("[info] Init COX module: PQM"));
 	ly_pqm_init();
+	ly_log_put(_("[info] Init COX module: PPL"));
 	ly_ppl_init();
+	ly_log_put(_("[info] Init COX module: EQL"));
 	ly_eql_init();
+	ly_log_put(_("[info] Init COX module: LRC"));
 	ly_lrc_init();
+	ly_log_put(_("[info] Init COX module: AUD"));
 	ly_aud_init();
 }
 
@@ -55,16 +70,30 @@ void ly_cox_init(int *argc, char ***argv)
  */
 void ly_cox_fina()
 {
+	ly_log_put(_("[info] Fina COX module"));
+	ly_log_put(_("[info] Fina COX module: AUD"));
 	ly_aud_fina();
+	ly_log_put(_("[info] Fina COX module: LRC"));
 	ly_lrc_fina();
+	ly_log_put(_("[info] Fina COX module: EQL"));
 	ly_eql_fina();
+	ly_log_put(_("[info] Fina COX module: PPL"));
 	ly_ppl_fina();
+	ly_log_put(_("[info] Fina COX module: PQM"));
 	ly_pqm_fina();
+	ly_log_put(_("[info] Fina COX module: PLM"));
 	ly_plm_fina();
+	ly_log_put(_("[info] Fina COX module: LIB"));
 	ly_lib_fina();
+	ly_log_put(_("[info] Fina COX module: MDH"));
 	ly_mdh_fina();
+	ly_log_put(_("[info] Fina COX module: DBM"));
 	ly_dbm_fina();
+	ly_log_put(_("[info] Fina COX module: REG"));
 	ly_reg_fina();
+	ly_log_put(_("[info] Fina COX module: LOG"));
+	ly_log_put(_("[info] Fina COX module: MSG"));
+	ly_log_put(_("[info] Fina COX module: GLA"));
 	ly_msg_fina();
 	ly_log_fina();
 	ly_gla_fina();
