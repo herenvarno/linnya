@@ -99,7 +99,7 @@ LyWinWindow*	ly_win_new()
 	 */
 	win=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(win), LY_GLA_APPLICATION);
-	g_snprintf(path,sizeof(path),"%s%s",LY_GLA_PROGDIR,"ui/icon/linnya.svg");
+	g_snprintf(path,sizeof(path),"%s%s",LY_GLA_PROGDIR,"ui/icon/linnya.png");
 	gtk_window_set_icon_from_file(GTK_WINDOW(win),path,NULL);
 	gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
 	int decorated=1;
@@ -199,7 +199,7 @@ LyWinWindow*	ly_win_new()
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_aud_get_volume());
 
 	//tray icon
-	g_snprintf(path, sizeof(path), "%sui/icon/linnya.svg", LY_GLA_PROGDIR);
+	g_snprintf(path, sizeof(path), "%sui/icon/linnya.png", LY_GLA_PROGDIR);
 	GtkStatusIcon *tray_icon  = gtk_status_icon_new_from_file (path);
 	//tray menu
 	GtkWidget *menu, *menu_item;
