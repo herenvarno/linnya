@@ -1,0 +1,988 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: linnya 1.9.6\n"
+"Report-Msgid-Bugs-To: http://www.linnya.org\n"
+"POT-Creation-Date: 2012-04-23 22:54+0800\n"
+"PO-Revision-Date: 2012-04-24 15:56+0800\n"
+"Last-Translator: Edward <yy890521@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/cox/aud.c:469
+#: src/cox/aud.c:474
+msgid "[warning] Position Error!"
+msgstr "「警告」 位置錯誤！"
+
+#: src/cox/gla.c:35
+msgid "linnya"
+msgstr "聆雅"
+
+#: src/cox/gla.c:36
+msgid "Edward<yy890521@gmail.com>"
+msgstr "Edward<yy890521@gmail.com>"
+
+#: src/cox/gla.c:37
+msgid "http://www.linnya.org"
+msgstr "http://www.linnya.org"
+
+#: src/cox/gla.c:38
+msgid "A free music player on Linux, with unlimited feathers from plug-ins."
+msgstr "運行於Linux上的一個自由音樂播放軟體，並可通過插件無限擴展。"
+
+#: src/cox/gla.c:39
+msgid "Copyright (C) 2010-2012 Edward Yang"
+msgstr "版權所有 (C) 2010-2012 Edward Yang"
+
+#: src/cox/gla.c:40
+msgid "2.0.0 beta4 (1.9.9)"
+msgstr "2.0.0 beta4 (1.9.9)"
+
+#: src/cox/gla.c:41
+msgid "GPLv3"
+msgstr "GPL協議第三版"
+
+#: src/cox/gla.c:42
+msgid ""
+"LINNYA\n"
+"\n"
+"Copyright (C) 2010-2012 Edward Yang\n"
+"\n"
+"linnya is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"linnya is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with linnya. If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"聆雅\n"
+"\n"
+"版權所有 (C) 2010-2012 Edward Yang\n"
+"\n"
+"本程式是自由軟體，您可以遵照自由軟體基金會 (Free Software Foundation) \n"
+"出版的 GNU 通用公共許可證條款 (GNU General Public License) 第三版\n"
+"來修改和重新發佈這一程式，\n"
+"或者自由選擇使用任何更新的版本。\n"
+"\n"
+"發佈聆雅的目的是希望它有用，但沒有任何擔保。甚至沒有適合特定目的而隱含的擔保。\n"
+"更詳細的情況請參閱 GNU 通用公共許可證。\n"
+"\n"
+"您應該已經和程式一起收到一份 GNU 通用公共許可證的副本。如果還沒有，參見\n"
+"<http://www.gnu.org/licenses/>。"
+
+#: src/cox/mdh.c:152
+#: src/cox/mdh.c:272
+#, c-format
+msgid "[warning] Cannot open file: %s. unsupported protocol!"
+msgstr "「警告」無法打開檔案：%s。不支持的協議類型！"
+
+#: src/cox/mdh.c:160
+#: src/cox/mdh.c:279
+#, c-format
+msgid "[warning] Cannot open file: %s. file not found!"
+msgstr "「警告」無法打開檔案：%s。檔案未找到！"
+
+#: src/cox/mdh.c:608
+msgid "[warning] Decoded pad with no caps or any caps, Abort..."
+msgstr "「警告」編碼襯墊沒有caps，……"
+
+#: src/cox/cox.c:38
+msgid "[info] Init COX module"
+msgstr "「資訊」初始化COX模塊"
+
+#: src/cox/cox.c:39
+msgid "[info] Init COX module: GLA"
+msgstr "「資訊」初始化COX模塊：GLA"
+
+#: src/cox/cox.c:40
+msgid "[info] Init COX module: MSG"
+msgstr "「資訊」初始化COX模塊：MSG"
+
+#: src/cox/cox.c:41
+msgid "[info] Init COX module: LOG"
+msgstr "「資訊」初始化COX模塊：LOG"
+
+#: src/cox/cox.c:42
+msgid "[info] Init COX module: REG"
+msgstr "「資訊」初始化COX模塊：REG"
+
+#: src/cox/cox.c:44
+msgid "[info] Init COX module: DBM"
+msgstr "「資訊」初始化COX模塊：DBM"
+
+#: src/cox/cox.c:46
+msgid "[info] Init COX module: MDH"
+msgstr "「資訊」初始化COX模塊：MDH"
+
+#: src/cox/cox.c:48
+msgid "[info] Init COX module: LIB"
+msgstr "「資訊」初始化COX模塊：LIB"
+
+#: src/cox/cox.c:50
+msgid "[info] Init COX module: PLM"
+msgstr "「資訊」初始化COX模塊：PLM"
+
+#: src/cox/cox.c:52
+msgid "[info] Init COX module: PQM"
+msgstr "「資訊」初始化COX模塊：PQM"
+
+#: src/cox/cox.c:54
+msgid "[info] Init COX module: PPL"
+msgstr "「資訊」初始化COX模塊：PPL"
+
+#: src/cox/cox.c:56
+msgid "[info] Init COX module: EQL"
+msgstr "「資訊」初始化COX模塊：EQL"
+
+#: src/cox/cox.c:58
+msgid "[info] Init COX module: LRC"
+msgstr "「資訊」初始化COX模塊：LRC"
+
+#: src/cox/cox.c:60
+msgid "[info] Init COX module: AUD"
+msgstr "「資訊」初始化COX模塊：AUD"
+
+#: src/cox/cox.c:73
+msgid "[info] Fina COX module"
+msgstr "「資訊」銷毀COX模塊"
+
+#: src/cox/cox.c:74
+msgid "[info] Fina COX module: AUD"
+msgstr "「資訊」銷毀COX模塊：AUD"
+
+#: src/cox/cox.c:76
+msgid "[info] Fina COX module: LRC"
+msgstr "「資訊」銷毀COX模塊：LRC"
+
+#: src/cox/cox.c:78
+msgid "[info] Fina COX module: EQL"
+msgstr "「資訊」銷毀COX模塊：EQL"
+
+#: src/cox/cox.c:80
+msgid "[info] Fina COX module: PPL"
+msgstr "「資訊」銷毀COX模塊：PPL"
+
+#: src/cox/cox.c:82
+msgid "[info] Fina COX module: PQM"
+msgstr "「資訊」銷毀COX模塊：PQM"
+
+#: src/cox/cox.c:84
+msgid "[info] Fina COX module: PLM"
+msgstr "「資訊」銷毀COX模塊：PLM"
+
+#: src/cox/cox.c:86
+msgid "[info] Fina COX module: LIB"
+msgstr "「資訊」銷毀COX模塊：LIB"
+
+#: src/cox/cox.c:88
+msgid "[info] Fina COX module: MDH"
+msgstr "「資訊」銷毀COX模塊：MDH"
+
+#: src/cox/cox.c:90
+msgid "[info] Fina COX module: DBM"
+msgstr "「資訊」銷毀COX模塊：DBM"
+
+#: src/cox/cox.c:92
+msgid "[info] Fina COX module: REG"
+msgstr "「資訊」銷毀COX模塊：REG"
+
+#: src/cox/cox.c:94
+msgid "[info] Fina COX module: LOG"
+msgstr "「資訊」銷毀COX模塊：LOG"
+
+#: src/cox/cox.c:95
+msgid "[info] Fina COX module: MSG"
+msgstr "「資訊」銷毀COX模塊：MSG"
+
+#: src/cox/cox.c:96
+msgid "[info] Fina COX module: GLA"
+msgstr "「資訊」銷毀COX模塊：GLA"
+
+#: src/cox/msg.c:50
+#, c-format
+msgid "[error] Linnya ERROR: Building the message bus failed!\n"
+msgstr "「錯誤」聆雅錯誤：建立消息總線失敗！\n"
+
+#: src/cox/reg.c:152
+msgid "Cannot write reg file!"
+msgstr "無法寫入註冊配置檔案！"
+
+#: src/cox/reg.c:190
+msgid "[warning] No configuration file found!"
+msgstr "「警告」未找到配置檔案！"
+
+#: src/cox/reg.c:215
+msgid "[error] Read reg file error!"
+msgstr "「錯誤」讀取註冊檔案錯誤！"
+
+#: src/cox/reg.c:234
+msgid "[warning] Version of reg file is too low!"
+msgstr "「警告」註冊檔案版本過低！"
+
+#: src/cox/dbm.c:54
+msgid "[warning] Failed to open database. Abort ..."
+msgstr "「警告」打開資料庫失敗。退出……"
+
+#: src/cox/dbm.c:220
+#, c-format
+msgid "[info] Exec sql: %s"
+msgstr "「資訊」執行SQL：%s"
+
+#: src/cox/dbm.c:235
+#: src/cox/dbm.c:248
+#, c-format
+msgid "Cannot exec sql command: %s, for %s."
+msgstr "無法執行SQL命令：%s，原因為：%s"
+
+#: src/cox/plm.c:64
+msgid "Playlist exist!"
+msgstr "播放列表已存在！"
+
+#: src/cox/plm.c:119
+msgid "playlist file doesn't exist!"
+msgstr "播放列表檔案不存在！"
+
+#: src/cox/plm.c:138
+msgid "Illegal playlist file type!"
+msgstr "非法的播放列表檔案類型！"
+
+#: src/cox/plm.c:151
+msgid "Cannot open a file to save playlist!"
+msgstr "無法打開一個檔案以保存播放列表！"
+
+#: src/cox/plm.c:247
+#: src/cox/plm.c:533
+msgid "Cannot open playlsit file!"
+msgstr "無法打開播放列表檔案！"
+
+#: src/pix/dnc/dnc_config.c:35
+msgid "Album Cover Download Server"
+msgstr "專輯封面下載伺服器"
+
+#: src/pix/dnc/dnc_config.c:50
+msgid "Lyrics Download Server"
+msgstr "歌詞下載伺服器"
+
+#: src/pix/dnc/dnc_cov.c:42
+#: src/pix/dnc/dnc_lrc.c:42
+msgid "A download task is exist, try again later!"
+msgstr "一個下載任務已存在，請稍候重試！"
+
+#: src/pix/dnc/dnc_cov.c:51
+#: src/pix/dnc/dnc_lrc.c:51
+msgid "No Playing Track, Download Failed!"
+msgstr "無正在播放音樂，下載失敗！"
+
+#: src/pix/dnc/dnc_cov.c:77
+#: src/pix/dnc/dnc_cov.c:162
+#: src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_lrc.c:163
+msgid "Bad server name, Download Failed!"
+msgstr "錯誤的伺服器名，下載失敗！"
+
+#: src/pix/dnc/dnc_cov.c:84
+#: src/pix/dnc/dnc_lrc.c:85
+msgid "Find nothing by searching the web, Download Failed!"
+msgstr "搜索一無所獲，下載失敗！"
+
+#: src/pix/dnc/dnc_cov.c:100
+msgid "Albums Found ..."
+msgstr "找到專輯……"
+
+#: src/pix/dnc/dnc_cov.c:113
+#: src/pix/dnc/dnc_lrc.c:118
+#: src/pix/opc/opc_right.c:162
+msgid "Artist"
+msgstr "藝術家"
+
+#: src/pix/dnc/dnc_cov.c:117
+#: src/pix/opc/opc_right.c:168
+msgid "Album"
+msgstr "專輯"
+
+#: src/pix/dnc/dnc_cov.c:170
+#: src/pix/dnc/dnc_lrc.c:171
+msgid "Cannot get the real adress, Download Failed!"
+msgstr "無法獲取真實地址，下載失敗！"
+
+#: src/pix/dnc/dnc_cov.c:181
+#: src/pix/dnc/dnc_lrc.c:182
+msgid "Illigle url adress, Download Failed!"
+msgstr "非法的URL地址，下載失敗！"
+
+#: src/pix/dnc/dnc_cov.c:195
+#: src/pix/dnc/dnc_lrc.c:199
+msgid "Cannot open file stream, Download Failed!"
+msgstr "無法打開檔案，下載失敗！"
+
+#: src/pix/dnc/dnc_lrc.c:101
+msgid "Lyrics Found ..."
+msgstr "找到歌詞……"
+
+#: src/pix/dnc/dnc_lrc.c:114
+#: src/pix/opc/opc_right.c:156
+msgid "Title"
+msgstr "名稱"
+
+#: src/pix/inf/inf.c:85
+msgid "Download Album Cover From Web ..."
+msgstr "從萬維網下載專輯封面……"
+
+#: src/pix/inf/inf_config.c:54
+#: src/pix/lrc/lrc_config.c:78
+msgid "Font"
+msgstr "字體"
+
+#: src/pix/inf/inf_config.c:58
+#: src/pix/lrc/lrc_config.c:82
+msgid "Title Font: "
+msgstr "標題字體："
+
+#: src/pix/inf/inf_config.c:64
+#: src/pix/lrc/lrc_config.c:88
+msgid "Normal Font: "
+msgstr "常規字體："
+
+#: src/pix/lrc/lrc_config.c:36
+msgid "Desktop Lyrics"
+msgstr "桌面歌詞"
+
+#: src/pix/lrc/lrc_config.c:43
+msgid "Show desktop lyrics"
+msgstr "顯示桌面歌詞"
+
+#: src/pix/lrc/lrc_config.c:47
+msgid "Set desktop lyrics FIXED"
+msgstr "固定桌面歌詞"
+
+#: src/pix/lrc/lrc_config.c:52
+msgid "Lyrics File Storage"
+msgstr "歌詞檔案存儲"
+
+#: src/pix/lrc/lrc_config.c:61
+#: src/pix/lrc/lrc_config.c:71
+msgid "The same directory of music file"
+msgstr "與音樂檔案相同目錄"
+
+#: src/pix/lrc/lrc_config.c:67
+msgid "Custom LRC location:"
+msgstr "自定義歌詞檔案位置："
+
+#: src/pix/lrc/lrc_config.c:94
+msgid "Desktop Font: "
+msgstr "桌面歌詞字體："
+
+#: src/pix/lrc/lrc_config.c:162
+#: src/uix/cfg.c:637
+msgid "Select library directory"
+msgstr "選擇庫目錄"
+
+#: src/pix/lrc/lrc_widget.c:54
+msgid "Download Lyrics From Web ..."
+msgstr "從萬維網下載歌詞……"
+
+#: src/pix/opc/opc_config.c:48
+msgid "Limitation of A Single Page"
+msgstr "單頁顯示限制"
+
+#: src/pix/opc/opc_config.c:58
+msgid "Attention: \"-1\" is for Unlimited!"
+msgstr "注意：\"-1\"代表無限制！"
+
+#: src/pix/opc/opc_left.c:97
+msgid "Manager"
+msgstr "管理器"
+
+#: src/pix/opc/opc_left.c:126
+msgid "Playing Queue"
+msgstr "播放隊列"
+
+#: src/pix/opc/opc_left.c:129
+msgid "Playlists"
+msgstr "播放列表"
+
+#: src/pix/opc/opc_left.c:133
+msgid "Artists"
+msgstr "藝術家"
+
+#: src/pix/opc/opc_left.c:213
+msgid "Add Playlist"
+msgstr "添加播放列表"
+
+#: src/pix/opc/opc_left.c:214
+msgid "Import Playlist"
+msgstr "導入播放列表"
+
+#: src/pix/opc/opc_left.c:215
+#: src/pix/opc/opc_right.c:415
+msgid "Add to Play Queue"
+msgstr "添加到播放隊列"
+
+#: src/pix/opc/opc_left.c:216
+msgid "Rename"
+msgstr "重命名"
+
+#: src/pix/opc/opc_left.c:217
+msgid "Export Playlist"
+msgstr "導出播放列表"
+
+#: src/pix/opc/opc_left.c:219
+#: src/pix/opc/opc_right.c:419
+#: src/pix/rdo/rdo.c:248
+msgid "Refresh"
+msgstr "更新"
+
+#: src/pix/opc/opc_left.c:220
+#: src/pix/opc/opc_right.c:420
+#: src/pix/rdo/rdo.c:249
+msgid "Delete"
+msgstr "刪除"
+
+#: src/pix/opc/opc_left.c:221
+#: src/pix/opc/opc_right.c:421
+msgid "Delete All"
+msgstr "全部刪除"
+
+#: src/pix/opc/opc_left.c:305
+#: src/pix/opc/opc_right.c:447
+#: src/pix/opc/opc_right.c:620
+msgid "New Playlist"
+msgstr "新播放列表"
+
+#: src/pix/opc/opc_left.c:316
+#: src/pix/opc/opc_left.c:461
+#: src/pix/opc/opc_right.c:631
+msgid "Name"
+msgstr "名稱"
+
+#: src/pix/opc/opc_left.c:352
+msgid "Import Playlist..."
+msgstr "導入播放列表……"
+
+#: src/pix/opc/opc_left.c:360
+msgid "Playlist File"
+msgstr "播放列表檔案"
+
+#: src/pix/opc/opc_left.c:450
+msgid "Rename Playlist"
+msgstr "重命名播放列表"
+
+#: src/pix/opc/opc_left.c:499
+msgid "Export Playlist..."
+msgstr "導出播放列表……"
+
+#: src/pix/opc/opc_left.c:506
+msgid "M3U Playlist File"
+msgstr "M3U格式播放列表"
+
+#: src/pix/opc/opc_left.c:537
+msgid "File exist, Replace it anyway?"
+msgstr "檔案已存在，仍然強制替換？"
+
+#: src/pix/opc/opc_left.c:593
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL playlists?"
+msgstr ""
+"<b>這是一個危險到功能！！</b>\n"
+" 您真想刪除所有播放列表嗎？"
+
+#: src/pix/opc/opc_left.c:617
+#: src/pix/opc/opc_right.c:1077
+msgid "Warning"
+msgstr "警告"
+
+#: src/pix/opc/opc_right.c:128
+#: src/pix/opc/opc_right.c:221
+msgid "Page 1"
+msgstr "頁面 1"
+
+#: src/pix/opc/opc_right.c:152
+#: src/pix/rdo/rdo.c:96
+msgid "*"
+msgstr "*"
+
+#: src/pix/opc/opc_right.c:217
+#, c-format
+msgid "Page %d"
+msgstr "頁面 %d"
+
+#: src/pix/opc/opc_right.c:414
+#: src/pix/rdo/rdo.c:245
+msgid "Play"
+msgstr "播放"
+
+#: src/pix/opc/opc_right.c:416
+msgid "Add to Playlist"
+msgstr "添加到播放列表"
+
+#: src/pix/opc/opc_right.c:417
+#: src/pix/opc/opc_right.c:722
+#: src/pix/opc/opc_right.c:731
+#: src/pix/rdo/rdo.c:247
+msgid "Information"
+msgstr "信息"
+
+#: src/pix/opc/opc_right.c:418
+msgid "Add Files"
+msgstr "添加檔案"
+
+#: src/pix/opc/opc_right.c:744
+msgid "Basic Information"
+msgstr "基礎信息"
+
+#: src/pix/opc/opc_right.c:753
+msgid "Start:"
+msgstr "開始："
+
+#: src/pix/opc/opc_right.c:756
+msgid "Duration:"
+msgstr "時長："
+
+#: src/pix/opc/opc_right.c:759
+msgid "Bitrate:"
+msgstr "比特率："
+
+#: src/pix/opc/opc_right.c:762
+msgid "Codec:"
+msgstr "編碼："
+
+#: src/pix/opc/opc_right.c:832
+#: src/pix/rdo/rdo.c:352
+msgid "Uri:"
+msgstr "位置："
+
+#: src/pix/opc/opc_right.c:842
+msgid "Advanced Information"
+msgstr "高級資訊"
+
+#: src/pix/opc/opc_right.c:847
+#: src/pix/rdo/rdo.c:343
+msgid "Title:"
+msgstr "標題："
+
+#: src/pix/opc/opc_right.c:850
+msgid "Artist:"
+msgstr "藝術家："
+
+#: src/pix/opc/opc_right.c:853
+msgid "Album:"
+msgstr "專輯："
+
+#: src/pix/opc/opc_right.c:856
+msgid "genre:"
+msgstr "風格："
+
+#: src/pix/opc/opc_right.c:859
+msgid "track:"
+msgstr "曲目："
+
+#: src/pix/opc/opc_right.c:924
+msgid "Add From File..."
+msgstr "從檔案添加……"
+
+#: src/pix/opc/opc_right.c:932
+msgid "Music File"
+msgstr "音樂檔案"
+
+#: src/pix/opc/opc_right.c:1124
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:1229
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL information belongs the current list?"
+msgstr ""
+
+#: src/pix/rdo/rdo.c:100
+msgid "Chanel"
+msgstr "頻道"
+
+#: src/pix/rdo/rdo.c:106
+msgid "By"
+msgstr ""
+
+#: src/pix/rdo/rdo.c:112
+msgid "Category"
+msgstr ""
+
+#: src/pix/rdo/rdo.c:246
+msgid "Add"
+msgstr "添加"
+
+#: src/pix/rdo/rdo.c:332
+msgid "Add New Radio Station ..."
+msgstr ""
+
+#: src/pix/rdo/rdo.c:346
+msgid "By:"
+msgstr ""
+
+#: src/pix/rdo/rdo.c:349
+msgid "Category:"
+msgstr ""
+
+#: src/uix/cfg.c:203
+#: src/uix/win.c:216
+msgid "Configuration"
+msgstr ""
+
+#: src/uix/cfg.c:216
+msgid "Library"
+msgstr "資料庫"
+
+#: src/uix/cfg.c:216
+msgid "All the Music Data"
+msgstr "所有音樂數據"
+
+#: src/uix/cfg.c:219
+msgid "Auto Check Library When Program Start"
+msgstr ""
+
+#: src/uix/cfg.c:221
+msgid "Enable Auto Check"
+msgstr "允許自動核對"
+
+#: src/uix/cfg.c:227
+msgid "Library location"
+msgstr "資料庫位置"
+
+#: src/uix/cfg.c:240
+msgid "Backup Encoding"
+msgstr "後備編碼"
+
+#: src/uix/cfg.c:259
+msgid "Audio"
+msgstr "音頻"
+
+#: src/uix/cfg.c:259
+msgid "Set all about playing audio"
+msgstr ""
+
+#: src/uix/cfg.c:262
+msgid "Auto Play When Program Start"
+msgstr ""
+
+#: src/uix/cfg.c:264
+msgid "Enable Auto Play"
+msgstr "允許自動播放"
+
+#: src/uix/cfg.c:270
+msgid "Play mode"
+msgstr "播放模式"
+
+#: src/uix/cfg.c:278
+msgid "Random"
+msgstr "隨機"
+
+#: src/uix/cfg.c:282
+msgid "Repeat"
+msgstr "重複"
+
+#: src/uix/cfg.c:286
+msgid "Single"
+msgstr "單個"
+
+#: src/uix/cfg.c:293
+msgid "Equalizer"
+msgstr "均衡器"
+
+#: src/uix/cfg.c:293
+msgid "Set equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:296
+msgid "Auto Equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:300
+msgid "Choose Equalizer Setting by Linnya Automatically"
+msgstr ""
+
+#: src/uix/cfg.c:304
+msgid "Custom Equalizer Setting"
+msgstr ""
+
+#: src/uix/cfg.c:342
+msgid "Keyboard"
+msgstr ""
+
+#: src/uix/cfg.c:342
+msgid "Set all shortcut keys of Linnya"
+msgstr ""
+
+#: src/uix/cfg.c:345
+msgid "Shortcuts"
+msgstr ""
+
+#: src/uix/cfg.c:349
+msgid "Name and Keys"
+msgstr ""
+
+#: src/uix/cfg.c:350
+msgid "Preferense"
+msgstr ""
+
+#: src/uix/cfg.c:367
+#: src/uix/cfg.c:369
+msgid "Theme"
+msgstr ""
+
+#: src/uix/cfg.c:367
+msgid "Set the looks of Linnya."
+msgstr ""
+
+#: src/uix/cfg.c:394
+msgid "Main Window Style"
+msgstr ""
+
+#: src/uix/cfg.c:396
+msgid "Enable Window Manager's Decorated"
+msgstr ""
+
+#: src/uix/cfg.c:402
+msgid "Enable Transparent Effective"
+msgstr ""
+
+#: src/uix/cfg.c:418
+msgid "Session Style"
+msgstr ""
+
+#: src/uix/cfg.c:420
+msgid "Use Custom Session Background Image"
+msgstr ""
+
+#: src/uix/cfg.c:439
+#: src/uix/cfg.c:442
+msgid "Plugins"
+msgstr ""
+
+#: src/uix/cfg.c:439
+msgid "All the plug-ins of Linnya."
+msgstr ""
+
+#: src/uix/cfg.c:533
+#: src/uix/cfg.c:583
+msgid "Official Website"
+msgstr ""
+
+#: src/uix/cfg.c:550
+#, c-format
+msgid "(c) %s"
+msgstr "(c) %s"
+
+#: src/uix/cfg.c:600
+msgid "Configuration of Plugins"
+msgstr ""
+
+#: src/uix/cfg.c:624
+msgid "The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"
+msgstr ""
+
+#: src/uix/cfg.c:736
+msgid "Key"
+msgstr "鍵盤"
+
+#: src/uix/cfg.c:746
+msgid "Press key to change shortcut ..."
+msgstr "按鍵以改變快捷鍵……"
+
+#: src/uix/cfg.c:874
+msgid "Setting will not be actived until program restart!"
+msgstr ""
+
+#: src/uix/cfg.c:908
+msgid "Select Session Background directory"
+msgstr ""
+
+#: src/uix/cfg.c:1046
+msgid "Save Equalizer As ..."
+msgstr "儲存均衡器為……"
+
+#: src/uix/cfg.c:1057
+msgid "Eq Name :"
+msgstr "均衡器名稱："
+
+#: src/uix/dbg.c:105
+#, c-format
+msgid ""
+"<b>INFO!</b>\n"
+"%s"
+msgstr ""
+"<b>資訊！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:128
+#, c-format
+msgid ""
+"<b>WARNING!</b>\n"
+"%s"
+msgstr ""
+"<b>警告！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:149
+#, c-format
+msgid ""
+"<b>ERROR!</b>\n"
+"%s"
+msgstr ""
+"<b>錯誤！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:169
+#, c-format
+msgid ""
+"<b>FATAL ERROR!</b>\n"
+"%s"
+msgstr ""
+"<b>致命錯誤！</b>\n"
+"%s"
+
+#: src/uix/key.c:287
+msgid "Key defination file does not exist, linnya will create a new one when exit!"
+msgstr ""
+
+#: src/uix/key.c:309
+msgid "Configuration file error!"
+msgstr ""
+
+#: src/uix/key.c:379
+msgid "[warning] Cannot write keybinds to file!"
+msgstr ""
+
+#: src/uix/pli.c:44
+msgid "[fatal] Your system does not support plugin!"
+msgstr ""
+
+#: src/uix/pli.c:45
+#, c-format
+msgid "[fatal] Your system does not support plugin!\n"
+msgstr "「致命錯誤」您到系統不支持插件！\n"
+
+#: src/uix/pli.c:137
+msgid "[warning] Read configuration file error."
+msgstr ""
+
+#: src/uix/sss.c:207
+msgid "New Session"
+msgstr ""
+
+#: src/uix/uix.c:34
+msgid "[info] Init UIX module"
+msgstr ""
+
+#: src/uix/uix.c:35
+msgid "[info] Init UIX module: GLB"
+msgstr ""
+
+#: src/uix/uix.c:37
+msgid "[info] Init UIX module: DBG"
+msgstr ""
+
+#: src/uix/uix.c:39
+msgid "[info] Init UIX module: KEY"
+msgstr ""
+
+#: src/uix/uix.c:41
+msgid "[info] Init UIX module: THM"
+msgstr ""
+
+#: src/uix/uix.c:43
+msgid "[info] Init UIX module: WIN"
+msgstr ""
+
+#: src/uix/uix.c:45
+msgid "[info] Init UIX module: PLI"
+msgstr ""
+
+#: src/uix/uix.c:47
+msgid "[info] Init UIX module: SSS"
+msgstr "「資訊」初始化UIX模塊：SSS"
+
+#: src/uix/uix.c:49
+msgid "[info] Init UIX module: CFG"
+msgstr "「資訊」初始化UIX模塊：CFG"
+
+#: src/uix/uix.c:51
+msgid "[info] Main Loop begin"
+msgstr "「資訊」主循環開始"
+
+#: src/uix/uix.c:64
+msgid "[info] Fina UIX module"
+msgstr "「資訊」銷毀UIX模塊"
+
+#: src/uix/uix.c:65
+msgid "[info] Fina UIX module: CFG"
+msgstr "「資訊」銷毀UIX模塊：CFG"
+
+#: src/uix/uix.c:67
+msgid "[info] Fina UIX module: SSS"
+msgstr "「資訊」銷毀UIX模塊：SSS"
+
+#: src/uix/uix.c:69
+msgid "[info] Fina UIX module: PLI"
+msgstr "「資訊」銷毀UIX模塊：PLI"
+
+#: src/uix/uix.c:71
+msgid "[info] Fina UIX module: WIN"
+msgstr "「資訊」銷毀UIX模塊：WIN"
+
+#: src/uix/uix.c:73
+msgid "[info] Fina UIX module: THM"
+msgstr "「資訊」銷毀UIX模塊：THM"
+
+#: src/uix/uix.c:75
+msgid "[info] Fina UIX module: KEY"
+msgstr "「資訊」銷毀UIX模塊：KEY"
+
+#: src/uix/uix.c:77
+msgid "[info] Fina UIX module: DBG"
+msgstr "「資訊」銷毀UIX模塊：DBG"
+
+#: src/uix/uix.c:79
+msgid "[info] Fina UIX module: GLB"
+msgstr "「資訊」銷毀UIX模塊：GLB"
+
+#: src/uix/win.c:207
+msgid "Play/Pause"
+msgstr "播放/暫停"
+
+#: src/uix/win.c:210
+msgid "Previous"
+msgstr "前一首"
+
+#: src/uix/win.c:213
+msgid "Next"
+msgstr "下一首"
+
+#: src/uix/win.c:221
+msgid "Show/Hide Main Window"
+msgstr "顯示/隱藏主窗體"
+
+#: src/uix/win.c:226
+msgid "Quit"
+msgstr "退出"
+
+#: src/uix/win.c:231
+msgid "<b>Linnya</b> Audio Player"
+msgstr "<b>聆雅</b> 音頻播放器"
+

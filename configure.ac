@@ -8,7 +8,7 @@ AC_CONFIG_SRCDIR([src/app.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Set of available languages.
-ALL_LINGUAS="zh_CN"
+ALL_LINGUAS="zh_CN zh_TW zh_HK it"
 
 # Checks for programs.
 AC_PROG_CC
@@ -46,21 +46,21 @@ LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_OUTPUT([Makefile\
-			po/Makefile.in\
-			src/Makefile\
-			src/cox/Makefile\
-			src/uix/Makefile\
-			src/pix/Makefile\
-			src/pix/inf/Makefile\
-			src/pix/opc/Makefile\
-			src/pix/lrc/Makefile\
-			src/pix/rdo/Makefile\
-			src/pix/dnc/Makefile\
-            data/Makefile\
-            data/icon/Makefile\
-            data/theme/Makefile\
-            data/theme/default/Makefile\
-            data/theme/dark/Makefile\
-            data/theme/dark/sssbg/Makefile\
-            data/theme/dark/gtk-3.0/Makefile\
-            data/theme/dark/gtk-3.0/linnya_img/Makefile])
+	po/Makefile.in\
+	src/Makefile\
+	src/cox/Makefile\
+	src/uix/Makefile\
+	src/pix/Makefile\
+	src/pix/inf/Makefile\
+	src/pix/opc/Makefile\
+	src/pix/lrc/Makefile\
+	src/pix/rdo/Makefile\
+	src/pix/dnc/Makefile\
+       data/Makefile\
+       data/icon/Makefile\
+       data/theme/Makefile\
+       data/theme/default/Makefile\
+       data/theme/dark/Makefile\
+       data/theme/dark/sssbg/Makefile\
+       data/theme/dark/gtk-3.0/Makefile\
+       data/theme/dark/gtk-3.0/linnya_img/Makefile])

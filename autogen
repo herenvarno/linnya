@@ -2,6 +2,8 @@
 
 echo "aclocal..."
 aclocal
+echo "libtoolize"
+libtoolize --force
 echo "autoconf..."
 autoconf
 echo "autoheader..."

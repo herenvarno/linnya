@@ -8,7 +8,7 @@ datadir				= ${PLUGIN_DIR}/opc
 
 lib_LTLIBRARIES 	= libopc.la
 data_DATA			=\
-					logo.svg\
+					logo.png\
 					playing.svg\
 					plugin.xml
 libopc_la_SOURCES	=\

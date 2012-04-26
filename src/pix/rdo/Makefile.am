@@ -8,7 +8,7 @@ datadir				= ${PLUGIN_DIR}/rdo
 
 lib_LTLIBRARIES 	= librdo.la
 data_DATA			=\
-					logo.svg\
+					logo.png\
 					plugin.xml\
 					playing.svg
 librdo_la_SOURCES	=\

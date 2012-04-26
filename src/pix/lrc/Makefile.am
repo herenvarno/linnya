@@ -8,7 +8,7 @@ datadir			= ${PLUGIN_DIR}/lrc
 
 lib_LTLIBRARIES = liblrc.la
 data_DATA		=\
-				logo.svg\
+				logo.png\
 				plugin.xml
 liblrc_la_SOURCES	=\
 				lrc.c\

@@ -8,7 +8,7 @@ datadir			= ${PLUGIN_DIR}/inf
 
 lib_LTLIBRARIES = libinf.la
 data_DATA		=\
-				logo.svg\
+				logo.png\
 				plugin.xml
 libinf_la_SOURCES	=\
 				inf.c\

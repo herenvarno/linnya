@@ -1,4 +1,4 @@
 SUBDIRS = 
-EXTRA_DIST		= *.svg
+EXTRA_DIST		= *.png
 themedarksssbgdir	= ${datadir}/linnya/ui/theme/dark/sssbg
-themedarksssbg_DATA	= *.svg
+themedarksssbg_DATA	= *.png

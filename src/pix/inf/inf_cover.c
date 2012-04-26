@@ -60,7 +60,7 @@ void		ly_3inf_cover_init()
 	LY_3INF_COVERDIR=g_strconcat(LY_GLB_USER_PLUGINDIR, "inf/cover/",NULL);
 	mkdir(LY_3INF_COVERDIR, 0755);
 
-	g_snprintf(path, sizeof(path), "%sicon/default_album.svg", LY_GLB_PROG_UIDIR);
+	g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIDIR);
 	ly_3inf_cover_pixbuf_default=gdk_pixbuf_new_from_file_at_scale(path, 200, 200, TRUE, NULL);
 }
 
