@@ -82,7 +82,7 @@ GtkWidget *ly_3inf_create()
 	gtk_widget_set_app_paintable(event_box, TRUE);
 	g_signal_connect(G_OBJECT(event_box), "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
 	
-	button=gtk_button_new_with_label(_("Download Album Cover From Web ..."));
+	button=gtk_button_new_with_label(_("Download Cover"));
 	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3inf_on_get_button_clicked_cb), NULL);
 	

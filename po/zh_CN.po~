@@ -1,0 +1,727 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Edward <yy890521@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: linnya 1.9.9\n"
+"Report-Msgid-Bugs-To: http://www.linnya.org\n"
+"POT-Creation-Date: 2012-04-26 21:36+0800\n"
+"PO-Revision-Date: 2012-04-26 21:37+0800\n"
+"Last-Translator: Edward <yy890521@gmail.com>\n"
+"Language-Team: Chinese <yy890521@gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: src/cox/gla.c:35
+msgid "linnya"
+msgstr "聆雅"
+
+#: src/cox/gla.c:36
+msgid "Edward<yy890521@gmail.com>"
+msgstr "Edward<yy890521@gmail.com>"
+
+#: src/cox/gla.c:37
+msgid "http://www.linnya.org"
+msgstr "http://www.linnya.org"
+
+#: src/cox/gla.c:38
+msgid "A free music player on Linux, with unlimited feathers from plug-ins."
+msgstr "Linux下拥有无限扩展能力的音乐播放器"
+
+#: src/cox/gla.c:39
+msgid "Copyright (C) 2010-2012 Edward Yang"
+msgstr "版权所有 (C) 2010-2012 Edward Yang"
+
+#: src/cox/gla.c:40
+msgid "2.0.0 beta4 (1.9.9)"
+msgstr "2.0.0 beta4 (1.9.9)"
+
+#: src/cox/gla.c:41
+msgid "GPLv3"
+msgstr "GPL 第三版"
+
+#: src/cox/gla.c:42
+msgid ""
+"LINNYA\n"
+"\n"
+"Copyright (C) 2010-2012 Edward Yang\n"
+"\n"
+"linnya is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"linnya is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with linnya. If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"聆雅\n"
+"\n"
+"版权所有 (C) 2010-2012 Edward Yang\n"
+"\n"
+"聆雅是自由软件；您可以在由自由软件基金会(Free Software Foundation)发布的 GNU 通用公共许可证条款下进行分发或修改；适用于版本3或(由您选择)任何后续版本。\n"
+"\n"
+"聆雅分发是希望它有所用处，但是没有任何担保；没有即便是暗示的商品授权和适当其他特殊目的。更多细节请参见 GNU 通用公共许可证。\n"
+"\n"
+"您应当已经和聆雅一道收到 GNU 通用公共许可证的一份副本；如果没有，请访问 <http://www.gnu.org/licenses/>"
+
+#: src/cox/reg.c:56
+#, c-format
+msgid "[fatal] Cannot load reg file. Abort...\n"
+msgstr "【致命错误】无法载入注册文件。退出 ……\n"
+
+#: src/cox/dbm.c:54
+#, c-format
+msgid "[fatal] Cannot connect to database. Abort ...\n"
+msgstr "【致命错误】无法连接到数据库。退出 ……\n"
+
+#: src/cox/plm.c:64
+msgid "Playlist already exists!"
+msgstr "播放列表已存在！"
+
+#: src/cox/plm.c:101
+msgid "Illegal playlist name."
+msgstr "非法的播放列表格式！"
+
+#: src/cox/plm.c:108
+msgid "Cannot find playlist."
+msgstr "无法找到播放列表！"
+
+#: src/cox/plm.c:119
+msgid "Cannot find playlist file!"
+msgstr "无法找到播放列表文件！"
+
+#: src/cox/plm.c:138
+msgid "Illegal playlist file type!"
+msgstr "非法的播放列表文件格式！"
+
+#: src/cox/plm.c:151
+msgid "Cannot save playlist!"
+msgstr "无法保存播放列表文件！"
+
+#: src/cox/plm.c:247
+#: src/cox/plm.c:533
+msgid "Cannot open playlsit file!"
+msgstr "无法打开播放列表文件！"
+
+#: src/pix/dnc/dnc_config.c:35
+msgid "Cover Download Server"
+msgstr "封面下载服务器"
+
+#: src/pix/dnc/dnc_config.c:50
+msgid "Lyrics Download Server"
+msgstr "歌词下载服务器"
+
+#: src/pix/dnc/dnc_cov.c:42
+#: src/pix/dnc/dnc_lrc.c:42
+msgid "A download task already exists, try again later!"
+msgstr "一个下载任务已存在，请稍候重试！"
+
+#: src/pix/dnc/dnc_cov.c:51
+#: src/pix/dnc/dnc_lrc.c:51
+msgid "No Playing Track!"
+msgstr "当前无曲目！"
+
+#: src/pix/dnc/dnc_cov.c:77
+#: src/pix/dnc/dnc_cov.c:162
+#: src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_lrc.c:163
+msgid "Illegal server name!"
+msgstr "非法的服务器名称！"
+
+#: src/pix/dnc/dnc_cov.c:84
+#: src/pix/dnc/dnc_lrc.c:85
+msgid "Find nothing by searching the web!"
+msgstr "搜索一无所获！"
+
+#: src/pix/dnc/dnc_cov.c:100
+#: src/pix/dnc/dnc_lrc.c:101
+msgid "Found"
+msgstr "找到"
+
+#: src/pix/dnc/dnc_cov.c:113
+#: src/pix/dnc/dnc_lrc.c:118
+#: src/pix/opc/opc_right.c:162
+#: src/pix/opc/opc_right.c:850
+msgid "Artist"
+msgstr "艺术家"
+
+#: src/pix/dnc/dnc_cov.c:117
+#: src/pix/opc/opc_right.c:168
+#: src/pix/opc/opc_right.c:853
+msgid "Album"
+msgstr "专辑"
+
+#: src/pix/dnc/dnc_cov.c:170
+#: src/pix/dnc/dnc_lrc.c:171
+msgid "Cannot get the real resource adress!"
+msgstr "无法获取真实资源地址！"
+
+#: src/pix/dnc/dnc_cov.c:181
+#: src/pix/dnc/dnc_lrc.c:182
+msgid "Illegal url adress!"
+msgstr "非法的URL地址！"
+
+#: src/pix/dnc/dnc_cov.c:195
+#: src/pix/dnc/dnc_lrc.c:199
+msgid "Cannot open file stream!"
+msgstr "无法打开文件流！"
+
+#: src/pix/dnc/dnc_lrc.c:114
+#: src/pix/opc/opc_right.c:156
+#: src/pix/opc/opc_right.c:847
+msgid "Title"
+msgstr "歌曲名"
+
+#: src/pix/inf/inf.c:85
+msgid "Download Cover"
+msgstr "下载封面"
+
+#: src/pix/inf/inf_config.c:54
+#: src/pix/lrc/lrc_config.c:78
+msgid "Font"
+msgstr "字体"
+
+#: src/pix/inf/inf_config.c:58
+#: src/pix/lrc/lrc_config.c:82
+msgid "Title Font"
+msgstr "歌曲名字体"
+
+#: src/pix/inf/inf_config.c:64
+#: src/pix/lrc/lrc_config.c:88
+msgid "Normal Font"
+msgstr "普通文本字体"
+
+#: src/pix/lrc/lrc_config.c:36
+msgid "Desktop Lyrics"
+msgstr "桌面歌词："
+
+#: src/pix/lrc/lrc_config.c:43
+msgid "Show desktop lyrics"
+msgstr "显示桌面歌词"
+
+#: src/pix/lrc/lrc_config.c:47
+msgid "Set desktop lyrics FIXED"
+msgstr "固定桌面歌词"
+
+#: src/pix/lrc/lrc_config.c:52
+msgid "Lyrics File Storage"
+msgstr "歌词文件存储"
+
+#: src/pix/lrc/lrc_config.c:61
+#: src/pix/lrc/lrc_config.c:71
+msgid "The same directory of music file"
+msgstr "存放于音乐文件的相同目录"
+
+#: src/pix/lrc/lrc_config.c:67
+msgid "Custom LRC location"
+msgstr "自定义LRC文件位置"
+
+#: src/pix/lrc/lrc_config.c:94
+msgid "Desktop Font"
+msgstr "桌面歌词字体"
+
+#: src/pix/lrc/lrc_config.c:162
+#: src/uix/cfg.c:639
+msgid "Select library directory"
+msgstr "选择歌曲库绑定目录"
+
+#: src/pix/lrc/lrc_widget.c:54
+msgid "Download Lyrics From Web ..."
+msgstr "从网上下载歌词 ..."
+
+#: src/pix/opc/opc_config.c:48
+msgid "Limitation of A Single Page"
+msgstr "每页显示数量限制"
+
+#: src/pix/opc/opc_config.c:58
+msgid "Attention: \"-1\" is for Unlimited!"
+msgstr "注意：“-1”表示无限制！"
+
+#: src/pix/opc/opc_left.c:97
+msgid "Manager"
+msgstr "管理器"
+
+#: src/pix/opc/opc_left.c:126
+msgid "Playing Queue"
+msgstr "播放队列"
+
+#: src/pix/opc/opc_left.c:129
+msgid "Playlists"
+msgstr "播放列表"
+
+#: src/pix/opc/opc_left.c:133
+msgid "Artists"
+msgstr "艺术家"
+
+#: src/pix/opc/opc_left.c:213
+msgid "Add Playlist"
+msgstr "添加播放列表"
+
+#: src/pix/opc/opc_left.c:214
+msgid "Import Playlist"
+msgstr "导入播放列表"
+
+#: src/pix/opc/opc_left.c:215
+#: src/pix/opc/opc_right.c:415
+msgid "Add to Play Queue"
+msgstr "添加到播放队列中"
+
+#: src/pix/opc/opc_left.c:216
+msgid "Rename"
+msgstr "重命名"
+
+#: src/pix/opc/opc_left.c:217
+msgid "Export Playlist"
+msgstr "导出播放列表"
+
+#: src/pix/opc/opc_left.c:219
+#: src/pix/opc/opc_right.c:419
+msgid "Refresh"
+msgstr "刷新"
+
+#: src/pix/opc/opc_left.c:220
+#: src/pix/opc/opc_right.c:420
+msgid "Delete"
+msgstr "删除"
+
+#: src/pix/opc/opc_left.c:221
+#: src/pix/opc/opc_right.c:421
+msgid "Delete All"
+msgstr "删除全部"
+
+#: src/pix/opc/opc_left.c:305
+#: src/pix/opc/opc_right.c:447
+#: src/pix/opc/opc_right.c:620
+msgid "New Playlist"
+msgstr "新建播放列表"
+
+#: src/pix/opc/opc_left.c:316
+#: src/pix/opc/opc_left.c:461
+#: src/pix/opc/opc_right.c:631
+msgid "Name"
+msgstr "名称"
+
+#: src/pix/opc/opc_left.c:352
+msgid "Import Playlist..."
+msgstr "导入播放列表 ..."
+
+#: src/pix/opc/opc_left.c:360
+msgid "Playlist File"
+msgstr "播放列表文件"
+
+#: src/pix/opc/opc_left.c:450
+msgid "Rename Playlist"
+msgstr "重命名播放列表"
+
+#: src/pix/opc/opc_left.c:499
+msgid "Export Playlist..."
+msgstr "导出播放列表"
+
+#: src/pix/opc/opc_left.c:506
+msgid "M3U Playlist File"
+msgstr "M3U 播放列表文件"
+
+#: src/pix/opc/opc_left.c:537
+msgid "File exist, Replace it anyway?"
+msgstr "文件已存在，强制替换吗？"
+
+#: src/pix/opc/opc_left.c:593
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL playlists?"
+msgstr ""
+"<b>这是一个危险的功能！！</b>\n"
+"你真的确定要删除所有的播放列表？"
+
+#: src/pix/opc/opc_left.c:617
+#: src/pix/opc/opc_right.c:1077
+msgid "Warning"
+msgstr "警告"
+
+#: src/pix/opc/opc_right.c:128
+#: src/pix/opc/opc_right.c:221
+msgid "Page 1"
+msgstr "页码 1"
+
+#: src/pix/opc/opc_right.c:152
+msgid "*"
+msgstr "*"
+
+#: src/pix/opc/opc_right.c:217
+#, c-format
+msgid "Page %d"
+msgstr "页码 %d"
+
+#: src/pix/opc/opc_right.c:414
+msgid "Play"
+msgstr "播放"
+
+#: src/pix/opc/opc_right.c:416
+msgid "Add to Playlist"
+msgstr "添加到播放列表"
+
+#: src/pix/opc/opc_right.c:417
+#: src/pix/opc/opc_right.c:722
+#: src/pix/opc/opc_right.c:731
+msgid "Information"
+msgstr "属性"
+
+#: src/pix/opc/opc_right.c:418
+msgid "Add Files"
+msgstr "添加文件"
+
+#: src/pix/opc/opc_right.c:744
+msgid "Basic Information"
+msgstr "基本信息"
+
+#: src/pix/opc/opc_right.c:753
+msgid "Start"
+msgstr "开始时间"
+
+#: src/pix/opc/opc_right.c:756
+msgid "Duration"
+msgstr "持续时长"
+
+#: src/pix/opc/opc_right.c:759
+msgid "Bitrate"
+msgstr "比特率"
+
+#: src/pix/opc/opc_right.c:762
+msgid "Codec"
+msgstr "文件编码"
+
+#: src/pix/opc/opc_right.c:832
+msgid "Uri"
+msgstr "地址"
+
+#: src/pix/opc/opc_right.c:842
+msgid "Advanced Information"
+msgstr "高级信息"
+
+#: src/pix/opc/opc_right.c:856
+msgid "genre"
+msgstr "风格"
+
+#: src/pix/opc/opc_right.c:859
+msgid "track"
+msgstr "曲目"
+
+#: src/pix/opc/opc_right.c:924
+msgid "Add From File..."
+msgstr "从文件添加 ..."
+
+#: src/pix/opc/opc_right.c:932
+msgid "Music File"
+msgstr "音乐文件"
+
+#: src/pix/opc/opc_right.c:1124
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+msgstr ""
+"<b>这是一个危险的功能！！</b>\n"
+" 您将要删除的文件附属于您的音乐库,\n"
+" 它将从物理上被永久地删除。\n"
+" 您真的想要这么做么？"
+
+#: src/pix/opc/opc_right.c:1229
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL information belongs the current list?"
+msgstr ""
+"<b>这是一个危险的功能！！</b>\n"
+" 你真的希望删除所有附属于当前列表中的信息么？"
+
+#: src/uix/cfg.c:203
+#: src/uix/win.c:216
+msgid "Configuration"
+msgstr "首选项"
+
+#: src/uix/cfg.c:216
+msgid "Library"
+msgstr "音乐库"
+
+#: src/uix/cfg.c:216
+msgid "All the Music Data"
+msgstr "所有的音乐信息"
+
+#: src/uix/cfg.c:219
+msgid "Auto Check Library When Program Start"
+msgstr "在程序启动时自动核对音乐库"
+
+#: src/uix/cfg.c:221
+msgid "Enable Auto Check"
+msgstr "启用自动核对功能"
+
+#: src/uix/cfg.c:227
+msgid "Library location"
+msgstr "音乐库位置"
+
+#: src/uix/cfg.c:240
+msgid "Backup Encoding"
+msgstr "后备编码"
+
+#: src/uix/cfg.c:259
+msgid "Audio"
+msgstr "音频"
+
+#: src/uix/cfg.c:259
+msgid "Set all about playing audio"
+msgstr "设置所有关于音频播放的配置"
+
+#: src/uix/cfg.c:262
+msgid "Auto Play When Program Start"
+msgstr "程序启动时自动开始播放"
+
+#: src/uix/cfg.c:264
+msgid "Enable Auto Play"
+msgstr "启用自动播放"
+
+#: src/uix/cfg.c:270
+msgid "Play mode"
+msgstr "播放模式"
+
+#: src/uix/cfg.c:278
+msgid "Random"
+msgstr "随机"
+
+#: src/uix/cfg.c:282
+msgid "Repeat"
+msgstr "循环"
+
+#: src/uix/cfg.c:286
+msgid "Single"
+msgstr "单曲"
+
+#: src/uix/cfg.c:293
+msgid "Equalizer"
+msgstr "均衡器"
+
+#: src/uix/cfg.c:293
+msgid "Set equalizer"
+msgstr "设置均衡器"
+
+#: src/uix/cfg.c:296
+msgid "Auto Equalizer"
+msgstr "自动均衡器"
+
+#: src/uix/cfg.c:300
+msgid "Choose Equalizer Setting by Linnya Automatically"
+msgstr "让聆雅自动选择合适的均衡器"
+
+#: src/uix/cfg.c:304
+msgid "Custom Equalizer Setting"
+msgstr "自定义均衡器设置"
+
+#: src/uix/cfg.c:342
+msgid "Keyboard"
+msgstr "键盘"
+
+#: src/uix/cfg.c:342
+msgid "Set all shortcut keys of Linnya"
+msgstr "设置聆雅的所有关于快捷键的配置"
+
+#: src/uix/cfg.c:345
+msgid "Shortcuts"
+msgstr "快捷键"
+
+#: src/uix/cfg.c:349
+msgid "Name and Keys"
+msgstr "配置名称和按键"
+
+#: src/uix/cfg.c:350
+msgid "Preferense"
+msgstr "配置"
+
+#: src/uix/cfg.c:367
+#: src/uix/cfg.c:369
+msgid "Theme"
+msgstr "主题"
+
+#: src/uix/cfg.c:367
+msgid "Set the looks of Linnya."
+msgstr "设置所有有关聆雅外观的配置"
+
+#: src/uix/cfg.c:394
+msgid "Main Window Style"
+msgstr "主窗口风格"
+
+#: src/uix/cfg.c:396
+msgid "Enable Window Manager's Decorated"
+msgstr "启用窗口装饰"
+
+#: src/uix/cfg.c:402
+msgid "Enable Transparent Effective"
+msgstr "启用透明特效"
+
+#: src/uix/cfg.c:418
+msgid "Session Style"
+msgstr "会话风格"
+
+#: src/uix/cfg.c:420
+msgid "Use Custom Session Background Image"
+msgstr "使用自定义会话背景图片"
+
+#: src/uix/cfg.c:439
+#: src/uix/cfg.c:442
+msgid "Plugins"
+msgstr "插件"
+
+#: src/uix/cfg.c:439
+msgid "All the plug-ins of Linnya."
+msgstr "聆雅的所有插件配置"
+
+#: src/uix/cfg.c:533
+#: src/uix/cfg.c:583
+msgid "Official Website"
+msgstr "官方网站"
+
+#: src/uix/cfg.c:550
+#, c-format
+msgid "(c) %s"
+msgstr "(c) %s"
+
+#: src/uix/cfg.c:600
+msgid "Configuration of Plugins"
+msgstr "插件配置"
+
+#: src/uix/cfg.c:626
+msgid "The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"
+msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
+
+#: src/uix/cfg.c:738
+msgid "Key"
+msgstr "按键"
+
+#: src/uix/cfg.c:748
+msgid "Press key to change shortcut ..."
+msgstr "按下键盘以设置快捷键"
+
+#: src/uix/cfg.c:876
+msgid "Setting will not be actived until program restart!"
+msgstr "设置将在程序下次启动生效！"
+
+#: src/uix/cfg.c:910
+msgid "Select Session Background directory"
+msgstr "选择会话背景目录"
+
+#: src/uix/cfg.c:1048
+msgid "Save Equalizer"
+msgstr "保存均衡器"
+
+#: src/uix/cfg.c:1059
+msgid "Eq Name :"
+msgstr "均衡器名："
+
+#: src/uix/cfg.c:1122
+msgid "Cannot delete the default equalizer setting!"
+msgstr "无法删除默认均衡其设置！"
+
+#: src/uix/cfg.c:1172
+msgid "Preference"
+msgstr "配置"
+
+#: src/uix/dbg.c:105
+#, c-format
+msgid ""
+"<b>INFO!</b>\n"
+"%s"
+msgstr ""
+"<b>信息！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:128
+#, c-format
+msgid ""
+"<b>WARNING!</b>\n"
+"%s"
+msgstr ""
+"<b>警告！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:149
+#, c-format
+msgid ""
+"<b>ERROR!</b>\n"
+"%s"
+msgstr ""
+"<b>错误！</b>\n"
+"%s"
+
+#: src/uix/dbg.c:169
+#, c-format
+msgid ""
+"<b>FATAL ERROR!</b>\n"
+"%s"
+msgstr ""
+"<b>致命错误！</b>\n"
+"%s"
+
+#: src/uix/key.c:287
+msgid "Key defination file does not exist, linnya will create a new one when exit!"
+msgstr "快捷键定义文件不存在，聆雅将在退出时新建一个！"
+
+#: src/uix/key.c:309
+msgid "Configuration file error!"
+msgstr "配置文件错误！"
+
+#: src/uix/key.c:379
+msgid "[warning] Cannot write keybinds to file!"
+msgstr "【警告】无法将按钮绑定写入文件"
+
+#: src/uix/pli.c:44
+msgid "[fatal] Your system does not support plugin!"
+msgstr "【致命错误】您的系统不支持插件！"
+
+#: src/uix/pli.c:45
+#, c-format
+msgid "[fatal] Your system does not support plugin!\n"
+msgstr "【致命错误】 您的系统不支持插件！\n"
+
+#: src/uix/pli.c:137
+msgid "[warning] Read configuration file error."
+msgstr "【警告】读取配置文件错误！"
+
+#: src/uix/sss.c:207
+msgid "New Session"
+msgstr "新会话"
+
+#: src/uix/win.c:207
+msgid "Play/Pause"
+msgstr "播放/暂停"
+
+#: src/uix/win.c:210
+msgid "Previous"
+msgstr "上一首"
+
+#: src/uix/win.c:213
+msgid "Next"
+msgstr "下一首"
+
+#: src/uix/win.c:221
+msgid "Show/Hide Main Window"
+msgstr "显示/隐藏主窗口"
+
+#: src/uix/win.c:226
+msgid "Quit"
+msgstr "退出"
+
+#: src/uix/win.c:231
+msgid "<b>Linnya</b> Audio Player"
+msgstr "<b>聆雅</b> 音频播放器"

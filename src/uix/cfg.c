@@ -512,7 +512,7 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 	GdkPixbuf *logo=NULL;
 	
 	path=g_strconcat(LY_GLB_PROG_UIDIR,"icon/linnya.png",NULL);
-	logo=gdk_pixbuf_new_from_file_at_size(path,100,100,NULL);
+	logo=gdk_pixbuf_new_from_file_at_size(path, 48, 48,NULL);
 	g_free(path);
 	
 	char *artists[]={"Hillar Liiv<liivhillar@gmail.com>","Edward<edward@linnya.org>",NULL};
@@ -564,7 +564,7 @@ gboolean ly_cfg_on_pli_show_about_cb(GtkWidget *widget, gpointer data)
 	}
 	if(!g_str_equal(pl->logo,""))
 	{
-		logo=gdk_pixbuf_new_from_file_at_size(pl->logo,100,100,NULL);
+		logo=gdk_pixbuf_new_from_file_at_size(pl->logo, 48, 48,NULL);
 		gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
 	}
 	if(!g_str_equal(pl->name,""))
@@ -1045,7 +1045,7 @@ gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
 	char *name=NULL;
 	
 	gboolean rt=FALSE;
-	dialog=gtk_dialog_new_with_buttons(_("Save Equalizer As ..."),
+	dialog=gtk_dialog_new_with_buttons(_("Save Equalizer"),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_STOCK_OK,
@@ -1119,7 +1119,7 @@ gboolean ly_cfg_on_eql_eq_delete_cb(GtkWidget *widget, gpointer data)
 	
 	if(g_str_equal(eq_name, "default"))
 	{
-		ly_msg_put("info", "ui:cfg", "Cannot delete the default equalizer setting!");
+		ly_msg_put("info", "ui:cfg", _("Cannot delete the default equalizer setting!"));
 		return FALSE;
 	}
 	ly_dbm_replace_str(eq_name, sizeof(eq_name));
@@ -1169,7 +1169,7 @@ GType ly_cfg_dialog_get_type()
 }
 static void ly_cfg_dialog_init(LyCfgDialog *obj)
 {
-	gtk_window_set_title(GTK_WINDOW(obj), "Preference");
+	gtk_window_set_title(GTK_WINDOW(obj), _("Preference"));
 	gtk_window_set_default_size(GTK_WINDOW(obj),600,500);
 	
 	GtkWidget *hpaned=gtk_hpaned_new();

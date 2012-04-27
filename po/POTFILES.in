@@ -33,8 +33,6 @@ src/pix/opc/opc.c
 src/pix/opc/opc_config.c
 src/pix/opc/opc_left.c
 src/pix/opc/opc_right.c
-src/pix/rdo/rdo.c
-src/pix/rdo/rdo_config.c
 
 src/uix/cfg.c
 src/uix/dbg.c

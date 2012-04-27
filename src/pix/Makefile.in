@@ -229,7 +229,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = m4/ChangeLog  BUGS ChangeLog.O
-SUBDIRS = inf opc lrc rdo dnc
+SUBDIRS = inf opc lrc dnc
 ACLOCAL_AMFLAGS = -I m4
 all: all-recursive
 

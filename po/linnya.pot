@@ -1,0 +1,669 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: linnya 1.9.6\n"
+"Report-Msgid-Bugs-To: http://www.linnya.org\n"
+"POT-Creation-Date: 2012-04-26 21:43+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/cox/gla.c:35
+msgid "linnya"
+msgstr ""
+
+#: src/cox/gla.c:36
+msgid "Edward<yy890521@gmail.com>"
+msgstr ""
+
+#: src/cox/gla.c:37
+msgid "http://www.linnya.org"
+msgstr ""
+
+#: src/cox/gla.c:38
+msgid "A free music player on Linux, with unlimited feathers from plug-ins."
+msgstr ""
+
+#: src/cox/gla.c:39
+msgid "Copyright (C) 2010-2012 Edward Yang"
+msgstr ""
+
+#: src/cox/gla.c:40
+msgid "2.0.0 beta4 (1.9.9)"
+msgstr ""
+
+#: src/cox/gla.c:41
+msgid "GPLv3"
+msgstr ""
+
+#: src/cox/gla.c:42
+msgid ""
+"LINNYA\n"
+"\n"
+"Copyright (C) 2010-2012 Edward Yang\n"
+"\n"
+"linnya is free software; you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation; either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"linnya is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with linnya. If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+
+#: src/cox/reg.c:56
+#, c-format
+msgid "[fatal] Cannot load reg file. Abort...\n"
+msgstr ""
+
+#: src/cox/dbm.c:54
+#, c-format
+msgid "[fatal] Cannot connect to database. Abort ...\n"
+msgstr ""
+
+#: src/cox/plm.c:64
+msgid "Playlist already exists!"
+msgstr ""
+
+#: src/cox/plm.c:101
+msgid "Illegal playlist name."
+msgstr ""
+
+#: src/cox/plm.c:108
+msgid "Cannot find playlist."
+msgstr ""
+
+#: src/cox/plm.c:119
+msgid "Cannot find playlist file!"
+msgstr ""
+
+#: src/cox/plm.c:138
+msgid "Illegal playlist file type!"
+msgstr ""
+
+#: src/cox/plm.c:151
+msgid "Cannot save playlist!"
+msgstr ""
+
+#: src/cox/plm.c:247 src/cox/plm.c:533
+msgid "Cannot open playlsit file!"
+msgstr ""
+
+#: src/pix/dnc/dnc_config.c:35
+msgid "Cover Download Server"
+msgstr ""
+
+#: src/pix/dnc/dnc_config.c:50
+msgid "Lyrics Download Server"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:42 src/pix/dnc/dnc_lrc.c:42
+msgid "A download task already exists, try again later!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:51 src/pix/dnc/dnc_lrc.c:51
+msgid "No Playing Track!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:77 src/pix/dnc/dnc_cov.c:162 src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_lrc.c:163
+msgid "Illegal server name!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:84 src/pix/dnc/dnc_lrc.c:85
+msgid "Find nothing by searching the web!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:100 src/pix/dnc/dnc_lrc.c:101
+msgid "Found"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:113 src/pix/dnc/dnc_lrc.c:118
+#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:850
+msgid "Artist"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:117 src/pix/opc/opc_right.c:168
+#: src/pix/opc/opc_right.c:853
+msgid "Album"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:170 src/pix/dnc/dnc_lrc.c:171
+msgid "Cannot get the real resource adress!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:181 src/pix/dnc/dnc_lrc.c:182
+msgid "Illegal url adress!"
+msgstr ""
+
+#: src/pix/dnc/dnc_cov.c:195 src/pix/dnc/dnc_lrc.c:199
+msgid "Cannot open file stream!"
+msgstr ""
+
+#: src/pix/dnc/dnc_lrc.c:114 src/pix/opc/opc_right.c:156
+#: src/pix/opc/opc_right.c:847
+msgid "Title"
+msgstr ""
+
+#: src/pix/inf/inf.c:85
+msgid "Download Cover"
+msgstr ""
+
+#: src/pix/inf/inf_config.c:54 src/pix/lrc/lrc_config.c:78
+msgid "Font"
+msgstr ""
+
+#: src/pix/inf/inf_config.c:58 src/pix/lrc/lrc_config.c:82
+msgid "Title Font"
+msgstr ""
+
+#: src/pix/inf/inf_config.c:64 src/pix/lrc/lrc_config.c:88
+msgid "Normal Font"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:36
+msgid "Desktop Lyrics"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:43
+msgid "Show desktop lyrics"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:47
+msgid "Set desktop lyrics FIXED"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:52
+msgid "Lyrics File Storage"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:61 src/pix/lrc/lrc_config.c:71
+msgid "The same directory of music file"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:67
+msgid "Custom LRC location"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:94
+msgid "Desktop Font"
+msgstr ""
+
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:639
+msgid "Select library directory"
+msgstr ""
+
+#: src/pix/lrc/lrc_widget.c:54
+msgid "Download Lyrics"
+msgstr ""
+
+#: src/pix/opc/opc_config.c:48
+msgid "Limitation of A Single Page"
+msgstr ""
+
+#: src/pix/opc/opc_config.c:58
+msgid "Attention: \"-1\" is for Unlimited!"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:97
+msgid "Manager"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:126
+msgid "Playing Queue"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:129
+msgid "Playlists"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:133
+msgid "Artists"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:213
+msgid "Add Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:214
+msgid "Import Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:215 src/pix/opc/opc_right.c:415
+msgid "Add to Play Queue"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:216
+msgid "Rename"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:217
+msgid "Export Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
+msgid "Refresh"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
+msgid "Delete"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:421
+msgid "Delete All"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:305 src/pix/opc/opc_right.c:447
+#: src/pix/opc/opc_right.c:620
+msgid "New Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:316 src/pix/opc/opc_left.c:461
+#: src/pix/opc/opc_right.c:631
+msgid "Name"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:352
+msgid "Import Playlist..."
+msgstr ""
+
+#: src/pix/opc/opc_left.c:360
+msgid "Playlist File"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:450
+msgid "Rename Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:499
+msgid "Export Playlist..."
+msgstr ""
+
+#: src/pix/opc/opc_left.c:506
+msgid "M3U Playlist File"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:537
+msgid "File exist, Replace it anyway?"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:593
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL playlists?"
+msgstr ""
+
+#: src/pix/opc/opc_left.c:617 src/pix/opc/opc_right.c:1077
+msgid "Warning"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:128 src/pix/opc/opc_right.c:221
+msgid "Page 1"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:152
+msgid "*"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:217
+#, c-format
+msgid "Page %d"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:414
+msgid "Play"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:416
+msgid "Add to Playlist"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:417 src/pix/opc/opc_right.c:722
+#: src/pix/opc/opc_right.c:731
+msgid "Information"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:418
+msgid "Add Files"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:744
+msgid "Basic Information"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:753
+msgid "Start"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:756
+msgid "Duration"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:759
+msgid "Bitrate"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:762
+msgid "Codec"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:832
+msgid "Uri"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:842
+msgid "Advanced Information"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:856
+msgid "genre"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:859
+msgid "track"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:924
+msgid "Add From File..."
+msgstr ""
+
+#: src/pix/opc/opc_right.c:932
+msgid "Music File"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:1124
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" The music you wanna delete is belongs to your music library,\n"
+" It will be delete physically and permanently.\n"
+" Do you really want to do it?"
+msgstr ""
+
+#: src/pix/opc/opc_right.c:1229
+msgid ""
+"<b>This is a Dangerous function!!</b>\n"
+" Do you really want to DELETE ALL information belongs the current list?"
+msgstr ""
+
+#: src/uix/cfg.c:203 src/uix/win.c:216
+msgid "Configuration"
+msgstr ""
+
+#: src/uix/cfg.c:216
+msgid "Library"
+msgstr ""
+
+#: src/uix/cfg.c:216
+msgid "All the Music Data"
+msgstr ""
+
+#: src/uix/cfg.c:219
+msgid "Auto Check Library When Program Start"
+msgstr ""
+
+#: src/uix/cfg.c:221
+msgid "Enable Auto Check"
+msgstr ""
+
+#: src/uix/cfg.c:227
+msgid "Library location"
+msgstr ""
+
+#: src/uix/cfg.c:240
+msgid "Backup Encoding"
+msgstr ""
+
+#: src/uix/cfg.c:259
+msgid "Audio"
+msgstr ""
+
+#: src/uix/cfg.c:259
+msgid "Set all about playing audio"
+msgstr ""
+
+#: src/uix/cfg.c:262
+msgid "Auto Play When Program Start"
+msgstr ""
+
+#: src/uix/cfg.c:264
+msgid "Enable Auto Play"
+msgstr ""
+
+#: src/uix/cfg.c:270
+msgid "Play mode"
+msgstr ""
+
+#: src/uix/cfg.c:278
+msgid "Random"
+msgstr ""
+
+#: src/uix/cfg.c:282
+msgid "Repeat"
+msgstr ""
+
+#: src/uix/cfg.c:286
+msgid "Single"
+msgstr ""
+
+#: src/uix/cfg.c:293
+msgid "Equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:293
+msgid "Set equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:296
+msgid "Auto Equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:300
+msgid "Choose Equalizer Setting by Linnya Automatically"
+msgstr ""
+
+#: src/uix/cfg.c:304
+msgid "Custom Equalizer Setting"
+msgstr ""
+
+#: src/uix/cfg.c:342
+msgid "Keyboard"
+msgstr ""
+
+#: src/uix/cfg.c:342
+msgid "Set all shortcut keys of Linnya"
+msgstr ""
+
+#: src/uix/cfg.c:345
+msgid "Shortcuts"
+msgstr ""
+
+#: src/uix/cfg.c:349
+msgid "Name and Keys"
+msgstr ""
+
+#: src/uix/cfg.c:350
+msgid "Preferense"
+msgstr ""
+
+#: src/uix/cfg.c:367 src/uix/cfg.c:369
+msgid "Theme"
+msgstr ""
+
+#: src/uix/cfg.c:367
+msgid "Set the looks of Linnya."
+msgstr ""
+
+#: src/uix/cfg.c:394
+msgid "Main Window Style"
+msgstr ""
+
+#: src/uix/cfg.c:396
+msgid "Enable Window Manager's Decorated"
+msgstr ""
+
+#: src/uix/cfg.c:402
+msgid "Enable Transparent Effective"
+msgstr ""
+
+#: src/uix/cfg.c:418
+msgid "Session Style"
+msgstr ""
+
+#: src/uix/cfg.c:420
+msgid "Use Custom Session Background Image"
+msgstr ""
+
+#: src/uix/cfg.c:439 src/uix/cfg.c:442
+msgid "Plugins"
+msgstr ""
+
+#: src/uix/cfg.c:439
+msgid "All the plug-ins of Linnya."
+msgstr ""
+
+#: src/uix/cfg.c:533 src/uix/cfg.c:583
+msgid "Official Website"
+msgstr ""
+
+#: src/uix/cfg.c:550
+#, c-format
+msgid "(c) %s"
+msgstr ""
+
+#: src/uix/cfg.c:600
+msgid "Configuration of Plugins"
+msgstr ""
+
+#: src/uix/cfg.c:626
+msgid ""
+"The configuration button of this plugin will NOT be updated untill the "
+"configuration dialog restart!"
+msgstr ""
+
+#: src/uix/cfg.c:738
+msgid "Key"
+msgstr ""
+
+#: src/uix/cfg.c:748
+msgid "Press key to change shortcut ..."
+msgstr ""
+
+#: src/uix/cfg.c:876
+msgid "Setting will not be actived until program restart!"
+msgstr ""
+
+#: src/uix/cfg.c:910
+msgid "Select Session Background directory"
+msgstr ""
+
+#: src/uix/cfg.c:1048
+msgid "Save Equalizer"
+msgstr ""
+
+#: src/uix/cfg.c:1059
+msgid "Eq Name :"
+msgstr ""
+
+#: src/uix/cfg.c:1122
+msgid "Cannot delete the default equalizer setting!"
+msgstr ""
+
+#: src/uix/cfg.c:1172
+msgid "Preference"
+msgstr ""
+
+#: src/uix/dbg.c:105
+#, c-format
+msgid ""
+"<b>INFO!</b>\n"
+"%s"
+msgstr ""
+
+#: src/uix/dbg.c:128
+#, c-format
+msgid ""
+"<b>WARNING!</b>\n"
+"%s"
+msgstr ""
+
+#: src/uix/dbg.c:149
+#, c-format
+msgid ""
+"<b>ERROR!</b>\n"
+"%s"
+msgstr ""
+
+#: src/uix/dbg.c:169
+#, c-format
+msgid ""
+"<b>FATAL ERROR!</b>\n"
+"%s"
+msgstr ""
+
+#: src/uix/key.c:287
+msgid ""
+"Key defination file does not exist, linnya will create a new one when exit!"
+msgstr ""
+
+#: src/uix/key.c:309
+msgid "Configuration file error!"
+msgstr ""
+
+#: src/uix/key.c:379
+msgid "[warning] Cannot write keybinds to file!"
+msgstr ""
+
+#: src/uix/pli.c:44
+msgid "[fatal] Your system does not support plugin!"
+msgstr ""
+
+#: src/uix/pli.c:45
+#, c-format
+msgid "[fatal] Your system does not support plugin!\n"
+msgstr ""
+
+#: src/uix/pli.c:137
+msgid "[warning] Read configuration file error."
+msgstr ""
+
+#: src/uix/sss.c:207
+msgid "New Session"
+msgstr ""
+
+#: src/uix/win.c:207
+msgid "Play/Pause"
+msgstr ""
+
+#: src/uix/win.c:210
+msgid "Previous"
+msgstr ""
+
+#: src/uix/win.c:213
+msgid "Next"
+msgstr ""
+
+#: src/uix/win.c:221
+msgid "Show/Hide Main Window"
+msgstr ""
+
+#: src/uix/win.c:226
+msgid "Quit"
+msgstr ""
+
+#: src/uix/win.c:231
+msgid "<b>Linnya</b> Audio Player"
+msgstr ""

@@ -51,7 +51,7 @@ GtkWidget *ly_3lrc_widget_create()
 	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
 	gtk_widget_set_app_paintable(event_box, TRUE);
 	
-	button=gtk_button_new_with_label(_("Download Lyrics From Web ..."));
+	button=gtk_button_new_with_label(_("Download Lyrics"));
 	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_widget_on_get_button_clicked_cb), NULL);
 	

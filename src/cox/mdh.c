@@ -149,7 +149,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(!g_str_equal(prefix, "file://"))
 	{
 		g_free(prefix);
-		ly_log_put(_("[warning] Cannot open file: %s. unsupported protocol!"), uri);
+		ly_log_put("[warning] Cannot open file: %s. unsupported protocol!", uri);
 		return NULL;
 	}
 	g_free(prefix);
@@ -157,7 +157,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
-		ly_log_put(_("[warning] Cannot open file: %s. file not found!"), uri);
+		ly_log_put("[warning] Cannot open file: %s. file not found!", uri);
 		return NULL;
 	}
 	g_free(path);
@@ -269,14 +269,14 @@ LyMdhMetadata*	ly_mdh_new_with_uri_full	(char *uri)
 	if(!g_str_equal(prefix, "file://"))
 	{
 		g_free(prefix);
-		ly_log_put(_("[warning] Cannot open file: %s. unsupported protocol!"), uri);
+		ly_log_put("[warning] Cannot open file: %s. unsupported protocol!", uri);
 		return NULL;
 	}
 	g_free(prefix);
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
-		ly_log_put(_("[warning] Cannot open file: %s. file not found!"), uri);
+		ly_log_put("[warning] Cannot open file: %s. file not found!", uri);
 		return NULL;
 	}
 	g_free(path);
@@ -603,11 +603,7 @@ void		ly_mdh_new_with_uri_pipe_cb	(GstElement *decodebin,GstPad *pad, gboolean l
 	static GstPad *sink_pad;
 
 	caps = gst_pad_get_caps(pad);
-	if(gst_caps_is_empty(caps) || gst_caps_is_any(caps))
-	{
-		ly_log_put(_("[warning] Decoded pad with no caps or any caps, Abort..."));
-	}
-	else
+	if(!(gst_caps_is_empty(caps) || gst_caps_is_any(caps)))
 	{
 		sink_pad = gst_element_get_static_pad(GST_ELEMENT(data), "sink");
 		gst_pad_link(pad, sink_pad);

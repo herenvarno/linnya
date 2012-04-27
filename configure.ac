@@ -54,13 +54,12 @@ AC_OUTPUT([Makefile\
 	src/pix/inf/Makefile\
 	src/pix/opc/Makefile\
 	src/pix/lrc/Makefile\
-	src/pix/rdo/Makefile\
 	src/pix/dnc/Makefile\
-       data/Makefile\
-       data/icon/Makefile\
-       data/theme/Makefile\
-       data/theme/default/Makefile\
-       data/theme/dark/Makefile\
-       data/theme/dark/sssbg/Makefile\
-       data/theme/dark/gtk-3.0/Makefile\
-       data/theme/dark/gtk-3.0/linnya_img/Makefile])
+	data/Makefile\
+	data/icon/Makefile\
+	data/theme/Makefile\
+	data/theme/default/Makefile\
+	data/theme/dark/Makefile\
+	data/theme/dark/sssbg/Makefile\
+	data/theme/dark/gtk-3.0/Makefile\
+	data/theme/dark/gtk-3.0/linnya_img/Makefile])

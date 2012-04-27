@@ -32,7 +32,7 @@ GtkWidget* ly_3dnc_config()
 	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
 	page=ly_cfg_page_new(name, pl->alias, pl->logo);
 	
-	item=ly_cfg_item_new(_("Album Cover Download Server"));
+	item=ly_cfg_item_new(_("Cover Download Server"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	combo=gtk_combo_box_text_new();
 	ly_reg_get("3dnc_cov_server", "%[^\n]", server);

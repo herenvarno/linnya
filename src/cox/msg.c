@@ -47,7 +47,7 @@ void	 ly_msg_init()
 	ly_msg_messages=g_queue_new();
 	if(ly_msg_messages==NULL)
 	{
-		printf(_("[error] Linnya ERROR: Building the message bus failed!\n"));
+		ly_log_put("[error] Cannot building the message bus!\n");
 		exit(0);
 	}
 

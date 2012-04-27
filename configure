@@ -14250,7 +14250,7 @@ CC="$lt_save_CC"
 
 
 
-ac_config_files="$ac_config_files Makefile po/Makefile.in src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/rdo/Makefile src/pix/dnc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/sssbg/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
+ac_config_files="$ac_config_files Makefile po/Makefile.in src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/dnc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/sssbg/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15278,7 +15278,6 @@ do
     "src/pix/inf/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/inf/Makefile" ;;
     "src/pix/opc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/opc/Makefile" ;;
     "src/pix/lrc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/lrc/Makefile" ;;
-    "src/pix/rdo/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/rdo/Makefile" ;;
     "src/pix/dnc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/dnc/Makefile" ;;
     "data/Makefile") CONFIG_FILES="$CONFIG_FILES data/Makefile" ;;
     "data/icon/Makefile") CONFIG_FILES="$CONFIG_FILES data/icon/Makefile" ;;

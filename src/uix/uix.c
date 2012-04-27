@@ -31,24 +31,24 @@
  */
 void ly_uix_init(int *argc, char ***argv)
 {
-	ly_log_put(_("[info] Init UIX module"));
-	ly_log_put(_("[info] Init UIX module: GLB"));
+	ly_log_put("[info] Init UIX module");
+	ly_log_put("[info] Init UIX module: GLB");
 	ly_glb_init(argc, argv);
-	ly_log_put(_("[info] Init UIX module: DBG"));
+	ly_log_put("[info] Init UIX module: DBG");
 	ly_dbg_init();
-	ly_log_put(_("[info] Init UIX module: KEY"));
+	ly_log_put("[info] Init UIX module: KEY");
 	ly_key_init();
-	ly_log_put(_("[info] Init UIX module: THM"));
+	ly_log_put("[info] Init UIX module: THM");
 	ly_thm_init();
-	ly_log_put(_("[info] Init UIX module: WIN"));
+	ly_log_put("[info] Init UIX module: WIN");
 	ly_win_init();
-	ly_log_put(_("[info] Init UIX module: PLI"));
+	ly_log_put("[info] Init UIX module: PLI");
 	ly_pli_init();
-	ly_log_put(_("[info] Init UIX module: SSS"));
+	ly_log_put("[info] Init UIX module: SSS");
 	ly_sss_init();
-	ly_log_put(_("[info] Init UIX module: CFG"));
+	ly_log_put("[info] Init UIX module: CFG");
 	ly_cfg_init();
-	ly_log_put(_("[info] Main Loop begin"));
+	ly_log_put("[info] Main Loop begin");
 	gtk_main();
 }
 
@@ -61,21 +61,21 @@ void ly_uix_init(int *argc, char ***argv)
  */
 void ly_uix_fina()
 {
-	ly_log_put(_("[info] Fina UIX module"));
-	ly_log_put(_("[info] Fina UIX module: CFG"));
+	ly_log_put("[info] Fina UIX module");
+	ly_log_put("[info] Fina UIX module: CFG");
 	ly_cfg_fina();
-	ly_log_put(_("[info] Fina UIX module: SSS"));
+	ly_log_put("[info] Fina UIX module: SSS");
 	ly_sss_fina();
-	ly_log_put(_("[info] Fina UIX module: PLI"));
+	ly_log_put("[info] Fina UIX module: PLI");
 	ly_pli_fina();
-	ly_log_put(_("[info] Fina UIX module: WIN"));
+	ly_log_put("[info] Fina UIX module: WIN");
 	ly_win_fina();
-	ly_log_put(_("[info] Fina UIX module: THM"));
+	ly_log_put("[info] Fina UIX module: THM");
 	ly_thm_fina();
-	ly_log_put(_("[info] Fina UIX module: KEY"));
+	ly_log_put("[info] Fina UIX module: KEY");
 	ly_key_fina();
-	ly_log_put(_("[info] Fina UIX module: DBG"));
+	ly_log_put("[info] Fina UIX module: DBG");
 	ly_dbg_fina();
-	ly_log_put(_("[info] Fina UIX module: GLB"));
+	ly_log_put("[info] Fina UIX module: GLB");
 	ly_glb_fina();
 }

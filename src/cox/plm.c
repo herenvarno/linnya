@@ -61,7 +61,7 @@ int		ly_plm_add_pl			(char *name)
 		g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
 		if(ly_dbm_exec(sql, NULL, NULL)<0)
 		{
-			ly_msg_put("error", "core:plm", _("Playlist exist!"));
+			ly_msg_put("error", "core:plm", _("Playlist already exists!"));
 			return -1;
 		}
 	}
@@ -98,14 +98,14 @@ void	ly_plm_rename_pl		(int pid, char *name)
 {
 	if((!name)||(g_str_equal(name,"")))
 	{
-		ly_msg_put("error", "core:plm", "Illegal playlist name. Please try again.");
+		ly_msg_put("error", "core:plm", _("Illegal playlist name."));
 		return;
 	}
 	char sql[1024]="";
 	g_snprintf(sql,sizeof(sql),"UPDATE playlists SET name='%s' WHERE id=%d", name, pid);
 	if(ly_dbm_exec(sql, NULL, NULL)<0)
 	{
-		ly_msg_put("error", "core:plm", "Cannot find particular playlist.");
+		ly_msg_put("error", "core:plm", _("Cannot find playlist."));
 		return;
 	}
 	ly_msg_put("plm_update", "core:plm", NULL);
@@ -116,7 +116,7 @@ gboolean		ly_plm_import_pl		(char *path)
 {
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
-		ly_msg_put("error", "core:plm", _("playlist file doesn't exist!"));
+		ly_msg_put("error", "core:plm", _("Cannot find playlist file!"));
 		return FALSE;
 	}
 	int pid=-1;
@@ -148,7 +148,7 @@ gboolean		ly_plm_export_pl		(int pid, char *path)
 	FILE *fp=fopen(path, "w+");
 	if(!fp)
 	{
-		ly_msg_put("error", "core:plm", _("Cannot open a file to save playlist!"));
+		ly_msg_put("error", "core:plm", _("Cannot save playlist!"));
 		return FALSE;
 	}
 	

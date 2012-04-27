@@ -466,12 +466,12 @@ gint64 ly_aud_get_position_abs()
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
-		ly_log_put(_("[warning] Position Error!"));
+		ly_log_put("[warning] Position Error!");
 		return 0;
 	}
 	if(pos-start<-60000000000)
 	{
-		ly_log_put(_("[warning] Position Error!"));
+		ly_log_put("[warning] Position Error!");
 		return 0;
 	}
 	pos=pos-start;
