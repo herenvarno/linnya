@@ -190,6 +190,7 @@ LyWinWindow*	ly_win_new()
 	
 	control_right=gtk_grid_new();
 	gtk_box_pack_start(GTK_BOX(hbox_control), control_right, FALSE, FALSE, 10);
+	
 	button_config=gtk_button_new();
 	gtk_widget_set_size_request(button_config,40,40);
 	gtk_grid_attach(GTK_GRID(control_right), button_config, 0, 0, 1, 1);
@@ -197,6 +198,30 @@ LyWinWindow*	ly_win_new()
 	gtk_widget_set_size_request(button_volume,40,40);
 	gtk_grid_attach(GTK_GRID(control_right), button_volume, 1, 0, 1, 1);
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(button_volume), ly_aud_get_volume());
+	
+	if(!th || g_str_equal(th->style, ""))
+	{
+		GtkWidget *btn_image;
+		btn_image=gtk_image_new_from_stock(GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON);
+		gtk_container_add(GTK_CONTAINER(button_play), btn_image);
+		btn_image=gtk_image_new_from_stock(GTK_STOCK_MEDIA_PREVIOUS, GTK_ICON_SIZE_BUTTON);
+		gtk_container_add(GTK_CONTAINER(button_prev), btn_image);
+		btn_image=gtk_image_new_from_stock(GTK_STOCK_MEDIA_NEXT, GTK_ICON_SIZE_BUTTON);
+		gtk_container_add(GTK_CONTAINER(button_next), btn_image);
+		btn_image=gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_BUTTON);
+		gtk_container_add(GTK_CONTAINER(button_config), btn_image);
+		
+		if(!decorated)
+		{
+			btn_image=gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_BUTTON);
+			gtk_container_add(GTK_CONTAINER(button_close), btn_image);
+			btn_image=gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON);
+			gtk_container_add(GTK_CONTAINER(button_min), btn_image);
+			btn_image=gtk_image_new_from_stock(GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON);
+			gtk_container_add(GTK_CONTAINER(button_mini), btn_image);
+		}
+	}
+	
 
 	//tray icon
 	g_snprintf(path, sizeof(path), "%sui/icon/linnya.png", LY_GLA_PROGDIR);
@@ -417,6 +442,26 @@ gboolean ly_win_on_play_toggle_cb(GtkWidget *widget, gpointer data)
 {
 	gboolean state;
 	state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	
+	LyThmItem *th=ly_thm_item_new_from_conf();
+	if(!th || g_str_equal(th->style, ""))
+	{
+		GtkWidget *btn_image;
+		GList *list=gtk_container_get_children(GTK_CONTAINER(widget));
+		if(list&&list->data)
+		{
+			if(state)
+			{
+				gtk_image_set_from_stock(GTK_IMAGE(list->data), GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_BUTTON);
+			}
+			else
+			{
+				gtk_image_set_from_stock(GTK_IMAGE(list->data), GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON);
+			}
+			g_list_free(list);
+		}
+	}
+	
 	GstState gst_state;
 	gst_state=ly_aud_get_state();
 	if(state && gst_state!=GST_STATE_PLAYING)

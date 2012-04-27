@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.9\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-04-26 21:41+0800\n"
+"POT-Creation-Date: 2012-04-27 19:36+0800\n"
 "PO-Revision-Date: 2012-04-26 21:42+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
@@ -72,11 +72,14 @@ msgstr ""
 "\n"
 "版权所有 (C) 2010-2012 Edward Yang\n"
 "\n"
-"聆雅是自由软件；您可以在由自由软件基金会(Free Software Foundation)发布的 GNU 通用公共许可证条款下进行分发或修改；适用于版本3或(由您选择)任何后续版本。\n"
+"聆雅是自由软件；您可以在由自由软件基金会(Free Software Foundation)发布的 GNU "
+"通用公共许可证条款下进行分发或修改；适用于版本3或(由您选择)任何后续版本。\n"
 "\n"
-"聆雅分发是希望它有所用处，但是没有任何担保；没有即便是暗示的商品授权和适当其他特殊目的。更多细节请参见 GNU 通用公共许可证。\n"
+"聆雅分发是希望它有所用处，但是没有任何担保；没有即便是暗示的商品授权和适当其"
+"他特殊目的。更多细节请参见 GNU 通用公共许可证。\n"
 "\n"
-"您应当已经和聆雅一道收到 GNU 通用公共许可证的一份副本；如果没有，请访问 <http://www.gnu.org/licenses/>"
+"您应当已经和聆雅一道收到 GNU 通用公共许可证的一份副本；如果没有，请访问 "
+"<http://www.gnu.org/licenses/>"
 
 #: src/cox/reg.c:56
 #, c-format
@@ -112,8 +115,7 @@ msgstr "非法的播放列表文件格式！"
 msgid "Cannot save playlist!"
 msgstr "无法保存播放列表文件！"
 
-#: src/cox/plm.c:247
-#: src/cox/plm.c:533
+#: src/cox/plm.c:247 src/cox/plm.c:533
 msgid "Cannot open playlsit file!"
 msgstr "无法打开播放列表文件！"
 
@@ -125,63 +127,50 @@ msgstr "封面下载服务器"
 msgid "Lyrics Download Server"
 msgstr "歌词下载服务器"
 
-#: src/pix/dnc/dnc_cov.c:42
-#: src/pix/dnc/dnc_lrc.c:42
+#: src/pix/dnc/dnc_cov.c:42 src/pix/dnc/dnc_lrc.c:42
 msgid "A download task already exists, try again later!"
 msgstr "一个下载任务已存在，请稍候重试！"
 
-#: src/pix/dnc/dnc_cov.c:51
-#: src/pix/dnc/dnc_lrc.c:51
+#: src/pix/dnc/dnc_cov.c:51 src/pix/dnc/dnc_lrc.c:51
 msgid "No Playing Track!"
 msgstr "当前无曲目！"
 
-#: src/pix/dnc/dnc_cov.c:77
-#: src/pix/dnc/dnc_cov.c:162
-#: src/pix/dnc/dnc_lrc.c:77
+#: src/pix/dnc/dnc_cov.c:77 src/pix/dnc/dnc_cov.c:162 src/pix/dnc/dnc_lrc.c:77
 #: src/pix/dnc/dnc_lrc.c:163
 msgid "Illegal server name!"
 msgstr "非法的服务器名称！"
 
-#: src/pix/dnc/dnc_cov.c:84
-#: src/pix/dnc/dnc_lrc.c:85
+#: src/pix/dnc/dnc_cov.c:84 src/pix/dnc/dnc_lrc.c:85
 msgid "Find nothing by searching the web!"
 msgstr "搜索一无所获！"
 
-#: src/pix/dnc/dnc_cov.c:100
-#: src/pix/dnc/dnc_lrc.c:101
+#: src/pix/dnc/dnc_cov.c:100 src/pix/dnc/dnc_lrc.c:101
 msgid "Found"
 msgstr "找到"
 
-#: src/pix/dnc/dnc_cov.c:113
-#: src/pix/dnc/dnc_lrc.c:118
-#: src/pix/opc/opc_right.c:162
-#: src/pix/opc/opc_right.c:850
+#: src/pix/dnc/dnc_cov.c:113 src/pix/dnc/dnc_lrc.c:118
+#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:850
 msgid "Artist"
 msgstr "艺术家"
 
-#: src/pix/dnc/dnc_cov.c:117
-#: src/pix/opc/opc_right.c:168
+#: src/pix/dnc/dnc_cov.c:117 src/pix/opc/opc_right.c:168
 #: src/pix/opc/opc_right.c:853
 msgid "Album"
 msgstr "专辑"
 
-#: src/pix/dnc/dnc_cov.c:170
-#: src/pix/dnc/dnc_lrc.c:171
+#: src/pix/dnc/dnc_cov.c:170 src/pix/dnc/dnc_lrc.c:171
 msgid "Cannot get the real resource adress!"
 msgstr "无法获取真实资源地址！"
 
-#: src/pix/dnc/dnc_cov.c:181
-#: src/pix/dnc/dnc_lrc.c:182
+#: src/pix/dnc/dnc_cov.c:181 src/pix/dnc/dnc_lrc.c:182
 msgid "Illegal url adress!"
 msgstr "非法的URL地址！"
 
-#: src/pix/dnc/dnc_cov.c:195
-#: src/pix/dnc/dnc_lrc.c:199
+#: src/pix/dnc/dnc_cov.c:195 src/pix/dnc/dnc_lrc.c:199
 msgid "Cannot open file stream!"
 msgstr "无法打开文件流！"
 
-#: src/pix/dnc/dnc_lrc.c:114
-#: src/pix/opc/opc_right.c:156
+#: src/pix/dnc/dnc_lrc.c:114 src/pix/opc/opc_right.c:156
 #: src/pix/opc/opc_right.c:847
 msgid "Title"
 msgstr "歌曲名"
@@ -190,18 +179,15 @@ msgstr "歌曲名"
 msgid "Download Cover"
 msgstr "下载封面"
 
-#: src/pix/inf/inf_config.c:54
-#: src/pix/lrc/lrc_config.c:78
+#: src/pix/inf/inf_config.c:54 src/pix/lrc/lrc_config.c:78
 msgid "Font"
 msgstr "字体"
 
-#: src/pix/inf/inf_config.c:58
-#: src/pix/lrc/lrc_config.c:82
+#: src/pix/inf/inf_config.c:58 src/pix/lrc/lrc_config.c:82
 msgid "Title Font"
 msgstr "歌曲名字体"
 
-#: src/pix/inf/inf_config.c:64
-#: src/pix/lrc/lrc_config.c:88
+#: src/pix/inf/inf_config.c:64 src/pix/lrc/lrc_config.c:88
 msgid "Normal Font"
 msgstr "普通文本字体"
 
@@ -221,8 +207,7 @@ msgstr "固定桌面歌词"
 msgid "Lyrics File Storage"
 msgstr "歌词文件存储"
 
-#: src/pix/lrc/lrc_config.c:61
-#: src/pix/lrc/lrc_config.c:71
+#: src/pix/lrc/lrc_config.c:61 src/pix/lrc/lrc_config.c:71
 msgid "The same directory of music file"
 msgstr "存放于音乐文件的相同目录"
 
@@ -234,8 +219,7 @@ msgstr "自定义LRC文件位置"
 msgid "Desktop Font"
 msgstr "桌面歌词字体"
 
-#: src/pix/lrc/lrc_config.c:162
-#: src/uix/cfg.c:639
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:639
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
 
@@ -275,8 +259,7 @@ msgstr "添加播放列表"
 msgid "Import Playlist"
 msgstr "导入播放列表"
 
-#: src/pix/opc/opc_left.c:215
-#: src/pix/opc/opc_right.c:415
+#: src/pix/opc/opc_left.c:215 src/pix/opc/opc_right.c:415
 msgid "Add to Play Queue"
 msgstr "添加到播放队列中"
 
@@ -288,29 +271,24 @@ msgstr "重命名"
 msgid "Export Playlist"
 msgstr "导出播放列表"
 
-#: src/pix/opc/opc_left.c:219
-#: src/pix/opc/opc_right.c:419
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/pix/opc/opc_left.c:220
-#: src/pix/opc/opc_right.c:420
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
 msgid "Delete"
 msgstr "删除"
 
-#: src/pix/opc/opc_left.c:221
-#: src/pix/opc/opc_right.c:421
+#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:421
 msgid "Delete All"
 msgstr "删除全部"
 
-#: src/pix/opc/opc_left.c:305
-#: src/pix/opc/opc_right.c:447
+#: src/pix/opc/opc_left.c:305 src/pix/opc/opc_right.c:447
 #: src/pix/opc/opc_right.c:620
 msgid "New Playlist"
 msgstr "新建播放列表"
 
-#: src/pix/opc/opc_left.c:316
-#: src/pix/opc/opc_left.c:461
+#: src/pix/opc/opc_left.c:316 src/pix/opc/opc_left.c:461
 #: src/pix/opc/opc_right.c:631
 msgid "Name"
 msgstr "名称"
@@ -347,13 +325,11 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 "你真的确定要删除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:617
-#: src/pix/opc/opc_right.c:1077
+#: src/pix/opc/opc_left.c:617 src/pix/opc/opc_right.c:1077
 msgid "Warning"
 msgstr "警告"
 
-#: src/pix/opc/opc_right.c:128
-#: src/pix/opc/opc_right.c:221
+#: src/pix/opc/opc_right.c:128 src/pix/opc/opc_right.c:221
 msgid "Page 1"
 msgstr "页码 1"
 
@@ -374,8 +350,7 @@ msgstr "播放"
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: src/pix/opc/opc_right.c:417
-#: src/pix/opc/opc_right.c:722
+#: src/pix/opc/opc_right.c:417 src/pix/opc/opc_right.c:722
 #: src/pix/opc/opc_right.c:731
 msgid "Information"
 msgstr "属性"
@@ -448,8 +423,7 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 " 你真的希望删除所有附属于当前列表中的信息么？"
 
-#: src/uix/cfg.c:203
-#: src/uix/win.c:216
+#: src/uix/cfg.c:203 src/uix/win.c:241
 msgid "Configuration"
 msgstr "首选项"
 
@@ -549,8 +523,7 @@ msgstr "配置名称和按键"
 msgid "Preferense"
 msgstr "配置"
 
-#: src/uix/cfg.c:367
-#: src/uix/cfg.c:369
+#: src/uix/cfg.c:367 src/uix/cfg.c:369
 msgid "Theme"
 msgstr "主题"
 
@@ -578,8 +551,7 @@ msgstr "会话风格"
 msgid "Use Custom Session Background Image"
 msgstr "使用自定义会话背景图片"
 
-#: src/uix/cfg.c:439
-#: src/uix/cfg.c:442
+#: src/uix/cfg.c:439 src/uix/cfg.c:442
 msgid "Plugins"
 msgstr "插件"
 
@@ -587,8 +559,7 @@ msgstr "插件"
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:533
-#: src/uix/cfg.c:583
+#: src/uix/cfg.c:533 src/uix/cfg.c:583
 msgid "Official Website"
 msgstr "官方网站"
 
@@ -602,7 +573,9 @@ msgid "Configuration of Plugins"
 msgstr "插件配置"
 
 #: src/uix/cfg.c:626
-msgid "The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"
+msgid ""
+"The configuration button of this plugin will NOT be updated untill the "
+"configuration dialog restart!"
 msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
 
 #: src/uix/cfg.c:738
@@ -674,7 +647,8 @@ msgstr ""
 "%s"
 
 #: src/uix/key.c:287
-msgid "Key defination file does not exist, linnya will create a new one when exit!"
+msgid ""
+"Key defination file does not exist, linnya will create a new one when exit!"
 msgstr "快捷键定义文件不存在，聆雅将在退出时新建一个！"
 
 #: src/uix/key.c:309
@@ -702,27 +676,26 @@ msgstr "【警告】读取配置文件错误！"
 msgid "New Session"
 msgstr "新会话"
 
-#: src/uix/win.c:207
+#: src/uix/win.c:232
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: src/uix/win.c:210
+#: src/uix/win.c:235
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:213
+#: src/uix/win.c:238
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:221
+#: src/uix/win.c:246
 msgid "Show/Hide Main Window"
 msgstr "显示/隐藏主窗口"
 
-#: src/uix/win.c:226
+#: src/uix/win.c:251
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:231
+#: src/uix/win.c:256
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
-

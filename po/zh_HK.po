@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.9\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-04-26 21:43+0800\n"
+"POT-Creation-Date: 2012-04-27 19:36+0800\n"
 "PO-Revision-Date: 2012-04-26 21:42+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
@@ -423,7 +423,7 @@ msgstr ""
 "<b>這是一個危險的功能！！</b>\n"
 " 你真的希望刪除所有附屬於當前列表中的信息麼？"
 
-#: src/uix/cfg.c:203 src/uix/win.c:216
+#: src/uix/cfg.c:203 src/uix/win.c:241
 msgid "Configuration"
 msgstr "首選項"
 
@@ -676,26 +676,26 @@ msgstr "【警告】讀取配置檔案錯誤！"
 msgid "New Session"
 msgstr "新會話"
 
-#: src/uix/win.c:207
+#: src/uix/win.c:232
 msgid "Play/Pause"
 msgstr "播放/暫停"
 
-#: src/uix/win.c:210
+#: src/uix/win.c:235
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:213
+#: src/uix/win.c:238
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:221
+#: src/uix/win.c:246
 msgid "Show/Hide Main Window"
 msgstr "顯示/隱藏主窗口"
 
-#: src/uix/win.c:226
+#: src/uix/win.c:251
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:231
+#: src/uix/win.c:256
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
