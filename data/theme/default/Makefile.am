@@ -1,3 +1,3 @@
-EXTRA_DIST		= *
+EXTRA_DIST		= announcement
 themedefaultdir	= ${datadir}/linnya/ui/theme/default
-themedefault_DATA	= *
+themedefault_DATA	= announcement
