@@ -212,9 +212,28 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = 
-themedarkcsslinnyaimgdir = ${datadir}/linnya/ui/theme/dark/gtk-3.0/linnya_img
-themedarkcsslinnyaimg_DATA = *
+EXTRA_DIST = \
+			ly_btn_close.svg\
+			ly_btn_config.png\
+			ly_btn_min.svg\
+			ly_btn_next.png\
+			ly_btn_pause.png\
+			ly_btn_play.png\
+			ly_btn_prev.png\
+			ly_btn_volume.png
+
+themedarkcsslinnyaimgdir = ${datadir}/linnya/uix/theme/dark/gtk-3.0/linnya_img
+themedarkcsslinnyaimg_DATA = \
+			ly_btn_close.svg\
+			ly_btn_config.png\
+			ly_btn_min.svg\
+			ly_btn_next.png\
+			ly_btn_pause.png\
+			ly_btn_play.png\
+			ly_btn_prev.png\
+			ly_btn_volume.png\
+			null.png
+
 all: all-am
 
 .SUFFIXES:
@@ -424,6 +443,7 @@ uninstall-am: uninstall-themedarkcsslinnyaimgDATA
 	ps ps-am uninstall uninstall-am \
 	uninstall-themedarkcsslinnyaimgDATA
 
+			null.png
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

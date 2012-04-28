@@ -32,15 +32,15 @@ void		ly_glb_init		(int *argc, char ***argv)
 	/*
 	 * mkdir
 	 */
-	LY_GLB_PROG_UIDIR		=	g_strconcat(LY_GLA_PROGDIR,"ui/",NULL);
-	LY_GLB_USER_UIDIR		=	g_strconcat(LY_GLA_USERDIR,"ui/",NULL);
-	LY_GLB_PROG_PLUGINDIR	=	g_strconcat(LY_GLA_PROGDIR,"plugin/",NULL);
-	LY_GLB_USER_PLUGINDIR	=	g_strconcat(LY_GLA_USERDIR,"plugin/",NULL);
-	LY_GLB_PROG_THEMEDIR	=	g_strconcat(LY_GLB_PROG_UIDIR,"theme/",NULL);
-	LY_GLB_USER_THEMEDIR	=	g_strconcat(LY_GLB_USER_UIDIR,"theme/",NULL);
+	LY_GLB_PROG_UIXDIR	=	g_strconcat(LY_GLA_PROGDIR,"uix/",NULL);
+	LY_GLB_USER_UIXDIR	=	g_strconcat(LY_GLA_USERDIR,"uix/",NULL);
+	LY_GLB_PROG_PLXDIR	=	g_strconcat(LY_GLA_PROGDIR,"plx/",NULL);
+	LY_GLB_USER_PLXDIR	=	g_strconcat(LY_GLA_USERDIR,"plx/",NULL);
+	LY_GLB_PROG_THEMEDIR	=	g_strconcat(LY_GLB_PROG_UIXDIR,"theme/",NULL);
+	LY_GLB_USER_THEMEDIR	=	g_strconcat(LY_GLB_USER_UIXDIR,"theme/",NULL);
 
-	mkdir(LY_GLB_USER_UIDIR, 0755);
-	mkdir(LY_GLB_USER_PLUGINDIR, 0755);
+	mkdir(LY_GLB_USER_UIXDIR, 0755);
+	mkdir(LY_GLB_USER_PLXDIR, 0755);
 	mkdir(LY_GLB_USER_THEMEDIR, 0755);
 	
 	/*

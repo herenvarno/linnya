@@ -212,9 +212,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = *
-themedefaultdir = ${datadir}/linnya/ui/theme/default
-themedefault_DATA = *
+EXTRA_DIST = announcement
+themedefaultdir = ${datadir}/linnya/uix/theme/default
+themedefault_DATA = announcement
 all: all-am
 
 .SUFFIXES:

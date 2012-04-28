@@ -31,21 +31,21 @@
 /*
  * MACROS
  */
-#define LY_GLB_PROG_UIDIR		ly_glb_prog_uidir
-#define LY_GLB_PROG_PLUGINDIR	ly_glb_prog_plugindir
+#define LY_GLB_PROG_UIXDIR	ly_glb_prog_uixdir
+#define LY_GLB_PROG_PLXDIR	ly_glb_prog_plxdir
 #define LY_GLB_PROG_THEMEDIR	ly_glb_prog_themedir
-#define LY_GLB_USER_UIDIR		ly_glb_user_uidir
-#define LY_GLB_USER_PLUGINDIR	ly_glb_user_plugindir
+#define LY_GLB_USER_UIXDIR	ly_glb_user_uixdir
+#define LY_GLB_USER_PLXDIR	ly_glb_user_plxdir
 #define LY_GLB_USER_THEMEDIR	ly_glb_user_themedir
 
 /*
  * VARIABLES
  */
-const char		*ly_glb_prog_uidir;
-const char		*ly_glb_prog_plugindir;
+const char		*ly_glb_prog_uixdir;
+const char		*ly_glb_prog_plxdir;
 const char		*ly_glb_prog_themedir;
-const char		*ly_glb_user_uidir;
-const char		*ly_glb_user_plugindir;
+const char		*ly_glb_user_uixdir;
+const char		*ly_glb_user_plxdir;
 const char		*ly_glb_user_themedir;
 
 /*

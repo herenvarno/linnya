@@ -83,7 +83,7 @@ void	ly_thm_init()
 	 * build user theme directory
 	 */
 	gchar path[1024]="";
-	g_snprintf(path, sizeof(path), "%sui/theme", LY_GLA_USERDIR);
+	g_snprintf(path, sizeof(path), "%stheme", LY_GLB_USER_UIXDIR);
 	mkdir(path,0755);
 	
 	/*
@@ -102,10 +102,10 @@ GList* ly_thm_get_list()
 	char path[1024]="";
 	GList *list0=NULL;
 	GList *list1=NULL;
-	g_snprintf(path,sizeof(path),"%sui/theme/",LY_GLA_USERDIR);
+	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_USER_UIXDIR);
 	list0=ly_gla_traverse_dir(path, 1, FALSE);
 	
-	g_snprintf(path,sizeof(path),"%sui/theme/",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_PROG_UIXDIR);
 	list1=ly_gla_traverse_dir(path, 1, FALSE);
 	
 	GList *p=list1;
@@ -143,10 +143,10 @@ LyThmItem* ly_thm_item_new_with_name(gchar *name)
 		return NULL;
 	gchar path[512]="";
 	gchar dir[512]="";
-	g_snprintf(dir,sizeof(dir),"%sui/theme/%s/",LY_GLA_USERDIR, name);
+	g_snprintf(dir,sizeof(dir),"%stheme/%s/",LY_GLB_USER_UIXDIR, name);
 	if(!g_file_test(dir, G_FILE_TEST_IS_DIR))
 	{
-		g_snprintf(dir,sizeof(dir),"%sui/theme/%s/",LY_GLA_PROGDIR, name);
+		g_snprintf(dir,sizeof(dir),"%stheme/%s/",LY_GLB_PROG_UIXDIR, name);
 		if(!g_file_test(dir, G_FILE_TEST_IS_DIR))
 		{
 			ly_msg_put("warning", "ui:theme", "Theme not found!");

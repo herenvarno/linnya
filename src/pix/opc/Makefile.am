@@ -2,7 +2,7 @@
 # TO REPLACE THE PLUGIN NAME.
 
 PROGMAN_NAME		= linnya
-PLUGIN_DIR			= ${prefix}/share/${PROGMAN_NAME}/plugin
+PLUGIN_DIR			= ${prefix}/share/${PROGMAN_NAME}/plx
 libdir				= ${PLUGIN_DIR}/opc
 datadir				= ${PLUGIN_DIR}/opc
 

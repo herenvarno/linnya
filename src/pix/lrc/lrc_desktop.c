@@ -126,7 +126,7 @@ gboolean	ly_3lrc_desktop_on_expose_cb	(GtkWidget * widget, cairo_t *cr, gpointer
 	ly_reg_get("3lrc_desktop_font", "%1024[^\n]", desktop_font);
 
 	gchar path[1024];
-	g_snprintf(path,sizeof(path),"%sicon/null.png",LY_GLB_PROG_UIDIR);
+	g_snprintf(path,sizeof(path),"%sicon/null.png",LY_GLB_PROG_UIXDIR);
 	if(!desktop_bg)
 		desktop_bg=cairo_image_surface_create_from_png(path);
 

@@ -511,7 +511,7 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 	gchar *path=NULL;
 	GdkPixbuf *logo=NULL;
 	
-	path=g_strconcat(LY_GLB_PROG_UIDIR,"icon/linnya.png",NULL);
+	path=g_strconcat(LY_GLB_PROG_UIXDIR,"icon/linnya.png",NULL);
 	logo=gdk_pixbuf_new_from_file_at_size(path, 48, 48,NULL);
 	g_free(path);
 	

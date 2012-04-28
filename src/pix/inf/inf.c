@@ -52,7 +52,7 @@ const gchar* g_module_check_init(GModule *module)
 		
 	ly_3inf_cover_init();
 	char path[1024]="";
-	g_snprintf(path, sizeof(path), "%sicon/cd.png", LY_GLB_PROG_UIDIR);
+	g_snprintf(path, sizeof(path), "%sicon/cd.png", LY_GLB_PROG_UIXDIR);
 	ly_3inf_pixbuf_cd=gdk_pixbuf_new_from_file_at_scale(path, 250, 200, TRUE, NULL);
 	return NULL;
 }

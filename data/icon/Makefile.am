@@ -10,7 +10,7 @@ EXTRA_DIST =\
 			plugin.png\
 			theme.png\
 			equalizer.png
-icondir = ${datadir}/linnya/ui/icon
+icondir = ${datadir}/linnya/uix/icon
 icon_DATA =\
 			linnya.png\
 			icon.png\

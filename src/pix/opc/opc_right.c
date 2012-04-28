@@ -97,7 +97,7 @@ GtkWidget* ly_3opc_warning_dialog_create(gchar *str);
 void		ly_3opc_right_init		()
 {
 	char path[1024]="";
-	g_snprintf(path, sizeof(path), "%sopc/playing.svg", LY_GLB_PROG_PLUGINDIR);
+	g_snprintf(path, sizeof(path), "%sopc/playing.svg", LY_GLB_PROG_PLXDIR);
 	ly_3opc_right_icon_playing=gdk_pixbuf_new_from_file_at_size(path, 20, 20, NULL);
 }
 void		ly_3opc_right_fina		()
@@ -786,7 +786,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gint i=0;
 	for(i=0; i<COVER_TYPE_COUNT; i++)
 	{
-		g_snprintf(path, sizeof(path), "%sinf/%s-%s.%s",LY_GLB_USER_PLUGINDIR, md->artist, md->album, cover_type[i]);
+		g_snprintf(path, sizeof(path), "%sinf/%s-%s.%s",LY_GLB_USER_PLXDIR, md->artist, md->album, cover_type[i]);
 		if(g_file_test(path, G_FILE_TEST_EXISTS))
 		{
 			pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 120, 120, TRUE, NULL);
@@ -816,7 +816,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 		}
 		else
 		{
-			g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIDIR);
+			g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIXDIR);
 			pixbuf=gdk_pixbuf_new_from_file_at_scale(path, 120, 120, TRUE, NULL);
 		}
 	}

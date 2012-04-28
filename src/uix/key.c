@@ -280,7 +280,7 @@ gboolean ly_key_unbind(char *name)
 gboolean ly_key_read(void)
 {
 	gchar path[1024]="";
-	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIDIR);
+	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIXDIR);
 	
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
@@ -369,7 +369,7 @@ void ly_key_read_start_cb(	GMarkupParseContext *context,
 gboolean ly_key_write(void)
 {
 	gchar path[1024]="";
-	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIDIR);
+	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIXDIR);
 	
 	FILE *fp=NULL;
 	gchar *buf=NULL;
