@@ -68,8 +68,9 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liblinnyacox_la_DEPENDENCIES =
-am_liblinnyacox_la_OBJECTS = gla.lo msg.lo log.lo reg.lo dbm.lo mdh.lo \
-	lib.lo plm.lo pqm.lo ppl.lo eql.lo lrc.lo aud.lo cox.lo
+am_liblinnyacox_la_OBJECTS = gla.lo msg.lo log.lo log.obj.lo reg.lo \
+	dbm.lo mdh.lo lib.lo plm.lo pqm.lo ppl.lo eql.lo lrc.lo aud.lo \
+	cox.lo
 liblinnyacox_la_OBJECTS = $(am_liblinnyacox_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -235,6 +236,7 @@ lib_LTLIBRARIES = liblinnyacox.la
 liblinnyacox_la_SOURCES = gla.c\
 							msg.c\
 							log.c\
+							log.obj.c\
 							reg.c\
 							dbm.c\
 							mdh.c\
@@ -337,6 +339,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gla.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.obj.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lrc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mdh.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg.Plo@am__quote@

@@ -55,9 +55,9 @@ GdkPixbuf *ly_3inf_cover_pixbuf=NULL;
 void		ly_3inf_cover_init()
 {
 	char path[1024]="";
-	g_snprintf(path, sizeof(path), "%sinf/", LY_GLB_USER_PLXDIR);
+	g_snprintf(path, sizeof(path), "%sinf/", LY_GLB_USER_PIXDIR);
 	mkdir(path, 0755);
-	LY_3INF_COVERDIR=g_strconcat(LY_GLB_USER_PLXDIR, "inf/cover/",NULL);
+	LY_3INF_COVERDIR=g_strconcat(LY_GLB_USER_PIXDIR, "inf/cover/",NULL);
 	mkdir(LY_3INF_COVERDIR, 0755);
 
 	g_snprintf(path, sizeof(path), "%sicon/default_album.png", LY_GLB_PROG_UIXDIR);

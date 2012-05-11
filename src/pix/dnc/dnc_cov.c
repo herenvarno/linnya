@@ -185,7 +185,7 @@ gpointer	ly_3dnc_cov_down(gpointer data)
 	gchar path[1024]="";
 	gchar *tmp;
 	tmp=ly_gla_uri_get_suffix((gchar *)data);
-	g_snprintf(path, sizeof(path), "%sinf/cover/%s-%s.%s",LY_GLB_USER_PLXDIR, ly_3dnc_cov_artist, ly_3dnc_cov_album, tmp);
+	g_snprintf(path, sizeof(path), "%sinf/cover/%s-%s.%s",LY_GLB_USER_PIXDIR, ly_3dnc_cov_artist, ly_3dnc_cov_album, tmp);
 	g_free(tmp);
 	
 	FILE *fp=fopen(path, "w+");

@@ -33,6 +33,7 @@
 #include "reg.h"
 #include "dbm.h"
 #include "mdh.h"
+#include "pqm.h"
 
 /*
  * TYPES

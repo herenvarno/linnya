@@ -11,6 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 ALL_LINGUAS="zh_CN zh_TW zh_HK it"
 
 # Checks for programs.
+${CXXFLAGS="-Wall -g -O2"} 
 AC_PROG_CC
 AC_ISC_POSIX
 CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""

@@ -2870,6 +2870,7 @@ ac_config_headers="$ac_config_headers config.h"
 ALL_LINGUAS="zh_CN zh_TW zh_HK it"
 
 # Checks for programs.
+${CXXFLAGS="-Wall -g -O2"}
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'

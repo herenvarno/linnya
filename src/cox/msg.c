@@ -47,7 +47,7 @@ void	 ly_msg_init()
 	ly_msg_messages=g_queue_new();
 	if(ly_msg_messages==NULL)
 	{
-		ly_log_put("[error] Cannot building the message bus!\n");
+		printf("[fatal] Cannot building the message bus, abort ...\n");
 		exit(0);
 	}
 

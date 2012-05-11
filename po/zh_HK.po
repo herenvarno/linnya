@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.9\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-04-27 19:36+0800\n"
+"POT-Creation-Date: 2012-05-11 16:58+0800\n"
 "PO-Revision-Date: 2012-04-26 21:42+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
@@ -20,6 +20,18 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+#: src/cox/aud.c:274 src/cox/aud.c:303 src/cox/aud.c:308
+msgid "Gstreamer state wrong!"
+msgstr ""
+
+#: src/cox/aud.c:353
+msgid "Volume wrong!"
+msgstr ""
+
+#: src/cox/aud.c:389
+msgid "Cannot seek to desired position!"
+msgstr ""
 
 #: src/cox/gla.c:35
 msgid "linnya"
@@ -90,6 +102,11 @@ msgstr "【致命錯誤】無法載入註冊檔案。退出 ……\n"
 #, c-format
 msgid "[fatal] Cannot connect to database. Abort ...\n"
 msgstr "【致命錯誤】無法連接到資料庫。退出 ……\n"
+
+#: src/cox/log.c:22
+#, fuzzy
+msgid "Cannot build logger! Abort ...\n"
+msgstr "【致命錯誤】無法載入註冊檔案。退出 ……\n"
 
 #: src/cox/plm.c:64
 msgid "Playlist already exists!"

@@ -43,6 +43,7 @@
 #include <locale.h>
 #include <libintl.h>
 #include <glib.h>
+#include <gio/gio.h>
 #include <glib/gprintf.h>
 #include <sqlite3.h>
 #include <gst/gst.h>

@@ -212,7 +212,7 @@ GstState ly_aud_get_state()
  * Returns:	TRUE for success, others FALSE.
  */
 gboolean ly_aud_play()
-{	
+{
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
@@ -271,7 +271,7 @@ gboolean ly_aud_pause()
 	{
 		if(!gst_element_set_state(play,GST_STATE_PAUSED))
 		{
-			ly_msg_put("warning","core:aud","Gstreamer States Error!");
+			g_warning(_("Gstreamer state wrong!"));
 			return FALSE;
 		}
 	}
@@ -300,12 +300,12 @@ gboolean ly_aud_stop()
 	
 	if(!gst_element_set_state(play,GST_STATE_NULL))
 	{
-		ly_msg_put("warning","core:aud","1Gstreamer States Error!");
+		g_warning(_("Gstreamer state wrong!"));
 		return FALSE;
 	}
 	if(!gst_element_set_state(play,GST_STATE_READY))
 	{
-		ly_msg_put("warning","core:aud","2Gstreamer States Error!");
+		g_warning(_("Gstreamer state wrong!"));
 		return FALSE;
 	}
 	return TRUE;
@@ -350,7 +350,7 @@ gdouble ly_aud_get_volume()
 	g_object_get(G_OBJECT(ele),"volume",&volume,NULL);
 	if(!volume)
 	{
-		ly_msg_put("error","core:aud",	"Get volume error!");
+		g_warning(_("Volume wrong!"));
 	}
 	return volume;
 }
@@ -386,7 +386,7 @@ gboolean ly_aud_set_position(gdouble percent)
 	position=(duration*percent)+start;
 	if(!gst_element_seek(play,1.0,GST_FORMAT_TIME,GST_SEEK_FLAG_FLUSH,GST_SEEK_TYPE_SET,position,GST_SEEK_TYPE_SET,start+duration))
 	{
-		ly_msg_put("error","core:aud","Fail to seek to desired position");
+		g_critical(_("Cannot seek to desired position!"));
 		return FALSE;
 	}
 
@@ -466,12 +466,12 @@ gint64 ly_aud_get_position_abs()
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
-		ly_log_put("[warning] Position Error!");
+		g_debug("Position wrong!");
 		return 0;
 	}
 	if(pos-start<-60000000000)
 	{
-		ly_log_put("[warning] Position Error!");
+		g_debug("Position wrong!");
 		return 0;
 	}
 	pos=pos-start;

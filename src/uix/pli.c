@@ -47,26 +47,26 @@ void ly_pli_init()
 	}
 	
 	GList *list=NULL;
-	list=ly_gla_get_subdirs(LY_GLB_USER_PLXDIR, FALSE);
+	list=ly_gla_get_subdirs(LY_GLB_USER_PIXDIR, FALSE);
 
 	GList *p=list;
 	gchar *pdata=NULL;
 	while(p)
 	{
 		pdata=p->data;
-		ly_pli_new(LY_GLB_USER_PLXDIR, pdata);
+		ly_pli_new(LY_GLB_USER_PIXDIR, pdata);
 		g_free(pdata);
 		p=p->next;
 	}
 	g_list_free(list);
 
-	list=ly_gla_get_subdirs(LY_GLB_PROG_PLXDIR, FALSE);
+	list=ly_gla_get_subdirs(LY_GLB_PROG_PIXDIR, FALSE);
 	p=list;
 	pdata=NULL;
 	while(p)
 	{
 		pdata=p->data;
-		ly_pli_new(LY_GLB_PROG_PLXDIR, pdata);
+		ly_pli_new(LY_GLB_PROG_PIXDIR, pdata);
 		g_free(pdata);
 		p=p->next;
 	}
@@ -157,7 +157,7 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	GModule *module=NULL;
 	
 	char lock_path[1024]="";
-	g_snprintf(lock_path, sizeof(lock_path),"%s%s.lock",LY_GLB_USER_PLXDIR,filename);
+	g_snprintf(lock_path, sizeof(lock_path),"%s%s.lock",LY_GLB_USER_PIXDIR,filename);
 	if(!g_file_test(lock_path, G_FILE_TEST_EXISTS))
 	{
 		module=g_module_open(path,G_MODULE_BIND_LAZY);
@@ -218,9 +218,9 @@ void ly_pli_new_text_cb(GMarkupParseContext * context, const gchar *text, gsize 
 			ly_pli_set_depend(plugin->name, plugins[i]);
 			if(ly_pli_get(plugins[i]))
 				continue;
-			if(!(ly_pli_new(LY_GLB_USER_PLXDIR, plugins[i])))
+			if(!(ly_pli_new(LY_GLB_USER_PIXDIR, plugins[i])))
 			{
-				if(!(ly_pli_new(LY_GLB_PROG_PLXDIR, plugins[i])))
+				if(!(ly_pli_new(LY_GLB_PROG_PIXDIR, plugins[i])))
 				{
 					continue;
 				}
@@ -321,9 +321,9 @@ gboolean ly_pli_set_active(gchar *name, gboolean active)
 			p=p->next;
 		}
 		char path[1024]="";
-		g_snprintf(path, sizeof(path),"%splugin/%s/lib%s.so",LY_GLA_PROGDIR, pl->name, pl->name);
+		g_snprintf(path, sizeof(path),"%s%s/lib%s.so",LY_GLB_PROG_PIXDIR, pl->name, pl->name);
 		pl->module=g_module_open(path,G_MODULE_BIND_LAZY);
-		g_snprintf(lock_path, sizeof(path),"%splugin/%s.lock",LY_GLA_USERDIR,pl->name);
+		g_snprintf(lock_path, sizeof(path),"%s%s.lock",LY_GLB_USER_PIXDIR,pl->name);
 		if(g_file_test(lock_path, G_FILE_TEST_EXISTS))
 		{
 			remove(lock_path);
@@ -344,7 +344,7 @@ gboolean ly_pli_set_active(gchar *name, gboolean active)
 		}
 		g_module_close(pl->module);
 		pl->module=NULL;
-		g_snprintf(lock_path, sizeof(lock_path),"%splugin/%s.lock",LY_GLA_USERDIR,pl->name);
+		g_snprintf(lock_path, sizeof(lock_path),"%s%s.lock",LY_GLB_USER_PIXDIR,pl->name);
 		if(!g_file_test(lock_path, G_FILE_TEST_EXISTS))
 		{
 			g_file_set_contents(lock_path, "== THIS IS A LOCK FILE FOR PLUGINS, DO NOT DELETE IT ==", -1, NULL);

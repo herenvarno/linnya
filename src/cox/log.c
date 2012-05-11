@@ -1,61 +1,30 @@
-/*
- * log.c
- * This file is part of linnya
- *
- * Copyright (C) 2011 - Edward Yang
- *
- * linnya is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * linnya is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with linnya. If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * HEADERS
- */
 #include "log.h"
 
 /*
  * VARIABLES
  */
-char ly_log_file[1024] = "";
+LyLogger *ly_log_logger;
+
 
 /*
  * FUNCTIONS
  */
-gboolean	ly_log_bind_cb	(gpointer message, gpointer data);
+void ly_log_on_set_default_handler_cb(const gchar *log_domain, \
+	GLogLevelFlags log_level, const gchar *message, gpointer user_data);
 
-/**
- * ly_log_init:
- *
- * Initialize the log module, it will be called by #ly_cox_init.
- */
 void	ly_log_init		()
 {
-	/*
-	 * create log file
-	 */
-	g_snprintf(ly_log_file, sizeof(ly_log_file), "%slog", LY_GLA_USERDIR);
-
-	if(g_file_test(ly_log_file, G_FILE_TEST_EXISTS))
+	gchar path[1024]="";
+	g_snprintf(path, sizeof(path), "%slog", LY_GLA_USERDIR);
+	ly_log_logger=ly_logger_new(path);
+	if(!ly_log_logger)
 	{
-		remove(ly_log_file);
+		g_error(_("Cannot build logger! Abort ...\n"));
 	}
-
-	ly_log_put(" == START == ");
-
-	ly_msg_bind("info", NULL, ly_log_bind_cb, NULL);
-	ly_msg_bind("warning", NULL, ly_log_bind_cb, NULL);
-	ly_msg_bind("error", NULL, ly_log_bind_cb, NULL);
-	ly_msg_bind("fatal", NULL, ly_log_bind_cb, NULL);
+	ly_logger_clear(ly_log_logger);
+	
+	//set default handler
+	g_log_set_default_handler(ly_log_on_set_default_handler_cb, NULL);
 }
 
 /**
@@ -65,13 +34,11 @@ void	ly_log_init		()
  */
 void	ly_log_fina		()
 {
-	ly_msg_unbind("info", NULL, ly_log_bind_cb);
-	ly_msg_unbind("warning", NULL, ly_log_bind_cb);
-	ly_msg_unbind("error", NULL, ly_log_bind_cb);
-	ly_msg_unbind("fatal", NULL, ly_log_bind_cb);
-	ly_log_put(" == END == ");
+	g_object_unref(ly_log_logger);
 }
 
+void ly_log_on_set_default_handler_cb(const gchar *log_domain, \
+	GLogLevelFlags log_level, const gchar *message, gpointer user_data);
 /**
  * ly_log_put:
  * @format :	a standard printf() format string, but notice string precision pitfalls.
@@ -79,71 +46,77 @@ void	ly_log_fina		()
  *
  * Put a log record to log file.
  */
-void	ly_log_put		(const char *format, ...)
+
+void	ly_log_put(const char *format, ...)
 {
-	/*
-	 * Open log file.
-	 */
-	FILE *fp=NULL;
-	fp=fopen(ly_log_file, "a+");
-	if(!fp)
-		return;
-
-	/*
-	 * Write to file
-	 */
-	time_t rawtime;
-	struct tm * timeinfo;
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-
-	gchar *str=NULL;
+	gchar *logstr=NULL;
 	va_list argp;
 	va_start(argp, format);
-	str=g_strdup_vprintf(format, argp);
+	logstr=g_strdup_vprintf(format, argp);
 	va_end(argp);
-
-	char timestr[1024]="";
-	g_strlcpy(timestr, asctime(timeinfo), strlen(asctime(timeinfo)));
-	fprintf(fp, "[%s] %s\n", timestr, str);
-	fclose(fp);
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG, logstr);
 }
 
-/**
- * ly_log_clear:
- *
- * Set the contents of log file to be blank.
- */
-void	ly_log_clear	()
+void	ly_log_put_with_flag	(GLogLevelFlags flag, const char *format, ...)
 {
-	/*
-	 * Open log file.
-	 */
-	FILE *fp=NULL;
-	fp=fopen(ly_log_file, "w+");
-	if(!fp)
+	if(flag<G_LOG_LEVEL_ERROR || flag>G_LOG_LEVEL_DEBUG)
 		return;
 
-	/*
-	 * Write to file
-	 */
-	fprintf(fp, "\n");
-	fclose(fp);
+	gchar timestr[128]="";
+	gchar timetmp[128]="";
+	gchar flagstr[64]="";
+	gchar *logstr=NULL;
+	gchar *str=NULL;
+	
+	//TIMESTR
+	time_t rawtime;
+	struct tm *timeinfo;
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	g_strlcpy(timetmp, asctime(timeinfo), strlen(asctime(timeinfo)));
+	g_snprintf(timestr, sizeof(timestr), "[%s]", timetmp);
+	
+	//FLAGSTR
+	switch(flag)
+	{
+		case G_LOG_LEVEL_ERROR:
+			g_strlcpy(flagstr, "** ERROR ** :", sizeof(flagstr));
+			break;
+		case G_LOG_LEVEL_CRITICAL:
+			g_strlcpy(flagstr, "** CRITICAL ** :", sizeof(flagstr));
+			break;
+		case G_LOG_LEVEL_WARNING:
+			g_strlcpy(flagstr, "** WARNING ** :", sizeof(flagstr));
+			break;
+		case G_LOG_LEVEL_MESSAGE:
+			g_strlcpy(flagstr, "** MESSAGE ** :", sizeof(flagstr));
+			break;
+		case G_LOG_LEVEL_INFO:
+			g_strlcpy(flagstr, "** INFO ** :", sizeof(flagstr));
+			break;
+		case G_LOG_LEVEL_DEBUG:
+			g_strlcpy(flagstr, "** DEBUG ** :", sizeof(flagstr));
+			break;
+		default:
+			g_strlcpy(flagstr, "** DEBUG ** :", sizeof(flagstr));
+			break;
+	}
+	
+	//LOGSTR
+	va_list argp;
+	va_start(argp, format);
+	logstr=g_strdup_vprintf(format, argp);
+	va_end(argp);
+	
+	//WRITE THE WHOLE STR TO FILE
+	str=g_strconcat(timestr, flagstr, logstr, "\n", NULL);
+	ly_logger_add(LY_LOGGER(ly_log_logger), str);
+	g_free(logstr);
+	g_free(str);
 }
 
-/**
- * ly_log_bind_cb:
- * @message:	message that bind.
- * @data:		data passed in the callback function when this function is called.
- *
- * The callback function to bind all debug information.
- *
- * Returns:		TRUE for stop exec continues functions that bind to the same message,
- * FALSE for other condition.
- */
-gboolean	ly_log_bind_cb	(gpointer message, gpointer data)
+void ly_log_on_set_default_handler_cb(const gchar *log_domain, \
+	GLogLevelFlags log_level, const gchar *message, gpointer user_data)
 {
-	LyMsgMsg *m=(LyMsgMsg *)message;
-	ly_log_put("[%s] %s\n", m->type, m->msg);
-	return FALSE;
+	ly_log_put_with_flag(log_level, message);
 }
