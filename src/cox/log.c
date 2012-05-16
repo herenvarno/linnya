@@ -3,7 +3,7 @@
 /*
  * VARIABLES
  */
-LyLogger *ly_log_logger;
+LyLogLogger *ly_log_logger;
 
 
 /*
@@ -16,12 +16,12 @@ void	ly_log_init		()
 {
 	gchar path[1024]="";
 	g_snprintf(path, sizeof(path), "%slog", LY_GLA_USERDIR);
-	ly_log_logger=ly_logger_new(path);
+	ly_log_logger=ly_log_logger_new(path);
 	if(!ly_log_logger)
 	{
 		g_error(_("Cannot build logger! Abort ...\n"));
 	}
-	ly_logger_clear(ly_log_logger);
+	ly_log_logger_clear(ly_log_logger);
 	
 	//set default handler
 	g_log_set_default_handler(ly_log_on_set_default_handler_cb, NULL);
@@ -110,7 +110,7 @@ void	ly_log_put_with_flag	(GLogLevelFlags flag, const char *format, ...)
 	
 	//WRITE THE WHOLE STR TO FILE
 	str=g_strconcat(timestr, flagstr, logstr, "\n", NULL);
-	ly_logger_add(LY_LOGGER(ly_log_logger), str);
+	ly_log_logger_add(LY_LOG_LOGGER(ly_log_logger), str);
 	g_free(logstr);
 	g_free(str);
 }

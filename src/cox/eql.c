@@ -32,8 +32,8 @@
  * FUNCTIONS
  */
 
-gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data);
-gboolean	ly_eql_on_meta_update_cb(gpointer message, gpointer data);
+void	ly_eql_on_equalizer_changed_cb(LyMbsMessage *message, gpointer data);
+void	ly_eql_on_meta_update_cb(LyMbsMessage *message, gpointer data);
 gboolean	ly_eql_new_from_database_cb(gpointer stmt, gpointer data);
 gboolean	ly_eql_conf_set_by_genre_cb(gpointer stmt, gpointer data);
 
@@ -191,12 +191,12 @@ void	ly_eql_init	()
 	LyEqlEqualizer *eq=ly_eql_new_by_conf();
 	ly_eql_set_eq(eq);
 	ly_eql_free(eq);
-
+	
 	/*
 	 * bind message
 	 */
-	ly_msg_bind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb, NULL);
-	ly_msg_bind("meta_update", "core:ppl", ly_eql_on_meta_update_cb, NULL);
+	ly_mbs_bind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb, NULL);
+	ly_mbs_bind("meta_update", "core:ppl", ly_eql_on_meta_update_cb, NULL);
 }
 
 /**
@@ -206,8 +206,8 @@ void	ly_eql_init	()
  */
 void	ly_eql_fina	()
 {
-	ly_msg_unbind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb);
-	ly_msg_unbind("meta_update", "core:ppl", ly_eql_on_meta_update_cb);
+	ly_mbs_unbind("reg_equalizer_changed", "core:reg", ly_eql_on_equalizer_changed_cb);
+	ly_mbs_unbind("meta_update", "core:ppl", ly_eql_on_meta_update_cb);
 }
 
 /**
@@ -248,7 +248,7 @@ LyEqlEqualizer*	ly_eql_new_from_database	(char *name)
 	{
 		return eq;
 	}
-	ly_msg_put("warning", "core:eql", "Cannot find particular equalizer record!");
+	g_warning(_("Cannot find particular equalizer record!"));
 	g_free(eq);
 	return NULL;
 }
@@ -372,35 +372,32 @@ gboolean		ly_eql_put			(LyEqlEqualizer *eq)
 /**
  * ly_eql_on_equalizer_changed_cb:
  * @message: the message struction.
- * @data: the data passed in by ly_msg_put.
+ * @data: the data passed in by ly_mbs_put.
  *
  * A callback function when equalizer_changed message occurs.
  *
  * Returns: FALSE.
  */
-gboolean	ly_eql_on_equalizer_changed_cb(gpointer message, gpointer data)
+void	ly_eql_on_equalizer_changed_cb(LyMbsMessage *message, gpointer data)
 {
-	LyMsgMsg *m=(LyMsgMsg*)message;
-	LyEqlEqualizer *eq=ly_eql_new_by_conf(m->msg);
+	LyEqlEqualizer *eq=ly_eql_new_by_conf(ly_mbs_message_get_body(message));
 	ly_eql_set_eq(eq);
 	ly_eql_free(eq);
-	return FALSE;
 }
 
 /**
  * ly_eql_on_meta_update_cb:
  * @message: the message struction.
- * @data: the data passed in by ly_msg_put.
+ * @data: the data passed in by ly_mbs_put.
  *
  * A callback function when meta_update message occurs.
  *
  * Returns: FALSE.
  */
-gboolean	ly_eql_on_meta_update_cb(gpointer message, gpointer data)
+void		ly_eql_on_meta_update_cb(LyMbsMessage *message, gpointer data)
 {
-	LyMsgMsg *m=(LyMsgMsg*)message;
-	if(!g_str_equal(m->msg, "genre"))
-		return FALSE;
+	if(!g_str_equal(ly_mbs_message_get_body(message), "genre"))
+		return;
 
 	int eql_auto=1;
 	ly_reg_get("eql_auto", "%d", &eql_auto);
@@ -408,7 +405,6 @@ gboolean	ly_eql_on_meta_update_cb(gpointer message, gpointer data)
 	{
 		ly_eql_conf_set_by_genre();
 	}
-	return FALSE;
 }
 
 

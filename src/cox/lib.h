@@ -23,7 +23,7 @@
  * HEADERS
  */
 #include "gla.h"
-#include "msg.h"
+#include "mbs.h"
 #include "log.h"
 #include "dbm.h"
 #include "mdh.h"

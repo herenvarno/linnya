@@ -31,28 +31,9 @@
 
 
 /*
- * TYPES
- */
-enum{
-	DBG_INFO,
-	DBG_WARNING,
-	DBG_ERROR,
-	DBG_FATAL,
-	DBG_COUNT
-};
-
-/*
- * VARABLES
- */
-
-
-/*
  * FUNCTIONS
  */
 void		ly_dbg_init			(void);
 void		ly_dbg_fina			(void);
-
-gboolean	ly_dbg_get_visible	(int type);
-gboolean	ly_dbg_set_visible	(int type, gboolean visible);
 
 #endif

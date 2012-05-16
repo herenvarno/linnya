@@ -41,9 +41,7 @@ void ly_pli_init()
 	
 	if(!g_module_supported())
 	{
-		ly_log_put(_("[fatal] Your system does not support plugin!"));
-		printf(_("[fatal] Your system does not support plugin!\n"));
-		exit(0);
+		g_error(_("Your system does not support plugin, abort ..."));
 	}
 	
 	GList *list=NULL;
@@ -134,7 +132,7 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		ly_log_put(_("[warning] Read configuration file error."));
+		g_warning(_("Read configuration file error."));
 		g_free(plugin);
 		return NULL;
 	}

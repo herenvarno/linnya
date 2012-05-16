@@ -27,15 +27,15 @@
 /*
  * MACROS
  */
-#define LY_LOGGER_GET_PRIVATE(obj) \
-	G_TYPE_INSTANCE_GET_PRIVATE((obj), LY_LOGGER_TYPE, LyLoggerPrivate)
+#define LY_LOG_LOGGER_GET_PRIVATE(obj) \
+	G_TYPE_INSTANCE_GET_PRIVATE((obj), LY_LOG_LOGGER_TYPE, LyLogLoggerPrivate)
 
 
 /*
  * TYPES
  */
-typedef struct _LyLoggerPrivate LyLoggerPrivate;
-struct _LyLoggerPrivate {
+typedef struct _LyLogLoggerPrivate LyLogLoggerPrivate;
+struct _LyLogLoggerPrivate {
     GFile *file;
 };
 
@@ -43,72 +43,72 @@ struct _LyLoggerPrivate {
 /*
  * FUNCTIONS
  */
-static void ly_logger_init(LyLogger *obj);
-static void ly_logger_finalize(GObject *obj);
-static void ly_logger_class_init(LyLoggerClass *klass);
+static void ly_log_logger_init(LyLogLogger *obj);
+static void ly_log_logger_finalize(GObject *obj);
+static void ly_log_logger_class_init(LyLogLoggerClass *klass);
 
 
-GType ly_logger_get_type()
+GType ly_log_logger_get_type()
 {
-	static GType ly_logger_type = 0;
-	if(!ly_logger_type)
+	static GType ly_log_logger_type = 0;
+	if(!ly_log_logger_type)
 	{
-		static const GTypeInfo ly_logger_info = {
-			sizeof(LyLoggerClass),
+		static const GTypeInfo ly_log_logger_info = {
+			sizeof(LyLogLoggerClass),
 			NULL,
 			NULL,
-			(GClassInitFunc)ly_logger_class_init,
+			(GClassInitFunc)ly_log_logger_class_init,
 			NULL,
 			NULL,
-			sizeof(LyLogger),
+			sizeof(LyLogLogger),
 			0,
-			(GInstanceInitFunc)ly_logger_init,
+			(GInstanceInitFunc)ly_log_logger_init,
 			NULL
 		};
-		ly_logger_type = g_type_register_static(
-			G_TYPE_OBJECT,"LyLogger",&ly_logger_info,0);
+		ly_log_logger_type = g_type_register_static(G_TYPE_OBJECT, "LyLogLogger", &ly_log_logger_info, 0);
 	}
-	return ly_logger_type;
+	return ly_log_logger_type;
 }
 
-static void ly_logger_init(LyLogger *obj)
+static void ly_log_logger_init(LyLogLogger *obj)
 {
+
 }
 
-static void ly_logger_finalize(GObject *obj)
+static void ly_log_logger_finalize(GObject *obj)
 {
-	LyLoggerPrivate *priv=LY_LOGGER_GET_PRIVATE(LY_LOGGER(obj));
+	LyLogLoggerPrivate *priv=LY_LOG_LOGGER_GET_PRIVATE(LY_LOG_LOGGER(obj));
 	g_object_unref(priv->file);
 }
 
-static void ly_logger_class_init(LyLoggerClass *klass)
+static void ly_log_logger_class_init(LyLogLoggerClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	object_class->finalize = ly_logger_finalize;
-	g_type_class_add_private(klass, sizeof(LyLoggerPrivate));
+	object_class->finalize = ly_log_logger_finalize;
+	g_type_class_add_private(klass, sizeof(LyLogLoggerPrivate));
 }
 
-LyLogger*	ly_logger_new			(gchar *path)
+LyLogLogger*	ly_log_logger_new			(gchar *path)
 {
 	g_return_val_if_fail(path!=NULL, NULL);
 	
-	LyLogger *logger;
-	logger = g_object_new(LY_LOGGER_TYPE, NULL);
-	LyLoggerPrivate *priv=LY_LOGGER_GET_PRIVATE(LY_LOGGER(logger));
+	LyLogLogger *logger;
+	logger = g_object_new(LY_LOG_LOGGER_TYPE, NULL);
+	LyLogLoggerPrivate *priv=LY_LOG_LOGGER_GET_PRIVATE(LY_LOG_LOGGER(logger));
 	priv->file=g_file_new_for_path(path);
 	return logger;
 }
 
 /**
-* ly_logger_add:
+* ly_log_logger_add:
 * @logger: the logger
 * @str: the string data to be write to log file.
 *
 * Add a log item to log file.
 */
-void	ly_logger_add		(LyLogger *logger, gchar *str)
+void	ly_log_logger_add		(LyLogLogger *logger, gchar *str)
 {
-	LyLoggerPrivate *priv=LY_LOGGER_GET_PRIVATE(LY_LOGGER(logger));
+	LyLogLoggerPrivate *priv=LY_LOG_LOGGER_GET_PRIVATE(LY_LOG_LOGGER(logger));
 	GFileOutputStream *ostream;
 	ostream=g_file_append_to(G_FILE(priv->file), G_FILE_CREATE_NONE, \
 		NULL, NULL);
@@ -119,16 +119,16 @@ void	ly_logger_add		(LyLogger *logger, gchar *str)
 }
 
 /**
-* ly_logger_clear:
+* ly_log_logger_clear:
 * @logger: the logger
 *
 * Clear all the logs written before. This function always attempts to
 * create a temp file whose filename is ended up with "~" and store all
 * the old logs into it.
 */
-void	ly_logger_clear		(LyLogger *logger)
+void	ly_log_logger_clear		(LyLogLogger *logger)
 {
-	LyLoggerPrivate *priv=LY_LOGGER_GET_PRIVATE(LY_LOGGER(logger));
+	LyLogLoggerPrivate *priv=LY_LOG_LOGGER_GET_PRIVATE(LY_LOG_LOGGER(logger));
 	GFileOutputStream *ostream;
 	gchar str[64]="LOG BEGIN >>\n";	
 	ostream=g_file_replace(G_FILE(priv->file), NULL, TRUE, \

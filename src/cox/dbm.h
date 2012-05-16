@@ -35,7 +35,7 @@
  */
 #include "gla.h"
 #include "log.h"
-#include "msg.h"
+#include "mbs.h"
 #include "reg.h"
 
 /*

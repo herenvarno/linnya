@@ -74,9 +74,9 @@ gboolean ly_3opc_right_on_button_p_clicked_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data);
 
 gboolean ly_3opc_right_on_active_cb(GtkTreeView *tree_view,GtkTreePath *path,GtkTreeViewColumn *column,gpointer user_data);
-gboolean ly_3opc_right_on_select_changed_cb(gpointer message, gpointer data);
-gboolean ly_3opc_right_on_limit_changed_cb(gpointer message, gpointer data);
-gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data);
+void ly_3opc_right_on_select_changed_cb(LyMbsMessage *message, gpointer data);
+void ly_3opc_right_on_limit_changed_cb(LyMbsMessage *message, gpointer data);
+void ly_3opc_right_on_meta_changed_cb(LyMbsMessage *message, gpointer data);
 gboolean ly_3opc_right_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
@@ -178,9 +178,9 @@ GtkWidget*	ly_3opc_right_create		()
 	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_release_event", G_CALLBACK(ly_3opc_right_popup_menu_cb), NULL);
 	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_press_event", G_CALLBACK(ly_3opc_right_mask_cb), NULL);
 	
-	ly_msg_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb, NULL);
-	ly_msg_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb, NULL);
-	ly_msg_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
+	ly_mbs_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb, NULL);
+	ly_mbs_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb, NULL);
+	ly_mbs_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
 
 	return vbox;
 }
@@ -189,9 +189,9 @@ void		ly_3opc_right_destroy	()
 	if(ly_3opc_right_str_old)
 		g_free(ly_3opc_right_str_old);
 	ly_3opc_right_str_old=NULL;
-	ly_msg_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb);
-	ly_msg_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb);
-	ly_msg_unbind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb);
+	ly_mbs_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb);
+	ly_mbs_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb);
+	ly_mbs_unbind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb);
 }
 void		ly_3opc_right_refresh	()
 {
@@ -317,7 +317,7 @@ gboolean ly_3opc_right_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointe
 }
 
 
-gboolean ly_3opc_right_on_select_changed_cb(gpointer message, gpointer data)
+void ly_3opc_right_on_select_changed_cb(LyMbsMessage *message, gpointer data)
 {
 	int limit=-1;
 	ly_reg_get("3opc_limit", "%*d:%d", &limit);
@@ -325,24 +325,22 @@ gboolean ly_3opc_right_on_select_changed_cb(gpointer message, gpointer data)
 	g_free(ly_3opc_right_str_old);
 	ly_3opc_right_str_old=NULL;
 	ly_3opc_right_refresh();
-	return FALSE;
 }
-gboolean ly_3opc_right_on_limit_changed_cb(gpointer message, gpointer data)
+void ly_3opc_right_on_limit_changed_cb(LyMbsMessage *message, gpointer data)
 {
 	g_free(ly_3opc_right_str_old);
 	ly_3opc_right_str_old=NULL;
 
 	//refresh
 	ly_3opc_right_refresh();
-	return FALSE;
 }
 
 
-gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data)
+void ly_3opc_right_on_meta_changed_cb(LyMbsMessage *message, gpointer data)
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
-		return FALSE;
+		return;
 
 	int id;
 	GtkTreeIter iter;
@@ -359,14 +357,14 @@ gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data)
 	
 	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 	{
-		return FALSE;
+		return;
 	}
 	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	if(id==md->id)
 	{
 		ly_3opc_right_str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter);
 		gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, ly_3opc_right_icon_playing, -1);
-		return FALSE;
+		return;
 	}
 	else
 	{
@@ -377,11 +375,10 @@ gboolean ly_3opc_right_on_meta_changed_cb(gpointer message, gpointer data)
 			{
 				ly_3opc_right_str_old=gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter);
 				gtk_tree_store_set(ly_3opc_right_store_right, &iter, 0, ly_3opc_right_icon_playing, -1);
-				return FALSE;
+				return;
 			}
 		}
 	}
-	return FALSE;
 }
 
 

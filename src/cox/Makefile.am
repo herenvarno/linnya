@@ -1,6 +1,7 @@
 lib_LTLIBRARIES=liblinnyacox.la
 liblinnyacox_la_SOURCES=	gla.c\
-							msg.c\
+							mbs.c\
+							mbs.obj.c\
 							log.c\
 							log.obj.c\
 							reg.c\

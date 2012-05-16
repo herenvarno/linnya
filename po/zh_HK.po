@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.9\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-11 16:58+0800\n"
+"POT-Creation-Date: 2012-05-14 16:58+0800\n"
 "PO-Revision-Date: 2012-04-26 21:42+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <yy890521@gmail.com>\n"
@@ -21,15 +21,15 @@ msgstr ""
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: src/cox/aud.c:274 src/cox/aud.c:303 src/cox/aud.c:308
+#: src/cox/aud.c:273 src/cox/aud.c:302 src/cox/aud.c:307
 msgid "Gstreamer state wrong!"
 msgstr ""
 
-#: src/cox/aud.c:353
+#: src/cox/aud.c:352
 msgid "Volume wrong!"
 msgstr ""
 
-#: src/cox/aud.c:389
+#: src/cox/aud.c:388
 msgid "Cannot seek to desired position!"
 msgstr ""
 
@@ -93,6 +93,11 @@ msgstr ""
 "您應當已經和聆雅一道收到 GNU 通用公共許可證的一份副本；如果沒有，請訪問 "
 "<http://www.gnu.org/licenses/>"
 
+#: src/cox/msg.c:45
+#, fuzzy
+msgid "Cannot build message bus, abort ..."
+msgstr "【致命錯誤】無法載入註冊檔案。退出 ……\n"
+
 #: src/cox/reg.c:56
 #, c-format
 msgid "[fatal] Cannot load reg file. Abort...\n"
@@ -152,43 +157,43 @@ msgstr "一個下載任務已存在，請稍候重試！"
 msgid "No Playing Track!"
 msgstr "當前無曲目！"
 
-#: src/pix/dnc/dnc_cov.c:77 src/pix/dnc/dnc_cov.c:162 src/pix/dnc/dnc_lrc.c:77
-#: src/pix/dnc/dnc_lrc.c:163
+#: src/pix/dnc/dnc_cov.c:75 src/pix/dnc/dnc_cov.c:160 src/pix/dnc/dnc_lrc.c:75
+#: src/pix/dnc/dnc_lrc.c:161
 msgid "Illegal server name!"
 msgstr "非法的伺服器名稱！"
 
-#: src/pix/dnc/dnc_cov.c:84 src/pix/dnc/dnc_lrc.c:85
+#: src/pix/dnc/dnc_cov.c:82 src/pix/dnc/dnc_lrc.c:83
 msgid "Find nothing by searching the web!"
 msgstr "搜索一無所獲！"
 
-#: src/pix/dnc/dnc_cov.c:100 src/pix/dnc/dnc_lrc.c:101
+#: src/pix/dnc/dnc_cov.c:98 src/pix/dnc/dnc_lrc.c:99
 msgid "Found"
 msgstr "找到"
 
-#: src/pix/dnc/dnc_cov.c:113 src/pix/dnc/dnc_lrc.c:118
-#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:850
+#: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:116
+#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:847
 msgid "Artist"
 msgstr "藝術家"
 
-#: src/pix/dnc/dnc_cov.c:117 src/pix/opc/opc_right.c:168
-#: src/pix/opc/opc_right.c:853
+#: src/pix/dnc/dnc_cov.c:115 src/pix/opc/opc_right.c:168
+#: src/pix/opc/opc_right.c:850
 msgid "Album"
 msgstr "專輯"
 
-#: src/pix/dnc/dnc_cov.c:170 src/pix/dnc/dnc_lrc.c:171
+#: src/pix/dnc/dnc_cov.c:168 src/pix/dnc/dnc_lrc.c:169
 msgid "Cannot get the real resource adress!"
 msgstr "無法獲取真實資源地址！"
 
-#: src/pix/dnc/dnc_cov.c:181 src/pix/dnc/dnc_lrc.c:182
+#: src/pix/dnc/dnc_cov.c:179 src/pix/dnc/dnc_lrc.c:180
 msgid "Illegal url adress!"
 msgstr "非法的URL地址！"
 
-#: src/pix/dnc/dnc_cov.c:195 src/pix/dnc/dnc_lrc.c:199
+#: src/pix/dnc/dnc_cov.c:193 src/pix/dnc/dnc_lrc.c:197
 msgid "Cannot open file stream!"
 msgstr "無法打開檔案流！"
 
-#: src/pix/dnc/dnc_lrc.c:114 src/pix/opc/opc_right.c:156
-#: src/pix/opc/opc_right.c:847
+#: src/pix/dnc/dnc_lrc.c:112 src/pix/opc/opc_right.c:156
+#: src/pix/opc/opc_right.c:844
 msgid "Title"
 msgstr "歌曲名"
 
@@ -236,7 +241,7 @@ msgstr "自定義LRC檔案位置"
 msgid "Desktop Font"
 msgstr "桌面歌詞字型"
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:639
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:637
 msgid "Select library directory"
 msgstr "選擇歌曲庫綁定目錄"
 
@@ -268,73 +273,73 @@ msgstr "播放列表"
 msgid "Artists"
 msgstr "藝術家"
 
-#: src/pix/opc/opc_left.c:213
+#: src/pix/opc/opc_left.c:212
 msgid "Add Playlist"
 msgstr "添加播放列表"
 
-#: src/pix/opc/opc_left.c:214
+#: src/pix/opc/opc_left.c:213
 msgid "Import Playlist"
 msgstr "導入播放列表"
 
-#: src/pix/opc/opc_left.c:215 src/pix/opc/opc_right.c:415
+#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:412
 msgid "Add to Play Queue"
 msgstr "添加到播放隊列中"
 
-#: src/pix/opc/opc_left.c:216
+#: src/pix/opc/opc_left.c:215
 msgid "Rename"
 msgstr "重命名"
 
-#: src/pix/opc/opc_left.c:217
+#: src/pix/opc/opc_left.c:216
 msgid "Export Playlist"
 msgstr "導出播放列表"
 
-#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
+#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:416
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:417
 msgid "Delete"
 msgstr "刪除"
 
-#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:421
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:418
 msgid "Delete All"
 msgstr "刪除全部"
 
-#: src/pix/opc/opc_left.c:305 src/pix/opc/opc_right.c:447
-#: src/pix/opc/opc_right.c:620
+#: src/pix/opc/opc_left.c:304 src/pix/opc/opc_right.c:444
+#: src/pix/opc/opc_right.c:617
 msgid "New Playlist"
 msgstr "新建播放列表"
 
-#: src/pix/opc/opc_left.c:316 src/pix/opc/opc_left.c:461
-#: src/pix/opc/opc_right.c:631
+#: src/pix/opc/opc_left.c:315 src/pix/opc/opc_left.c:460
+#: src/pix/opc/opc_right.c:628
 msgid "Name"
 msgstr "名稱"
 
-#: src/pix/opc/opc_left.c:352
+#: src/pix/opc/opc_left.c:351
 msgid "Import Playlist..."
 msgstr "導入播放列表 ..."
 
-#: src/pix/opc/opc_left.c:360
+#: src/pix/opc/opc_left.c:359
 msgid "Playlist File"
 msgstr "播放列表檔案"
 
-#: src/pix/opc/opc_left.c:450
+#: src/pix/opc/opc_left.c:449
 msgid "Rename Playlist"
 msgstr "重命名播放列表"
 
-#: src/pix/opc/opc_left.c:499
+#: src/pix/opc/opc_left.c:498
 msgid "Export Playlist..."
 msgstr "導出播放列表"
 
-#: src/pix/opc/opc_left.c:506
+#: src/pix/opc/opc_left.c:505
 msgid "M3U Playlist File"
 msgstr "M3U 播放列表檔案"
 
-#: src/pix/opc/opc_left.c:537
+#: src/pix/opc/opc_left.c:536
 msgid "File exist, Replace it anyway?"
 msgstr "檔案已存在，強制替換嗎？"
 
-#: src/pix/opc/opc_left.c:593
+#: src/pix/opc/opc_left.c:592
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL playlists?"
@@ -342,7 +347,7 @@ msgstr ""
 "<b>這是一個危險的功能！！</b>\n"
 "你真的確定要刪除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:617 src/pix/opc/opc_right.c:1077
+#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1074
 msgid "Warning"
 msgstr "警告"
 
@@ -359,68 +364,68 @@ msgstr "*"
 msgid "Page %d"
 msgstr "頁碼 %d"
 
-#: src/pix/opc/opc_right.c:414
+#: src/pix/opc/opc_right.c:411
 msgid "Play"
 msgstr "播放"
 
-#: src/pix/opc/opc_right.c:416
+#: src/pix/opc/opc_right.c:413
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
 
-#: src/pix/opc/opc_right.c:417 src/pix/opc/opc_right.c:722
-#: src/pix/opc/opc_right.c:731
+#: src/pix/opc/opc_right.c:414 src/pix/opc/opc_right.c:719
+#: src/pix/opc/opc_right.c:728
 msgid "Information"
 msgstr "屬性"
 
-#: src/pix/opc/opc_right.c:418
+#: src/pix/opc/opc_right.c:415
 msgid "Add Files"
 msgstr "添加檔案"
 
-#: src/pix/opc/opc_right.c:744
+#: src/pix/opc/opc_right.c:741
 msgid "Basic Information"
 msgstr "基本信息"
 
-#: src/pix/opc/opc_right.c:753
+#: src/pix/opc/opc_right.c:750
 msgid "Start"
 msgstr "開始時間"
 
-#: src/pix/opc/opc_right.c:756
+#: src/pix/opc/opc_right.c:753
 msgid "Duration"
 msgstr "持續時長"
 
-#: src/pix/opc/opc_right.c:759
+#: src/pix/opc/opc_right.c:756
 msgid "Bitrate"
 msgstr "比特率"
 
-#: src/pix/opc/opc_right.c:762
+#: src/pix/opc/opc_right.c:759
 msgid "Codec"
 msgstr "檔案編碼"
 
-#: src/pix/opc/opc_right.c:832
+#: src/pix/opc/opc_right.c:829
 msgid "Uri"
 msgstr "地址"
 
-#: src/pix/opc/opc_right.c:842
+#: src/pix/opc/opc_right.c:839
 msgid "Advanced Information"
 msgstr "高級信息"
 
-#: src/pix/opc/opc_right.c:856
+#: src/pix/opc/opc_right.c:853
 msgid "genre"
 msgstr "風格"
 
-#: src/pix/opc/opc_right.c:859
+#: src/pix/opc/opc_right.c:856
 msgid "track"
 msgstr "曲目"
 
-#: src/pix/opc/opc_right.c:924
+#: src/pix/opc/opc_right.c:921
 msgid "Add From File..."
 msgstr "從檔案添加 ..."
 
-#: src/pix/opc/opc_right.c:932
+#: src/pix/opc/opc_right.c:929
 msgid "Music File"
 msgstr "音樂檔案"
 
-#: src/pix/opc/opc_right.c:1124
+#: src/pix/opc/opc_right.c:1121
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -432,7 +437,7 @@ msgstr ""
 " 它將從物理上被永久地刪除。\n"
 " 您真的想要這麼做麼？"
 
-#: src/pix/opc/opc_right.c:1229
+#: src/pix/opc/opc_right.c:1226
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
@@ -576,67 +581,67 @@ msgstr "插件"
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:533 src/uix/cfg.c:583
+#: src/uix/cfg.c:531 src/uix/cfg.c:581
 msgid "Official Website"
 msgstr "官方網站"
 
-#: src/uix/cfg.c:550
+#: src/uix/cfg.c:548
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:600
+#: src/uix/cfg.c:598
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:626
+#: src/uix/cfg.c:624
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr "此插件的配置按鈕直到配置對話框重啟之後才會更新！"
 
-#: src/uix/cfg.c:738
+#: src/uix/cfg.c:736
 msgid "Key"
 msgstr "按鍵"
 
-#: src/uix/cfg.c:748
+#: src/uix/cfg.c:746
 msgid "Press key to change shortcut ..."
 msgstr "按下鍵盤以設置快捷鍵"
 
-#: src/uix/cfg.c:876
+#: src/uix/cfg.c:874
 msgid "Setting will not be actived until program restart!"
 msgstr "設置將在程序下次啟動生效！"
 
-#: src/uix/cfg.c:910
+#: src/uix/cfg.c:908
 msgid "Select Session Background directory"
 msgstr "選擇會話背景目錄"
 
-#: src/uix/cfg.c:1048
+#: src/uix/cfg.c:1046
 msgid "Save Equalizer"
 msgstr "保存均衡器"
 
-#: src/uix/cfg.c:1059
+#: src/uix/cfg.c:1057
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1122
+#: src/uix/cfg.c:1120
 msgid "Cannot delete the default equalizer setting!"
 msgstr "無法刪除預設均衡其設置！"
 
-#: src/uix/cfg.c:1172
+#: src/uix/cfg.c:1170
 msgid "Preference"
 msgstr "配置"
 
-#: src/uix/dbg.c:105
-#, c-format
+#: src/uix/dbg.c:57
+#, fuzzy, c-format
 msgid ""
-"<b>INFO!</b>\n"
+"<b>MESSAGE!</b>\n"
 "%s"
 msgstr ""
-"<b>信息！</b>\n"
+"<b>警告！</b>\n"
 "%s"
 
-#: src/uix/dbg.c:128
+#: src/uix/dbg.c:71
 #, c-format
 msgid ""
 "<b>WARNING!</b>\n"
@@ -645,22 +650,13 @@ msgstr ""
 "<b>警告！</b>\n"
 "%s"
 
-#: src/uix/dbg.c:149
-#, c-format
+#: src/uix/dbg.c:85
+#, fuzzy, c-format
 msgid ""
-"<b>ERROR!</b>\n"
+"<b>CRITICAL!</b>\n"
 "%s"
 msgstr ""
-"<b>錯誤！</b>\n"
-"%s"
-
-#: src/uix/dbg.c:169
-#, c-format
-msgid ""
-"<b>FATAL ERROR!</b>\n"
-"%s"
-msgstr ""
-"<b>致命錯誤！</b>\n"
+"<b>信息！</b>\n"
 "%s"
 
 #: src/uix/key.c:287
@@ -716,3 +712,17 @@ msgstr "退出"
 #: src/uix/win.c:256
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
+
+#~ msgid ""
+#~ "<b>ERROR!</b>\n"
+#~ "%s"
+#~ msgstr ""
+#~ "<b>錯誤！</b>\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "<b>FATAL ERROR!</b>\n"
+#~ "%s"
+#~ msgstr ""
+#~ "<b>致命錯誤！</b>\n"
+#~ "%s"

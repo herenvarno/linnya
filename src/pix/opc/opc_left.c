@@ -52,7 +52,7 @@ GtkTreeSelection	*selection_left=NULL;
 gboolean ly_3opc_left_on_get_artists_cb(gpointer stmt, gpointer data);
 gboolean ly_3opc_left_on_get_playlists_cb(gpointer stmt, gpointer data);
 gboolean ly_3opc_left_on_changed_cb(GtkWidget *widget, gpointer data);
-gboolean ly_3opc_left_on_plm_update_cb(gpointer message, gpointer data);
+void ly_3opc_left_on_plm_update_cb(LyMbsMessage *message, gpointer data);
 gboolean ly_3opc_left_mask_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 gboolean ly_3opc_left_add_cb(GtkWidget *widget, gpointer data);
@@ -104,14 +104,14 @@ GtkWidget*	ly_3opc_left_create		()
 	g_signal_connect(G_OBJECT(treeview_left), "button_press_event", G_CALLBACK(ly_3opc_left_mask_cb), NULL);
 	g_signal_connect(G_OBJECT(selection_left), "changed", G_CALLBACK(ly_3opc_left_on_changed_cb), NULL);
 	
-	ly_msg_bind("plm_update", "core:plm", ly_3opc_left_on_plm_update_cb, NULL);
+	ly_mbs_bind("plm_update", "core:plm", ly_3opc_left_on_plm_update_cb, NULL);
 	
 	return vbox;
 
 }
 void		ly_3opc_left_destroy	()
 {
-	ly_msg_unbind("plm_update", "core:plm", ly_3opc_left_on_plm_update_cb);
+	ly_mbs_unbind("plm_update", "core:plm", ly_3opc_left_on_plm_update_cb);
 }
 void		ly_3opc_left_refresh	()
 {
@@ -188,11 +188,10 @@ gboolean ly_3opc_left_on_changed_cb(GtkWidget *widget, gpointer data)
 	return FALSE;
 }
 
-gboolean
-ly_3opc_left_on_plm_update_cb(gpointer message, gpointer data)
+void
+ly_3opc_left_on_plm_update_cb(LyMbsMessage *message, gpointer data)
 {
 	ly_3opc_left_refresh();
-	return FALSE;
 }
 
 gboolean

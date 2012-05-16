@@ -53,9 +53,7 @@ void		ly_reg_init		()
 	ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 	if(!ly_reg_read())
 	{
-		printf(_("[fatal] Cannot load reg file. Abort...\n"));
-		ly_log_put("[fatal] Cannot load reg file. Abort...");
-		exit(0);
+		g_error(_("Cannot load reg file. Abort...\n"));
 	}
 }
 
@@ -122,7 +120,7 @@ gboolean	ly_reg_set(char *name, const char *format, ...)
 
 	char s[1024]="";
 	g_snprintf(s, sizeof(s), "reg_%s_changed", namestr);
-	ly_msg_put(s, "core:reg", str);
+	ly_mbs_put(s, "core:reg", str);
 	return TRUE;
 }
 
@@ -149,7 +147,7 @@ gboolean	ly_reg_write			()
 	FILE *fp=NULL;
 	if(!(fp=fopen(ly_reg_file,"w+")))
 	{
-		ly_log_put("[warning] Cannot write reg file!");
+		g_warning(_("Cannot write reg file!"));
 		return FALSE;
 	}
 
@@ -187,7 +185,7 @@ gboolean	ly_reg_read			()
 {
 	if(!g_file_test(ly_reg_file, G_FILE_TEST_EXISTS))
 	{
-		ly_log_put("[warning] Cannot find reg file!");
+		g_warning(_("Cannot find reg file!"));
 		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 		ly_reg_set("version", "%lf", LY_GLA_VERSION_NUM);
 		return TRUE;
@@ -212,7 +210,7 @@ gboolean	ly_reg_read			()
 
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		ly_log_put("[error] Read reg file error!");
+		g_warning(_("Read reg file error!"));
 		g_hash_table_destroy(ly_reg_table);
 		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 		ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);
@@ -231,7 +229,7 @@ gboolean	ly_reg_read			()
 				return TRUE;
 			}
 		}
-		ly_log_put("[warning] Version of reg file is too low!");
+		g_debug_(("Version of reg file is too low!"));
 	}
 
 	g_markup_parse_context_free(context);

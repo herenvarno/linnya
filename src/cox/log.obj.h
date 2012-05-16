@@ -32,44 +32,44 @@ G_BEGIN_DECLS
 /*
  * MACROS
  */
-#define LY_LOGGER_TYPE \
-	(ly_logger_get_type())
-#define LY_LOGGER(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST((obj), LY_LOGGER_TYPE, LyLogger))
-#define LY_LOGGER_CLASS(klass) \
-	(G_TYPE_CHECK_INSTANCE_CAST((klass), LY_LOGGER_CLASS_TYPE, LyLoggerClass))
-#define LY_LOGGER_IS_LOGGER(obj) \
-	(G_TYPE_CHECK_TYPE ((obj), LY_LOGGER_TYPE))
-#define LY_LOGGER_IS_LOGGER_CLASS(klass) \
-	(G_TYPE_CHECK_CLASS_TYPE ((klass), LY_LOGGER_CLASS_TYPE))
-#define LY_LOGGER_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS ((obj), LY_LOGGER_TYPE, LyLoggerClass))
+#define LY_LOG_LOGGER_TYPE \
+	(ly_log_logger_get_type())
+#define LY_LOG_LOGGER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST((obj), LY_LOG_LOGGER_TYPE, LyLogLogger))
+#define LY_LOG_LOGGER_CLASS(klass) \
+	(G_TYPE_CHECK_INSTANCE_CAST((klass), LY_LOG_LOGGER_CLASS_TYPE, LyLogLoggerClass))
+#define LY_LOG_LOGGER_IS_LOGGER(obj) \
+	(G_TYPE_CHECK_VALUE_TYPE ((obj), LY_LOG_LOGGER_TYPE))
+#define LY_LOG_LOGGER_IS_LOGGER_CLASS(klass) \
+	(G_TYPE_CHECK_CLASS_TYPE ((klass), LY_LOG_LOGGER_CLASS_TYPE))
+#define LY_LOG_LOGGER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS ((obj), LY_LOG_LOGGER_TYPE, LyLogLoggerClass))
 
 /*
  * TYPES
  */
-typedef struct _LyLogger LyLogger;
-typedef struct _LyLoggerClass LyLoggerClass;
+typedef struct _LyLogLogger LyLogLogger;
+typedef struct _LyLogLoggerClass LyLogLoggerClass;
 
 /**
- * LyLogger
+ * LyLogLogger
  *
- * The #LyLogger object is used for writing various kind of log to a
+ * The #LyLogLogger object is used for writing various kind of log to a
  * specific log file while program is running. The contents of the
- * #LyLogger structure are private and should only be accessed via
+ * #LyLogLogger structure are private and should only be accessed via
  * provided APIs.
  */
-struct _LyLogger {
+struct _LyLogLogger {
 	/*<private>*/
 	GObject parent;
 };
 
 /**
- * LyLogger
+ * LyLogLogger
  *
- * the class structure of #LyLogger.
+ * the class structure of #LyLogLogger.
  */
-struct _LyLoggerClass {
+struct _LyLogLoggerClass {
 	/*<private>*/
 	GObjectClass parent_class;
 };
@@ -77,10 +77,10 @@ struct _LyLoggerClass {
 /*
  * FUNCTIONS
  */
-GType ly_logger_get_type ();
-LyLogger* ly_logger_new (gchar *path);
-void ly_logger_add (LyLogger *logger, gchar *str);
-void ly_logger_clear (LyLogger *logger);
+GType ly_log_logger_get_type ();
+LyLogLogger* ly_log_logger_new (gchar *path);
+void ly_log_logger_add (LyLogLogger *logger, gchar *str);
+void ly_log_logger_clear (LyLogLogger *logger);
 
 G_END_DECLS
 

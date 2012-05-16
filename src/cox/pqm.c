@@ -206,7 +206,7 @@ void			ly_pqm_set_current_md	(int id)
 	}
 	ly_mdh_free(ly_pqm_md);
 	ly_pqm_md=md;
-	ly_msg_put("meta_changed", "core:pqm", NULL);
+	ly_mbs_put("meta_changed", "core:pqm", NULL);
 }
 void		ly_pqm_set_rand			()
 {
@@ -226,7 +226,7 @@ void		ly_pqm_set_rand			()
 	ly_mdh_free(ly_pqm_md);
 	ly_pqm_md=NULL;
 	ly_pqm_md=ly_pqm_get_md_by_sql(sql);
-	ly_msg_put("meta_changed","core:pqm", NULL);
+	ly_mbs_put("meta_changed","core:pqm", NULL);
 }
 void		ly_pqm_set_next			()
 {
@@ -254,7 +254,7 @@ void		ly_pqm_set_next			()
 		g_snprintf(sql,sizeof(sql),"SELECT * FROM plist WHERE %s ORDER BY playing LIMIT 1", where);
 		ly_pqm_md=ly_pqm_get_md_by_sql(sql);
 	}
-	ly_msg_put("meta_changed","core:pqm",NULL);
+	ly_mbs_put("meta_changed","core:pqm",NULL);
 	return;
 }
 void		ly_pqm_set_prev			()
@@ -283,7 +283,7 @@ void		ly_pqm_set_prev			()
 		g_snprintf(sql,sizeof(sql),"SELECT * FROM plist WHERE %s ORDER BY playing DESC LIMIT 1", where);
 		ly_pqm_md=ly_pqm_get_md_by_sql(sql);
 	}
-	ly_msg_put("meta_changed","core:pqm",NULL);
+	ly_mbs_put("meta_changed","core:pqm",NULL);
 	return;
 }
 

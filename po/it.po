@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.6\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-11 16:58+0800\n"
+"POT-Creation-Date: 2012-05-14 16:58+0800\n"
 "PO-Revision-Date: 2012-04-27 16:36+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/cox/aud.c:274 src/cox/aud.c:303 src/cox/aud.c:308
+#: src/cox/aud.c:273 src/cox/aud.c:302 src/cox/aud.c:307
 msgid "Gstreamer state wrong!"
 msgstr ""
 
-#: src/cox/aud.c:353
+#: src/cox/aud.c:352
 msgid "Volume wrong!"
 msgstr ""
 
-#: src/cox/aud.c:389
+#: src/cox/aud.c:388
 msgid "Cannot seek to desired position!"
 msgstr ""
 
@@ -74,6 +74,10 @@ msgid ""
 "\n"
 "You should have received a copy of the GNU General Public License\n"
 "along with linnya. If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+
+#: src/cox/msg.c:45
+msgid "Cannot build message bus, abort ..."
 msgstr ""
 
 #: src/cox/reg.c:56
@@ -134,43 +138,43 @@ msgstr ""
 msgid "No Playing Track!"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:77 src/pix/dnc/dnc_cov.c:162 src/pix/dnc/dnc_lrc.c:77
-#: src/pix/dnc/dnc_lrc.c:163
+#: src/pix/dnc/dnc_cov.c:75 src/pix/dnc/dnc_cov.c:160 src/pix/dnc/dnc_lrc.c:75
+#: src/pix/dnc/dnc_lrc.c:161
 msgid "Illegal server name!"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:84 src/pix/dnc/dnc_lrc.c:85
+#: src/pix/dnc/dnc_cov.c:82 src/pix/dnc/dnc_lrc.c:83
 msgid "Find nothing by searching the web!"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:100 src/pix/dnc/dnc_lrc.c:101
+#: src/pix/dnc/dnc_cov.c:98 src/pix/dnc/dnc_lrc.c:99
 msgid "Found"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:113 src/pix/dnc/dnc_lrc.c:118
-#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:850
+#: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:116
+#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:847
 msgid "Artist"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:117 src/pix/opc/opc_right.c:168
-#: src/pix/opc/opc_right.c:853
+#: src/pix/dnc/dnc_cov.c:115 src/pix/opc/opc_right.c:168
+#: src/pix/opc/opc_right.c:850
 msgid "Album"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:170 src/pix/dnc/dnc_lrc.c:171
+#: src/pix/dnc/dnc_cov.c:168 src/pix/dnc/dnc_lrc.c:169
 msgid "Cannot get the real resource adress!"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:181 src/pix/dnc/dnc_lrc.c:182
+#: src/pix/dnc/dnc_cov.c:179 src/pix/dnc/dnc_lrc.c:180
 msgid "Illegal url adress!"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:195 src/pix/dnc/dnc_lrc.c:199
+#: src/pix/dnc/dnc_cov.c:193 src/pix/dnc/dnc_lrc.c:197
 msgid "Cannot open file stream!"
 msgstr ""
 
-#: src/pix/dnc/dnc_lrc.c:114 src/pix/opc/opc_right.c:156
-#: src/pix/opc/opc_right.c:847
+#: src/pix/dnc/dnc_lrc.c:112 src/pix/opc/opc_right.c:156
+#: src/pix/opc/opc_right.c:844
 msgid "Title"
 msgstr ""
 
@@ -218,7 +222,7 @@ msgstr ""
 msgid "Desktop Font"
 msgstr ""
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:639
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:637
 msgid "Select library directory"
 msgstr ""
 
@@ -250,79 +254,79 @@ msgstr ""
 msgid "Artists"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:213
+#: src/pix/opc/opc_left.c:212
 msgid "Add Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:214
+#: src/pix/opc/opc_left.c:213
 msgid "Import Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:215 src/pix/opc/opc_right.c:415
+#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:412
 msgid "Add to Play Queue"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:216
+#: src/pix/opc/opc_left.c:215
 msgid "Rename"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:217
+#: src/pix/opc/opc_left.c:216
 msgid "Export Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
+#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:416
 msgid "Refresh"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:417
 msgid "Delete"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:421
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:418
 msgid "Delete All"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:305 src/pix/opc/opc_right.c:447
-#: src/pix/opc/opc_right.c:620
+#: src/pix/opc/opc_left.c:304 src/pix/opc/opc_right.c:444
+#: src/pix/opc/opc_right.c:617
 msgid "New Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:316 src/pix/opc/opc_left.c:461
-#: src/pix/opc/opc_right.c:631
+#: src/pix/opc/opc_left.c:315 src/pix/opc/opc_left.c:460
+#: src/pix/opc/opc_right.c:628
 msgid "Name"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:352
+#: src/pix/opc/opc_left.c:351
 msgid "Import Playlist..."
 msgstr ""
 
-#: src/pix/opc/opc_left.c:360
+#: src/pix/opc/opc_left.c:359
 msgid "Playlist File"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:450
+#: src/pix/opc/opc_left.c:449
 msgid "Rename Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:499
+#: src/pix/opc/opc_left.c:498
 msgid "Export Playlist..."
 msgstr ""
 
-#: src/pix/opc/opc_left.c:506
+#: src/pix/opc/opc_left.c:505
 msgid "M3U Playlist File"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:537
+#: src/pix/opc/opc_left.c:536
 msgid "File exist, Replace it anyway?"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:593
+#: src/pix/opc/opc_left.c:592
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL playlists?"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:617 src/pix/opc/opc_right.c:1077
+#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1074
 msgid "Warning"
 msgstr ""
 
@@ -339,68 +343,68 @@ msgstr ""
 msgid "Page %d"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:414
+#: src/pix/opc/opc_right.c:411
 msgid "Play"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:416
+#: src/pix/opc/opc_right.c:413
 msgid "Add to Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:417 src/pix/opc/opc_right.c:722
-#: src/pix/opc/opc_right.c:731
+#: src/pix/opc/opc_right.c:414 src/pix/opc/opc_right.c:719
+#: src/pix/opc/opc_right.c:728
 msgid "Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:418
+#: src/pix/opc/opc_right.c:415
 msgid "Add Files"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:744
+#: src/pix/opc/opc_right.c:741
 msgid "Basic Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:753
+#: src/pix/opc/opc_right.c:750
 msgid "Start"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:756
+#: src/pix/opc/opc_right.c:753
 msgid "Duration"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:759
+#: src/pix/opc/opc_right.c:756
 msgid "Bitrate"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:762
+#: src/pix/opc/opc_right.c:759
 msgid "Codec"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:832
+#: src/pix/opc/opc_right.c:829
 msgid "Uri"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:842
+#: src/pix/opc/opc_right.c:839
 msgid "Advanced Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:856
+#: src/pix/opc/opc_right.c:853
 msgid "genre"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:859
+#: src/pix/opc/opc_right.c:856
 msgid "track"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:924
+#: src/pix/opc/opc_right.c:921
 msgid "Add From File..."
 msgstr ""
 
-#: src/pix/opc/opc_right.c:932
+#: src/pix/opc/opc_right.c:929
 msgid "Music File"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:1124
+#: src/pix/opc/opc_right.c:1121
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -408,7 +412,7 @@ msgid ""
 " Do you really want to do it?"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:1229
+#: src/pix/opc/opc_right.c:1226
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
@@ -550,82 +554,75 @@ msgstr ""
 msgid "All the plug-ins of Linnya."
 msgstr ""
 
-#: src/uix/cfg.c:533 src/uix/cfg.c:583
+#: src/uix/cfg.c:531 src/uix/cfg.c:581
 msgid "Official Website"
 msgstr ""
 
-#: src/uix/cfg.c:550
+#: src/uix/cfg.c:548
 #, c-format
 msgid "(c) %s"
 msgstr ""
 
-#: src/uix/cfg.c:600
+#: src/uix/cfg.c:598
 msgid "Configuration of Plugins"
 msgstr ""
 
-#: src/uix/cfg.c:626
+#: src/uix/cfg.c:624
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr ""
 
-#: src/uix/cfg.c:738
+#: src/uix/cfg.c:736
 msgid "Key"
 msgstr ""
 
-#: src/uix/cfg.c:748
+#: src/uix/cfg.c:746
 msgid "Press key to change shortcut ..."
 msgstr ""
 
-#: src/uix/cfg.c:876
+#: src/uix/cfg.c:874
 msgid "Setting will not be actived until program restart!"
 msgstr ""
 
-#: src/uix/cfg.c:910
+#: src/uix/cfg.c:908
 msgid "Select Session Background directory"
 msgstr ""
 
-#: src/uix/cfg.c:1048
+#: src/uix/cfg.c:1046
 msgid "Save Equalizer"
 msgstr ""
 
-#: src/uix/cfg.c:1059
+#: src/uix/cfg.c:1057
 msgid "Eq Name :"
 msgstr ""
 
-#: src/uix/cfg.c:1122
+#: src/uix/cfg.c:1120
 msgid "Cannot delete the default equalizer setting!"
 msgstr ""
 
-#: src/uix/cfg.c:1172
+#: src/uix/cfg.c:1170
 msgid "Preference"
 msgstr ""
 
-#: src/uix/dbg.c:105
+#: src/uix/dbg.c:57
 #, c-format
 msgid ""
-"<b>INFO!</b>\n"
+"<b>MESSAGE!</b>\n"
 "%s"
 msgstr ""
 
-#: src/uix/dbg.c:128
+#: src/uix/dbg.c:71
 #, c-format
 msgid ""
 "<b>WARNING!</b>\n"
 "%s"
 msgstr ""
 
-#: src/uix/dbg.c:149
+#: src/uix/dbg.c:85
 #, c-format
 msgid ""
-"<b>ERROR!</b>\n"
-"%s"
-msgstr ""
-
-#: src/uix/dbg.c:169
-#, c-format
-msgid ""
-"<b>FATAL ERROR!</b>\n"
+"<b>CRITICAL!</b>\n"
 "%s"
 msgstr ""
 

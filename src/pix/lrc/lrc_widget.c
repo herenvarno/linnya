@@ -385,6 +385,6 @@ void ly_3lrc_widget_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint 
 
 gboolean ly_3lrc_widget_on_get_button_clicked_cb(GtkWidget *widget, gpointer data)
 {
-	ly_msg_put("lrc_missing", "plugin:lrc", NULL);
+	ly_mbs_put("lrc_missing", "plugin:lrc", NULL);
 	return FALSE;
 }

@@ -51,9 +51,7 @@ void	ly_dbm_init	()
 	rc=sqlite3_open(ly_dbm_file, &ly_dbm_conn);
 	if(rc != SQLITE_OK)
 	{
-		printf(_("[fatal] Cannot connect to database. Abort ...\n"));
-		ly_log_put("[fatal] Cannot connect to database. Abort ...");
-		exit(0);
+		g_error(_("Cannot connect to database. Abort ..."));
 	}
 
 	ly_dbm_exec("begin", NULL, NULL);
@@ -218,9 +216,6 @@ void		ly_dbm_fina		()
 int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 {
 	char str[10240]="";
-	g_snprintf(str, sizeof(str), "[info] Exec SQL: %s", sql);
-	ly_log_put(str);
-	
 	int				rt=0;
 	sqlite3_stmt	*stmt=0;
 	int				r=0;
@@ -233,8 +228,7 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 		rt=sqlite3_exec(ly_dbm_conn,sql,0,0, (char **)(&error));
 		if( rt != SQLITE_OK )
 		{
-			g_snprintf(log, sizeof(log), "[error] Cannot exec SQL: %s, for %s.", sql, error);
-			ly_log_put(log);
+			g_warning("Cannot exec SQL: %s, for %s.", sql, error);
 			sqlite3_free(error);
 			return -1;
 		}
@@ -245,8 +239,7 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 	rt=sqlite3_prepare(ly_dbm_conn, sql, strlen(sql), &stmt, (const char **)(&error));
 	if( rt != SQLITE_OK )
 	{
-		g_snprintf(log, sizeof(log), "[error] Cannot exec SQL: %s, for %s.", sql, error);
-		ly_log_put(log);
+		g_warning("Cannot exec SQL: %s, for %s.", sql, error);
 		return -1;
 	}
 	r=sqlite3_step(stmt);

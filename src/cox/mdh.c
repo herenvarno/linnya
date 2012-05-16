@@ -149,7 +149,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(!g_str_equal(prefix, "file://"))
 	{
 		g_free(prefix);
-		ly_log_put("[warning] Cannot open file: %s. unsupported protocol!", uri);
+		g_warning(_("Cannot open file: %s. unsupported protocol!"), uri);
 		return NULL;
 	}
 	g_free(prefix);
@@ -157,7 +157,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
-		ly_log_put("[warning] Cannot open file: %s. file not found!", uri);
+		g_warning(_("[warning] Cannot open file: %s. file not found!"), uri);
 		return NULL;
 	}
 	g_free(path);
@@ -269,14 +269,14 @@ LyMdhMetadata*	ly_mdh_new_with_uri_full	(char *uri)
 	if(!g_str_equal(prefix, "file://"))
 	{
 		g_free(prefix);
-		ly_log_put("[warning] Cannot open file: %s. unsupported protocol!", uri);
+		g_debug(_("Cannot open file: %s. unsupported protocol!"), uri);
 		return NULL;
 	}
 	g_free(prefix);
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
-		ly_log_put("[warning] Cannot open file: %s. file not found!", uri);
+		g_debug(_("Cannot open file: %s. file not found!"), uri);
 		return NULL;
 	}
 	g_free(path);
@@ -669,7 +669,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 	
 	if(!g_mutex_trylock(ly_mdh_put_mutex))
 	{
-		ly_msg_put("error", "core:mdh", "An old task is running, Tag Failed!");
+		g_warning(_("An old task is running, Tag Failed!"));
 		return FALSE;
 	}
 	/*
@@ -879,7 +879,6 @@ void ly_mdh_push_move_file_cb(LyMdhMetadata* md)
 		int output;
 		char cmd[10240]="";
 		g_snprintf(cmd, sizeof(cmd), "mv \"%s\" \"%s\"", location_o, location_i);
-		puts(cmd);
 		output=system(cmd);
 	}
 	g_free(md);

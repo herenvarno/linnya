@@ -35,8 +35,8 @@ GdkPixbuf *ly_3inf_pixbuf_bg_copy=NULL;
  * FUNCTIONS
  */
 gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
-gboolean ly_3inf_on_meta_changed_cb(gpointer message, gpointer data);
-gboolean ly_3inf_on_meta_update_cb(gpointer message, gpointer data);
+void ly_3inf_on_meta_changed_cb(LyMbsMessage *message, gpointer data);
+void ly_3inf_on_meta_update_cb(LyMbsMessage *message, gpointer data);
 gboolean ly_3inf_on_get_button_clicked_cb(GtkWidget *widget, gpointer data);
 void ly_3inf_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint width_x, gint height_y);
 void ly_3inf_draw_text (cairo_t *cr, gchar *text, gchar *font);
@@ -86,10 +86,10 @@ GtkWidget *ly_3inf_create()
 	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3inf_on_get_button_clicked_cb), NULL);
 	
-	ly_msg_bind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb, NULL);
-	ly_msg_bind("meta_update", "", ly_3inf_on_meta_update_cb, NULL);
-	ly_msg_bind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
-	ly_msg_bind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
+	ly_mbs_bind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb, NULL);
+	ly_mbs_bind("meta_update", "", ly_3inf_on_meta_update_cb, NULL);
+	ly_mbs_bind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
+	ly_mbs_bind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
 	
 	ly_3inf_widget=event_box;
 	ly_3inf_cover_on_meta_changed();
@@ -103,10 +103,10 @@ void ly_3inf_destroy()
 		g_object_unref(ly_3inf_pixbuf_bg);
 	if(ly_3inf_pixbuf_bg_copy)
 		g_object_unref(ly_3inf_pixbuf_bg_copy);
-	ly_msg_unbind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb);
-	ly_msg_unbind("meta_update", "", ly_3inf_on_meta_update_cb);
-	ly_msg_unbind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
-	ly_msg_unbind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
+	ly_mbs_unbind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb);
+	ly_mbs_unbind("meta_update", "", ly_3inf_on_meta_update_cb);
+	ly_mbs_unbind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
+	ly_mbs_unbind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb);
 }
 
 gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -252,16 +252,15 @@ void ly_3inf_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint width_x
 	g_object_unref (layout);
 }
 
-gboolean ly_3inf_on_meta_changed_cb(gpointer message, gpointer data)
+void ly_3inf_on_meta_changed_cb(LyMbsMessage *message, gpointer data)
 {
 	ly_3inf_cover_on_meta_changed();
 	gtk_widget_queue_draw (ly_3inf_widget);
 }
 
-gboolean ly_3inf_on_meta_update_cb(gpointer message, gpointer data)
+void ly_3inf_on_meta_update_cb(LyMbsMessage *message, gpointer data)
 {
-	LyMsgMsg *m=(LyMsgMsg*)message;
-	if(g_str_equal(m->msg, "cover"))
+	if(g_str_equal(ly_mbs_message_get_body(message), "cover"))
 	{
 		ly_3inf_cover_on_meta_changed();
 	}
@@ -270,6 +269,6 @@ gboolean ly_3inf_on_meta_update_cb(gpointer message, gpointer data)
 
 gboolean ly_3inf_on_get_button_clicked_cb(GtkWidget *widget, gpointer data)
 {
-	ly_msg_put("cov_missing", "plugin:inf", NULL);
+	ly_mbs_put("cov_missing", "plugin:inf", NULL);
 	return FALSE;
 }

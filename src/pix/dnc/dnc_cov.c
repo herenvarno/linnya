@@ -11,7 +11,7 @@ static gchar ly_3dnc_cov_album[128]="";
  * FUNCTIONS
  */
 
-gboolean	ly_3dnc_cov_check(gpointer message, gpointer data);
+void	ly_3dnc_cov_check(LyMbsMessage *message, gpointer data);
 gpointer	ly_3dnc_cov_search(gpointer data);
 gboolean	ly_3dnc_cov_notify(gpointer data);
 gpointer	ly_3dnc_cov_analysis(gpointer data);
@@ -28,19 +28,19 @@ void		ly_3dnc_cov_init()
 	}
 
 	ly_3dnc_cov_mutex = g_mutex_new();
-	ly_msg_bind("cov_missing", "", ly_3dnc_cov_check, NULL);
+	ly_mbs_bind("cov_missing", "", ly_3dnc_cov_check, NULL);
 }
 void		ly_3dnc_cov_fina()
 {
-	ly_msg_unbind("cov_missing", "", ly_3dnc_cov_check);
+	ly_mbs_unbind("cov_missing", "", ly_3dnc_cov_check);
 }
 
-gboolean	ly_3dnc_cov_check(gpointer message, gpointer data)
+void	ly_3dnc_cov_check(LyMbsMessage *message, gpointer data)
 {
 	if(g_mutex_trylock(ly_3dnc_cov_mutex) == FALSE)
 	{
-		ly_msg_put("info", "plugin:dnc", _("A download task already exists, try again later!"));
-		return FALSE;
+		g_message(_("A download task already exists, try again later!"));
+		return;
 	}
 	
 	LyMdhMetadata *md=NULL;
@@ -48,14 +48,12 @@ gboolean	ly_3dnc_cov_check(gpointer message, gpointer data)
 	if(!md)
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("No Playing Track!"));
-		return FALSE;
+		g_warning(_("No Playing Track!"));
+		return;
 	}
 	g_strlcpy(ly_3dnc_cov_artist, md->artist, sizeof(ly_3dnc_cov_artist));
 	g_strlcpy(ly_3dnc_cov_album, md->album, sizeof(ly_3dnc_cov_album));
 	g_thread_create(ly_3dnc_cov_search, NULL, TRUE, NULL);
-	
-	return FALSE;
 }
 gpointer		ly_3dnc_cov_search(gpointer data)
 {
@@ -74,14 +72,14 @@ gpointer		ly_3dnc_cov_search(gpointer data)
 	else
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Illegal server name!"));
+		g_warning(_("Illegal server name!"));
 		return NULL;
 	}
 	
 	if(!store)
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Find nothing by searching the web!"));
+		g_message(_("Find nothing by searching the web!"));
 		return NULL;
 	}
 	g_idle_add(ly_3dnc_cov_notify, store);
@@ -159,7 +157,7 @@ gpointer	ly_3dnc_cov_analysis(gpointer data)
 	else
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Illegal server name!"));
+		g_warning(_("Illegal server name!"));
 		return NULL;
 	}
 
@@ -167,7 +165,7 @@ gpointer	ly_3dnc_cov_analysis(gpointer data)
 	if(!url)
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Cannot get the real resource adress!"));
+		g_message(_("Cannot get the real resource adress!"));
 		return NULL;
 	}
 	g_thread_create(ly_3dnc_cov_down, url, TRUE, NULL);
@@ -178,7 +176,7 @@ gpointer	ly_3dnc_cov_down(gpointer data)
 	if(g_str_equal((gchar *)data, ""))
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Illegal url adress!"));
+		g_warning(_("Illegal url adress!"));
 		return NULL;
 	}
 	
@@ -192,7 +190,7 @@ gpointer	ly_3dnc_cov_down(gpointer data)
 	if(!fp)
 	{
 		g_mutex_unlock(ly_3dnc_cov_mutex);
-		ly_msg_put("info", "plugin:dnc", _("Cannot open file stream!"));
+		g_warning(_("Cannot open file stream!"));
 		return NULL;
 	}
 	CURL* pCurl = curl_easy_init();
@@ -206,7 +204,7 @@ gpointer	ly_3dnc_cov_down(gpointer data)
 	fclose(fp);
 	
 	g_free(data);
-	ly_msg_put("meta_update", "plugin:dnc", "cover");
+	ly_mbs_put("meta_update", "plugin:dnc", "cover");
 	g_mutex_unlock(ly_3dnc_cov_mutex);
 }
 size_t ly_3dnc_cov_down_cb(char *buffer, size_t size, size_t nitems, void *outstream)

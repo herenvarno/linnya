@@ -6,10 +6,12 @@ src/cox/mdh.c
 src/cox/pqm.c
 src/cox/cox.c
 src/cox/lib.c
-src/cox/msg.c
+src/cox/mbs.c
+src/cox/mbs.obj.c
 src/cox/reg.c
 src/cox/dbm.c
 src/cox/log.c
+src/cox/log.obj.c
 src/cox/plm.c
 src/cox/eql.c
 src/cox/lrc.c

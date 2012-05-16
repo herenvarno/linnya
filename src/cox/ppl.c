@@ -116,7 +116,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 	switch (message->type)
 	{
 		case GST_MESSAGE_EOS:
-			ly_msg_put("ppl_eos", "core:ppl", NULL);
+			ly_mbs_put("ppl_eos", "core:ppl", NULL);
 			break;
 		case GST_MESSAGE_TAG:
 		{	
@@ -127,7 +127,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 			{
 				if(tag_codec!=NULL)
 					g_strlcpy(md->codec, tag_codec, sizeof(md->codec));
-				ly_msg_put("meta_update", "core:ppl", "codec");
+				ly_mbs_put("meta_update", "core:ppl", "codec");
 			}
 			//comment
 			if(gst_tag_list_get_string(tags,GST_TAG_COMMENT,&tag_comment))
@@ -137,19 +137,19 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 					g_utf8_strncpy((char *)(md->comment), tag_comment, sizeof(md->comment));
 				}
 				g_free(tag_comment);
-				ly_msg_put("meta_update", "core:ppl", "comment");
+				ly_mbs_put("meta_update", "core:ppl", "comment");
 			}
 			//bitrate
 			if(gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &tag_bitrate))
 			{
 				md->bitrate = tag_bitrate;
-				ly_msg_put("meta_update", "core:ppl", "bitrate");
+				ly_mbs_put("meta_update", "core:ppl", "bitrate");
 			}
 			//track_number
 			if(gst_tag_list_get_uint(tags, GST_TAG_TRACK_NUMBER, &tag_track))
 			{
 				md->track = tag_track;
-				ly_msg_put("meta_update", "core:ppl", "track");
+				ly_mbs_put("meta_update", "core:ppl", "track");
 			}
 			//genre
 			if(gst_tag_list_get_string(tags,GST_TAG_GENRE, &tag_genre))
@@ -159,7 +159,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 					g_utf8_strncpy((gchar *)(md->genre),tag_genre, sizeof(md->genre));
 				}
 				g_free(tag_genre);
-				ly_msg_put("meta_update", "core:ppl", "genre");
+				ly_mbs_put("meta_update", "core:ppl", "genre");
 			}
 			//album cover
  			if(gst_tag_list_get_buffer(tags,GST_TAG_IMAGE, &tag_cover))
@@ -167,7 +167,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
  				if(md->cover)
  					gst_buffer_unref(md->cover);
  				md->cover=tag_cover;
- 				ly_msg_put("meta_update", "core:ppl", "cover");
+ 				ly_mbs_put("meta_update", "core:ppl", "cover");
 			}
 			//lyrics
 			if(gst_tag_list_get_string(tags,GST_TAG_LYRICS, &tag_lrc))
@@ -177,7 +177,7 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 					g_utf8_strncpy((gchar *)(md->lrc), tag_lrc, sizeof(md->lrc));
 				}
 				g_free(tag_lrc);
-				ly_msg_put("meta_update", "core:ppl", "lrc");
+				ly_mbs_put("meta_update", "core:ppl", "lrc");
 			}
 			
 			break;

@@ -61,11 +61,11 @@ int		ly_plm_add_pl			(char *name)
 		g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
 		if(ly_dbm_exec(sql, NULL, NULL)<0)
 		{
-			ly_msg_put("error", "core:plm", _("Playlist already exists!"));
+			g_warning(_("Playlist already exists!"));
 			return -1;
 		}
 	}
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 	return ly_dbm_get_last_insert_rowid();
 }
 void		ly_plm_del_pl			(int pid)
@@ -73,7 +73,7 @@ void		ly_plm_del_pl			(int pid)
 	char sql[1024]="";
 	g_snprintf(sql,sizeof(sql),"DELETE FROM playlists WHERE id=%d", pid);
 	ly_dbm_exec(sql, NULL, NULL);
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 }
 void		ly_plm_del_pl_by_where	(char *where)
 {
@@ -83,7 +83,7 @@ void		ly_plm_del_pl_by_where	(char *where)
 	else
 		g_snprintf(sql,sizeof(sql),"DELETE FROM playlists");
 	ly_dbm_exec(sql, NULL, NULL);
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 }
 
 void		ly_plm_clear_pl			()
@@ -91,24 +91,24 @@ void		ly_plm_clear_pl			()
 	char sql[1024]="";
 	g_snprintf(sql,sizeof(sql),"DELETE FROM playlists");
 	ly_dbm_exec(sql, NULL, NULL);
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 }
 
 void	ly_plm_rename_pl		(int pid, char *name)
 {
 	if((!name)||(g_str_equal(name,"")))
 	{
-		ly_msg_put("error", "core:plm", _("Illegal playlist name."));
+		g_warning(_("Illegal playlist name."));
 		return;
 	}
 	char sql[1024]="";
 	g_snprintf(sql,sizeof(sql),"UPDATE playlists SET name='%s' WHERE id=%d", name, pid);
 	if(ly_dbm_exec(sql, NULL, NULL)<0)
 	{
-		ly_msg_put("error", "core:plm", _("Cannot find playlist."));
+		g_warning(_("Cannot find playlist."));
 		return;
 	}
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 }
 
 
@@ -116,7 +116,7 @@ gboolean		ly_plm_import_pl		(char *path)
 {
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
-		ly_msg_put("error", "core:plm", _("Cannot find playlist file!"));
+		g_warning(_("Cannot find playlist file!"));
 		return FALSE;
 	}
 	int pid=-1;
@@ -135,11 +135,11 @@ gboolean		ly_plm_import_pl		(char *path)
 	}
 	else
 	{
-		ly_msg_put("error", "core:plm", _("Illegal playlist file type!"));
+		g_warning(_("Illegal playlist file type!"));
 		return FALSE;
 	}
 	g_free(s);
-	ly_msg_put("plm_update", "core:plm", NULL);
+	ly_mbs_put("plm_update", "core:plm", NULL);
 	return TRUE;
 }
 
@@ -148,7 +148,7 @@ gboolean		ly_plm_export_pl		(int pid, char *path)
 	FILE *fp=fopen(path, "w+");
 	if(!fp)
 	{
-		ly_msg_put("error", "core:plm", _("Cannot save playlist!"));
+		g_warning(_("Cannot save playlist!"));
 		return FALSE;
 	}
 	
@@ -244,7 +244,7 @@ ly_plm_import_pl_from_cue(int pid, char *path)
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
-		ly_msg_put("error", "core:plm", _("Cannot open playlsit file!"));
+		g_warning(_("Cannot open playlsit file!"));
 		return FALSE;
 	}
 	
@@ -360,7 +360,6 @@ ly_plm_import_pl_from_cue(int pid, char *path)
 					}
 					if(mid>0)
 					{
-						puts(md_prev->title);
 						ly_plm_add_md(pid, mid);
 					}
 					ly_mdh_free(md_prev);
@@ -530,7 +529,7 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
-		ly_msg_put("error", "core:plm", _("Cannot open playlsit file!"));
+		g_warning(_("Cannot open playlsit file!"));
 		return FALSE;
 	}
 	char extra_encoding[1024]="GB18030";

@@ -76,8 +76,8 @@ void		ly_aud_init()
 	{
 		ly_aud_play();
 	}
-	ly_msg_put("meta_changed", "core:aud", NULL);
-	ly_msg_bind("ppl_eos", "core:ppl", ly_aud_on_ppl_eos_cb, NULL);
+	ly_mbs_put("meta_changed", "core:aud", NULL);
+	ly_mbs_bind("ppl_eos", "core:ppl", ly_aud_on_ppl_eos_cb, NULL);
 }
 
 /**
@@ -103,7 +103,6 @@ gboolean ly_aud_next()
 	if(!md)
 		return FALSE;
 	
-	ly_msg_clear();
 	GstState state;
 	state=ly_aud_get_state();
 	ly_aud_stop();
@@ -227,7 +226,7 @@ gboolean ly_aud_play()
 		g_object_set(G_OBJECT(play),"uri",md->uri,NULL);
 		if(!gst_element_set_state(play,GST_STATE_PLAYING))
 		{
-			ly_msg_put("file_missed", "core:aud", NULL);
+			ly_mbs_put("file_missed", "core:aud", NULL);
 			return FALSE;
 		}
 		if(md->flag==1)	//cue play
@@ -240,11 +239,11 @@ gboolean ly_aud_play()
 	{
 		if(!gst_element_set_state(play,GST_STATE_PLAYING))
 		{
-			ly_msg_put("file_missed", "core:aud", NULL);
+			ly_mbs_put("file_missed", "core:aud", NULL);
 			return FALSE;
 		}
 	}
-	ly_msg_put("play", "core:aud", NULL);
+	ly_mbs_put("play", "core:aud", NULL);
 	return TRUE;
 }
 
@@ -275,7 +274,7 @@ gboolean ly_aud_pause()
 			return FALSE;
 		}
 	}
-	ly_msg_put("pause","core:aud",NULL);
+	ly_mbs_put("pause","core:aud",NULL);
 	return TRUE;
 }
 

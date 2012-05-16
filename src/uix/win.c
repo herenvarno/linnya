@@ -27,8 +27,8 @@ gboolean ly_win_change_volume_cb (GtkAccelGroup *accel_group,GObject *accelerata
 gboolean ly_win_seek_cb(GtkWidget * widget, GdkEventButton * event, gpointer data);
 gboolean ly_win_change_seek_cb (GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 gboolean ly_win_update_hscale_cb(gpointer data);
-gboolean ly_win_update_meta_cb(gpointer message, gpointer data);
-gboolean ly_win_update_button_cb(gpointer message, gpointer data);
+void ly_win_update_meta_cb(LyMbsMessage *message, gpointer data);
+void ly_win_update_button_cb(LyMbsMessage *message, gpointer data);
 gboolean ly_win_config_cb(GtkWidget *widget, gpointer data);
 gboolean ly_win_tray_popup_cb(GtkStatusIcon *status_icon, guint button, guint32 activate_time, gpointer popUpMenu);
 gboolean ly_win_change_visible_cb(GtkWidget *widget, gpointer data);
@@ -39,9 +39,7 @@ void ly_win_init()
 	ly_win_window=ly_win_new();
 	if(!ly_win_window)
 	{
-		ly_log_put("[FATAL] Cannot create main window, Abort ...");
-		printf("[FATAL] Cannot create main window, Abort ...");
-		exit(0);
+		g_error(_("Cannot create main window, abort ..."));
 	}
 
 }
@@ -116,7 +114,7 @@ LyWinWindow*	ly_win_new()
 		gtk_widget_set_app_paintable(win, TRUE);
 		if(!gtk_widget_is_composited(win))
 		{
-			ly_msg_put("warning", "ui:win", "Cannot Support transparent!");
+			g_message(_("Cannot Support transparent!"));
 		}
 		else
 		{
@@ -310,10 +308,10 @@ LyWinWindow*	ly_win_new()
 	/*
 	 * bind custom messages
 	 */
-	ly_msg_bind("meta_changed","core:aud",ly_win_update_meta_cb,NULL);
-	ly_msg_bind("play","core:aud",ly_win_update_button_cb,"play");
-	ly_msg_bind("pause","core:aud",ly_win_update_button_cb,"pause");
-	ly_msg_bind("stop","core:aud",ly_win_update_button_cb,"stop");
+	ly_mbs_bind("meta_changed","core:aud",ly_win_update_meta_cb,NULL);
+	ly_mbs_bind("play","core:aud",ly_win_update_button_cb,"play");
+	ly_mbs_bind("pause","core:aud",ly_win_update_button_cb,"pause");
+	ly_mbs_bind("stop","core:aud",ly_win_update_button_cb,"stop");
 	
 	/*
 	 * bind keys
@@ -371,6 +369,10 @@ LyWinWindow*	ly_win_new()
  	}
 	window->hscale_seek=hscale_seek;
 	
+	if(ly_aud_get_state()==GST_STATE_PLAYING)
+	{
+		gtk_button_clicked(GTK_BUTTON(button_play));
+	}
 	return window;
 }
 
@@ -555,12 +557,11 @@ gboolean ly_win_update_hscale_cb(gpointer data)
 	return TRUE;
 }
 
-gboolean ly_win_update_meta_cb(gpointer message, gpointer data)
+void ly_win_update_meta_cb(LyMbsMessage *message, gpointer data)
 {
-	return FALSE;
 }
 
-gboolean ly_win_update_button_cb(gpointer message, gpointer data)
+void ly_win_update_button_cb(LyMbsMessage *message, gpointer data)
 {
 	gchar *signal=data;
 	if(g_str_equal(signal,"play") && !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play)))
@@ -571,12 +572,11 @@ gboolean ly_win_update_button_cb(gpointer message, gpointer data)
 	{
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->button_play), FALSE);
 	}
-	return FALSE;
 }
 
 gboolean ly_win_config_cb(GtkWidget *widget, gpointer data)
 {
-	ly_msg_put("config", "ui:win", NULL);
+	ly_mbs_put("config", "ui:win", NULL);
 	return FALSE;
 }
 
