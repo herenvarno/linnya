@@ -157,7 +157,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
-		g_warning(_("[warning] Cannot open file: %s. file not found!"), uri);
+		g_warning(_("Cannot open file: %s. file not found!"), uri);
 		return NULL;
 	}
 	g_free(path);

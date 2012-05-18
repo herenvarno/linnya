@@ -229,7 +229,7 @@ gboolean	ly_reg_read			()
 				return TRUE;
 			}
 		}
-		g_debug_(("Version of reg file is too low!"));
+		g_debug(_("Version of reg file is too low!"));
 	}
 
 	g_markup_parse_context_free(context);

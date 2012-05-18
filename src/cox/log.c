@@ -19,7 +19,7 @@ void	ly_log_init		()
 	ly_log_logger=ly_log_logger_new(path);
 	if(!ly_log_logger)
 	{
-		g_error(_("Cannot build logger! Abort ...\n"));
+		g_error(_("Cannot build logger. Abort ..."));
 	}
 	ly_log_logger_clear(ly_log_logger);
 	

@@ -2,7 +2,7 @@
  * gla.c
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2010-2012 - Edward
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,47 +18,27 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * HEADERS
+ */
 #include "gla.h"
+
+
+/*
+ * FUNCTIONS
+ */
+// INIT & FINAL
 
 /**
  * ly_gla_init:
  * @argc:			the pointer of args count passed in from #ly_cox_init
  * @argv:			the pointer of args container address passed in from #ly_cox_init
  *
- * Initialize the gla module, it will be called by #ly_cox_init
+ * Initialize the gla module, it should be only called by #ly_cox_init.
  */
 void ly_gla_init(int *argc, char ***argv)
 {
-	/*
-	 * fill application information
-	 */
-	const char *ly_gla_application = _("linnya");
-	const char *ly_gla_author = _("Edward<yy890521@gmail.com>");
-	const char *ly_gla_website = _("http://www.linnya.org");
-	const char *ly_gla_comments = _("A free music player on Linux, with unlimited feathers from plug-ins.");
-	const char *ly_gla_copyright = _("Copyright (C) 2010-2012 Edward Yang");
-	const char *ly_gla_version_str = _("2.0.0 beta4 (1.9.9)");
-	const char *ly_gla_license	= _("GPLv3");
-	const char *ly_gla_license_full = _("LINNYA\n\
-\n\
-Copyright (C) 2010-2012 Edward Yang\n\
-\n\
-linnya is free software; you can redistribute it and/or modify\n\
-it under the terms of the GNU General Public License as published by\n\
-the Free Software Foundation; either version 3 of the License, or\n\
-(at your option) any later version.\n\
-\n\
-linnya is distributed in the hope that it will be useful,\n\
-but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
-GNU General Public License for more details.\n\
-\n\
-You should have received a copy of the GNU General Public License\n\
-along with linnya. If not, see <http://www.gnu.org/licenses/>.");
-
-	/*
-	 * creating global dirs
-	 */
+	// DIRECTORIY
 	LY_GLA_HOMEDIR=NULL;
 	LY_GLA_PROGDIR=NULL;
 	LY_GLA_USERDIR=NULL;
@@ -80,39 +60,36 @@ along with linnya. If not, see <http://www.gnu.org/licenses/>.");
 	g_mkdir_with_parents(LY_GLA_USERDIR, 0755);
 	g_mkdir_with_parents(LY_GLA_TEMPDIR, 0755);
 
-	/*
-	 * localizition
-	 */
+	// GETTEXT
 	#ifndef WIN32_BUILD
 	bindtextdomain(LY_GLA_PACKAGE,LY_GLA_LOCALEDIR);
 	textdomain(LY_GLA_PACKAGE);
 	#endif
 
-	/*
-	 * initial gstreamer
-	 */
+	// INIT
 	ly_gla_argc=argc;
 	ly_gla_argv=argv;
 	gst_init (ly_gla_argc, ly_gla_argv);
 
-	/*
-	 * set first flag
-	 */
+	// SET FLAG
 	LY_GLA_FIRST_FLAG=TRUE;
 }
 
 /**
  * ly_gla_fina:
  *
- * Finalize the gla module, it will be called by #ly_cox_fina
+ * Finalize the gla module, it should be only called by #ly_cox_fina.
  */
 void ly_gla_fina()
 {
+
 }
+
+// API
 
 /**
  * ly_gla_uri_get_prefix:
- * @uri:		the uri
+ * @uri: the uri
  *
  * Get the protocol prefix of a uri string.
  *
@@ -129,11 +106,11 @@ char*		ly_gla_uri_get_prefix		(char *uri)
 }
 /**
  * ly_gla_uri_get_suffix:
- * @uri:		the uri
+ * @uri: the uri
  *
  * Get the type suffix of a uri string.
  *
- * Returns:		the suffix
+ * Returns: the suffix
  */
 char*		ly_gla_uri_get_suffix		(char *uri)
 {
@@ -147,11 +124,11 @@ char*		ly_gla_uri_get_suffix		(char *uri)
 }
 /**
  * ly_gla_uri_get_filename:
- * @uri:		the uri
+ * @uri: the uri
  *
  * Get the filename of a uri string.
  *
- * Returns:		the filename
+ * Returns: the filename
  */
 char*		ly_gla_uri_get_filename		(char *uri)
 {
@@ -168,11 +145,11 @@ char*		ly_gla_uri_get_filename		(char *uri)
 }
 /**
  * ly_gla_uri_get_dir:
- * @uri:		the uri
+ * @uri: the uri
  *
  * Get the directory of a uri string.
  *
- * Returns:		the dir
+ * Returns: the dir
  */
 char*		ly_gla_uri_get_dir			(char *uri)
 {
@@ -190,11 +167,11 @@ char*		ly_gla_uri_get_dir			(char *uri)
 }
 /**
  * ly_gla_uri_get_path:
- * @uri:		the uri
+ * @uri: the uri
  *
  * Get the full path of a uri string.
  *
- * Returns:		the path
+ * Returns: the path
  */
 char*		ly_gla_uri_get_path		(char *uri)
 {
@@ -223,7 +200,7 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 		
 	GDir *dir=g_dir_open(path,0,NULL);
 	
-	const gchar *filename=NULL;	/* do not free it */
+	const gchar *filename=NULL;
 	gchar *location=NULL;
 	filename=g_dir_read_name(dir);
 	GList *list=NULL;
@@ -260,7 +237,7 @@ GList* ly_gla_get_subdirs(const char *path, gboolean showhide)
 	
 	GDir *dir=g_dir_open(path,0,NULL);
 	
-	const gchar *filename=NULL;	/* do not free it */
+	const gchar *filename=NULL;
 	filename=g_dir_read_name(dir);
 	gchar *location=NULL;
 	GList *list=NULL;

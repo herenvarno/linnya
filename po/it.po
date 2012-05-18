@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.6\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-14 16:58+0800\n"
+"POT-Creation-Date: 2012-05-18 19:23+0800\n"
 "PO-Revision-Date: 2012-04-27 16:36+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,70 +28,86 @@ msgstr ""
 msgid "Cannot seek to desired position!"
 msgstr ""
 
-#: src/cox/gla.c:35
+#: src/cox/gla.h:55
 msgid "linnya"
 msgstr "linnya"
 
-#: src/cox/gla.c:36
-msgid "Edward<yy890521@gmail.com>"
-msgstr "Edward<yy890521@gmail.com>"
-
-#: src/cox/gla.c:37
-msgid "http://www.linnya.org"
-msgstr "http://www.linnya.org"
-
-#: src/cox/gla.c:38
+#: src/cox/gla.h:58
 msgid "A free music player on Linux, with unlimited feathers from plug-ins."
 msgstr ""
 
-#: src/cox/gla.c:39
+#: src/cox/gla.h:59
 msgid "Copyright (C) 2010-2012 Edward Yang"
 msgstr "Copyright (C) 2010-2012 Edward Yang"
 
-#: src/cox/gla.c:40
-msgid "2.0.0 beta4 (1.9.9)"
-msgstr "2.0.0 beta4 (1.9.9)"
-
-#: src/cox/gla.c:41
-msgid "GPLv3"
-msgstr "GPLv3"
-
-#: src/cox/gla.c:42
+#: src/cox/gla.h:63
 msgid ""
-"LINNYA\n"
-"\n"
-"Copyright (C) 2010-2012 Edward Yang\n"
-"\n"
-"linnya is free software; you can redistribute it and/or modify\n"
+"Linnya is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
 "the Free Software Foundation; either version 3 of the License, or\n"
 "(at your option) any later version.\n"
 "\n"
-"linnya is distributed in the hope that it will be useful,\n"
+"Linnya is distributed in the hope that it will be useful,\n"
 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
 "GNU General Public License for more details.\n"
 "\n"
 "You should have received a copy of the GNU General Public License\n"
-"along with linnya. If not, see <http://www.gnu.org/licenses/>."
+"along with Linnya. If not, see <http://www.gnu.org/licenses/>."
 msgstr ""
 
-#: src/cox/msg.c:45
+#: src/cox/mdh.c:152 src/cox/mdh.c:272
+#, fuzzy, c-format
+msgid "Cannot open file: %s. unsupported protocol!"
+msgstr "[avviso] Imposibile aprire il file: %s. protocolo non supportato!"
+
+#: src/cox/mdh.c:160 src/cox/mdh.c:279
+#, fuzzy, c-format
+msgid "Cannot open file: %s. file not found!"
+msgstr "[avviso] Imposibile aprire il file: %s. file non trovato!"
+
+#: src/cox/mdh.c:672
+msgid "An old task is running, Tag Failed!"
+msgstr ""
+
+#: src/cox/mbs.c:46
 msgid "Cannot build message bus, abort ..."
 msgstr ""
 
+#: src/cox/mbs.obj.c:271
+msgid "Filter already exist!"
+msgstr ""
+
+#: src/cox/mbs.obj.c:299
+msgid "Filter not found!"
+msgstr ""
+
 #: src/cox/reg.c:56
-#, c-format
-msgid "[fatal] Cannot load reg file. Abort...\n"
+msgid "Cannot load reg file. Abort...\n"
+msgstr ""
+
+#: src/cox/reg.c:150
+msgid "Cannot write reg file!"
+msgstr ""
+
+#: src/cox/reg.c:188
+msgid "Cannot find reg file!"
+msgstr ""
+
+#: src/cox/reg.c:213
+msgid "Read reg file error!"
+msgstr ""
+
+#: src/cox/reg.c:232
+msgid "Version of reg file is too low!"
 msgstr ""
 
 #: src/cox/dbm.c:54
-#, c-format
-msgid "[fatal] Cannot connect to database. Abort ...\n"
+msgid "Cannot connect to database. Abort ..."
 msgstr ""
 
 #: src/cox/log.c:22
-msgid "Cannot build logger! Abort ...\n"
+msgid "Cannot build logger. Abort ..."
 msgstr ""
 
 #: src/cox/plm.c:64
@@ -118,8 +134,12 @@ msgstr ""
 msgid "Cannot save playlist!"
 msgstr ""
 
-#: src/cox/plm.c:247 src/cox/plm.c:533
+#: src/cox/plm.c:247 src/cox/plm.c:532
 msgid "Cannot open playlsit file!"
+msgstr ""
+
+#: src/cox/eql.c:251
+msgid "Cannot find particular equalizer record!"
 msgstr ""
 
 #: src/pix/dnc/dnc_config.c:35
@@ -222,7 +242,7 @@ msgstr ""
 msgid "Desktop Font"
 msgstr ""
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:637
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:638
 msgid "Select library directory"
 msgstr ""
 
@@ -418,7 +438,7 @@ msgid ""
 " Do you really want to DELETE ALL information belongs the current list?"
 msgstr ""
 
-#: src/uix/cfg.c:203 src/uix/win.c:241
+#: src/uix/cfg.c:203 src/uix/win.c:239
 msgid "Configuration"
 msgstr ""
 
@@ -554,75 +574,82 @@ msgstr ""
 msgid "All the plug-ins of Linnya."
 msgstr ""
 
-#: src/uix/cfg.c:531 src/uix/cfg.c:581
+#: src/uix/cfg.c:532 src/uix/cfg.c:582
 msgid "Official Website"
 msgstr ""
 
-#: src/uix/cfg.c:548
+#: src/uix/cfg.c:549
 #, c-format
 msgid "(c) %s"
 msgstr ""
 
-#: src/uix/cfg.c:598
+#: src/uix/cfg.c:599
 msgid "Configuration of Plugins"
 msgstr ""
 
-#: src/uix/cfg.c:624
+#: src/uix/cfg.c:625
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr ""
 
-#: src/uix/cfg.c:736
+#: src/uix/cfg.c:737
 msgid "Key"
 msgstr ""
 
-#: src/uix/cfg.c:746
+#: src/uix/cfg.c:747
 msgid "Press key to change shortcut ..."
 msgstr ""
 
-#: src/uix/cfg.c:874
+#: src/uix/cfg.c:779
+msgid "Shortcuts conflict!"
+msgstr ""
+
+#: src/uix/cfg.c:875
 msgid "Setting will not be actived until program restart!"
 msgstr ""
 
-#: src/uix/cfg.c:908
+#: src/uix/cfg.c:909
 msgid "Select Session Background directory"
 msgstr ""
 
-#: src/uix/cfg.c:1046
+#: src/uix/cfg.c:1047
 msgid "Save Equalizer"
 msgstr ""
 
-#: src/uix/cfg.c:1057
+#: src/uix/cfg.c:1058
 msgid "Eq Name :"
 msgstr ""
 
-#: src/uix/cfg.c:1120
+#: src/uix/cfg.c:1121
 msgid "Cannot delete the default equalizer setting!"
 msgstr ""
 
-#: src/uix/cfg.c:1170
+#: src/uix/cfg.c:1171
 msgid "Preference"
 msgstr ""
 
-#: src/uix/dbg.c:57
+#: src/uix/dbg.c:65
 #, c-format
 msgid ""
 "<b>MESSAGE!</b>\n"
+"\n"
 "%s"
 msgstr ""
 
-#: src/uix/dbg.c:71
+#: src/uix/dbg.c:86
 #, c-format
 msgid ""
 "<b>WARNING!</b>\n"
+"\n"
 "%s"
 msgstr ""
 
-#: src/uix/dbg.c:85
+#: src/uix/dbg.c:106
 #, c-format
 msgid ""
 "<b>CRITICAL!</b>\n"
+"\n"
 "%s"
 msgstr ""
 
@@ -636,58 +663,71 @@ msgid "Configuration file error!"
 msgstr ""
 
 #: src/uix/key.c:379
-msgid "[warning] Cannot write keybinds to file!"
+msgid "Cannot write keybinds to file!"
 msgstr ""
 
 #: src/uix/pli.c:44
-msgid "[fatal] Your system does not support plugin!"
+msgid "Your system does not support plugin, abort ..."
 msgstr ""
 
-#: src/uix/pli.c:45
-#, c-format
-msgid "[fatal] Your system does not support plugin!\n"
-msgstr ""
-
-#: src/uix/pli.c:137
-msgid "[warning] Read configuration file error."
+#: src/uix/pli.c:135
+#, fuzzy
+msgid "Read configuration file error."
 msgstr "[avviso] Errore durrante la lettura file di configurazione."
 
 #: src/uix/sss.c:207
 msgid "New Session"
 msgstr "Nuova Sesione"
 
-#: src/uix/win.c:232
+#: src/uix/win.c:42
+msgid "Cannot create main window, abort ..."
+msgstr ""
+
+#: src/uix/win.c:117
+msgid "Cannot Support transparent!"
+msgstr ""
+
+#: src/uix/win.c:230
 msgid "Play/Pause"
 msgstr "Suoni/Pausi"
 
-#: src/uix/win.c:235
+#: src/uix/win.c:233
 msgid "Previous"
 msgstr "precedente"
 
-#: src/uix/win.c:238
+#: src/uix/win.c:236
 msgid "Next"
 msgstr "Prossimo"
 
-#: src/uix/win.c:246
+#: src/uix/win.c:244
 msgid "Show/Hide Main Window"
 msgstr "Mostri/Nascondi la Finestra Principale"
 
-#: src/uix/win.c:251
+#: src/uix/win.c:249
 msgid "Quit"
 msgstr "Sementi"
 
-#: src/uix/win.c:256
+#: src/uix/win.c:254
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>Linnya</b> Lettore Audio"
 
-#~ msgid "[warning] Position Error!"
-#~ msgstr "[avviso] Posizione errore!"
+#~ msgid "Edward<yy890521@gmail.com>"
+#~ msgstr "Edward<yy890521@gmail.com>"
 
-#~ msgid "[warning] Cannot open file: %s. unsupported protocol!"
-#~ msgstr "[avviso] Imposibile aprire il file: %s. protocolo non supportato!"
+#~ msgid "http://www.linnya.org"
+#~ msgstr "http://www.linnya.org"
+
+#~ msgid "2.0.0 beta4 (1.9.9)"
+#~ msgstr "2.0.0 beta4 (1.9.9)"
+
+#~ msgid "GPLv3"
+#~ msgstr "GPLv3"
 
 #~ msgid "[warning] Cannot open file: %s. file not found!"
 #~ msgstr "[avviso] Imposibile aprire il file: %s. file non trovato!"
+
+#~ msgid "[warning] Position Error!"
+#~ msgstr "[avviso] Posizione errore!"
 
 #~ msgid "[warning] Decoded pad with no caps or any caps, Abort..."
 #~ msgstr "[avviso] Pad decoded non ha caps, Abortire ...."

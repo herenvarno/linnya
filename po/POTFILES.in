@@ -2,6 +2,7 @@
 # Please keep this file sorted alphabetically.
 src/cox/aud.c
 src/cox/gla.c
+src/cox/gla.h
 src/cox/mdh.c
 src/cox/pqm.c
 src/cox/cox.c
