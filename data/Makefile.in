@@ -74,9 +74,11 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(linnya_uninstalldir)" \
-	"$(DESTDIR)$(linnyaicondir)" "$(DESTDIR)$(menudir)"
-DATA = $(linnya_uninstall_DATA) $(linnyaicon_DATA) $(menu_DATA)
+am__installdirs = "$(DESTDIR)$(linnya256icondir)" \
+	"$(DESTDIR)$(linnya_uninstalldir)" \
+	"$(DESTDIR)$(linnyascalableicondir)" "$(DESTDIR)$(menudir)"
+DATA = $(linnya256icon_DATA) $(linnya_uninstall_DATA) \
+	$(linnyascalableicon_DATA) $(menu_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
@@ -256,11 +258,14 @@ top_srcdir = @top_srcdir@
 SUBDIRS = icon theme
 EXTRA_DIST = \
 			linnya.svg\
+			linnya.png\
 			linnya.desktop\
 			linnya-uninstall
 
-linnyaicondir = ${datadir}/icons/hicolor/scalable/apps
-linnyaicon_DATA = linnya.svg
+linnyascalableicondir = ${datadir}/icons/hicolor/scalable/apps
+linnyascalableicon_DATA = linnya.svg
+linnya256icondir = ${datadir}/icons/hicolor/256x256/apps
+linnya256icon_DATA = linnya.png
 
 # Rule to update the icon cache after installing the icon
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
@@ -307,6 +312,26 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-linnya256iconDATA: $(linnya256icon_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(linnya256icondir)" || $(MKDIR_P) "$(DESTDIR)$(linnya256icondir)"
+	@list='$(linnya256icon_DATA)'; test -n "$(linnya256icondir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(linnya256icondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(linnya256icondir)" || exit $$?; \
+	done
+
+uninstall-linnya256iconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(linnya256icon_DATA)'; test -n "$(linnya256icondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(linnya256icondir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(linnya256icondir)" && rm -f $$files
 install-linnya_uninstallDATA: $(linnya_uninstall_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(linnya_uninstalldir)" || $(MKDIR_P) "$(DESTDIR)$(linnya_uninstalldir)"
@@ -327,26 +352,26 @@ uninstall-linnya_uninstallDATA:
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(linnya_uninstalldir)' && rm -f" $$files ")"; \
 	cd "$(DESTDIR)$(linnya_uninstalldir)" && rm -f $$files
-install-linnyaiconDATA: $(linnyaicon_DATA)
+install-linnyascalableiconDATA: $(linnyascalableicon_DATA)
 	@$(NORMAL_INSTALL)
-	test -z "$(linnyaicondir)" || $(MKDIR_P) "$(DESTDIR)$(linnyaicondir)"
-	@list='$(linnyaicon_DATA)'; test -n "$(linnyaicondir)" || list=; \
+	test -z "$(linnyascalableicondir)" || $(MKDIR_P) "$(DESTDIR)$(linnyascalableicondir)"
+	@list='$(linnyascalableicon_DATA)'; test -n "$(linnyascalableicondir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(linnyaicondir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(linnyaicondir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(linnyascalableicondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(linnyascalableicondir)" || exit $$?; \
 	done
 
-uninstall-linnyaiconDATA:
+uninstall-linnyascalableiconDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(linnyaicon_DATA)'; test -n "$(linnyaicondir)" || list=; \
+	@list='$(linnyascalableicon_DATA)'; test -n "$(linnyascalableicondir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(linnyaicondir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(linnyaicondir)" && rm -f $$files
+	echo " ( cd '$(DESTDIR)$(linnyascalableicondir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(linnyascalableicondir)" && rm -f $$files
 install-menuDATA: $(menu_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(menudir)" || $(MKDIR_P) "$(DESTDIR)$(menudir)"
@@ -566,7 +591,7 @@ check: check-recursive
 all-am: Makefile $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(linnya_uninstalldir)" "$(DESTDIR)$(linnyaicondir)" "$(DESTDIR)$(menudir)"; do \
+	for dir in "$(DESTDIR)$(linnya256icondir)" "$(DESTDIR)$(linnya_uninstalldir)" "$(DESTDIR)$(linnyascalableicondir)" "$(DESTDIR)$(menudir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -614,7 +639,8 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-linnya_uninstallDATA install-linnyaiconDATA \
+install-data-am: install-linnya256iconDATA \
+	install-linnya_uninstallDATA install-linnyascalableiconDATA \
 	install-menuDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
@@ -660,8 +686,9 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-linnya_uninstallDATA uninstall-linnyaiconDATA \
-	uninstall-menuDATA
+uninstall-am: uninstall-linnya256iconDATA \
+	uninstall-linnya_uninstallDATA \
+	uninstall-linnyascalableiconDATA uninstall-menuDATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) ctags-recursive \
@@ -675,15 +702,16 @@ uninstall-am: uninstall-linnya_uninstallDATA uninstall-linnyaiconDATA \
 	html-am info info-am install install-am install-data \
 	install-data-am install-data-hook install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-linnya_uninstallDATA \
-	install-linnyaiconDATA install-man install-menuDATA \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
-	ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-hook uninstall-linnya_uninstallDATA \
-	uninstall-linnyaiconDATA uninstall-menuDATA
+	install-info install-info-am install-linnya256iconDATA \
+	install-linnya_uninstallDATA install-linnyascalableiconDATA \
+	install-man install-menuDATA install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
+	uninstall uninstall-am uninstall-hook \
+	uninstall-linnya256iconDATA uninstall-linnya_uninstallDATA \
+	uninstall-linnyascalableiconDATA uninstall-menuDATA
 
 
 install-data-hook: update-icon-cache

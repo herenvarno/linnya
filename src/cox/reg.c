@@ -215,23 +215,7 @@ gboolean	ly_reg_read			()
 		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 		ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);
 	}
-	else
-	{
-		/*
-		 * check the version of configuration file.
-		 */
-		double version=0;
-		if(ly_reg_get("version", "%lf", &version))
-		{
-			if(version>=LY_GLA_VERSION_NUM)
-			{
-				g_markup_parse_context_free(context);
-				return TRUE;
-			}
-		}
-		g_debug(_("Version of reg file is too low!"));
-	}
-
+	ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);
 	g_markup_parse_context_free(context);
 	return TRUE;
 }

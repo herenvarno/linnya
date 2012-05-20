@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: linnya 1.9.9\n"
+"Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-20 16:34+0800\n"
+"POT-Creation-Date: 2012-05-20 18:40+0800\n"
 "PO-Revision-Date: 2012-05-18 19:24+0800\n"
 "Last-Translator: Edward <herenvarno@workmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Poedit-Language: Chinese\n"
+"X-Poedit-Language: Chinese Simplified\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -110,10 +110,6 @@ msgstr "无法找到注册文件！"
 #: src/cox/reg.c:213
 msgid "Read reg file error!"
 msgstr "读取注册文件错误！"
-
-#: src/cox/reg.c:232
-msgid "Version of reg file is too low!"
-msgstr "注册文件版本过低！"
 
 #: src/cox/dbm.c:54
 msgid "Cannot connect to database. Abort ..."
@@ -255,7 +251,7 @@ msgstr "自定义LRC文件位置"
 msgid "Desktop Font"
 msgstr "桌面歌词字体"
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:638
+#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:647
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
 
@@ -579,74 +575,74 @@ msgstr "启用窗口装饰"
 msgid "Enable Transparent Effective"
 msgstr "启用透明特效"
 
-#: src/uix/cfg.c:418
+#: src/uix/cfg.c:427
 msgid "Session Style"
 msgstr "会话风格"
 
-#: src/uix/cfg.c:420
+#: src/uix/cfg.c:429
 msgid "Use Custom Session Background Image"
 msgstr "使用自定义会话背景图片"
 
-#: src/uix/cfg.c:439 src/uix/cfg.c:442
+#: src/uix/cfg.c:448 src/uix/cfg.c:451
 msgid "Plugins"
 msgstr "插件"
 
-#: src/uix/cfg.c:439
+#: src/uix/cfg.c:448
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:532 src/uix/cfg.c:582
+#: src/uix/cfg.c:541 src/uix/cfg.c:591
 msgid "Official Website"
 msgstr "官方网站"
 
-#: src/uix/cfg.c:549
+#: src/uix/cfg.c:558
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:599
+#: src/uix/cfg.c:608
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:625
+#: src/uix/cfg.c:634
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
 
-#: src/uix/cfg.c:737
+#: src/uix/cfg.c:746
 msgid "Key"
 msgstr "按键"
 
-#: src/uix/cfg.c:747
+#: src/uix/cfg.c:756
 msgid "Press key to change shortcut ..."
 msgstr "按下键盘以设置快捷键"
 
-#: src/uix/cfg.c:779
+#: src/uix/cfg.c:788
 msgid "Shortcuts conflict!"
 msgstr "快捷键冲突！"
 
-#: src/uix/cfg.c:875
+#: src/uix/cfg.c:884
 msgid "Setting will not be actived until program restart!"
 msgstr "设置将在程序下次启动生效！"
 
-#: src/uix/cfg.c:909
+#: src/uix/cfg.c:918
 msgid "Select Session Background directory"
 msgstr "选择会话背景目录"
 
-#: src/uix/cfg.c:1047
+#: src/uix/cfg.c:1056
 msgid "Save Equalizer"
 msgstr "保存均衡器"
 
-#: src/uix/cfg.c:1058
+#: src/uix/cfg.c:1067
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1121
+#: src/uix/cfg.c:1130
 msgid "Cannot delete the default equalizer setting!"
 msgstr "无法删除默认均衡其设置！"
 
-#: src/uix/cfg.c:1171
+#: src/uix/cfg.c:1180
 msgid "Preference"
 msgstr "配置"
 
@@ -739,3 +735,6 @@ msgstr "退出"
 #: src/uix/win.c:254
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
+
+#~ msgid "Version of reg file is too low!"
+#~ msgstr "注册文件版本过低！"

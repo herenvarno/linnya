@@ -2,13 +2,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([linnya], [1.9.6], [http://www.linnya.org])
-AM_INIT_AUTOMAKE(linnya, 1.9.6)
+AC_INIT([linnya], [2.0.0], [http://www.linnya.org])
+AM_INIT_AUTOMAKE(linnya, 2.0.0)
 AC_CONFIG_SRCDIR([src/app.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Set of available languages.
-ALL_LINGUAS="zh_CN zh_TW zh_HK it"
+ALL_LINGUAS="zh_CN zh_TW zh_HK"
 
 # Checks for programs.
 ${CXXFLAGS="-Wall -g -O2"} 

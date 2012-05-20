@@ -35,6 +35,7 @@ rm lib/liblinnya*
 rm -r share/linnya
 rm share/applications/linnya.desktop
 rm share/icons/hicolor/scalable/apps/linnya.svg
+rm share/icons/hicolor/256x256/apps/linnya.png
 rm share/locale/*/LC_MESSAGES/linnya.mo
 
 echo "Linnya has been sussessfully uninstalled"
