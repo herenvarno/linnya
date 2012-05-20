@@ -77,5 +77,7 @@ GtkWidget *ly_3opc_create()
 
 void ly_3opc_destroy()
 {
+	ly_3opc_right_destroy();
+	ly_3opc_left_destroy();
 }
 

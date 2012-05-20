@@ -402,6 +402,15 @@ ly_cfg_new (void)
 	check=gtk_check_button_new_with_label(_("Enable Transparent Effective"));
 	int custom_winbg=0;
 	ly_reg_get("thm_custom_winbg", "%d", &custom_winbg);
+	if(!gtk_widget_is_composited(ly_win_get_window()->win))
+	{
+		if(custom_winbg)
+		{
+			custom_winbg=0;
+			ly_reg_get("thm_custom_winbg", "%d", custom_winbg);
+		}
+		gtk_widget_set_sensitive(check, FALSE);		
+	}
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_winbg);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_winbg_changed_cb), NULL);
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);

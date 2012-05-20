@@ -99,6 +99,7 @@ void		ly_3opc_right_init		()
 	char path[1024]="";
 	g_snprintf(path, sizeof(path), "%sopc/playing.svg", LY_GLB_PROG_PIXDIR);
 	ly_3opc_right_icon_playing=gdk_pixbuf_new_from_file_at_size(path, 20, 20, NULL);
+
 }
 void		ly_3opc_right_fina		()
 {
@@ -181,7 +182,7 @@ GtkWidget*	ly_3opc_right_create		()
 	ly_mbs_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb, NULL);
 	ly_mbs_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb, NULL);
 	ly_mbs_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
-
+	
 	return vbox;
 }
 void		ly_3opc_right_destroy	()
@@ -189,6 +190,7 @@ void		ly_3opc_right_destroy	()
 	if(ly_3opc_right_str_old)
 		g_free(ly_3opc_right_str_old);
 	ly_3opc_right_str_old=NULL;
+	
 	ly_mbs_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb);
 	ly_mbs_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb);
 	ly_mbs_unbind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb);

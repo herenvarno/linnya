@@ -49,7 +49,7 @@ void	ly_sss_init()
 
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	char path[1024]="";
- 	g_snprintf(path, sizeof(path), "%sui/icon/icon.png", LY_GLA_PROGDIR);
+ 	g_snprintf(path, sizeof(path), "%sicon/icon.png", LY_GLB_PROG_UIXDIR);
 	GtkWidget *logo = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_file_at_scale(path,60,20,FALSE,NULL));
 	gtk_box_pack_start(GTK_BOX(hbox), logo, FALSE,0,0);
 
@@ -75,7 +75,7 @@ void	ly_sss_fina()
 GtkWidget *ly_sss_tab_create(GdkPixbuf *pixbuf, gchar *name, GtkWidget *widget)
 {
 	gchar path[1024]="";
-	g_snprintf(path,sizeof(path),"%s/ui/icon/default_plugin_logo.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/default_plugin_logo.png",LY_GLB_PROG_UIXDIR);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	if(!pixbuf)
 		pixbuf=gdk_pixbuf_new_from_file_at_scale(path,16,16,FALSE,NULL);

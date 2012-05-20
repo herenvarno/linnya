@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 1.9.6\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-18 19:23+0800\n"
+"POT-Creation-Date: 2012-05-20 16:34+0800\n"
 "PO-Revision-Date: 2012-04-27 16:36+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,12 +172,12 @@ msgid "Found"
 msgstr ""
 
 #: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:116
-#: src/pix/opc/opc_right.c:162 src/pix/opc/opc_right.c:847
+#: src/pix/opc/opc_right.c:163 src/pix/opc/opc_right.c:849
 msgid "Artist"
 msgstr ""
 
-#: src/pix/dnc/dnc_cov.c:115 src/pix/opc/opc_right.c:168
-#: src/pix/opc/opc_right.c:850
+#: src/pix/dnc/dnc_cov.c:115 src/pix/opc/opc_right.c:169
+#: src/pix/opc/opc_right.c:852
 msgid "Album"
 msgstr ""
 
@@ -193,8 +193,8 @@ msgstr ""
 msgid "Cannot open file stream!"
 msgstr ""
 
-#: src/pix/dnc/dnc_lrc.c:112 src/pix/opc/opc_right.c:156
-#: src/pix/opc/opc_right.c:844
+#: src/pix/dnc/dnc_lrc.c:112 src/pix/opc/opc_right.c:157
+#: src/pix/opc/opc_right.c:846
 msgid "Title"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "Import Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:412
+#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:414
 msgid "Add to Play Queue"
 msgstr ""
 
@@ -294,25 +294,25 @@ msgstr ""
 msgid "Export Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:416
+#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:418
 msgid "Refresh"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:417
+#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
 msgid "Delete"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:418
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
 msgid "Delete All"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:304 src/pix/opc/opc_right.c:444
-#: src/pix/opc/opc_right.c:617
+#: src/pix/opc/opc_left.c:304 src/pix/opc/opc_right.c:446
+#: src/pix/opc/opc_right.c:619
 msgid "New Playlist"
 msgstr ""
 
 #: src/pix/opc/opc_left.c:315 src/pix/opc/opc_left.c:460
-#: src/pix/opc/opc_right.c:628
+#: src/pix/opc/opc_right.c:630
 msgid "Name"
 msgstr ""
 
@@ -346,85 +346,85 @@ msgid ""
 " Do you really want to DELETE ALL playlists?"
 msgstr ""
 
-#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1074
+#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1076
 msgid "Warning"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:128 src/pix/opc/opc_right.c:221
+#: src/pix/opc/opc_right.c:129 src/pix/opc/opc_right.c:223
 msgid "Page 1"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:152
+#: src/pix/opc/opc_right.c:153
 msgid "*"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:217
+#: src/pix/opc/opc_right.c:219
 #, c-format
 msgid "Page %d"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:411
+#: src/pix/opc/opc_right.c:413
 msgid "Play"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:413
+#: src/pix/opc/opc_right.c:415
 msgid "Add to Playlist"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:414 src/pix/opc/opc_right.c:719
-#: src/pix/opc/opc_right.c:728
+#: src/pix/opc/opc_right.c:416 src/pix/opc/opc_right.c:721
+#: src/pix/opc/opc_right.c:730
 msgid "Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:415
+#: src/pix/opc/opc_right.c:417
 msgid "Add Files"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:741
+#: src/pix/opc/opc_right.c:743
 msgid "Basic Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:750
+#: src/pix/opc/opc_right.c:752
 msgid "Start"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:753
+#: src/pix/opc/opc_right.c:755
 msgid "Duration"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:756
+#: src/pix/opc/opc_right.c:758
 msgid "Bitrate"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:759
+#: src/pix/opc/opc_right.c:761
 msgid "Codec"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:829
+#: src/pix/opc/opc_right.c:831
 msgid "Uri"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:839
+#: src/pix/opc/opc_right.c:841
 msgid "Advanced Information"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:853
+#: src/pix/opc/opc_right.c:855
 msgid "genre"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:856
+#: src/pix/opc/opc_right.c:858
 msgid "track"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:921
+#: src/pix/opc/opc_right.c:923
 msgid "Add From File..."
 msgstr ""
 
-#: src/pix/opc/opc_right.c:929
+#: src/pix/opc/opc_right.c:931
 msgid "Music File"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:1121
+#: src/pix/opc/opc_right.c:1123
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -432,7 +432,7 @@ msgid ""
 " Do you really want to do it?"
 msgstr ""
 
-#: src/pix/opc/opc_right.c:1226
+#: src/pix/opc/opc_right.c:1228
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
