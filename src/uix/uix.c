@@ -34,8 +34,6 @@ void ly_uix_init(int *argc, char ***argv)
 	g_debug("Init UIX module");
 	g_debug("Init UIX module: GLB");
 	ly_glb_init(argc, argv);
-	g_debug("Init UIX module: DBG");
-	ly_dbg_init();
 	g_debug("Init UIX module: KEY");
 	ly_key_init();
 	g_debug("Init UIX module: THM");
@@ -48,6 +46,8 @@ void ly_uix_init(int *argc, char ***argv)
 	ly_sss_init();
 	g_debug("Init UIX module: CFG");
 	ly_cfg_init();
+	g_debug("Init UIX module: DBG");
+	ly_dbg_init();
 	g_debug("Main Loop begin");
 	gtk_main();
 }
@@ -62,6 +62,8 @@ void ly_uix_init(int *argc, char ***argv)
 void ly_uix_fina()
 {
 	g_debug("Fina UIX module");
+	g_debug("Fina UIX module: DBG");
+	ly_dbg_fina();
 	g_debug("Fina UIX module: CFG");
 	ly_cfg_fina();
 	g_debug("Fina UIX module: SSS");
@@ -74,8 +76,6 @@ void ly_uix_fina()
 	ly_thm_fina();
 	g_debug("Fina UIX module: KEY");
 	ly_key_fina();
-	g_debug("Fina UIX module: DBG");
-	ly_dbg_fina();
 	g_debug("Fina UIX module: GLB");
 	ly_glb_fina();
 }

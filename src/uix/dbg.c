@@ -39,7 +39,7 @@ gboolean ly_dbg_show_warning_dialog_cb(gpointer data);
 gboolean ly_dbg_show_critical_dialog_cb(gpointer data);
 
 void		ly_dbg_init()
-{	
+{
 	g_log_set_handler(NULL, G_LOG_LEVEL_MESSAGE, ly_dbg_show_message_cb, NULL);
 	g_log_set_handler(NULL, G_LOG_LEVEL_WARNING, ly_dbg_show_warning_cb, NULL);
 	g_log_set_handler(NULL, G_LOG_LEVEL_CRITICAL, ly_dbg_show_critical_cb, NULL);
