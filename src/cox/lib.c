@@ -36,7 +36,8 @@ const char *ly_lib_audio_table[]={
 	"ogg",
 	"wav",
 	"acc",
-	"ape"};
+	"ape",
+	"oga"};
 enum{
 	AUDIO_MP3,
 	AUDIO_WMA,
@@ -48,19 +49,22 @@ enum{
 	AUDIO_WAV,
 	AUDIO_ACC,
 	AUDIO_APE,
+	AUDIO_OGA,
 	AUDIO_COUNT};
 const char *ly_lib_video_table[]={
 	"avi",
 	"wmv",
 	"rmvb",
 	"rm",
-	"mkv"};
+	"mkv",
+	"ogv"};
 enum{
 	VIDEO_AVI,
 	VIDEO_WMV,
 	VIDEO_RMVB,
 	VIDEO_RM,
 	VIDEO_MKV,
+	VIDEO_OGV,
 	VIDEO_COUNT};
 
 /*

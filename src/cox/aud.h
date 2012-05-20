@@ -25,7 +25,7 @@
  * @include:	cox.h
  *
  * This module is a module to manage all operation that related to audio pipeline.
- * Such as play next song, or set volume.
+ * Such as setting the state of pipeline or setting the volume, etc.
  */ 
 
 #ifndef LY_AUD_H

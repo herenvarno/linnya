@@ -18,6 +18,20 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * SECTION: lib
+ * @short_description: the music library module.
+ * @stability: stable
+ * @include: cox.h
+ *
+ * This module is a module dealing with all operation ralated to music 
+ * raw data in library. This data is stored in the table named "metadatas"
+ * which is defined in the database managed by module dbm. 
+ */
+
+
+#ifndef LY_LIB_H
+#define LY_LIB_H
 
 /*
  * HEADERS
@@ -51,4 +65,4 @@ gboolean		ly_lib_check_is_video	(char *uri);
 GList*			ly_lib_check_is_legal_list	(GList **l, gpointer func);
 
 
-
+#endif // LY_LIB_H

@@ -24,9 +24,9 @@
  * @stability:	stable
  * @include:	cox.h
  *
- * This module is the top level of the core part. It provides a public interface
- * to upper module to initialize and finalize all the core module, such as GLA or
- * DBM. This module can only be used for initializing and finalizing the core.
+ * This module is the top level of the cox part. It provides a public interface
+ * to upper module to initialize and finalize all the cox module, such as GLA or
+ * DBM. This module can only be used for initializing and finalizing the cox.
  */
 
 #ifndef LY_COX_H

@@ -24,7 +24,7 @@
  * @stability: stable
  * @include: cox.h
  *
- * This module is a common module for the upper module in cox. It defines the
+ * This module is a common module for the upper modules in cox. It defines the
  * most useful macros, variables as well as API functions.
  */
 
