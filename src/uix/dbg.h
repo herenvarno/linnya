@@ -36,4 +36,8 @@
 void		ly_dbg_init			(void);
 void		ly_dbg_fina			(void);
 
+void ly_dbg_message(const char *format, ...);
+void ly_dbg_warning(const char *format, ...);
+void ly_dbg_critical(const char *format, ...);
+
 #endif

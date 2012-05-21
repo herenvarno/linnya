@@ -9,9 +9,6 @@ LyLogLogger *ly_log_logger;
 /*
  * FUNCTIONS
  */
-void ly_log_on_set_default_handler_cb(const gchar *log_domain, \
-	GLogLevelFlags log_level, const gchar *message, gpointer user_data);
-
 void	ly_log_init		()
 {
 	gchar path[1024]="";
@@ -22,9 +19,6 @@ void	ly_log_init		()
 		g_error(_("Cannot build logger. Abort ..."));
 	}
 	ly_log_logger_clear(ly_log_logger);
-	
-	//set default handler
-	g_log_set_default_handler(ly_log_on_set_default_handler_cb, NULL);
 }
 
 /**
@@ -35,26 +29,6 @@ void	ly_log_init		()
 void	ly_log_fina		()
 {
 	g_object_unref(ly_log_logger);
-}
-
-void ly_log_on_set_default_handler_cb(const gchar *log_domain, \
-	GLogLevelFlags log_level, const gchar *message, gpointer user_data);
-/**
- * ly_log_put:
- * @format :	a standard printf() format string, but notice string precision pitfalls.
- * @... :		the arguments to insert in the output.
- *
- * Put a log record to log file.
- */
-
-void	ly_log_put(const char *format, ...)
-{
-	gchar *logstr=NULL;
-	va_list argp;
-	va_start(argp, format);
-	logstr=g_strdup_vprintf(format, argp);
-	va_end(argp);
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG, logstr);
 }
 
 void	ly_log_put_with_flag	(GLogLevelFlags flag, const char *format, ...)

@@ -132,7 +132,7 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		g_warning(_("Read configuration file error."));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Read configuration file error."));
 		g_free(plugin);
 		return NULL;
 	}

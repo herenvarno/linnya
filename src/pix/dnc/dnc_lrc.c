@@ -39,7 +39,7 @@ void	ly_3dnc_lrc_check(LyMbsMessage *message, gpointer data)
 {
 	if(g_mutex_trylock(ly_3dnc_lrc_mutex) == FALSE)
 	{
-		g_message(_("A download task already exists, try again later!"));
+		ly_dbg_message(_("A download task already exists, try again later!"));
 		return;
 	}
 	
@@ -48,7 +48,7 @@ void	ly_3dnc_lrc_check(LyMbsMessage *message, gpointer data)
 	if(!md)
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_warning(_("No Playing Track!"));
+		ly_dbg_warning(_("No Playing Track!"));
 		return;
 	}
 	g_strlcpy(ly_3dnc_lrc_artist, md->artist, sizeof(ly_3dnc_lrc_artist));
@@ -72,7 +72,7 @@ gpointer		ly_3dnc_lrc_search(gpointer data)
 	else
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_warning(_("Illegal server name!"));
+		ly_dbg_warning(_("Illegal server name!"));
 		return NULL;
 	}
 	
@@ -80,7 +80,7 @@ gpointer		ly_3dnc_lrc_search(gpointer data)
 	if(!store)
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_message(_("Find nothing by searching the web!"));
+		ly_dbg_message(_("Find nothing by searching the web!"));
 		return NULL;
 	}
 	g_idle_add(ly_3dnc_lrc_notify, store);
@@ -158,7 +158,7 @@ gpointer	ly_3dnc_lrc_analysis(gpointer data)
 	else
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_warning(_("Illegal server name!"));
+		ly_dbg_warning(_("Illegal server name!"));
 		return NULL;
 	}
 	
@@ -166,7 +166,7 @@ gpointer	ly_3dnc_lrc_analysis(gpointer data)
 	if(!url)
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_message(_("Cannot get the real resource adress!"));
+		ly_dbg_message(_("Cannot get the real resource adress!"));
 		return NULL;
 	}
 	g_thread_create(ly_3dnc_lrc_down, url, TRUE, NULL);
@@ -177,7 +177,7 @@ gpointer	ly_3dnc_lrc_down(gpointer data)
 	if(g_str_equal((gchar *)data, ""))
 	{
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_warning(_("Illegal url adress!"));
+		ly_dbg_warning(_("Illegal url adress!"));
 		return NULL;
 	}
 	
@@ -194,7 +194,7 @@ gpointer	ly_3dnc_lrc_down(gpointer data)
 		g_free(data);
 		g_free(path);
 		g_mutex_unlock(ly_3dnc_lrc_mutex);
-		g_warning(_("Cannot open file stream!"));
+		ly_dbg_warning(_("Cannot open file stream!"));
 		return NULL;
 	}
 	CURL* pCurl = curl_easy_init();

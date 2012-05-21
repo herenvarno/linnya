@@ -631,7 +631,7 @@ gboolean	ly_cfg_on_pli_changed_cb	(GtkWidget *widget, gpointer data)
 	}
 	ly_pli_set_active(pl->name, state);
 	ly_sss_tab_add_refresh();
-	g_message(_("The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"));
+	ly_dbg_message(_("The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"));
 	return FALSE;
 }
 
@@ -785,7 +785,7 @@ gboolean ly_cfg_on_key_changed_cb(GtkWidget *widget, gpointer data)
 	sscanf(str,"{%128[^\n}]%128[^\n_]%128[^\n:]%128[^\n]",keyname, mask0, mask1, key);
 	if(ly_key_get_conflict(keyname, mask0+1, mask1+1, key+1))
  	{
- 		g_message(_("Shortcuts conflict!"));
+ 		ly_dbg_message(_("Shortcuts conflict!"));
  		gtk_widget_destroy(dialog);
  		return FALSE;
  	}
@@ -881,7 +881,7 @@ gboolean ly_cfg_on_thm_theme_changed_cb(GtkWidget *widget, gpointer data)
 {
 	char *theme_name=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
 	ly_reg_set("thm_theme", "%s", theme_name);
-	g_message(_("Setting will not be actived until program restart!"));
+	ly_dbg_message(_("Setting will not be actived until program restart!"));
 	return FALSE;
 }
 
@@ -1127,7 +1127,7 @@ gboolean ly_cfg_on_eql_eq_delete_cb(GtkWidget *widget, gpointer data)
 	
 	if(g_str_equal(eq_name, "default"))
 	{
-		g_message(_("Cannot delete the default equalizer setting!"));
+		ly_dbg_message(_("Cannot delete the default equalizer setting!"));
 		return FALSE;
 	}
 	ly_dbm_replace_str(eq_name, sizeof(eq_name));

@@ -199,7 +199,6 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 		return NULL;
 		
 	GDir *dir=g_dir_open(path,0,NULL);
-	
 	const gchar *filename=NULL;
 	gchar *location=NULL;
 	filename=g_dir_read_name(dir);

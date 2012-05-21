@@ -114,7 +114,7 @@ LyWinWindow*	ly_win_new()
 		gtk_widget_set_app_paintable(win, TRUE);
 		if(!gtk_widget_is_composited(win))
 		{
-			g_message(_("Cannot Support transparent!"));
+			ly_log_put_with_flag(G_LOG_LEVEL_MESSAGE, _("Cannot Support transparent!"));
 		}
 		else
 		{

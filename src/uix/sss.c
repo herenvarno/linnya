@@ -110,7 +110,7 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 		ly_sss_tab_add_destroy(NULL, tab_add);
 		return TRUE;
 	}
-	
+
 	GtkWidget *(*f)(void);
 	g_module_symbol(session->module, session->create_symbol, (gpointer)&f);
 	if(f==NULL)
@@ -286,11 +286,12 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 			}
 			g_strlcpy(dir, th->sssbg, sizeof(dir));
 		}
-		GList *list=ly_gla_traverse_dir(dir, 5, FALSE);
+		GList *list=ly_gla_traverse_dir(dir, 1, FALSE);
 		GList *p=list;
-		
+
 		if(!list)
 			return NULL;
+		
 		/*
 		 * create random number
 		 */
@@ -315,6 +316,7 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 	{
 		image=gdk_pixbuf_new_from_file(bg, NULL);
 	}
+
 	return image;
 }
 

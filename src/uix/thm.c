@@ -149,7 +149,7 @@ LyThmItem* ly_thm_item_new_with_name(gchar *name)
 		g_snprintf(dir,sizeof(dir),"%stheme/%s/",LY_GLB_PROG_UIXDIR, name);
 		if(!g_file_test(dir, G_FILE_TEST_IS_DIR))
 		{
-			g_warning("Theme not found!");
+			ly_log_put_with_flag(G_LOG_LEVEL_WARNING, "Theme not found!");
 			return NULL;
 		}
 	}

@@ -284,7 +284,7 @@ gboolean ly_key_read(void)
 	
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
-		g_warning(_("Key defination file does not exist, linnya will create a new one when exit!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Key defination file does not exist, linnya will create a new one when exit!"));
 		return TRUE;
 	}
 	
@@ -306,7 +306,7 @@ gboolean ly_key_read(void)
 	
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		g_warning(_("Configuration file error!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Configuration file error!"));
 		
 		g_hash_table_destroy(ly_key_keybinds);
 		ly_key_keybinds=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
@@ -376,7 +376,7 @@ gboolean ly_key_write(void)
 	
 	if(!(fp=fopen(path,"w+")))
 	{
-		g_warning(_("Cannot write keybinds to file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot write keybinds to file!"));
 		return FALSE;
 	}
 	

@@ -228,7 +228,7 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 		rt=sqlite3_exec(ly_dbm_conn,sql,0,0, (char **)(&error));
 		if( rt != SQLITE_OK )
 		{
-			g_warning("Cannot exec SQL: %s, for %s.", sql, error);
+			ly_log_put_with_flag(G_LOG_LEVEL_WARNING, "Cannot exec SQL: %s, for %s.", sql, error);
 			sqlite3_free(error);
 			return -1;
 		}
@@ -239,7 +239,7 @@ int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 	rt=sqlite3_prepare(ly_dbm_conn, sql, strlen(sql), &stmt, (const char **)(&error));
 	if( rt != SQLITE_OK )
 	{
-		g_warning("Cannot exec SQL: %s, for %s.", sql, error);
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, "Cannot exec SQL: %s, for %s.", sql, error);
 		return -1;
 	}
 	r=sqlite3_step(stmt);

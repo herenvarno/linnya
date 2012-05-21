@@ -69,7 +69,7 @@ void g_module_unload(GModule *module)
 GtkWidget *ly_3inf_create()
 {
 	ly_3inf_pixbuf_bg=ly_sss_alloc_bg(NULL);
-	ly_3inf_pixbuf_bg_copy=gdk_pixbuf_copy(ly_3inf_pixbuf_bg);
+	ly_3inf_pixbuf_bg_copy=NULL;
 	
 	GtkWidget *widget;
 	GtkWidget *event_box;
@@ -126,16 +126,16 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	 */
 	if(ly_3inf_pixbuf_bg)
 	{
-		int h=gdk_pixbuf_get_height(ly_3inf_pixbuf_bg_copy);
-		int w=gdk_pixbuf_get_width(ly_3inf_pixbuf_bg_copy);
-		if(!ly_3inf_pixbuf_bg_copy||h<height||h-height>2||w<width||w-width>2)
+		if(ly_3inf_pixbuf_bg_copy)
 		{
-			if(ly_3inf_pixbuf_bg_copy)
+			int h=gdk_pixbuf_get_height(ly_3inf_pixbuf_bg_copy);
+			int w=gdk_pixbuf_get_width(ly_3inf_pixbuf_bg_copy);
+			if(h<height||h-height>2||w<width||w-width>2)
 			{
 				g_object_unref(ly_3inf_pixbuf_bg_copy);
 			}
-			ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);	
 		}
+		ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
 		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);	
 		cairo_paint(cr);
 	}

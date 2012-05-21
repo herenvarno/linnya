@@ -61,7 +61,7 @@ int		ly_plm_add_pl			(char *name)
 		g_snprintf(sql,sizeof(sql),"INSERT INTO playlists (name, num) VALUES ('%s', ifnull((SELECT MAX(num) FROM playlists),0)+1)", tmp);
 		if(ly_dbm_exec(sql, NULL, NULL)<0)
 		{
-			g_warning(_("Playlist already exists!"));
+			ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Playlist already exists!"));
 			return -1;
 		}
 	}
@@ -98,14 +98,14 @@ void	ly_plm_rename_pl		(int pid, char *name)
 {
 	if((!name)||(g_str_equal(name,"")))
 	{
-		g_warning(_("Illegal playlist name."));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Illegal playlist name."));
 		return;
 	}
 	char sql[1024]="";
 	g_snprintf(sql,sizeof(sql),"UPDATE playlists SET name='%s' WHERE id=%d", name, pid);
 	if(ly_dbm_exec(sql, NULL, NULL)<0)
 	{
-		g_warning(_("Cannot find playlist."));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot find playlist."));
 		return;
 	}
 	ly_mbs_put("plm_update", "core:plm", NULL);
@@ -116,7 +116,7 @@ gboolean		ly_plm_import_pl		(char *path)
 {
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
-		g_warning(_("Cannot find playlist file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot find playlist file!"));
 		return FALSE;
 	}
 	int pid=-1;
@@ -135,7 +135,7 @@ gboolean		ly_plm_import_pl		(char *path)
 	}
 	else
 	{
-		g_warning(_("Illegal playlist file type!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Illegal playlist file type!"));
 		return FALSE;
 	}
 	g_free(s);
@@ -148,7 +148,7 @@ gboolean		ly_plm_export_pl		(int pid, char *path)
 	FILE *fp=fopen(path, "w+");
 	if(!fp)
 	{
-		g_warning(_("Cannot save playlist!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot save playlist!"));
 		return FALSE;
 	}
 	
@@ -244,7 +244,7 @@ ly_plm_import_pl_from_cue(int pid, char *path)
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
-		g_warning(_("Cannot open playlsit file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot open playlsit file!"));
 		return FALSE;
 	}
 	
@@ -529,7 +529,7 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
 	g_file_get_contents(path, &buffer, NULL, NULL);
 	if(!buffer)
 	{
-		g_warning(_("Cannot open playlsit file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot open playlsit file!"));
 		return FALSE;
 	}
 	char extra_encoding[1024]="GB18030";

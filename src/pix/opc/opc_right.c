@@ -979,7 +979,6 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 	LyMdhMetadata *md;
 	
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
-	
 	ly_dbm_exec("begin",NULL,NULL);
 	if(index0==0)
 	{

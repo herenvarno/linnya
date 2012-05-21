@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-20 22:08+0800\n"
+"POT-Creation-Date: 2012-05-20 23:06+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -357,7 +357,7 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 "你真的确定要删除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1076
+#: src/pix/opc/opc_left.c:616 src/pix/opc/opc_right.c:1075
 msgid "Warning"
 msgstr "警告"
 
@@ -435,7 +435,7 @@ msgstr "从文件添加 ..."
 msgid "Music File"
 msgstr "音乐文件"
 
-#: src/pix/opc/opc_right.c:1123
+#: src/pix/opc/opc_right.c:1122
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete is belongs to your music library,\n"
@@ -447,7 +447,7 @@ msgstr ""
 " 它将从物理上被永久地删除。\n"
 " 您真的想要这么做么？"
 
-#: src/pix/opc/opc_right.c:1228
+#: src/pix/opc/opc_right.c:1227
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
@@ -657,7 +657,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/uix/dbg.c:87
+#: src/uix/dbg.c:86
 #, c-format
 msgid ""
 "<b>WARNING!</b>\n"
@@ -668,7 +668,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/uix/dbg.c:107
+#: src/uix/dbg.c:106
 #, c-format
 msgid ""
 "<b>CRITICAL!</b>\n"

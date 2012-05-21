@@ -248,7 +248,7 @@ LyEqlEqualizer*	ly_eql_new_from_database	(char *name)
 	{
 		return eq;
 	}
-	g_warning(_("Cannot find particular equalizer record!"));
+	ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot find particular equalizer record!"));
 	g_free(eq);
 	return NULL;
 }

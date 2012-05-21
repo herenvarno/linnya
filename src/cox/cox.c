@@ -35,30 +35,30 @@ void ly_cox_init(int *argc, char ***argv)
 	ly_gla_init(argc, argv);
 	
 	ly_log_init();
-	g_debug("Init COX module");
-	g_debug("Init COX module: GLA");
-	g_debug("Init COX module: LOG");
-	g_debug("Init COX module: MSG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: GLA");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: LOG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: MSG");
 	ly_mbs_init();
-	g_debug("Init COX module: REG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: REG");
 	ly_reg_init();
-	g_debug("Init COX module: DBM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: DBM");
 	ly_dbm_init();
-	g_debug("Init COX module: MDH");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: MDH");
 	ly_mdh_init();
-	g_debug("Init COX module: LIB");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: LIB");
 	ly_lib_init();
-	g_debug("Init COX module: PLM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: PLM");
 	ly_plm_init();
-	g_debug("Init COX module: PQM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: PQM");
 	ly_pqm_init();
-	g_debug("Init COX module: PPL");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: PPL");
 	ly_ppl_init();
-	g_debug("Init COX module: EQL");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: EQL");
 	ly_eql_init();
-	g_debug("Init COX module: LRC");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: LRC");
 	ly_lrc_init();
-	g_debug("Init COX module: AUD");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init COX module: AUD");
 	ly_aud_init();
 }
 
@@ -71,31 +71,31 @@ void ly_cox_init(int *argc, char ***argv)
  */
 void ly_cox_fina()
 {
-	g_debug("Fina COX module");
-	g_debug("Fina COX module: AUD");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: AUD");
 	ly_aud_fina();
-	g_debug("Fina COX module: LRC");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: LRC");
 	ly_lrc_fina();
-	g_debug("Fina COX module: EQL");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: EQL");
 	ly_eql_fina();
-	g_debug("Fina COX module: PPL");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: PPL");
 	ly_ppl_fina();
-	g_debug("Fina COX module: PQM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: PQM");
 	ly_pqm_fina();
-	g_debug("Fina COX module: PLM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: PLM");
 	ly_plm_fina();
-	g_debug("Fina COX module: LIB");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: LIB");
 	ly_lib_fina();
-	g_debug("Fina COX module: MDH");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: MDH");
 	ly_mdh_fina();
-	g_debug("Fina COX module: DBM");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: DBM");
 	ly_dbm_fina();
-	g_debug("Fina COX module: REG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: REG");
 	ly_reg_fina();
-	g_debug("Fina COX module: MSG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: MSG");
 	ly_mbs_fina();
-	g_debug("Fina COX module: LOG");
-	g_debug("Fina COX module: GLA");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: LOG");
+	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina COX module: GLA");
 	ly_log_fina();
 	ly_gla_fina();
 }

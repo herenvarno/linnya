@@ -147,7 +147,7 @@ gboolean	ly_reg_write			()
 	FILE *fp=NULL;
 	if(!(fp=fopen(ly_reg_file,"w+")))
 	{
-		g_warning(_("Cannot write reg file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot write reg file!"));
 		return FALSE;
 	}
 
@@ -185,7 +185,7 @@ gboolean	ly_reg_read			()
 {
 	if(!g_file_test(ly_reg_file, G_FILE_TEST_EXISTS))
 	{
-		g_warning(_("Cannot find reg file!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot find reg file!"));
 		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 		ly_reg_set("version", "%lf", LY_GLA_VERSION_NUM);
 		return TRUE;
@@ -210,7 +210,7 @@ gboolean	ly_reg_read			()
 
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
-		g_warning(_("Read reg file error!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Read reg file error!"));
 		g_hash_table_destroy(ly_reg_table);
 		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 		ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);

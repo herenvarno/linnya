@@ -270,7 +270,7 @@ gboolean ly_aud_pause()
 	{
 		if(!gst_element_set_state(play,GST_STATE_PAUSED))
 		{
-			g_warning(_("Gstreamer state wrong!"));
+			ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Gstreamer state wrong!"));
 			return FALSE;
 		}
 	}
@@ -299,12 +299,12 @@ gboolean ly_aud_stop()
 	
 	if(!gst_element_set_state(play,GST_STATE_NULL))
 	{
-		g_warning(_("Gstreamer state wrong!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Gstreamer state wrong!"));
 		return FALSE;
 	}
 	if(!gst_element_set_state(play,GST_STATE_READY))
 	{
-		g_warning(_("Gstreamer state wrong!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Gstreamer state wrong!"));
 		return FALSE;
 	}
 	return TRUE;
@@ -349,7 +349,7 @@ gdouble ly_aud_get_volume()
 	g_object_get(G_OBJECT(ele),"volume",&volume,NULL);
 	if(!volume)
 	{
-		g_warning(_("Volume wrong!"));
+		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Volume wrong!"));
 	}
 	return volume;
 }
@@ -465,12 +465,12 @@ gint64 ly_aud_get_position_abs()
 	
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
-		g_debug("Position wrong!");
+		ly_log_put_with_flag(G_LOG_LEVEL_DEBUG, _("Position wrong!"));
 		return 0;
 	}
 	if(pos-start<-60000000000)
 	{
-		g_debug("Position wrong!");
+		ly_log_put_with_flag(G_LOG_LEVEL_DEBUG, _("Position wrong!"));
 		return 0;
 	}
 	pos=pos-start;
