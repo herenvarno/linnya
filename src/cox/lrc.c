@@ -139,7 +139,6 @@ void ly_lrc_read(FILE *fp)
 	
 	gint64 time;
 	gint64 time_delay=0;
-	gint tmptime=0;
 	gchar line[1024]="";
 	
 	gchar *p,*q;
@@ -155,7 +154,7 @@ void ly_lrc_read(FILE *fp)
 	{
 		j=0;
 		if(line[strlen(line)-1]=='\n')
-			line[strlen(line)-1]=='\0';
+			line[strlen(line)-1]='\0';
 		lrc=NULL;
 		p=line;
 		while(*p)

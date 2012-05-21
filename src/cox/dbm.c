@@ -215,13 +215,11 @@ void		ly_dbm_fina		()
  */
 int			ly_dbm_exec		(char *sql, gpointer func, gpointer data)
 {
-	char str[10240]="";
 	int				rt=0;
 	sqlite3_stmt	*stmt=0;
 	int				r=0;
 	int				count=0;
 	char			*error;
-	char			log[10240]="";
 
 	if(func==NULL)
 	{

@@ -37,11 +37,7 @@ GtkWidget* ly_3inf_config()
 {
 	GtkWidget *page;
 	GtkWidget *item;
-	GtkWidget *vbox;
-	GtkWidget *hbox;
-	GtkWidget *check;
 	GtkWidget *button;	
-	GtkWidget *entry;
 	GtkWidget *label;
 	GtkWidget *table;
 	char str[1024]="";

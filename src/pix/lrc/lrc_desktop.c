@@ -171,7 +171,7 @@ gboolean	ly_3lrc_desktop_on_expose_cb	(GtkWidget * widget, cairo_t *cr, gpointer
 		LyMdhMetadata *md=NULL;
 		md=ly_pqm_get_current_md();
 		if(!md)
-			return;
+			return FALSE;
 		if(ly_lrc_get_index()+1<ly_lrc_get_length())
 			t1=(ly_lrc_get_array()[ly_lrc_get_index()+1])->time-(ly_lrc_get_array()[ly_lrc_get_index()])->time;
 		else
@@ -298,7 +298,7 @@ gboolean ly_3lrc_desktop_on_update_cb(gpointer data)
 
 gboolean ly_3lrc_desktop_on_drag_cb( GtkWidget * widget, GdkEvent *event, gpointer data)
 {
-	GdkCursor *cursor;
+	//GdkCursor *cursor;
 	if (event->button.button == 1)
 	{
 		switch(event->type)

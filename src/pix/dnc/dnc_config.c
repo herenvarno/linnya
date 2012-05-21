@@ -21,8 +21,6 @@ GtkWidget* ly_3dnc_config()
 {
 	GtkWidget *page;
 	GtkWidget *item;
-	GtkWidget *vbox;
-	GtkWidget *hbox;
 	GtkWidget *combo;
 	char server[128]="";
 	int i=0;

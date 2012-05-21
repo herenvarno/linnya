@@ -28,7 +28,7 @@
  * FUNCTIONS
  */
 
-gboolean		ly_aud_on_ppl_eos_cb(gpointer message, gpointer data);
+void ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data);
 
 /**
  * ly_aud_init:
@@ -44,9 +44,6 @@ void		ly_aud_init()
 	gint random=0;
 	gint repeat=1;
 	gint single=0;
-	
-	GstState state;
-	state=ly_aud_get_state();
 	
 	if(!ly_reg_get("aud_mode","%d:%d:%d", &random,&repeat,&single))
 		ly_reg_set("aud_mode","%d:%d:%d",random, repeat, single);
@@ -294,9 +291,6 @@ gboolean ly_aud_stop()
 	if(!play)
 		return FALSE;
 	
-	GstState state;
-	state=ly_aud_get_state();
-	
 	if(!gst_element_set_state(play,GST_STATE_NULL))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Gstreamer state wrong!"));
@@ -488,8 +482,7 @@ gint64 ly_aud_get_position_abs()
  *
  * Returns: FALSE
  */
-gboolean		ly_aud_on_ppl_eos_cb(gpointer message, gpointer data)
+void ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data)
 {
 	ly_aud_next();
-	return FALSE;
 }

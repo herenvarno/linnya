@@ -105,8 +105,8 @@ gboolean	ly_3inf_cover_on_cover_got()
 	if(!buf)
 		return FALSE;
 
-	GdkPixbufLoader *loader;
-    GdkPixbuf *pixbuf_old;
+	GdkPixbufLoader *loader=NULL;
+    GdkPixbuf *pixbuf_old=NULL;
     loader = gdk_pixbuf_loader_new();
     if(!gdk_pixbuf_loader_write(loader, buf->data, buf->size, NULL))
     {
@@ -114,9 +114,15 @@ gboolean	ly_3inf_cover_on_cover_got()
         return FALSE;
     }
 	pixbuf_old = gdk_pixbuf_loader_get_pixbuf(loader);
+	if(!pixbuf_old)
+    {
+        g_object_unref(loader);
+        return FALSE;
+    }
+    
+	g_object_ref(pixbuf_old);
 	ly_3inf_cover_pixbuf=gdk_pixbuf_scale_simple(pixbuf_old, 200, 200, GDK_INTERP_BILINEAR);
-    if(pixbuf_old)
-    	g_object_ref(pixbuf_old);
+   	g_object_unref(pixbuf_old);
     gdk_pixbuf_loader_close(loader, NULL);
 	g_object_unref(loader);
 	

@@ -290,8 +290,6 @@ gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gp
 gboolean
 ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 {
-	gchar sql[10240]="";
-	gchar tmp[10240]="";
 	const gchar *name=NULL;
 		
 	GtkWidget *dialog;
@@ -300,7 +298,6 @@ ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *entry;
 	int result;
 	
-	gboolean rt=FALSE;
 	dialog=gtk_dialog_new_with_buttons(_("New Playlist"),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,

@@ -65,7 +65,7 @@ void	ly_thm_init()
 	/*
 	 * REGIST CONF: thm_winbg
 	 */
-	guint winbg[4]={0, 0, 0, 65535};
+	guint winbg[4]={0, 0, 0, 65535/2};
 	if(!ly_reg_get("thm_winbg", "%d:%d:%d:%d", &winbg[0], &winbg[1], &winbg[2], &winbg[3]))
 	{
 		ly_reg_set("thm_winbg", "%d:%d:%d:%d", winbg[0], winbg[1], winbg[2], winbg[3]);

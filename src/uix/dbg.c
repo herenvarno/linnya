@@ -61,8 +61,8 @@ gboolean ly_dbg_message_cb(gpointer data)
 							GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_INFO,
 							GTK_BUTTONS_OK,
-							_("<b>MESSAGE!</b>\n\n%s"), data);
-	g_return_if_fail(dialog!=NULL);
+							_("<b>MESSAGE!</b>\n\n%s"), (gchar *)data);
+	g_return_val_if_fail(dialog!=NULL, FALSE);
 	gtk_widget_show_all(dialog);
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
@@ -89,8 +89,8 @@ gboolean ly_dbg_warning_cb(gpointer data)
 							GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_WARNING,
 							GTK_BUTTONS_OK,
-							_("<b>WARNING!</b>\n\n%s"), data);
-	g_return_if_fail(dialog!=NULL);
+							_("<b>WARNING!</b>\n\n%s"), (gchar *)data);
+	g_return_val_if_fail(dialog!=NULL, FALSE);
 	gtk_widget_show_all(dialog);
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
@@ -117,8 +117,8 @@ gboolean ly_dbg_critical_cb(gpointer data)
 							GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_ERROR,
 							GTK_BUTTONS_OK,
-							_("<b>CRITICAL!</b>\n\n%s"), data);
-	g_return_if_fail(dialog!=NULL);
+							_("<b>CRITICAL!</b>\n\n%s"), (gchar *)data);
+	g_return_val_if_fail(dialog!=NULL, FALSE);
 	gtk_widget_show_all(dialog);
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);

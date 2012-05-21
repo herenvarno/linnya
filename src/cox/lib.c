@@ -238,7 +238,7 @@ int				ly_lib_get_id			(LyMdhMetadata *md)
 	
 	int id=-1;
 	char sql[10240]="";
-	ly_dbm_replace_str(md->uri, sizeof(md->uri));
+//	ly_dbm_replace_str(md->uri, sizeof(md->uri));
 	g_snprintf(sql, sizeof(sql), "SELECT id FROM metadatas WHERE start='%s' AND uri='%s' AND flag=%d", md->start, md->uri, md->flag);
 	if(ly_dbm_exec(sql, ly_lib_get_id_cb, &id)>0);
 	{

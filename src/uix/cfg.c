@@ -194,7 +194,6 @@ ly_cfg_new (void)
 	GtkWidget *vscale;
 	GtkWidget *image;
 	GdkPixbuf *pixbuf;
-	GtkTreeIter iter;
 	
 	GHashTableIter iter1;
 	gpointer key, value;
@@ -959,7 +958,7 @@ gboolean ly_cfg_on_eql_list_cb(gpointer stmt, gpointer data)
 	if(data==NULL||stmt==NULL)
 		return TRUE;
 
-	const char *name=sqlite3_column_text(stmt, 0);
+	const char *name= (const char *)sqlite3_column_text(stmt, 0);
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(data), name);
 	
 	char equalizer[1024]="default";
@@ -967,7 +966,6 @@ gboolean ly_cfg_on_eql_list_cb(gpointer stmt, gpointer data)
 	if(g_str_equal(name, equalizer))
 	{
 		GtkTreeModel *model;
-		GtkTreeIter iter;
 		int index=0;
 		model=gtk_combo_box_get_model(GTK_COMBO_BOX(data));
 		index=gtk_tree_model_iter_n_children(GTK_TREE_MODEL(model), NULL);
@@ -1052,7 +1050,6 @@ gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
 	int result;
 	char *name=NULL;
 	
-	gboolean rt=FALSE;
 	dialog=gtk_dialog_new_with_buttons(_("Save Equalizer"),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1368,7 +1365,7 @@ GtkWidget *ly_cfg_item_new(gchar *name)
 
 gchar*			ly_cfg_item_get_name		(LyCfgItem *item)
 {
-	return g_strconcat(item->name);
+	return g_strconcat(item->name, NULL);
 }
 
 void			ly_cfg_item_append		(LyCfgItem *item, GtkWidget *widget)

@@ -90,7 +90,6 @@ gboolean	ly_3dnc_lrc_notify(gpointer data)
 {
 	GtkTreeStore *store=(GtkTreeStore *)data;
 	GtkWidget *dialog;
-	GtkWidget *grid;
 	GtkWidget *treeview;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
@@ -170,7 +169,7 @@ gpointer	ly_3dnc_lrc_analysis(gpointer data)
 		return NULL;
 	}
 	g_thread_create(ly_3dnc_lrc_down, url, TRUE, NULL);
-	
+	return NULL;
 }
 gpointer	ly_3dnc_lrc_down(gpointer data)
 {
@@ -211,6 +210,7 @@ gpointer	ly_3dnc_lrc_down(gpointer data)
 	g_free(path);
 	ly_mbs_put("lrc_update", "plugin:dnc", "");
 	g_mutex_unlock(ly_3dnc_lrc_mutex);
+	return NULL;
 }
 size_t ly_3dnc_lrc_down_cb(char *buffer, size_t size, size_t nitems, void *outstream)
 {

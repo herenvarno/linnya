@@ -8,14 +8,9 @@ size_t		ly_3dnc_lrc_lrc123_search_cb	(char *buffer, size_t size, size_t nitems, 
 
 GtkTreeStore* ly_3dnc_lrc_lrc123_search(gchar *title, gchar *artist)
 {
-
-    gboolean flag;
-    gchar *tmp_file;
     gchar *xml_data=g_strconcat("", NULL);
     gchar *search_url;
-    gsize xml_len;
     gchar *esc_title = NULL, *esc_artist = NULL, *url = NULL;
-    GSList *lrc_url_list = NULL;
 	gchar *search_base_url = "http://www.lrc123.com/?keyword=";
 	
     GRegex *down_regex, *title_regex, *artist_regex;

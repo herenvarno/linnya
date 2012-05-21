@@ -133,9 +133,13 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 			if(h<height||h-height>2||w<width||w-width>2)
 			{
 				g_object_unref(ly_3inf_pixbuf_bg_copy);
+				ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
 			}
 		}
-		ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
+		else
+		{
+			ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
+		}
 		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);	
 		cairo_paint(cr);
 	}

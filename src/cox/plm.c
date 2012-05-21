@@ -35,6 +35,9 @@ int ly_plm_import_pid=-1;
 gboolean	ly_plm_get_id_cb	(gpointer stmt, gpointer data);
 gboolean	ly_plm_export_pl_cb	(gpointer stmt, gpointer data);
 
+gboolean ly_plm_import_pl_from_cue(int pid, char *path);
+gboolean ly_plm_import_pl_from_m3u(int pid, char *path);
+
 void			ly_plm_init				()
 {
 }
@@ -191,7 +194,7 @@ ly_plm_del_md			(int pid, int mid)
 				" "\
 				"DELETE "\
 				"FROM connections "\
-				"WHERE pid=%s AND mid=%s",
+				"WHERE pid=%d AND mid=%d",
 				pid, mid);
 	ly_dbm_exec(sql, NULL, NULL);
 }
@@ -263,7 +266,6 @@ ly_plm_import_pl_from_cue(int pid, char *path)
 	
 	char *dir=ly_gla_uri_get_dir(path);
     
-    char tmp[1024]="";
     LyMdhMetadata *md=NULL;
     LyMdhMetadata *md_prev=NULL;
     int mid=-1;
@@ -543,10 +545,7 @@ ly_plm_import_pl_from_m3u(int pid, char *path)
 		g_free(buffer);
 		buffer = buffer_tmp;
 	}
-	
-    char *sql=NULL;
-    char *tmpsql=NULL;
-    char tmp[1024]="";    
+	   
     int i;
     gchar *word=NULL; 
     LyMdhMetadata *md=NULL;
@@ -615,7 +614,7 @@ int			ly_plm_get_id			(char *name)
 	int id=-1;
 	char sql[10240]="";
 	ly_dbm_replace_str(tmp, sizeof(tmp));
-	g_snprintf(sql, sizeof(sql), "SELECT id FROM playlists WHERE name='%d'", tmp);
+	g_snprintf(sql, sizeof(sql), "SELECT id FROM playlists WHERE name='%s'", tmp);
 	if(ly_dbm_exec(sql, ly_plm_get_id_cb, &id)>0);
 	{
 		return id;
@@ -633,8 +632,8 @@ gboolean	ly_plm_get_id_cb	(gpointer stmt, gpointer data)
 gboolean	ly_plm_export_pl_cb	(gpointer stmt, gpointer data)
 {
 	FILE *fp=(FILE *)data;
-	const char *title=NULL;
-	const char *location=NULL;
+	const unsigned char *title=NULL;
+	const unsigned char *location=NULL;
 	
 	title=sqlite3_column_text(stmt, 0);
 	location=sqlite3_column_text(stmt, 1);

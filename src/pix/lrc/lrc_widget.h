@@ -18,8 +18,8 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LY_3LRC_H
-#define LY_3LRC_H
+#ifndef LY_3LRC_WIDGET_H
+#define LY_3LRC_WIDGET_H
 
 /*
  * HEADERS

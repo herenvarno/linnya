@@ -440,8 +440,7 @@ gboolean	ly_eql_new_from_database_cb(gpointer stmt, gpointer data)
  */
 gboolean	ly_eql_conf_set_by_genre_cb(gpointer stmt, gpointer data)
 {
-	int i=0;
-	char *name=g_utf8_strdown(sqlite3_column_text(stmt, 0), -1);
+	char *name=g_utf8_strdown((char *)(sqlite3_column_text(stmt, 0)), -1);
 	char *genre=g_utf8_strdown((ly_pqm_get_current_md())->genre, -1);
 	if(g_strcmp0(name, genre)==0)
 	{

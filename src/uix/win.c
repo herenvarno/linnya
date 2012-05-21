@@ -56,23 +56,22 @@ LyWinWindow*	ly_win_new()
 	if(!window)
 		return NULL;
 		
-	GtkWidget *win;
-	GtkWidget *vbox_main;
-	GtkWidget *hbox_title;
-	GtkWidget *notebook_session;
-	GtkWidget *hbox_control;
- 	GtkWidget *button_close;
- 	GtkWidget *button_min;
- 	GtkWidget *button_mini;
-	GtkWidget *control_left;
-	GtkWidget *control_right;
-	GtkWidget *button_play;
-	GtkWidget *button_prev;
-	GtkWidget *button_next;
-	GtkWidget *button_config;
-	GtkWidget *button_volume;
-	GtkWidget *hscale_seek;
-	GtkWidget *img;
+	GtkWidget *win=NULL;
+	GtkWidget *vbox_main=NULL;
+	GtkWidget *hbox_title=NULL;
+	GtkWidget *notebook_session=NULL;
+	GtkWidget *hbox_control=NULL;
+ 	GtkWidget *button_close=NULL;
+ 	GtkWidget *button_min=NULL;
+ 	GtkWidget *button_mini=NULL;
+	GtkWidget *control_left=NULL;
+	GtkWidget *control_right=NULL;
+	GtkWidget *button_play=NULL;
+	GtkWidget *button_prev=NULL;
+	GtkWidget *button_next=NULL;
+	GtkWidget *button_config=NULL;
+	GtkWidget *button_volume=NULL;
+	GtkWidget *hscale_seek=NULL;
 	
 	char path[1024]="";
 	GdkScreen *screen;
@@ -448,7 +447,6 @@ gboolean ly_win_on_play_toggle_cb(GtkWidget *widget, gpointer data)
 	LyThmItem *th=ly_thm_item_new_from_conf();
 	if(!th || g_str_equal(th->style, ""))
 	{
-		GtkWidget *btn_image;
 		GList *list=gtk_container_get_children(GTK_CONTAINER(widget));
 		if(list&&list->data)
 		{

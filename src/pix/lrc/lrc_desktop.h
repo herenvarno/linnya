@@ -20,8 +20,8 @@
 
 
 
-#ifndef LY_3LRC_H
-#define LY_3LRC_H
+#ifndef LY_3LRC_DESKTOP_H
+#define LY_3LRC_DESKTOP_H
 
 /*
  * HEADERS

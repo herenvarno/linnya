@@ -52,12 +52,10 @@ GtkTreeStore* ly_3dnc_cov_top100_search(gchar *artist, gchar *album)
 	/*
 	 * analysis the page and get artist/album/url in list
 	 */
-	gchar str[1024]="";
 	g_strlcpy(tmp, "", sizeof(tmp));
 	GMatchInfo *match_info;
 	GRegex *regex1=NULL;
 	
-	gboolean flag_find=FALSE;
 	gchar *p_al=NULL;
 	gchar ur[1024]="";
 	gchar ar[128]="";

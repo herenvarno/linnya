@@ -18,8 +18,8 @@
  * along with linnya:plugin. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LY_3OPC_H
-#define LY_3OPC_H
+#ifndef LY_3OPC_RIGHT_H
+#define LY_3OPC_RIGHT_H
 
 /*
  * HEADERS

@@ -184,9 +184,9 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	GstMessage *msg;
 
 	ly_mdh_pipeline=gst_pipeline_new("pipeline");
-	urisrc=gst_element_make_from_uri(GST_URI_SRC, uri,"urisrc");
-	decodebin=gst_element_factory_make("decodebin","decodebin");
-	fakesink=gst_element_factory_make("fakesink","fakesink");
+	urisrc=gst_element_make_from_uri(GST_URI_SRC, uri, "urisrc");
+	decodebin=gst_element_factory_make("decodebin", "decodebin");
+	fakesink=gst_element_factory_make("fakesink", "fakesink");
 
 	gst_bin_add_many(GST_BIN(ly_mdh_pipeline),urisrc,decodebin,fakesink,NULL);
 	gst_element_link(urisrc,decodebin);
@@ -223,6 +223,8 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	if(rt!=GST_STATE_CHANGE_SUCCESS)
 	{
 		gst_element_set_state(ly_mdh_pipeline,GST_STATE_NULL);
+		if(ly_mdh_pipeline!=NULL)
+			gst_object_unref(GST_OBJECT(ly_mdh_pipeline));
 		return FALSE;
 	}
 
@@ -342,6 +344,8 @@ LyMdhMetadata*	ly_mdh_new_with_uri_full	(char *uri)
 	if(rt!=GST_STATE_CHANGE_SUCCESS)
 	{
 		gst_element_set_state(ly_mdh_pipeline,GST_STATE_NULL);
+		if(ly_mdh_pipeline!=NULL)
+			gst_object_unref(GST_OBJECT(ly_mdh_pipeline));
 		return FALSE;
 	}
 
@@ -847,18 +851,14 @@ int ly_mdh_push_handler_cb(GstBus *bus, GstMessage *msg, gpointer data)
 
 void ly_mdh_push_add_ogg_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger)
 {
-	GstCaps *caps;
 	GstPad *conn_pad = NULL;
-	caps = gst_pad_get_caps (pad);
 	conn_pad = gst_element_get_compatible_pad(tagger, pad, NULL);
 	gst_pad_link(pad, conn_pad);
 	gst_object_unref(conn_pad);
 }
 void ly_mdh_push_add_id3_pad_cb(GstElement *demux, GstPad *pad,GstElement *tagger)
 {
-	GstCaps *caps;
 	GstPad *conn_pad = NULL;
-	caps = gst_pad_get_caps (pad);
 	conn_pad = gst_element_get_compatible_pad(tagger, pad, NULL);
 	gst_pad_link(pad, conn_pad);
 	gst_object_unref(conn_pad);

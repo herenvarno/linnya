@@ -599,7 +599,6 @@ gboolean ly_3opc_right_addtoqueue_cb(GtkWidget *widget, gpointer data)
 
 gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	gchar sql[10240]="";
 	gchar tmp[10240]="";
 	int pid=(int)data;
 	int mid=0;
@@ -780,7 +779,6 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_table_attach(GTK_TABLE(table), label, 1, 2, 3, 4, GTK_FILL, GTK_FILL, 5, 5);
 
 	GdkPixbuf *pixbuf=NULL;
-	GdkPixbuf *pixbuf_old=NULL;
 	char path[1024]="";
 	gint i=0;
 	for(i=0; i<COVER_TYPE_COUNT; i++)
@@ -975,7 +973,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 	int index0=0;
 	int pid=0;
 	int mid=0;
-	gchar *filename,*fileuri, tmp[1024];
+	gchar *filename,*fileuri, tmp[10240];
 	LyMdhMetadata *md;
 	
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
@@ -986,14 +984,15 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 		{
 			filename=g_filename_from_uri(q->data,NULL,NULL);
 			realpath(filename,tmp);
-			fileuri=g_strconcat("file://",tmp, NULL);
+			fileuri=g_strconcat("file://",tmp, NULL);	
 			g_free(filename);
-			
+		
 			md=ly_mdh_new_with_uri(fileuri);
+			g_free(fileuri);
 			if(md)
 			{
 				mid=ly_lib_get_id(md);
-				if(mid<0)
+				if(mid<=0)
 				{
 					ly_lib_add_md(md);
 					mid=ly_lib_get_id(md);
@@ -1015,6 +1014,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 			g_free(filename);
 			
 			md=ly_mdh_new_with_uri(fileuri);
+			g_free(fileuri);
 			if(md)
 			{
 				mid=ly_lib_get_id(md);
@@ -1040,6 +1040,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 			g_free(filename);
 			
 			md=ly_mdh_new_with_uri(fileuri);
+			g_free(fileuri);
 			if(md)
 			{
 				ly_lib_add_md(md);
@@ -1053,7 +1054,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 	g_slist_free(filelist);
 	
 	ly_3opc_left_refresh_cb(NULL,NULL);
-	ly_3opc_right_refresh_cb(NULL,NULL);
+	ly_3opc_right_refresh();
 	return NULL;
 }
 
@@ -1262,6 +1263,7 @@ gboolean ly_3opc_right_on_button_p_clicked_cb(GtkWidget *widget, gpointer data)
 	
 	offset=offset-limit>=0?offset-limit:0;
 	ly_reg_set("3opc_limit", "%d:%d", offset, limit);
+	return FALSE;
 }
 gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data)
 {
@@ -1274,4 +1276,5 @@ gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data)
 		return FALSE;
 	offset=offset>=0?offset+limit:limit;
 	ly_reg_set("3opc_limit", "%d:%d", offset, limit);
+	return FALSE;
 }
