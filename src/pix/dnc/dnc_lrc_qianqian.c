@@ -108,7 +108,7 @@ gchar *ly_3dnc_lrc_qianqian_to_hex_string(gchar *string)
     tmp_len = strlen(tmp);
     for(x=0, y=0;x<tmp_len;x++)
     {
-        if(!IS_BLANK(tmp[x]))
+        if(!isblank(tmp[x]))
         {
             tmp[y] = tmp[x];
             y++;
