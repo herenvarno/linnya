@@ -6,6 +6,8 @@
 static GMutex *ly_3dnc_lrc_mutex=NULL;
 static gchar ly_3dnc_lrc_title[128]="";
 static gchar ly_3dnc_lrc_artist[128]="";
+static gchar ly_3dnc_lrc_start[128]="";
+static gchar ly_3dnc_lrc_uri[1024]="";
 
 /*
  * FUNCTIONS
@@ -53,6 +55,8 @@ void	ly_3dnc_lrc_check(LyMbsMessage *message, gpointer data)
 	}
 	g_strlcpy(ly_3dnc_lrc_artist, md->artist, sizeof(ly_3dnc_lrc_artist));
 	g_strlcpy(ly_3dnc_lrc_title, md->title, sizeof(ly_3dnc_lrc_title));
+	g_strlcpy(ly_3dnc_lrc_start, md->start, sizeof(ly_3dnc_lrc_start));
+	g_strlcpy(ly_3dnc_lrc_uri, md->uri, sizeof(ly_3dnc_lrc_uri));
 	g_thread_create(ly_3dnc_lrc_search, NULL, TRUE, NULL);
 }
 gpointer		ly_3dnc_lrc_search(gpointer data)
@@ -184,9 +188,11 @@ gpointer	ly_3dnc_lrc_down(gpointer data)
 	LyMdhMetadata *md=ly_mdh_new();
 	g_strlcpy(md->title, ly_3dnc_lrc_title, sizeof(md->title));
 	g_strlcpy(md->artist, ly_3dnc_lrc_artist, sizeof(md->artist));
+	g_strlcpy(md->start, ly_3dnc_lrc_start, sizeof(md->start));
+	g_strlcpy(md->uri, ly_3dnc_lrc_uri, sizeof(md->uri));
 	path=ly_lrc_build_path(md);
 	ly_mdh_free(md);
-	
+
 	FILE *fp=fopen(path, "w+");
 	if(!fp)
 	{

@@ -75,6 +75,7 @@ char*		ly_lrc_build_path	(LyMdhMetadata *md)
 	{
 		path=ly_gla_uri_get_dir(md->uri);
 		filename=ly_gla_uri_get_filename(md->uri);
+		
 		if(md->flag==1)
 		{
 			lrcfile=g_strconcat(path, filename, "-", md->start,".lrc", NULL);
