@@ -19,12 +19,23 @@
  */
 
 /**
- * SECTION:		dbm
- * @short_description:	database storage
+ * SECTION:		log
+ * @short_description:	record logs
  * @stability:	stable
  * @include:	cox.h
  *
- * This module is a module to store data into a database file through sqlite3.
+ * This is a module to record logs into a specific logfile.
+ * 
+ * Logs are recorded through an inner object with a type of #LyLogLogger, called
+ * logger which is built in the init function, and destroyed in fina function.
+ * Once the initialization finished, you can use #ly_log_put_with_flag to record
+ * a log with any log level given in #GLogLevelFlag.
+ *
+ * All level of logs produced by inner signal of glib are captured automatically
+ * by a pre-defined handler which push the significant log record into logfile. 
+ * so once you call a debug function of glib like #g_critical, the log will be 
+ * pushed into logfile without doing #ly_log_put_with_flag. which is a much easier 
+ * and safer way to record a log than using #ly_log_put_with_flag.
  */
 
 
@@ -39,10 +50,11 @@ G_BEGIN_DECLS
 /*
  * FUNCTION
  */
+// INIT & FINAL
 void ly_log_init ();
 void ly_log_fina ();
 
-void ly_log_put (const char *format, ...);
+// API
 void ly_log_put_with_flag (GLogLevelFlags flag, const char *format, ...);
 
 G_END_DECLS

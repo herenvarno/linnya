@@ -10,6 +10,7 @@ src/cox/lib.c
 src/cox/mbs.c
 src/cox/mbs.obj.c
 src/cox/reg.c
+src/cox/reg.obj.c
 src/cox/dbm.c
 src/cox/log.c
 src/cox/log.obj.c

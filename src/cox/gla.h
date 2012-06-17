@@ -20,12 +20,18 @@
 
 /**
  * SECTION: gla
- * @short_description: the common module.
+ * @short_description: the global common module.
  * @stability: stable
  * @include: cox.h
  *
- * This module is a common module for the upper modules in cox. It defines the
+ * This is a common module for the upper modules in cox. It defines the
  * most useful macros, variables as well as API functions.
+ *
+ * The gla module defines and prepares the required directory of cox. which consist
+ * of #LY_GLA_HOMEDIR, #LY_GLA_PROGDIR, #LY_GLA_USERDIR, and #LY_GLA_TEMPDIR.
+ *
+ * Some useful API function are defined here to make such common activity easier
+ * and more efficient.
  */
 
 #ifndef LY_GLA_H
@@ -113,8 +119,8 @@ void		ly_gla_init				(int *argc, char ***argv);
 void		ly_gla_fina				();
 
 // API
-char*		ly_gla_uri_get_prefix		(char *uri);
-char*		ly_gla_uri_get_suffix		(char *uri);
+char*		ly_gla_uri_get_prefix	(char *uri);
+char*		ly_gla_uri_get_suffix	(char *uri);
 char*		ly_gla_uri_get_filename	(char *uri);
 char*		ly_gla_uri_get_dir		(char *uri);
 char*		ly_gla_uri_get_path		(char *uri);

@@ -51,24 +51,12 @@ G_BEGIN_DECLS
 typedef struct _LyLogLogger LyLogLogger;
 typedef struct _LyLogLoggerClass LyLogLoggerClass;
 
-/**
- * LyLogLogger
- *
- * The #LyLogLogger object is used for writing various kind of log to a
- * specific log file while program is running. The contents of the
- * #LyLogLogger structure are private and should only be accessed via
- * provided APIs.
- */
+
 struct _LyLogLogger {
 	/*<private>*/
 	GObject parent;
 };
 
-/**
- * LyLogLogger
- *
- * the class structure of #LyLogLogger.
- */
 struct _LyLogLoggerClass {
 	/*<private>*/
 	GObjectClass parent_class;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-05-21 12:18+0800\n"
+"POT-Creation-Date: 2012-06-17 15:09+0800\n"
 "PO-Revision-Date: 2012-05-20 21:02+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -37,19 +37,19 @@ msgstr "無法到達制定位置！"
 msgid "Position wrong!"
 msgstr ""
 
-#: src/cox/gla.h:55
+#: src/cox/gla.h:61
 msgid "linnya"
 msgstr "聆雅"
 
-#: src/cox/gla.h:58
+#: src/cox/gla.h:64
 msgid "A free music player on Linux, with unlimited feathers from plug-ins."
 msgstr "Linux下擁有無限擴展能力的音樂播放器"
 
-#: src/cox/gla.h:59
+#: src/cox/gla.h:65
 msgid "Copyright (C) 2010-2012 Edward Yang"
 msgstr "版權所有 (C) 2010-2012 Edward Yang"
 
-#: src/cox/gla.h:63
+#: src/cox/gla.h:69
 msgid ""
 "Linnya is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -99,27 +99,20 @@ msgstr "過濾器已存在！"
 msgid "Filter not found!"
 msgstr "過濾器未找到！"
 
-#: src/cox/reg.c:56
-msgid "Cannot load reg file. Abort...\n"
-msgstr "無法載入註冊文件。退出 ……\n"
-
-#: src/cox/reg.c:150
-msgid "Cannot write reg file!"
+#: src/cox/reg.obj.c:133
+#, fuzzy
+msgid "Cannot save reg file!"
 msgstr "無法寫入註冊文件！"
 
-#: src/cox/reg.c:188
-msgid "Cannot find reg file!"
-msgstr "無法找到註冊文件！"
-
-#: src/cox/reg.c:213
-msgid "Read reg file error!"
-msgstr "讀取註冊文件錯誤！"
+#: src/cox/reg.obj.c:199
+msgid "Error occur while loading reg!"
+msgstr ""
 
 #: src/cox/dbm.c:54
 msgid "Cannot connect to database. Abort ..."
 msgstr "無法連接到資料庫。退出 ……"
 
-#: src/cox/log.c:19
+#: src/cox/log.c:22
 msgid "Cannot build logger. Abort ..."
 msgstr "無法建立記錄器。退出 ……"
 
@@ -163,28 +156,28 @@ msgstr "封面下載伺服器"
 msgid "Lyrics Download Server"
 msgstr "歌詞下載伺服器"
 
-#: src/pix/dnc/dnc_cov.c:42 src/pix/dnc/dnc_lrc.c:42
+#: src/pix/dnc/dnc_cov.c:42 src/pix/dnc/dnc_lrc.c:44
 msgid "A download task already exists, try again later!"
 msgstr "一個下載任務已存在，請稍候重試！"
 
-#: src/pix/dnc/dnc_cov.c:51 src/pix/dnc/dnc_lrc.c:51
+#: src/pix/dnc/dnc_cov.c:51 src/pix/dnc/dnc_lrc.c:53
 msgid "No Playing Track!"
 msgstr "當前無曲目！"
 
-#: src/pix/dnc/dnc_cov.c:75 src/pix/dnc/dnc_cov.c:160 src/pix/dnc/dnc_lrc.c:75
-#: src/pix/dnc/dnc_lrc.c:160
+#: src/pix/dnc/dnc_cov.c:75 src/pix/dnc/dnc_cov.c:160 src/pix/dnc/dnc_lrc.c:79
+#: src/pix/dnc/dnc_lrc.c:164
 msgid "Illegal server name!"
 msgstr "非法的伺服器名稱！"
 
-#: src/pix/dnc/dnc_cov.c:82 src/pix/dnc/dnc_lrc.c:83
+#: src/pix/dnc/dnc_cov.c:82 src/pix/dnc/dnc_lrc.c:87
 msgid "Find nothing by searching the web!"
 msgstr "搜索一無所獲！"
 
-#: src/pix/dnc/dnc_cov.c:98 src/pix/dnc/dnc_lrc.c:98
+#: src/pix/dnc/dnc_cov.c:98 src/pix/dnc/dnc_lrc.c:102
 msgid "Found"
 msgstr "找到"
 
-#: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:115
+#: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:119
 #: src/pix/opc/opc_right.c:163 src/pix/opc/opc_right.c:847
 msgid "Artist"
 msgstr "藝術家"
@@ -194,19 +187,19 @@ msgstr "藝術家"
 msgid "Album"
 msgstr "專輯"
 
-#: src/pix/dnc/dnc_cov.c:168 src/pix/dnc/dnc_lrc.c:168
+#: src/pix/dnc/dnc_cov.c:168 src/pix/dnc/dnc_lrc.c:172
 msgid "Cannot get the real resource adress!"
 msgstr "無法獲取真實資源地址！"
 
-#: src/pix/dnc/dnc_cov.c:179 src/pix/dnc/dnc_lrc.c:179
+#: src/pix/dnc/dnc_cov.c:179 src/pix/dnc/dnc_lrc.c:183
 msgid "Illegal url adress!"
 msgstr "非法的URL地址！"
 
-#: src/pix/dnc/dnc_cov.c:193 src/pix/dnc/dnc_lrc.c:196
+#: src/pix/dnc/dnc_cov.c:193 src/pix/dnc/dnc_lrc.c:202
 msgid "Cannot open file stream!"
 msgstr "無法打開文件流！"
 
-#: src/pix/dnc/dnc_lrc.c:111 src/pix/opc/opc_right.c:157
+#: src/pix/dnc/dnc_lrc.c:115 src/pix/opc/opc_right.c:157
 #: src/pix/opc/opc_right.c:844
 msgid "Title"
 msgstr "歌曲名"
@@ -739,6 +732,15 @@ msgstr "退出"
 #: src/uix/win.c:253
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
+
+#~ msgid "Cannot load reg file. Abort...\n"
+#~ msgstr "無法載入註冊文件。退出 ……\n"
+
+#~ msgid "Cannot find reg file!"
+#~ msgstr "無法找到註冊文件！"
+
+#~ msgid "Read reg file error!"
+#~ msgstr "讀取註冊文件錯誤！"
 
 #~ msgid "Version of reg file is too low!"
 #~ msgstr "註冊文件版本過低！"

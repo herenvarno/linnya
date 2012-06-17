@@ -38,6 +38,7 @@
 #include "gla.h"
 #include "mbs.h"
 #include "log.h"
+#include "reg.obj.h"
 
 /*
  * FUNCTIONS
@@ -47,6 +48,5 @@ void		ly_reg_fina		();
 
 gboolean	ly_reg_get		(char *name, const char *format, ...);	/*similar to scanf()*/
 gboolean	ly_reg_set		(char *name, const char *format, ...);	/*similar to printf()*/
-void		ly_reg_del		(char *name);
 
 #endif

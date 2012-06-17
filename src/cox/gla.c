@@ -28,14 +28,6 @@
  * FUNCTIONS
  */
 // INIT & FINAL
-
-/**
- * ly_gla_init:
- * @argc:			the pointer of args count passed in from #ly_cox_init
- * @argv:			the pointer of args container address passed in from #ly_cox_init
- *
- * Initialize the gla module, it should be only called by #ly_cox_init.
- */
 void ly_gla_init(int *argc, char ***argv)
 {
 	// DIRECTORIY
@@ -75,11 +67,6 @@ void ly_gla_init(int *argc, char ***argv)
 	LY_GLA_FIRST_FLAG=TRUE;
 }
 
-/**
- * ly_gla_fina:
- *
- * Finalize the gla module, it should be only called by #ly_cox_fina.
- */
 void ly_gla_fina()
 {
 
@@ -185,6 +172,16 @@ char*		ly_gla_uri_get_path		(char *uri)
 	return g_strdup(p);
 }
 
+/**
+ * ly_gla_traverse_dir:
+ * @path: the dir path
+ * @depth: the traverse depth, to prevent endless cirtulate.
+ * @showhide: set true to ignor files which is hidden.
+ *
+ * Get the list of file within the given directory.
+ *
+ * Returns: the newly allocate list, free it as well as its data after using.
+ */
 GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 {
 	if(depth<=0)
@@ -226,6 +223,15 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 	return list;
 }
 
+/**
+ * ly_gla_get_subdir:
+ * @path: the dir path
+ * @showhide: set true to ignor files which is hidden.
+ *
+ * Get the list of subdirecoty within the given directory.
+ *
+ * Returns: the newly allocate list, free it as well as its data after using.
+ */
 GList* ly_gla_get_subdirs(const char *path, gboolean showhide)
 {
 	

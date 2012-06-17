@@ -3,7 +3,7 @@ liblinnyacox_la_SOURCES=	\
 gla.c\
 mbs.c mbs.obj.c\
 log.c log.obj.c\
-reg.c\
+reg.c reg.obj.c\
 dbm.c\
 mdh.c\
 lib.c\

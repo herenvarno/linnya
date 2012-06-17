@@ -26,35 +26,16 @@
 /*
  * VARIABLES
  */
-char			ly_reg_file[1024]="";
-GHashTable		*ly_reg_table=NULL;
+LyRegTable *ly_reg_table;
 
 /*
  * FUNCTIONS
  */
-
-gboolean	ly_reg_write			();
-gboolean	ly_reg_read				();
-void		ly_reg_read_start_cb	(GMarkupParseContext *context,
-									const gchar *element_name,
-									const gchar **attribute_names,
-									const gchar **attribute_values,
-									gpointer data,
-									GError **error);
-
-/**
- * ly_reg_init:
- *
- * Initialize the reg module, it will be called by #ly_cox_init
- */
 void		ly_reg_init		()
 {
-	g_snprintf(ly_reg_file, sizeof(ly_reg_file), "%sconf.xml", LY_GLA_USERDIR);
-	ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-	if(!ly_reg_read())
-	{
-		g_error(_("Cannot load reg file. Abort...\n"));
-	}
+	gchar path[1024]="";
+	g_snprintf(path, sizeof(path), "%sconf.xml", LY_GLA_USERDIR);
+	ly_reg_table=ly_reg_table_new(path);
 }
 
 /**
@@ -64,27 +45,21 @@ void		ly_reg_init		()
  */
 void		ly_reg_fina		()
 {
-	ly_reg_write();
-	g_hash_table_destroy(ly_reg_table);
+	if(ly_reg_table)
+	{
+		g_object_unref(ly_reg_table);
+	}
 }
 
-/**
- * ly_reg_get:
- * @name:		the record name.
- * @format:		a standard printf() format string, but notice string precision pitfalls.
- * @...:		the arguments to insert in the output.
- *
- * Get a reg record.
- *
- * Returns:		TRUE for success, FALSE for fail.
- */
-gboolean	ly_reg_get(char *name, const char *format, ...)
+
+gboolean	ly_reg_get(char *key, const char *format, ...)
 {
 	char *str=NULL;
-	str=g_hash_table_lookup(ly_reg_table, name);
+	str=ly_reg_table_get(ly_reg_table, key);
 
 	if(str==NULL)
 		return FALSE;
+
 	va_list argp;
 	va_start(argp, format);
 	vsscanf(str, format, argp);
@@ -93,171 +68,19 @@ gboolean	ly_reg_get(char *name, const char *format, ...)
 	return TRUE;
 }
 
-/**
- * ly_reg_get:
- * @name:		the record name.
- * @format:		a standard printf() format string, but notice string precision pitfalls.
- * @...:		the arguments to insert in the output.
- *
- * Set or add a reg record.
- *
- * Returns:		TRUE for success, FALSE for fail.
- */
-gboolean	ly_reg_set(char *name, const char *format, ...)
+gboolean	ly_reg_set(char *key, const char *format, ...)
 {
-	if(!ly_reg_table)
-		return FALSE;
-
 	char *str=NULL;
 	va_list argp;
 	va_start(argp, format);
 	str=g_strdup_vprintf(format, argp);
 	va_end(argp);
 
-	char *namestr=NULL;
-	namestr=g_strconcat(name,NULL);
-	g_hash_table_replace(ly_reg_table, namestr, str);
+	ly_reg_table_set(ly_reg_table, key, str);
+	g_free(str);
 
 	char s[1024]="";
-	g_snprintf(s, sizeof(s), "reg_%s_changed", namestr);
+	g_snprintf(s, sizeof(s), "reg_%s_changed", key);
 	ly_mbs_put(s, "core:reg", str);
 	return TRUE;
-}
-
-/**
- * ly_reg_del:
- * @name:		the record name.
- *
- * Delete a reg record.
- */
-void		ly_reg_del(char *name)
-{
-	g_hash_table_remove(ly_reg_table, name);
-}
-
-/**
- * ly_reg_write:
- *
- * Write all reg records to file.
- *
- * Returns:		TRUE for success, FALSE for fail.
- */
-gboolean	ly_reg_write			()
-{
-	FILE *fp=NULL;
-	if(!(fp=fopen(ly_reg_file,"w+")))
-	{
-		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot write reg file!"));
-		return FALSE;
-	}
-
-	char *buf=NULL;
-	buf=g_markup_printf_escaped ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<configurations>\n");
-	fputs(buf,fp);
-	g_free(buf);
-
-	GHashTableIter iter;
-	gpointer key, value;
-	g_hash_table_iter_init (&iter, ly_reg_table);
-	while (g_hash_table_iter_next (&iter, &key, &value))
-	{
-		buf=g_markup_printf_escaped ("\t<conf name=\"%s\" value=\"%s\" />\n", (gchar*)key, (gchar*)value);
-		fputs(buf,fp);
-		g_free(buf);
-	}
-
-	buf=g_markup_printf_escaped ("</configurations>");
-	fputs(buf,fp);
-	g_free(buf);
-
-	fclose(fp);
-	return TRUE;
-}
-
-/**
- * ly_reg_read:
- *
- * Read all reg records to memery and stroed in a hash table.
- *
- * Returns:		TRUE for success, FALSE for fail.
- */
-gboolean	ly_reg_read			()
-{
-	if(!g_file_test(ly_reg_file, G_FILE_TEST_EXISTS))
-	{
-		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot find reg file!"));
-		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-		ly_reg_set("version", "%lf", LY_GLA_VERSION_NUM);
-		return TRUE;
-	}
-
-	LY_GLA_FIRST_FLAG=FALSE;
-	GMarkupParser parser=
-	{
-		.start_element = ly_reg_read_start_cb,
-		.end_element = NULL,
-		.text = NULL,
-		.passthrough = NULL,
-		.error = NULL
-	};
-
-	gchar *buf;
-	gsize length;
-	GMarkupParseContext *context;
-
-	g_file_get_contents(ly_reg_file, &buf, &length, NULL);
-	context = g_markup_parse_context_new(&parser, 0,NULL, NULL);
-
-	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
-	{
-		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Read reg file error!"));
-		g_hash_table_destroy(ly_reg_table);
-		ly_reg_table=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-		ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);
-	}
-	ly_reg_set("version","%lf", LY_GLA_VERSION_NUM);
-	g_markup_parse_context_free(context);
-	return TRUE;
-}
-
-/**
- * ly_reg_read_start_cb:
- *
- * The callback function of ly_reg_read.
- */
-void ly_reg_read_start_cb	(	GMarkupParseContext *context,
-								const gchar *element_name,
-								const gchar **attribute_names,
-								const gchar **attribute_values,
-								gpointer data,
-								GError **error)
-{
-	if(g_str_equal(element_name,"conf"))
-	{
-		gchar *name=NULL;
-		gchar *value=NULL;
-
-		const gchar **name_cursor = attribute_names;
-		const gchar **value_cursor = attribute_values;
-
-		while (*name_cursor)
-		{
-			if (g_str_equal(*name_cursor, "name"))
-				name = g_strdup (*value_cursor);
-			else if (g_str_equal(*name_cursor, "value"))
-				value = g_strdup (*value_cursor);
-			name_cursor++;
-			value_cursor++;
-		}
-
-		if(!name || !value)
-		{
-			if(name)
-				g_free(name);
-			if(value)
-				g_free(value);
-			return;
-		}
-		g_hash_table_replace(ly_reg_table,name,value);
-	}
 }

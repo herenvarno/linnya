@@ -18,15 +18,13 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /**
- * SECTION:		msg
- * @short_description:	communication between modules
+ * SECTION:		mbs
+ * @short_description:	message bus system
  * @stability:	stable
  * @include:	cox.h
  *
- * This module is a module to make communications between modules more easier.
+ * This is a module to make communications between modules more easier.
  * It provides a standerad method to create, recive messages, and atomatic exec
  * functions that have binded to such particular message.
  */
@@ -40,15 +38,20 @@
 #include "gla.h"
 #include "mbs.obj.h"
 
+G_BEGIN_DECLS
+
 /*
  * FUNCTIONS
  */
-void		ly_mbs_init		();
-void		ly_mbs_fina		();	
-gboolean	ly_mbs_put			(gchar *title, gchar *from, gchar *body);
-gboolean	ly_mbs_bind		(gchar *title, gchar *from, \
-	LyMbsFilterBindFunc func, gpointer data);
-gboolean	ly_mbs_unbind		(gchar *title, gchar *from, \
-	LyMbsFilterBindFunc func);
+// INIT & FINAL
+void ly_mbs_init ();
+void ly_mbs_fina ();
+
+// API
+gboolean ly_mbs_put (gchar *title, gchar *from, gchar *body);
+gboolean ly_mbs_bind (gchar *title, gchar *from, LyMbsFilterBindFunc func, gpointer data);
+gboolean ly_mbs_unbind (gchar *title, gchar *from, LyMbsFilterBindFunc func);
+
+G_END_DECLS
 
 #endif
