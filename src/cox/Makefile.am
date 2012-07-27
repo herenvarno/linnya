@@ -15,10 +15,12 @@ lrc.c\
 aud.c\
 cox.c
 
-INCLUDES = @GTK3_CFLAGS@\
+INCLUDES = \
 		@GSTREAMER_CFLAGS@\
+		@GSTINTERFACES_CFLAGS@\
 		@SQLITE3_CFLAGS@\
 		-DLOCALEDIR=\"$(localedir)\"
-liblinnyacox_la_LIBADD = @GTK3_LIBS@\
+liblinnyacox_la_LIBADD = \
 		@GSTREAMER_LIBS@\
+		@GSTINTERFACES_LIBS@\
 		@SQLITE3_LIBS@

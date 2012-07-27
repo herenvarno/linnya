@@ -11,7 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 ALL_LINGUAS="zh_CN zh_TW zh_HK"
 
 # Checks for programs.
-${CXXFLAGS="-Wall -g -O2"} 
+${CXXFLAGS="-Wall -g -O2"}
 AC_PROG_CC
 AC_ISC_POSIX
 CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
@@ -21,7 +21,7 @@ CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
 
 # Checks for libraries.
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
-PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10 gstreamer-base-0.10])
+PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10 gstreamer-base-0.10 gstinterfaces-0.10])
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.0.0, gthread-2.0])
 PKG_CHECK_MODULES([CURL], [libcurl >= 7.0])
 
@@ -56,6 +56,7 @@ AC_OUTPUT([Makefile\
 	src/pix/opc/Makefile\
 	src/pix/lrc/Makefile\
 	src/pix/dnc/Makefile\
+	src/pix/vdo/Makefile\
 	data/Makefile\
 	data/icon/Makefile\
 	data/theme/Makefile\
