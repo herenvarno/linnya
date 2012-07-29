@@ -29,7 +29,6 @@
 GstElement	*ly_ppl_playbin=NULL;
 GstElement	*ly_ppl_audio_bin=NULL;
 GstElement	*ly_ppl_video_bin=NULL;
-
 /*
  * FUNCTIONS
  */
@@ -43,6 +42,7 @@ void		ly_ppl_init		()
 	GstElement* convert=NULL;
 	GstElement* volume=NULL;
 	GstElement* audiosink=NULL;
+	GstElement* videosink=NULL;
 	GstElement* fakesink=NULL;
 	GstPad*     mpad;
 	GstBus* bus=NULL;
@@ -52,26 +52,28 @@ void		ly_ppl_init		()
 	volume= gst_element_factory_make("volume","volume");
 	convert=gst_element_factory_make("audioconvert","autoconvert");
 	audiosink=gst_element_factory_make("autoaudiosink","autoaudiosink");
+	videosink=gst_element_factory_make("ximagesink","autovideosink");
 	fakesink=gst_element_factory_make("fakesink","fakesink");
-	
+
 	bus=gst_pipeline_get_bus(GST_PIPELINE(playbin));
 	gst_element_set_state(playbin,GST_STATE_NULL);
 	gst_bus_add_watch(bus,(GstBusFunc)ly_ppl_bus_cb, NULL);
 	gst_object_unref(bus);
-	
+
 	ly_ppl_audio_bin=gst_bin_new("audio-bin");
 	gst_bin_add_many(GST_BIN(ly_ppl_audio_bin),equalizer,convert,volume,audiosink,NULL);
 	gst_element_link_many(equalizer,convert,volume,audiosink,NULL);
 	mpad = gst_element_get_static_pad(equalizer, "sink");
 	gst_element_add_pad(ly_ppl_audio_bin, gst_ghost_pad_new(NULL,mpad));
 	g_object_set(G_OBJECT(playbin),"audio-sink",ly_ppl_audio_bin,NULL);
-	
+
 	ly_ppl_video_bin=gst_bin_new("video-bin");
-	gst_bin_add_many(GST_BIN(ly_ppl_video_bin), fakesink,NULL);
-	mpad = gst_element_get_static_pad(fakesink, "sink");
+	gst_bin_add_many(GST_BIN(ly_ppl_video_bin), videosink,NULL);
+	mpad = gst_element_get_static_pad(videosink, "sink");
 	gst_element_add_pad(ly_ppl_video_bin, gst_ghost_pad_new(NULL,mpad));
 	g_object_set(G_OBJECT(playbin),"video-sink",ly_ppl_video_bin,NULL);
-	
+	gst_x_overlay_set_window_handle(GST_X_OVERLAY(videosink), 0);
+	g_object_set(G_OBJECT(videosink),"force-aspect-ratio", TRUE, NULL);
 	ly_ppl_playbin=playbin;
 }
 void		ly_ppl_fina		()
@@ -95,6 +97,14 @@ GstElement*			ly_ppl_video_get_element		(char *name)
 	return ele;
 }
 
+gboolean			ly_ppl_video_set_screen			(guintptr handle)
+{
+	GstElement *sink;
+	sink=ly_ppl_video_get_element("autovideosink");
+	gst_x_overlay_set_window_handle(GST_X_OVERLAY(sink), handle);
+	return TRUE;
+}
+
 gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 {
 	char *tag_codec=NULL;
@@ -110,18 +120,18 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return TRUE;
-	
+
 	GstTagList* tags;
-	
+
 	switch (message->type)
 	{
 		case GST_MESSAGE_EOS:
 			ly_mbs_put("ppl_eos", "core:ppl", NULL);
 			break;
 		case GST_MESSAGE_TAG:
-		{	
+		{
 			gst_message_parse_tag(message,&tags);
-			
+
 			//codec
 			if(gst_tag_list_get_string(tags,GST_TAG_AUDIO_CODEC,&tag_codec))
 			{
@@ -179,12 +189,10 @@ gboolean ly_ppl_bus_cb(GstBus *bus,GstMessage *message,gpointer data)
 				g_free(tag_lrc);
 				ly_mbs_put("meta_update", "core:ppl", "lrc");
 			}
-			
 			break;
-			
 		}
 		default:
 		break;
-	}	
+	}
 	return TRUE;
 }

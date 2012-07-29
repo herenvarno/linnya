@@ -1,1 +1,1 @@
-SUBDIRS = dark default
+SUBDIRS = default

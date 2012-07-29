@@ -29,7 +29,7 @@
  */
 void	ly_thm_init()
 {
-	
+
 	/*
 	 * REGIST CONF: thm_theme
 	 */
@@ -78,14 +78,14 @@ void	ly_thm_init()
 	{
 		ly_reg_set("thm_sssbg", "%s", sssbg);
 	}
-	
+
 	/*
 	 * build user theme directory
 	 */
 	gchar path[1024]="";
 	g_snprintf(path, sizeof(path), "%stheme", LY_GLB_USER_UIXDIR);
 	mkdir(path,0755);
-	
+
 	/*
 	 * Load themes
 	 */
@@ -104,10 +104,10 @@ GList* ly_thm_get_list()
 	GList *list1=NULL;
 	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_USER_UIXDIR);
 	list0=ly_gla_traverse_dir(path, 1, FALSE);
-	
+
 	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_PROG_UIXDIR);
 	list1=ly_gla_traverse_dir(path, 1, FALSE);
-	
+
 	GList *p=list1;
 	while(p)
 	{
@@ -153,7 +153,7 @@ LyThmItem* ly_thm_item_new_with_name(gchar *name)
 			return NULL;
 		}
 	}
-	
+
 	LyThmItem *item=ly_thm_item_new();
 	if(!item)
 		return NULL;
@@ -163,12 +163,12 @@ LyThmItem* ly_thm_item_new_with_name(gchar *name)
 	{
 		g_strlcpy(item->sssbg, path, sizeof(item->sssbg));
 	}
-	g_snprintf(path, sizeof(path), "%sgtk-3.0/gtk.css", dir);
+	g_snprintf(path, sizeof(path), "%slinnya.css", dir);
 	if(g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_strlcpy(item->style, path, sizeof(item->style));
 	}
-	
+
 	return item;
 }
 

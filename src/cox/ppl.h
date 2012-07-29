@@ -48,12 +48,8 @@ void				ly_ppl_fina						();
 
 GstElement*			ly_ppl_get_playbin				();
 GstElement*			ly_ppl_audio_get_element		(char *name);
-gboolean			ly_ppl_audio_bin_insert_before	(GstElement *ele, char *before_name);
-gboolean			ly_ppl_audio_bin_insert_after	(GstElement *ele, char *after_name);
-gboolean			ly_ppl_audio_bin_prepend		(GstElement *ele);
-gboolean			ly_ppl_audio_bin_append			(GstElement *ele);
-gboolean			ly_ppl_audio_bin_delete			(char *name);
 GstElement*			ly_ppl_video_get_element		(char *name);
+gboolean			ly_ppl_video_set_screen			(guintptr handle);
 
 
 #endif //LY_PPL_H

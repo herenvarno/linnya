@@ -53,6 +53,7 @@
 #include <glib/gprintf.h>
 #include <sqlite3.h>
 #include <gst/gst.h>
+#include <gst/interfaces/xoverlay.h>
 
 /*
  * MACROS

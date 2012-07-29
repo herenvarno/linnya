@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-06-17 15:09+0800\n"
+"POT-Creation-Date: 2012-07-24 20:34+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -37,19 +37,19 @@ msgstr "无法到达制定位置！"
 msgid "Position wrong!"
 msgstr ""
 
-#: src/cox/gla.h:61
+#: src/cox/gla.h:62
 msgid "linnya"
 msgstr "聆雅"
 
-#: src/cox/gla.h:64
+#: src/cox/gla.h:65
 msgid "A free music player on Linux, with unlimited feathers from plug-ins."
 msgstr "Linux下拥有无限扩展能力的音乐播放器"
 
-#: src/cox/gla.h:65
+#: src/cox/gla.h:66
 msgid "Copyright (C) 2010-2012 Edward Yang"
 msgstr "版权所有 (C) 2010-2012 Edward Yang"
 
-#: src/cox/gla.h:69
+#: src/cox/gla.h:70
 msgid ""
 "Linnya is free software; you can redistribute it and/or modify\n"
 "it under the terms of the GNU General Public License as published by\n"
@@ -452,7 +452,7 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 " 你真的希望删除所有附属于当前列表中的信息么？"
 
-#: src/uix/cfg.c:202 src/uix/win.c:238
+#: src/uix/cfg.c:202 src/uix/win.c:206
 msgid "Configuration"
 msgstr "首选项"
 
@@ -693,43 +693,43 @@ msgstr "无法将按钮绑定写入文件！"
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系统不支持插件，退出 ……"
 
-#: src/uix/pli.c:135
+#: src/uix/pli.c:134
 msgid "Read configuration file error."
 msgstr "读取配置文件错误！"
 
-#: src/uix/sss.c:207
+#: src/uix/sss.c:189
 msgid "New Session"
 msgstr "新会话"
 
-#: src/uix/win.c:42
+#: src/uix/win.c:37
 msgid "Cannot create main window, abort ..."
 msgstr "无法生成主窗口。退出 ……"
 
-#: src/uix/win.c:116
+#: src/uix/win.c:93
 msgid "Cannot Support transparent!"
 msgstr "无法支持透明！"
 
-#: src/uix/win.c:229
+#: src/uix/win.c:197
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: src/uix/win.c:232
+#: src/uix/win.c:200
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:235
+#: src/uix/win.c:203
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:243
+#: src/uix/win.c:211
 msgid "Show/Hide Main Window"
 msgstr "显示/隐藏主窗口"
 
-#: src/uix/win.c:248
+#: src/uix/win.c:216
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:253
+#: src/uix/win.c:221
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
 

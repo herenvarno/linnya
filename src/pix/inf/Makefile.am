@@ -21,6 +21,8 @@ INCLUDES		=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
+				@CLUTTERGTK_CFLAGS@\
+				@MX_CFLAGS@\
 				-DLOCALEDIR=\"$(localedir)\"\
 				-I../../cox\
 				-I../../uix
@@ -28,5 +30,7 @@ libinf_la_LIBADD	=\
 				@GTK3_LIBS@\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\
+				@CLUTTERGTK_LIBS@\
+				@MX_LIBS@\
 				-L../../cox -llinnyacox\
 				-L../../uix -llinnyauix

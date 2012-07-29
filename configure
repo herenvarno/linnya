@@ -595,7 +595,7 @@ PACKAGE_STRING='linnya 2.0.0'
 PACKAGE_BUGREPORT='http://www.linnya.org'
 PACKAGE_URL=''
 
-ac_unique_file="src/app.h"
+ac_unique_file="src/linnya.h"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -680,12 +680,15 @@ GMSGFMT
 MSGFMT
 GETTEXT_MACRO_VERSION
 USE_NLS
-mkdir_p
 LIBOBJS
 ALLOCA
 EGREP
 GREP
 CPP
+MX_LIBS
+MX_CFLAGS
+CLUTTERGTK_LIBS
+CLUTTERGTK_CFLAGS
 CURL_LIBS
 CURL_CFLAGS
 GTK3_LIBS
@@ -720,6 +723,7 @@ AMTAR
 am__leading_dot
 SET_MAKE
 AWK
+mkdir_p
 MKDIR_P
 INSTALL_STRIP_PROGRAM
 STRIP
@@ -809,6 +813,10 @@ GTK3_CFLAGS
 GTK3_LIBS
 CURL_CFLAGS
 CURL_LIBS
+CLUTTERGTK_CFLAGS
+CLUTTERGTK_LIBS
+MX_CFLAGS
+MX_LIBS
 CPP'
 
 
@@ -1479,6 +1487,12 @@ Some influential environment variables:
   GTK3_LIBS   linker flags for GTK3, overriding pkg-config
   CURL_CFLAGS C compiler flags for CURL, overriding pkg-config
   CURL_LIBS   linker flags for CURL, overriding pkg-config
+  CLUTTERGTK_CFLAGS
+              C compiler flags for CLUTTERGTK, overriding pkg-config
+  CLUTTERGTK_LIBS
+              linker flags for CLUTTERGTK, overriding pkg-config
+  MX_CFLAGS   C compiler flags for MX, overriding pkg-config
+  MX_LIBS     linker flags for MX, overriding pkg-config
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -2881,6 +2895,12 @@ AUTOHEADER=${AUTOHEADER-"${am_missing_run}autoheader"}
 
 MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
+# For better backward compatibility.  To be removed once Automake 1.9.x
+# dies out for good.  For more background, see:
+# <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
+# <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+mkdir_p='$(MKDIR_P)'
+
 # We need awk for the "check" target.  The system "awk" is bad on
 # some platforms.
 # Always define AMTAR for backward compatibility.  Yes, it's still used
@@ -4165,12 +4185,12 @@ if test -n "$GSTREAMER_CFLAGS"; then
     pkg_cv_GSTREAMER_CFLAGS="$GSTREAMER_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gstreamer-0.10 gstreamer-base-0.10\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gstreamer-0.10 gstreamer-base-0.10") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_GSTREAMER_CFLAGS=`$PKG_CONFIG --cflags "gstreamer-0.10 gstreamer-base-0.10" 2>/dev/null`
+  pkg_cv_GSTREAMER_CFLAGS=`$PKG_CONFIG --cflags "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -4182,12 +4202,12 @@ if test -n "$GSTREAMER_LIBS"; then
     pkg_cv_GSTREAMER_LIBS="$GSTREAMER_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gstreamer-0.10 gstreamer-base-0.10\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gstreamer-0.10 gstreamer-base-0.10") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_GSTREAMER_LIBS=`$PKG_CONFIG --libs "gstreamer-0.10 gstreamer-base-0.10" 2>/dev/null`
+  pkg_cv_GSTREAMER_LIBS=`$PKG_CONFIG --libs "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -4208,14 +4228,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GSTREAMER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gstreamer-0.10 gstreamer-base-0.10" 2>&1`
+	        GSTREAMER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10" 2>&1`
         else
-	        GSTREAMER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gstreamer-0.10 gstreamer-base-0.10" 2>&1`
+	        GSTREAMER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GSTREAMER_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (gstreamer-0.10 gstreamer-base-0.10) were not met:
+	as_fn_error $? "Package requirements (gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10) were not met:
 
 $GSTREAMER_PKG_ERRORS
 
@@ -4425,6 +4445,188 @@ See \`config.log' for more details" "$LINENO" 5; }
 else
 	CURL_CFLAGS=$pkg_cv_CURL_CFLAGS
 	CURL_LIBS=$pkg_cv_CURL_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for CLUTTERGTK" >&5
+$as_echo_n "checking for CLUTTERGTK... " >&6; }
+
+if test -n "$CLUTTERGTK_CFLAGS"; then
+    pkg_cv_CLUTTERGTK_CFLAGS="$CLUTTERGTK_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"clutter-gtk-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "clutter-gtk-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CLUTTERGTK_CFLAGS=`$PKG_CONFIG --cflags "clutter-gtk-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$CLUTTERGTK_LIBS"; then
+    pkg_cv_CLUTTERGTK_LIBS="$CLUTTERGTK_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"clutter-gtk-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "clutter-gtk-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CLUTTERGTK_LIBS=`$PKG_CONFIG --libs "clutter-gtk-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        CLUTTERGTK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "clutter-gtk-1.0" 2>&1`
+        else
+	        CLUTTERGTK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "clutter-gtk-1.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$CLUTTERGTK_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (clutter-gtk-1.0) were not met:
+
+$CLUTTERGTK_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables CLUTTERGTK_CFLAGS
+and CLUTTERGTK_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables CLUTTERGTK_CFLAGS
+and CLUTTERGTK_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	CLUTTERGTK_CFLAGS=$pkg_cv_CLUTTERGTK_CFLAGS
+	CLUTTERGTK_LIBS=$pkg_cv_CLUTTERGTK_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MX" >&5
+$as_echo_n "checking for MX... " >&6; }
+
+if test -n "$MX_CFLAGS"; then
+    pkg_cv_MX_CFLAGS="$MX_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mx-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "mx-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_MX_CFLAGS=`$PKG_CONFIG --cflags "mx-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$MX_LIBS"; then
+    pkg_cv_MX_LIBS="$MX_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mx-1.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "mx-1.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_MX_LIBS=`$PKG_CONFIG --libs "mx-1.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        MX_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mx-1.0" 2>&1`
+        else
+	        MX_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mx-1.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$MX_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (mx-1.0) were not met:
+
+$MX_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables MX_CFLAGS
+and MX_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables MX_CFLAGS
+and MX_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	MX_CFLAGS=$pkg_cv_MX_CFLAGS
+	MX_LIBS=$pkg_cv_MX_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
@@ -14338,7 +14540,7 @@ CC="$lt_save_CC"
 
 
 
-ac_config_files="$ac_config_files Makefile po/Makefile.in src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/dnc/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/dark/Makefile data/theme/dark/sssbg/Makefile data/theme/dark/gtk-3.0/Makefile data/theme/dark/gtk-3.0/linnya_img/Makefile"
+ac_config_files="$ac_config_files Makefile po/Makefile.in src/Makefile src/cox/Makefile src/uix/Makefile src/pix/Makefile src/pix/inf/Makefile src/pix/opc/Makefile src/pix/lrc/Makefile src/pix/dnc/Makefile src/pix/vdo/Makefile data/Makefile data/icon/Makefile data/theme/Makefile data/theme/default/Makefile data/theme/default/sssbg/Makefile data/theme/default/image/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15363,14 +15565,13 @@ do
     "src/pix/opc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/opc/Makefile" ;;
     "src/pix/lrc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/lrc/Makefile" ;;
     "src/pix/dnc/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/dnc/Makefile" ;;
+    "src/pix/vdo/Makefile") CONFIG_FILES="$CONFIG_FILES src/pix/vdo/Makefile" ;;
     "data/Makefile") CONFIG_FILES="$CONFIG_FILES data/Makefile" ;;
     "data/icon/Makefile") CONFIG_FILES="$CONFIG_FILES data/icon/Makefile" ;;
     "data/theme/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/Makefile" ;;
     "data/theme/default/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/default/Makefile" ;;
-    "data/theme/dark/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/Makefile" ;;
-    "data/theme/dark/sssbg/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/sssbg/Makefile" ;;
-    "data/theme/dark/gtk-3.0/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/gtk-3.0/Makefile" ;;
-    "data/theme/dark/gtk-3.0/linnya_img/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/dark/gtk-3.0/linnya_img/Makefile" ;;
+    "data/theme/default/sssbg/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/default/sssbg/Makefile" ;;
+    "data/theme/default/image/Makefile") CONFIG_FILES="$CONFIG_FILES data/theme/default/image/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -57,7 +57,9 @@ const char *ly_lib_video_table[]={
 	"rmvb",
 	"rm",
 	"mkv",
-	"ogv"};
+	"ogv",
+	"ogg"
+};
 enum{
 	VIDEO_AVI,
 	VIDEO_WMV,

@@ -4,7 +4,7 @@
 AC_PREREQ([2.68])
 AC_INIT([linnya], [2.0.0], [http://www.linnya.org])
 AM_INIT_AUTOMAKE(linnya, 2.0.0)
-AC_CONFIG_SRCDIR([src/app.h])
+AC_CONFIG_SRCDIR([src/linnya.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Set of available languages.
@@ -21,9 +21,11 @@ CFLAGS="$CFLAGS -DINSTALL_PATH=\\\"$datadir/linnya/\\\""
 
 # Checks for libraries.
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
-PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10 gstreamer-base-0.10 gstinterfaces-0.10])
+PKG_CHECK_MODULES([GSTREAMER], [gstreamer-0.10 gstreamer-base-0.10 gstreamer-plugins-base-0.10])
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0 >= 3.0.0, gthread-2.0])
 PKG_CHECK_MODULES([CURL], [libcurl >= 7.0])
+PKG_CHECK_MODULES([CLUTTERGTK], [clutter-gtk-1.0])
+PKG_CHECK_MODULES([MX], [mx-1.0])
 
 # Checks for header files.
 AC_CHECK_HEADERS([libintl.h locale.h stdlib.h string.h unistd.h])
@@ -61,7 +63,5 @@ AC_OUTPUT([Makefile\
 	data/icon/Makefile\
 	data/theme/Makefile\
 	data/theme/default/Makefile\
-	data/theme/dark/Makefile\
-	data/theme/dark/sssbg/Makefile\
-	data/theme/dark/gtk-3.0/Makefile\
-	data/theme/dark/gtk-3.0/linnya_img/Makefile])
+	data/theme/default/sssbg/Makefile\
+	data/theme/default/image/Makefile])

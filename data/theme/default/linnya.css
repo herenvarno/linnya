@@ -1,0 +1,114 @@
+/*
+ * Buttons
+ */
+#btn_menu{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_menu_normal.png");
+}
+#btn_menu:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_menu_hover.png");
+}
+#btn_menu:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_menu_active.png");
+}
+#btn_adds{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_adds_normal.png");
+}
+#btn_adds:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_adds_hover.png");
+}
+#btn_adds:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_adds_active.png");
+}
+#btn_prev{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_prev_normal.png");
+}
+#btn_prev:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_prev_hover.png");
+}
+#btn_prev:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_prev_active.png");
+}
+#btn_play{
+	border-image:url("image/null.png");
+	background-image: url("image/btn_play_normal.png");
+}
+#btn_play:hover{
+	border-image:url("image/null.png");
+	background-image: url("image/btn_play_hover.png");
+}
+#btn_play:active,
+#btn_play:checked{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_play_active.png");
+}
+#btn_next{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_next_normal.png");
+}
+#btn_next:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_next_hover.png");
+}
+#btn_next:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_next_active.png");
+}
+#btn_conf{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_conf_normal.png");
+}
+#btn_conf:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_conf_hover.png");
+}
+#btn_conf:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_conf_active.png");
+}
+#btn_volm{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_volm_normal.png");
+}
+#btn_volm:hover{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_volm_hover.png");
+}
+#btn_volm:active{
+	border-image:url("image/null.png");
+    background-image: url("image/btn_volm_active.png");
+}
+
+/*
+ * Seek bar
+ */
+#bar_seek {
+  -mx-trough-height: 6;
+  -mx-handle-height: 16;
+}
+
+#bar_seek *#trough-background {
+	border-image: url('image/bar_seek_background.png') 2 3 3 3;
+}
+
+#bar_seek *#fill {
+	border-image: url('image/bar_seek_fill.png') 2 3 3 3;
+}
+
+#bar_seek > MxButton
+{
+	border-image: url("image/null.png");
+}
+#bar_seek > MxButton:hover,
+#bar_seek > MxButton:active
+{
+	border-image: url("image/bar_seek_button_hover.png");
+}

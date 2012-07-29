@@ -46,7 +46,8 @@ void		ly_glb_init		(int *argc, char ***argv)
 	/*
 	 * initial gtk
 	 */
-	gtk_init (argc, argv);
+	clutter_x11_set_use_argb_visual (TRUE);
+	gtk_clutter_init (argc, argv);
 }
 
 void ly_glb_fina()

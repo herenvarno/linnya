@@ -126,17 +126,16 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	GMarkupParseContext *context;
 	LyPliPlugin *plugin=(LyPliPlugin *)g_malloc(sizeof(LyPliPlugin));
 	g_strlcpy(plugin->name,filename,sizeof(plugin->name));
-	
 	g_file_get_contents(path, &buf, &length, NULL);
 	context = g_markup_parse_context_new(&parser, 0, plugin, NULL);
-	
+
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Read configuration file error."));
 		g_free(plugin);
 		return NULL;
 	}
-
+	
 	g_markup_parse_context_free(context);
 	plugin->widget=NULL;
 	if(g_str_equal(plugin->name,""))
@@ -159,9 +158,13 @@ LyPliPlugin* ly_pli_new(const char *dir, char *filename)
 	if(!g_file_test(lock_path, G_FILE_TEST_EXISTS))
 	{
 		module=g_module_open(path,G_MODULE_BIND_LAZY);
+		if(module==NULL)
+		{
+		 puts(filename);
+		}
 	}
 	plugin->module=module;
-
+	
 	if(g_str_equal(plugin->alias,""))
 	{
 		g_strlcpy(plugin->alias, plugin->name, sizeof(plugin->alias));
@@ -184,7 +187,6 @@ void ly_pli_new_text_cb(GMarkupParseContext * context, const gchar *text, gsize 
 	LyPliPlugin *plugin=data;
 	if(!ly_pli_element_name||!text)
 		return;
-	
 	else if(g_str_equal(ly_pli_element_name,"alias"))
 		g_strlcpy(plugin->alias, text, sizeof(plugin->alias));
 	else if(g_str_equal(ly_pli_element_name,"version"))
