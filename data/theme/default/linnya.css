@@ -46,7 +46,7 @@
 	background-image: url("image/btn_play_hover.png");
 }
 #btn_play:active,
-#btn_play:checked{
+#btn_play:active:hover{
 	border-image:url("image/null.png");
     background-image: url("image/btn_play_active.png");
 }
@@ -82,7 +82,8 @@
 	border-image:url("image/null.png");
     background-image: url("image/btn_volm_hover.png");
 }
-#btn_volm:active{
+#btn_volm:active,
+#btn_volm:active:hover{
 	border-image:url("image/null.png");
     background-image: url("image/btn_volm_active.png");
 }

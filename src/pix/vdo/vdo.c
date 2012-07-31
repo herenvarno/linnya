@@ -22,7 +22,7 @@
  * HEADERS
  */
 #include "vdo.h"
-#include <gdk/gdkx.h>
+
 /*
  * MACROS
  */

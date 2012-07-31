@@ -37,18 +37,15 @@
 typedef struct _LyWinWindow
 {
 	GtkWidget *win;
-	GtkWidget *vbox_main;
-	GtkWidget *hbox_title;
-	ClutterActor *btn_menu;
-	ClutterActor *btn_adds;
-	GtkWidget *notebook_session;
-	GtkWidget *hbox_control;
-	ClutterActor *btn_play;
-	ClutterActor *btn_prev;
-	ClutterActor *btn_next;
-	ClutterActor *btn_conf;
-	ClutterActor *btn_volm;
-	ClutterActor *bar_seek;
+	GtkWidget *nbk_sssn;
+	GtkWidget *btn_menu;
+	GtkWidget *btn_adds;
+	GtkWidget *btn_play;
+	GtkWidget *btn_prev;
+	GtkWidget *btn_next;
+	GtkWidget *btn_conf;
+	GtkWidget *btn_volm;
+	GtkWidget *bar_seek;
 }LyWinWindow;
 
 

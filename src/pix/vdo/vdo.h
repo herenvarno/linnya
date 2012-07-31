@@ -26,7 +26,7 @@
  */
 #include "cox.h"
 #include "uix.h"
-#include "clutter-gst/clutter-gst.h"
+#include <gdk/gdkx.h>
 
 /*
  * MACROS
@@ -43,7 +43,5 @@
 const gchar*	g_module_check_init		(GModule *module);
 void			g_module_unload			(GModule *module);
 
-GstElement*	ly_3vdo_get_element		(char *name);
-void ly_3vdo_set_texture(ClutterGstVideoTexture *texture);
 
 #endif // LY_3VDO_H

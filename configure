@@ -685,10 +685,6 @@ ALLOCA
 EGREP
 GREP
 CPP
-MX_LIBS
-MX_CFLAGS
-CLUTTERGTK_LIBS
-CLUTTERGTK_CFLAGS
 CURL_LIBS
 CURL_CFLAGS
 GTK3_LIBS
@@ -813,10 +809,6 @@ GTK3_CFLAGS
 GTK3_LIBS
 CURL_CFLAGS
 CURL_LIBS
-CLUTTERGTK_CFLAGS
-CLUTTERGTK_LIBS
-MX_CFLAGS
-MX_LIBS
 CPP'
 
 
@@ -1487,12 +1479,6 @@ Some influential environment variables:
   GTK3_LIBS   linker flags for GTK3, overriding pkg-config
   CURL_CFLAGS C compiler flags for CURL, overriding pkg-config
   CURL_LIBS   linker flags for CURL, overriding pkg-config
-  CLUTTERGTK_CFLAGS
-              C compiler flags for CLUTTERGTK, overriding pkg-config
-  CLUTTERGTK_LIBS
-              linker flags for CLUTTERGTK, overriding pkg-config
-  MX_CFLAGS   C compiler flags for MX, overriding pkg-config
-  MX_LIBS     linker flags for MX, overriding pkg-config
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -4445,188 +4431,6 @@ See \`config.log' for more details" "$LINENO" 5; }
 else
 	CURL_CFLAGS=$pkg_cv_CURL_CFLAGS
 	CURL_LIBS=$pkg_cv_CURL_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-fi
-
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for CLUTTERGTK" >&5
-$as_echo_n "checking for CLUTTERGTK... " >&6; }
-
-if test -n "$CLUTTERGTK_CFLAGS"; then
-    pkg_cv_CLUTTERGTK_CFLAGS="$CLUTTERGTK_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"clutter-gtk-1.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "clutter-gtk-1.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_CLUTTERGTK_CFLAGS=`$PKG_CONFIG --cflags "clutter-gtk-1.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$CLUTTERGTK_LIBS"; then
-    pkg_cv_CLUTTERGTK_LIBS="$CLUTTERGTK_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"clutter-gtk-1.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "clutter-gtk-1.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_CLUTTERGTK_LIBS=`$PKG_CONFIG --libs "clutter-gtk-1.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        CLUTTERGTK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "clutter-gtk-1.0" 2>&1`
-        else
-	        CLUTTERGTK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "clutter-gtk-1.0" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$CLUTTERGTK_PKG_ERRORS" >&5
-
-	as_fn_error $? "Package requirements (clutter-gtk-1.0) were not met:
-
-$CLUTTERGTK_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables CLUTTERGTK_CFLAGS
-and CLUTTERGTK_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details." "$LINENO" 5
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-Alternatively, you may set the environment variables CLUTTERGTK_CFLAGS
-and CLUTTERGTK_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
-See \`config.log' for more details" "$LINENO" 5; }
-else
-	CLUTTERGTK_CFLAGS=$pkg_cv_CLUTTERGTK_CFLAGS
-	CLUTTERGTK_LIBS=$pkg_cv_CLUTTERGTK_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-fi
-
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for MX" >&5
-$as_echo_n "checking for MX... " >&6; }
-
-if test -n "$MX_CFLAGS"; then
-    pkg_cv_MX_CFLAGS="$MX_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mx-1.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "mx-1.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_MX_CFLAGS=`$PKG_CONFIG --cflags "mx-1.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$MX_LIBS"; then
-    pkg_cv_MX_LIBS="$MX_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"mx-1.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "mx-1.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_MX_LIBS=`$PKG_CONFIG --libs "mx-1.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        MX_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mx-1.0" 2>&1`
-        else
-	        MX_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mx-1.0" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$MX_PKG_ERRORS" >&5
-
-	as_fn_error $? "Package requirements (mx-1.0) were not met:
-
-$MX_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables MX_CFLAGS
-and MX_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details." "$LINENO" 5
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-Alternatively, you may set the environment variables MX_CFLAGS
-and MX_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
-See \`config.log' for more details" "$LINENO" 5; }
-else
-	MX_CFLAGS=$pkg_cv_MX_CFLAGS
-	MX_LIBS=$pkg_cv_MX_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 

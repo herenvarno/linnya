@@ -26,8 +26,6 @@
  */
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <clutter-gtk/clutter-gtk.h>
-#include <mx/mx.h>
 #include "../cox/cox.h"
 
 /*

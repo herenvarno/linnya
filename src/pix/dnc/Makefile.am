@@ -32,8 +32,6 @@ INCLUDES		=\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
 				@CURL_CFLAGS@\
-				@CLUTTERGTK_CFLAGS@\
-				@MX_CFLAGS@\
 				-DLOCALEDIR=\"$(localedir)\"\
 				-I../../cox\
 				-I../../uix
@@ -42,7 +40,5 @@ libdnc_la_LIBADD	=\
 				@GSTREAMER_LIBS@\
 				@SQLITE3_LIBS@\
 				@CURL_LIBS@\
-				@CLUTTERGTK_LIBS@\
-				@MX_LIBS@\
 				-L../../cox -llinnyacox\
 				-L../../uix -llinnyauix
