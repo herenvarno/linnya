@@ -268,7 +268,7 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 			}
 			g_strlcpy(dir, th->sssbg, sizeof(dir));
 		}
-		GList *list=ly_gla_traverse_dir(dir, 1, FALSE);
+		GList *list=ly_gla_traverse_dir(dir, 5, FALSE);
 		GList *p=list;
 
 		if(!list)

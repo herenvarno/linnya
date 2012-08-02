@@ -1,7 +1,7 @@
 <?xml version=1.0?>
 <plugin>
 	<!-- 别名 -->
-	<alias>Video runtime</alias>
+	<alias>Video Viewer</alias>
 
 	<!-- 版本号 -->
 	<version>0.0</version>
@@ -15,7 +15,7 @@
 	<!-- 官方网站 -->
 	<website>http://www.linnya.org/pix/vdo/</website>
 	<!-- 说明 -->
-	<comment>A plugin for running video related plugins.</comment>
+	<comment>A plugin for playing video.</comment>
 
 
 	<!-- 后台运行标志 -->

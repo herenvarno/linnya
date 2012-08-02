@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-07-31 21:44+0800\n"
+"POT-Creation-Date: 2012-08-02 19:21+0800\n"
 "PO-Revision-Date: 2012-05-20 21:02+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -452,7 +452,7 @@ msgstr ""
 "<b>這是一個危險的功能！！</b>\n"
 " 你真的希望刪除所有附屬於當前列表中的資訊麼？"
 
-#: src/uix/cfg.c:202 src/uix/win.c:186
+#: src/uix/cfg.c:202 src/uix/win.c:187
 msgid "Configuration"
 msgstr "首選項"
 
@@ -701,35 +701,35 @@ msgstr "讀取配置文件錯誤！"
 msgid "New Session"
 msgstr "新會話"
 
-#: src/uix/win.c:39
+#: src/uix/win.c:40
 msgid "Cannot create main window, abort ..."
 msgstr "無法生成主窗口。退出 ……"
 
-#: src/uix/win.c:105
+#: src/uix/win.c:106
 msgid "Cannot Support transparent!"
 msgstr "無法支持透明！"
 
-#: src/uix/win.c:177
+#: src/uix/win.c:178
 msgid "Play/Pause"
 msgstr "播放/暫停"
 
-#: src/uix/win.c:180
+#: src/uix/win.c:181
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:183
+#: src/uix/win.c:184
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:191
+#: src/uix/win.c:192
 msgid "Show/Hide Main Window"
 msgstr "顯示/隱藏主窗口"
 
-#: src/uix/win.c:196
+#: src/uix/win.c:197
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:200
+#: src/uix/win.c:201
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
 

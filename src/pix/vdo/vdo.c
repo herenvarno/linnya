@@ -34,6 +34,7 @@ GtkWidget *ly_3vdo_screen=NULL;
 GtkWidget *ly_3vdo_list_view=NULL;
 GtkListStore *ly_3vdo_list_store=NULL;
 GtkTreeSelection *ly_3vdo_list_selection=NULL;
+GtkWidget *ly_3vdo_desktop_screen=NULL;
 
 /*
  * FUNCTIONS
@@ -46,6 +47,9 @@ gboolean ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data);
 gpointer ly_3vdo_on_list_add_cb_cb(gpointer data);
 gboolean ly_3vdo_on_list_refresh_cb(GtkWidget *widget, gpointer data);
 gboolean ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data);
+gboolean ly_3vdo_on_expander_clicked_cb(GtkWidget *widget, gpointer data);
+gboolean ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget, gpointer data);
+static gboolean ly_3vdo_on_screen_action_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
 const gchar*	g_module_check_init		(GModule *module)
 {
@@ -61,6 +65,8 @@ GtkWidget *ly_3vdo_create()
 {
 	GtkWidget *widget;
 	GtkWidget *screen;
+	GtkWidget *expander;
+	GtkWidget *box;
 	GtkWidget *scroll;
 	GtkWidget *view;
 	GtkWidget *btn_add;
@@ -69,18 +75,25 @@ GtkWidget *ly_3vdo_create()
 	GtkWidget *img;
 
 	widget=gtk_grid_new();
-	screen=gtk_drawing_area_new();
+	screen=gtk_event_box_new();
+	ly_3vdo_screen=screen;
+	gtk_widget_set_events(screen,GDK_ALL_EVENTS_MASK);
 	gtk_widget_set_visual(ly_win_get_window()->win, NULL);
 	gtk_widget_set_vexpand(screen, TRUE);
 	gtk_widget_set_hexpand(screen, TRUE);
-	gtk_grid_attach(GTK_GRID(widget), screen, 0, 0, 1, 2);
+	gtk_grid_attach(GTK_GRID(widget), screen, 0, 0, 1, 1);
 
+	expander=gtk_button_new();
+	gtk_grid_attach(GTK_GRID(widget), expander, 1, 0, 1, 1);
+
+	box=gtk_grid_new();
+	gtk_grid_attach(GTK_GRID(widget), box, 2, 0, 1, 1);
 	scroll=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_widget_set_size_request(scroll, 200, -1);
 	gtk_widget_set_vexpand(scroll, TRUE);
 	gtk_widget_set_hexpand(scroll, FALSE);
-	gtk_grid_attach(GTK_GRID(widget), scroll, 1, 0, 3, 1);
+	gtk_grid_attach(GTK_GRID(box), scroll, 0, 0, 3, 1);
 	view=gtk_tree_view_new();
 	gtk_container_add(GTK_CONTAINER(scroll), view);
 	ly_3vdo_list_view=view;
@@ -110,17 +123,17 @@ GtkWidget *ly_3vdo_create()
 	img=gtk_image_new_from_stock(GTK_STOCK_ADD,GTK_ICON_SIZE_BUTTON);
 	gtk_container_add(GTK_CONTAINER(btn_add), img);
 	gtk_widget_set_size_request(btn_add, 30, 30);
-	gtk_grid_attach(GTK_GRID(widget), btn_add, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(box), btn_add, 0, 1, 1, 1);
 	btn_del=gtk_button_new();
 	img=gtk_image_new_from_stock(GTK_STOCK_REMOVE,GTK_ICON_SIZE_BUTTON);
 	gtk_container_add(GTK_CONTAINER(btn_del), img);
 	gtk_widget_set_size_request(btn_del, 30, 30);
-	gtk_grid_attach(GTK_GRID(widget), btn_del, 2, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(box), btn_del, 1, 1, 1, 1);
 	btn_frs=gtk_button_new();
 	img=gtk_image_new_from_stock(GTK_STOCK_REFRESH,GTK_ICON_SIZE_BUTTON);
 	gtk_container_add(GTK_CONTAINER(btn_frs), img);
 	gtk_widget_set_size_request(btn_frs, 30, 30);
-	gtk_grid_attach(GTK_GRID(widget), btn_frs, 3, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(box), btn_frs, 2, 1, 1, 1);
 
 	g_signal_connect(screen,"draw",G_CALLBACK( ly_3vdo_on_expose_cb), NULL);
 	ly_mbs_bind("meta_changed", "core:pqm", ly_3vdo_on_meta_changed_cb, screen);
@@ -129,6 +142,9 @@ GtkWidget *ly_3vdo_create()
 	g_signal_connect(G_OBJECT(btn_add), "clicked", G_CALLBACK(ly_3vdo_on_list_add_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_del), "clicked", G_CALLBACK(ly_3vdo_on_list_del_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_frs), "clicked", G_CALLBACK(ly_3vdo_on_list_refresh_cb), NULL);
+	g_signal_connect(G_OBJECT(expander), "clicked", G_CALLBACK(ly_3vdo_on_expander_clicked_cb), box);
+
+	g_signal_connect(G_OBJECT(screen), "button_press_event", G_CALLBACK(ly_3vdo_on_screen_action_cb), NULL);
 	return widget;
 }
 
@@ -332,5 +348,62 @@ gboolean ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data)
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
 	ly_3vdo_on_list_refresh_cb(NULL, NULL);
+	return FALSE;
+}
+
+gboolean ly_3vdo_on_expander_clicked_cb(GtkWidget *widget, gpointer data)
+{
+	if(!data)
+		return FALSE;
+	if(gtk_widget_get_visible(GTK_WIDGET(data)))
+	{
+		gtk_widget_set_visible(GTK_WIDGET(data), FALSE);
+	}
+	else
+	{
+		gtk_widget_set_visible(GTK_WIDGET(data), TRUE);
+	}
+	return FALSE;
+}
+
+gboolean ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget, gpointer data)
+{
+	if(ly_3vdo_desktop_screen)
+	{
+		guintptr xid=GDK_WINDOW_XID(gtk_widget_get_window(GTK_WIDGET(ly_3vdo_screen)));
+		ly_ppl_video_set_screen(xid);
+		gtk_widget_destroy(ly_3vdo_desktop_screen);
+		ly_3vdo_desktop_screen=NULL;
+	}
+	return FALSE;
+}
+
+static gboolean
+ly_3vdo_on_screen_action_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	if (!(event->button == 1 && event->type==GDK_2BUTTON_PRESS))
+		return FALSE;
+
+	ly_3vdo_desktop_screen=gtk_window_new(GTK_WINDOW_POPUP);
+	gtk_widget_set_events(ly_3vdo_desktop_screen, GDK_ALL_EVENTS_MASK);
+
+	gint w;
+	gint h;
+	GdkScreen* screen;
+	screen = gdk_screen_get_default();
+	w = gdk_screen_get_width(screen);
+	h = gdk_screen_get_height(screen);
+	gtk_window_set_default_size(GTK_WINDOW(ly_3vdo_desktop_screen), w, h);
+	gtk_window_move(GTK_WINDOW(ly_3vdo_desktop_screen), 0, 0);
+	gtk_widget_set_app_paintable(ly_3vdo_desktop_screen, TRUE);
+	gtk_window_set_decorated(GTK_WINDOW(ly_3vdo_desktop_screen), FALSE);
+	gtk_widget_show_all(ly_3vdo_desktop_screen);
+	guintptr xid=GDK_WINDOW_XID(gtk_widget_get_window(GTK_WIDGET(ly_3vdo_desktop_screen)));
+	ly_ppl_video_set_screen(xid);
+
+	GClosure *closure;
+	closure=g_cclosure_new(G_CALLBACK(ly_3vdo_on_desktop_screen_destroy), NULL, NULL);
+	gtk_accel_group_connect (ly_key_get_accel(), gdk_keyval_from_name("Escape"), 0, GTK_ACCEL_VISIBLE, closure);
+
 	return FALSE;
 }
