@@ -1,6 +1,4 @@
-General Information
-================
-
+##General Information
 Linnya Player is an excellent multimedia application for Linux users, which
 supporting music library, playlist, lyrics, and more features from plug-ins.
 
@@ -15,16 +13,12 @@ WARNNING: If anybody want to modify or republish Linnya, you MUST go
 with the GNU GPLv3. To FULLY understand the licence is your responsibility.
 
 
-About Us
-================
-
-Official website: http://www.linnya.org
-Contact E-mail: herenvarno@workmail.com
+##About Us
+* Official website: http://www.linnya.org
+* Contact E-mail: herenvarno@workmail.com
 
 
-Installation
-================
-
+##Installation
 FIRST:
 Configure your system information to create the makefile. Use the command
 below:
@@ -45,15 +39,11 @@ Clean up all the temp file for next compilation. Use the command below:
 	./clear
 
 
-DEVELOPMENT
-================
-
+##DEVELOPMENT
 The 2.0 version of Linnya is now STABLE, enjoy! 
 
 
-简介
-================
-
+##简介
 聆雅音乐播放器是一款为Linux使用者量身定制的多媒体软件。它支持音乐库，播放列表，同步歌词，
 去除字符乱码等多种功能。
 
@@ -66,16 +56,12 @@ http://www.gnu.org/licenses/translations.html 。
 弄懂GPLv3授权协议的每一条规定。
 
 
-关于
-================
-
-官方网站:	http://www.linnya.org
-联系方式:	herenvarno@workmail.com
+##关于
+* 官方网站:	http://www.linnya.org
+* 联系方式:	herenvarno@workmail.com
 
 
-安装
-================
-
+##安装
 首先，运行配置程序生成makefile文件，命令如下：
 	./autogen
 	./configure --prefix=/usr
@@ -90,7 +76,5 @@ http://www.gnu.org/licenses/translations.html 。
 	./clear
 
 
-开发
-================
-
+##开发
 聆雅2.0版本已稳定，祝您使用愉快！
