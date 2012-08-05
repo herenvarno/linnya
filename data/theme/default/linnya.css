@@ -1,0 +1,144 @@
+*{
+  background-repeat: no-repeat;
+}
+
+/*
+ * Buttons
+ */
+#btn_menu{
+	border-image: none;
+    background-image: url("image/btn_menu_normal.png");
+}
+#btn_menu:hover{
+	border-image: none;
+    background-image: url("image/btn_menu_hover.png");
+}
+#btn_menu:active{
+	border-image: none;
+    background-image: url("image/btn_menu_active.png");
+}
+#btn_adds{
+	border-image: none;
+    background-image: url("image/btn_adds_normal.png");
+}
+#btn_adds:hover{
+	border-image: none;
+    background-image: url("image/btn_adds_hover.png");
+}
+#btn_adds:active{
+	border-image: none;
+    background-image: url("image/btn_adds_active.png");
+}
+#btn_prev{
+	border-image: none;
+    background-image: url("image/btn_prev_normal.png");
+}
+#btn_prev:hover{
+	border-image: none;
+    background-image: url("image/btn_prev_hover.png");
+}
+#btn_prev:active{
+	border-image: none;
+    background-image: url("image/btn_prev_active.png");
+}
+#btn_play{
+	border-image: none;
+	background-image: url("image/btn_play_normal.png");
+}
+#btn_play:hover{
+	border-image: none;
+	background-image: url("image/btn_play_hover.png");
+}
+#btn_play:active,
+#btn_play:active:hover{
+	border-image: none;
+    background-image: url("image/btn_play_active.png");
+}
+#btn_next{
+	border-image: none;
+    background-image: url("image/btn_next_normal.png");
+}
+#btn_next:hover{
+	border-image: none;
+    background-image: url("image/btn_next_hover.png");
+}
+#btn_next:active{
+	border-image: none;
+    background-image: url("image/btn_next_active.png");
+}
+#btn_conf{
+	border-image: none;
+    background-image: url("image/btn_conf_normal.png");
+}
+#btn_conf:hover{
+	border-image: none;
+    background-image: url("image/btn_conf_hover.png");
+}
+#btn_conf:active{
+	border-image: none;
+    background-image: url("image/btn_conf_active.png");
+}
+#btn_volm{
+	border-image: none;
+    background-image: url("image/btn_volm_normal.png");
+}
+#btn_volm:hover{
+	border-image: none;
+    background-image: url("image/btn_volm_hover.png");
+}
+#btn_volm:active,
+#btn_volm:active:hover{
+	border-image: none;
+    background-image: url("image/btn_volm_active.png");
+}
+
+/*
+ * Seek bar
+ */
+
+/*
+ * Nbk sss
+ */
+#nbk_sssn{
+	background-color: transparent;
+	background-image: none;
+}
+#nbk_sssn tab {
+    background-image: -gtk-gradient (linear,
+                       left top, left bottom,
+                       from (alpha (#fff, 0.20)),
+                       to (alpha (#000, 0.2)));
+    color: #fff;
+}
+
+#nbk_sssn tab:active {
+    background-image: -gtk-gradient (linear,
+                left top, left bottom,
+                from (alpha (#fff, 0.30)),
+              to (alpha (#aaa, 0.05)));
+
+    border-color: alpha (#0004FF, 0.80);
+
+    border-width: 4px;
+}
+
+/*
+ * Session add page
+ */
+#sss_vwpt{
+	background-color: transparent;
+	background-image: url("image/sss_adds_bg.png");
+	background-repeat: repeat-x;
+}
+#sss_adds.view{
+	background-color: alpha (#EEEEEE, 0.4);
+}	
+
+#sss_adds.view.cell:selected,
+#sss_adds.view.cell:selected:focused{
+	background-color: alpha (#222277, 0.6);
+	background-image: none;
+	border-radius: 10px;
+	border-style: solid;
+	border-width: 1px;
+}

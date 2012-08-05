@@ -1,0 +1,56 @@
+EXTRA_DIST = \
+	null.png\
+	btn_menu_normal.png\
+	btn_menu_hover.png\
+	btn_menu_active.png\
+	btn_adds_normal.png\
+	btn_adds_hover.png\
+	btn_adds_active.png\
+	btn_prev_normal.png\
+	btn_prev_hover.png\
+	btn_prev_active.png\
+	btn_play_normal.png\
+	btn_play_hover.png\
+	btn_play_active.png\
+	btn_next_normal.png\
+	btn_next_hover.png\
+	btn_next_active.png\
+	btn_conf_normal.png\
+	btn_conf_hover.png\
+	btn_conf_active.png\
+	btn_volm_normal.png\
+	btn_volm_hover.png\
+	btn_volm_active.png\
+	bar_seek_background.png\
+	bar_seek_fill.png\
+	bar_seek_button_hover.png\
+	sss_adds_bg.png
+themedefaultimagedir = ${datadir}/linnya/uix/theme/default/image
+themedefaultimage_DATA = \
+	null.png\
+	btn_menu_normal.png\
+	btn_menu_hover.png\
+	btn_menu_active.png\
+	btn_adds_normal.png\
+	btn_adds_hover.png\
+	btn_adds_active.png\
+	btn_prev_normal.png\
+	btn_prev_hover.png\
+	btn_prev_active.png\
+	btn_play_normal.png\
+	btn_play_hover.png\
+	btn_play_active.png\
+	btn_next_normal.png\
+	btn_next_hover.png\
+	btn_next_active.png\
+	btn_conf_normal.png\
+	btn_conf_hover.png\
+	btn_conf_active.png\
+	btn_volm_normal.png\
+	btn_volm_hover.png\
+	btn_volm_active.png\
+	bar_seek_background.png\
+	bar_seek_fill.png\
+	bar_seek_button_hover.png\
+	sss_adds_bg.png
+	

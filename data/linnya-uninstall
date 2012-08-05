@@ -1,0 +1,49 @@
+#!/bin/sh
+
+################################################################################
+#
+# FILE: Linnya Uninstaller
+# REQUIERMENT: root access
+# 
+# AUTHOR: linnya
+# WEBSITE: http://www.linnya.org
+# MODIFY: Aug 3, 2012
+#
+################################################################################
+
+ROOT_UID=0
+E_NOTROOT=67
+E_XCD=66
+E_LOCATION=66
+
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+	echo "Must be root to run the script."
+	exit $E_NOTROOT
+fi
+
+path=$(cd "$(dirname "$0")"; pwd)
+INSTALL_DIR=${path%/share/linnya}
+
+if [ "$path" = "$INSTALL_DIR" ]
+then
+	echo "The location of script is wrong, Please put it in \$linnyainstalldir/share/linnya and try again."
+	exit $E_LOCATION
+fi
+
+cd $INSTALL_DIR
+if [ "$PWD" != "$INSTALL_DIR" ]
+then
+	echo "Cannot enter directory $INSTALL_DIR"
+	exit $E_XCD
+fi
+
+rm bin/linnya
+rm lib/liblinnya*
+rm -r share/linnya
+rm share/applications/linnya.desktop
+rm share/icons/hicolor/*/apps/linnya.*
+rm share/locale/*/LC_MESSAGES/linnya.mo
+
+echo "Linnya has been sussessfully uninstalled"
+exit 0
