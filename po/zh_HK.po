@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-08-02 19:21+0800\n"
+"POT-Creation-Date: 2012-08-06 20:38+0800\n"
 "PO-Revision-Date: 2012-05-20 21:03+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -697,7 +697,7 @@ msgstr "您的系統不支持插件，退出 ……"
 msgid "Read configuration file error."
 msgstr "讀取配置文件錯誤！"
 
-#: src/uix/sss.c:189
+#: src/uix/sss.c:190
 msgid "New Session"
 msgstr "新會話"
 

@@ -60,12 +60,12 @@ char*		ly_lrc_build_path	(LyMdhMetadata *md)
 {
 	if(!md)
 		return NULL;
-		
+
 	gchar dir[1024]="./";
 	gchar *lrcfile=NULL;
 	gchar *path=NULL;
 	gchar *filename=NULL;
-	
+
 	if(!ly_reg_get("lrc_dir", "%s", dir))
 	{
 		ly_reg_set("lrc_dir", "%s", dir);
@@ -75,7 +75,7 @@ char*		ly_lrc_build_path	(LyMdhMetadata *md)
 	{
 		path=ly_gla_uri_get_dir(md->uri);
 		filename=ly_gla_uri_get_filename(md->uri);
-		
+
 		if(md->flag==1)
 		{
 			lrcfile=g_strconcat(path, filename, "-", md->start,".lrc", NULL);
@@ -110,7 +110,7 @@ gboolean ly_lrc_load(char *path)
 
 	ly_lrc_lyrics_length=0;
 	ly_lrc_lyrics_index=0;
-	
+
 	FILE *fp=NULL;
 	fp=fopen(path,"r");
 	if(fp==NULL)
@@ -125,7 +125,7 @@ gboolean ly_lrc_load(char *path)
 void ly_lrc_read(FILE *fp)
 {
 	ly_lrc_lyrics_length=0;
-	
+
 	/*
 	 * Extra Encoding
 	 */
@@ -137,20 +137,20 @@ void ly_lrc_read(FILE *fp)
 
 	LyLrcLyric *lrc=NULL;
 	LyLrcLyric *tmplrc[1024];
-	
+
 	gint64 time;
 	gint64 time_delay=0;
 	gchar line[1024]="";
-	
+
 	gchar *p,*q;
 	gchar label[1024];
 	gchar text[1024];
-	
+
 	gchar *tmpstr;
-	
+
 	gint i=0;
 	gint j=0;
-	
+
 	while(fgets(line, sizeof(line), fp))
 	{
 		j=0;
@@ -186,7 +186,7 @@ void ly_lrc_read(FILE *fp)
 						p++;
 					}
 					*q='\0';
-					
+
 					//读取完成，处理数据
 					lrc=(LyLrcLyric*)malloc(sizeof(LyLrcLyric));
 					lrc->time=0;
@@ -195,7 +195,7 @@ void ly_lrc_read(FILE *fp)
 					if(time<0)
 						time=0;
 					lrc->time=time;
-					
+
 					if(*p=='['&&g_str_equal(text,""))
 					{
 						tmplrc[j]=lrc;
@@ -253,7 +253,7 @@ void ly_lrc_read(FILE *fp)
 					}
 					*q='\0';
 					p++;
-					
+
 					text[0]='\0';
 					q=text;
 					while(*p!=']'&&*p!='\0')
@@ -263,7 +263,7 @@ void ly_lrc_read(FILE *fp)
 						p++;
 					}
 					*q='\0';
-					
+
 					if(g_str_equal(label,"offset")||g_str_equal(label,"OFFSET"))
 					{
 						if(!g_str_equal(text,""))
@@ -285,7 +285,7 @@ static gint ly_lrc_sort_cb(gconstpointer c, gconstpointer d, gpointer data)
 {
 	LyLrcLyric *a=*((LyLrcLyric**)c);
 	LyLrcLyric *b=*((LyLrcLyric**)d);
-	
+
 	if(a->time<b->time)
 		return -1;
 	else
@@ -304,7 +304,7 @@ LyLrcLyric*	ly_lrc_new_full(gint64 time, gchar *text)
 {
 	if(!text)
 		return NULL;
-		
+
 	LyLrcLyric *lyric=NULL;
 	lyric=ly_lrc_new();
 	if(!lyric)
@@ -347,28 +347,98 @@ void		ly_lrc_set_index(int index)
 
 void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
 {
-	char *path=ly_lrc_build_path(ly_pqm_get_current_md());
-	if(!path)
+	LyMdhMetadata *md=ly_pqm_get_current_md();
+	if(!md)
 		return;
-	ly_lrc_load(path);
+	GstElement *play=NULL;
+	play=ly_ppl_get_playbin();
+	if(!play)
+		return;
+
+	// FOR AUDIO
+	if(md->flag>=0 && md->flag<=9)
+	{
+		char *path=ly_lrc_build_path(ly_pqm_get_current_md());
+		if(!path)
+			return;
+		ly_lrc_load(path);
+		return;
+	}
+
+	// FOR VIDEO
+	if(md->flag>=10 && md->flag<=19)
+	{
+		char extra_encoding[1024]="GB18030";
+		if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
+		{
+			ly_reg_set("dbm_extra_encoding", "Chinese Simplified (GB18030)");
+		}
+		g_object_set(G_OBJECT(play), "subtitle-encoding", extra_encoding, NULL);
+		g_object_set(G_OBJECT(play),"suburi", NULL, NULL);
+
+		gchar *path;
+		gchar *filename;
+		gchar *contents;
+		path=ly_gla_uri_get_dir(md->uri);
+		filename=ly_gla_uri_get_filename(md->uri);
+		GList *list=ly_gla_traverse_dir(path, 1, FALSE);
+		GList *p=list;
+		GRegex *regex;
+		GMatchInfo *match_info;
+		gchar *str_path=g_regex_escape_string(path, -1);;
+		gchar *str_filename=g_regex_escape_string(filename, -1);;
+		gchar str[1024]="";
+		g_snprintf(str, sizeof(str), "file://%s%s[^\n]*\.(srt|sub)", str_path, str_filename);
+		regex = g_regex_new(str, G_REGEX_OPTIMIZE, 0, NULL);
+		while(p)
+		{
+			if(g_regex_match(regex, p->data, 0, &match_info))
+			{
+				g_object_set(G_OBJECT(play),"suburi", p->data, NULL);
+				g_file_get_contents(p->data+7, &contents, NULL, NULL);
+				if(g_utf8_validate(contents, -1, NULL))
+				{
+					g_object_set(G_OBJECT(play), "subtitle-encoding", "UTF8", NULL);
+				}
+				g_free(contents);
+				g_match_info_free (match_info);
+				break;
+			}
+			g_free(p->data);
+			p->data=NULL;
+			p=p->next;
+		}
+		g_regex_unref (regex);
+		while(p)
+		{
+			g_free(p->data);
+			p->data=NULL;
+			p=p->next;
+		}
+		g_list_free(list);
+		g_free(path);
+		g_free(filename);
+		g_free(str_path);
+		g_free(str_filename);
+	}
 }
 
 gboolean ly_lrc_on_update_cb(gpointer data)
 {
 	if(!ly_lrc_flag_update_state)
 		return TRUE;
-		
+
 	if(ly_lrc_lyrics_length<=0)
 		return TRUE;
-	
+
 	LyMdhMetadata *md=NULL;
 	md=ly_pqm_get_current_md();
 	if(!md)
 		return TRUE;
-		
+
 	gint64 time=0;
 	time=ly_aud_get_position_abs();
-		
+
 	int min=0;
 	int max=ly_lrc_lyrics_length;
 	int index=(max-min)/2;
