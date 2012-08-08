@@ -273,8 +273,10 @@ LyWinWindow*	ly_win_new()
 	window->btn_volm=btn_volm;
 	window->bar_seek=bar_seek;
 
-
-	if(ly_aud_get_state()==GST_STATE_PLAYING)
+	int autoplay=0;
+	if(!ly_reg_get("aud_autoplay", "%d", &autoplay))
+		ly_reg_set("aud_autoplay", "%d", autoplay);
+	if(autoplay)
 	{
 		gtk_button_clicked(GTK_BUTTON(btn_play));
 	}

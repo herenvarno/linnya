@@ -2,7 +2,7 @@
  * aud.h
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2010-2012 - Edward Yang
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,11 @@
  *
  * This module is a module to manage all operation that related to audio pipeline.
  * Such as setting the state of pipeline or setting the volume, etc.
- */ 
+ *
+ * Typcally, the pipeline is established in PPL module before the initialization
+ * of AUD. Once initialized, you can use #ly_aud_play, #ly_aud_pause, #ly_aud_prev,
+ * #ly_aud_next to control the pipeline state.
+ */
 
 #ifndef LY_AUD_H
 #define LY_AUD_H
@@ -43,7 +47,9 @@
 #include "pqm.h"
 #include "ppl.h"
 
-/* 
+G_BEGIN_DECLS
+
+/*
  *  MACROS
  */
 
@@ -56,22 +62,22 @@
 /*
  *  FUNCTIONS
  */
+void ly_aud_init ();
+void ly_aud_fina ();
 
-void		ly_aud_init			();
-void		ly_aud_fina			();
+gboolean ly_aud_prev ();
+gboolean ly_aud_next ();
+gboolean ly_aud_play ();
+gboolean ly_aud_pause ();
+gboolean ly_aud_stop ();
+gboolean ly_aud_set_volume (double volume);
+double ly_aud_get_volume ();
+gboolean ly_aud_set_position (double position);
+gboolean ly_aud_set_position_abs (gint64 position);
+double ly_aud_get_position ();
+gint64 ly_aud_get_position_abs ();
+GstState ly_aud_get_state ();
 
-gboolean	ly_aud_prev			();
-gboolean	ly_aud_next			();
-gboolean	ly_aud_play			();
-gboolean	ly_aud_pause		();
-gboolean	ly_aud_stop			(); 
-gboolean	ly_aud_set_volume	(double volume);
-double		ly_aud_get_volume	();
-gboolean	ly_aud_set_position	(double position);
-gboolean 	ly_aud_set_position_abs(gint64 position);
-double		ly_aud_get_position	();
-gint64		ly_aud_get_position_abs	();
-
-GstState	ly_aud_get_state();
+G_END_DECLS
 
 #endif

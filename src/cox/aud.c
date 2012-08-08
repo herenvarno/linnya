@@ -2,7 +2,7 @@
  * aud.c
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2010-2012 - Edward Yang
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@
 /*
  * FUNCTIONS
  */
-
 void ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data);
 
 /**
@@ -35,9 +34,9 @@ void ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data);
  *
  * Initialize the aud module, it will be called by #ly_cox_init.
  */
-void		ly_aud_init()
+void
+ly_aud_init()
 {
-
 	/*
 	 * mode
 	 */
@@ -82,7 +81,8 @@ void		ly_aud_init()
  *
  * Finalize the aud module, it will be called by #ly_cox_fina.
  */
-void		ly_aud_fina()
+void
+ly_aud_fina()
 {
 	ly_aud_stop();
 }
@@ -94,7 +94,8 @@ void		ly_aud_fina()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_next()
+gboolean
+ly_aud_next()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -140,7 +141,8 @@ gboolean ly_aud_next()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_prev()
+gboolean
+ly_aud_prev()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -189,7 +191,8 @@ gboolean ly_aud_prev()
  *
  * Returns:	The GStreamer state of playbin.
  */
-GstState ly_aud_get_state()
+GstState
+ly_aud_get_state()
 {
 	GstState     state;
 	GstClockTime timeout=0;
@@ -207,7 +210,8 @@ GstState ly_aud_get_state()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_play()
+gboolean
+ly_aud_play()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -251,7 +255,8 @@ gboolean ly_aud_play()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_pause()
+gboolean
+ly_aud_pause()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -282,7 +287,8 @@ gboolean ly_aud_pause()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_stop()
+gboolean
+ly_aud_stop()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -314,7 +320,8 @@ gboolean ly_aud_stop()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_set_volume(gdouble volume)
+gboolean
+ly_aud_set_volume(gdouble volume)
 {
 	GstElement *ele=ly_ppl_audio_get_element("volume");
 	if(!ele)
@@ -334,7 +341,8 @@ gboolean ly_aud_set_volume(gdouble volume)
  *
  * Returns:	The gdouble format volume value.
  */
-gdouble ly_aud_get_volume()
+gdouble
+ly_aud_get_volume()
 {
 	gdouble volume;
 	GstElement *ele=ly_ppl_audio_get_element("volume");
@@ -356,7 +364,8 @@ gdouble ly_aud_get_volume()
  *
  * Returns:	TRUE for success, others FALSE.
  */
-gboolean ly_aud_set_position(gdouble percent)
+gboolean
+ly_aud_set_position(gdouble percent)
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -393,7 +402,8 @@ gboolean ly_aud_set_position(gdouble percent)
  *
  * Returns:	The current position of pipeline.
  */
-gdouble ly_aud_get_position()
+gdouble
+ly_aud_get_position()
 {
 	gint64 pos=0;
 	pos=ly_aud_get_position_abs();
@@ -423,7 +433,8 @@ gdouble ly_aud_get_position()
  *
  * Returns: The abusolute position time.
  */
-gint64 ly_aud_get_position_abs()
+gint64
+ly_aud_get_position_abs()
 {
 	GstState state;
 	state=ly_aud_get_state();
@@ -482,7 +493,8 @@ gint64 ly_aud_get_position_abs()
  *
  * Returns: FALSE
  */
-void ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data)
+void
+ly_aud_on_ppl_eos_cb(LyMbsMessage *message, gpointer data)
 {
 	ly_aud_next();
 }

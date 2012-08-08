@@ -2,7 +2,7 @@
  * app.h
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2010-2012 - Edward Yang
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  * @stability:	stable
  * @include:	app.h
  *
- * This module is the top level of the whole application. It defines the main 
+ * This module is the top level of the whole application. It defines the main
  * function, which is the code entry.
  */
 
@@ -37,9 +37,13 @@
 #include "cox/cox.h"
 #include "uix/uix.h"
 
+G_BEGIN_DECLS
+
 /*
  * FUNCTIONS
  */
-int		main	(int argc, char *argv[]);
+int main (int argc, char *argv[]);
+
+G_END_DECLS
 
 #endif
