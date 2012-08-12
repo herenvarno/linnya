@@ -1120,14 +1120,14 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 	
 	if(index0==2)
 	{
-		dialog=ly_3opc_warning_dialog_create(_("<b>This is a Dangerous function!!</b>\n The music you wanna delete is belongs to your music library,\n It will be delete physically and permanently.\n Do you really want to do it?"));
+		dialog=ly_3opc_warning_dialog_create(_("<b>This is a Dangerous function!!</b>\n The music you wanna delete belongs to your music library,\n It will be delete physically and permanently.\n Do you really want to do it?"));
 		result=gtk_dialog_run(GTK_DIALOG(dialog));
 		switch(result)
 		{
 			case GTK_RESPONSE_ACCEPT:
 				break;
 			default:
-				gtk_widget_destroy(dialog);
+ 				gtk_widget_destroy(dialog);
 				return FALSE;
 				break;
 		}
@@ -1140,17 +1140,17 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 			gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 			if(p==list)
 			{
-				g_snprintf(tmp, sizeof(tmp), "id=%d", id);
+		 		g_snprintf(tmp, sizeof(tmp), "id=%d", id);
 				where=g_strconcat(tmp, NULL);
-				ly_lib_del_md_from_disk(id);
+				//ly_lib_del_md_from_disk(id);
 			}
 			else
 			{
-				g_snprintf(tmp, sizeof(tmp), " OR id=%d", id);
+ 				g_snprintf(tmp, sizeof(tmp), " OR id=%d", id);
 				tmpwhere=g_strconcat(where, tmp, NULL);
 				g_free(where);
 				where=tmpwhere;
-				ly_lib_del_md_from_disk(id);
+				//ly_lib_del_md_from_disk(id);
 			}
 			p=p->next;
 		}

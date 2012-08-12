@@ -1,3 +1,3 @@
-EXTRA_DIST		= *.png
+EXTRA_DIST		= *.jpg
 themedefaultsssbgdir	= ${datadir}/linnya/uix/theme/default/sssbg
-themedefaultsssbg_DATA	= *.png
+themedefaultsssbg_DATA	= *.jpg

@@ -239,9 +239,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = *.png
+EXTRA_DIST = *.jpg
 themedefaultsssbgdir = ${datadir}/linnya/uix/theme/default/sssbg
-themedefaultsssbg_DATA = *.png
+themedefaultsssbg_DATA = *.jpg
 all: all-am
 
 .SUFFIXES:
