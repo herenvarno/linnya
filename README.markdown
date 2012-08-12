@@ -20,19 +20,26 @@ with the GNU GPLv3. To FULLY understand the licence is your responsibility.__
 ##Installation
 1. Configure your system information to create the makefile. Use the command
 below:
-    ./autogen
-    ./configure --prefix=/usr
+```
+./autogen
+./configure --prefix=/usr
+```
 
 2. Compile all the source file to excuteable file. Use the command below:
-    make
+```
+make
+```
 
 3. Copy files to the proper directory, Usually in /usr/share/linnya/... .
 Use the command below(please be root):
-    make install
+```
+make install
+```
 
 4. Clean up all the temp file for next compilation. Use the command below:
-    ./clear
-
+```
+./clear
+```
 
 ##DEVELOPMENT
 The 2.0 version of Linnya is now STABLE, enjoy!
@@ -58,18 +65,25 @@ __警告：如果有谁想要修改或再发布本软件，你必须严格遵照
 
 ##安装
 1. 运行配置程序生成makefile文件，命令如下：
-    ./autogen
-    ./configure --prefix=/usr
+```
+./autogen
+./configure --prefix=/usr
+```
 
 2. 编译所有的源文件，命令如下：
-    make
+```
+make
+```
 
 3. 安装软件，通常的位置为 /usr/share/linnya/... ，命令如下（请使用root权限）：
-    make install
+```
+make install
+```
 
 4. 建议你清理不用的交换文件以便下次编译，命令如下：
-    ./clear
-
+```
+./clear
+```
 
 ##开发
 聆雅2.0版本已稳定，祝您使用愉快！
