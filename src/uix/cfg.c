@@ -184,7 +184,7 @@ ly_cfg_new (void)
 	GtkWidget *item;
 	GtkWidget *vbox;
 	GtkWidget *hbox;
-	
+
 	GtkWidget *button;
 	GtkWidget *entry;
 	GtkWidget *label;
@@ -194,14 +194,14 @@ ly_cfg_new (void)
 	GtkWidget *vscale;
 	GtkWidget *image;
 	GdkPixbuf *pixbuf;
-	
+
 	GHashTableIter iter1;
 	gpointer key, value;
 
 	//main dialog
 	dialog=ly_cfg_dialog_new(_("Configuration"));
 	g_signal_connect(G_OBJECT(dialog), "destroy", G_CALLBACK(ly_cfg_on_destroy_cb), NULL);
-	
+
 	//button
 	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_on_show_about_cb),NULL);
@@ -214,7 +214,7 @@ ly_cfg_new (void)
 	g_snprintf(path,sizeof(path),"%sui/icon/lib.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Library"), _("All the Music Data"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
-	
+
 	item=ly_cfg_item_new(_("Auto Check Library When Program Start"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	check=gtk_check_button_new_with_label(_("Enable Auto Check"));
@@ -222,7 +222,7 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)state);
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_lib_autocheck_changed_cb),NULL);
-	
+
 	item=ly_cfg_item_new(_("Library location"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	hbox=gtk_hbox_new(FALSE,0);
@@ -235,7 +235,7 @@ ly_cfg_new (void)
 	button=gtk_button_new_from_stock(GTK_STOCK_OPEN);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_cfg_on_lib_changed_cb), entry);
 	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
-	
+
 	item=ly_cfg_item_new(_("Backup Encoding"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	char extra_encoding[1024]="Chinese Simplified (GB18030)";
@@ -257,7 +257,7 @@ ly_cfg_new (void)
 	g_snprintf(path,sizeof(path),"%sui/icon/audio.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Audio"), _("Set all about playing audio"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
-	
+
 	item=ly_cfg_item_new(_("Auto Play When Program Start"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	check=gtk_check_button_new_with_label(_("Enable Auto Play"));
@@ -265,7 +265,7 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)state);
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_aud_autoplay_changed_cb),NULL);
-	
+
 	item=ly_cfg_item_new(_("Play mode"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	int random=0;
@@ -286,12 +286,12 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),(gboolean)single);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_aud_mode_changed_cb), "single");
 	gtk_box_pack_start(GTK_BOX(vbox),check,FALSE,FALSE,0);
-	
+
 	//page3 Equalizer
 	g_snprintf(path, sizeof(path),"%sui/icon/equalizer.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Equalizer"), _("Set equalizer"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
-	
+
 	item=ly_cfg_item_new(_("Auto Equalizer"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	int eql_auto=1;
@@ -299,7 +299,7 @@ ly_cfg_new (void)
 	check=gtk_check_button_new_with_label(_("Choose Equalizer Setting by Linnya Automatically"));
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),(gboolean)eql_auto);
-	
+
 	item=ly_cfg_item_new(_("Custom Equalizer Setting"));
 	if(eql_auto)
 	{
@@ -335,12 +335,12 @@ ly_cfg_new (void)
 		g_signal_connect(G_OBJECT(vscale), "value-changed", G_CALLBACK(ly_cfg_on_eql_band_changed_cb), item);
 	}
 	ly_eql_free(eq);
-	
+
 	//page4 Keyboard
 	g_snprintf(path,sizeof(path),"%sui/icon/key.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Keyboard"),_("Set all shortcut keys of Linnya"),path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
-	
+
 	item=ly_cfg_item_new(_("Shortcuts"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	table=gtk_table_new(g_hash_table_size(ly_pli_get_plugins())+1, 2, FALSE);
@@ -350,7 +350,7 @@ ly_cfg_new (void)
 	g_hash_table_iter_init (&iter1, ly_key_get_keybinds());
 	i=1;
 	char str_key[1024]="";
-	while (g_hash_table_iter_next (&iter1, &key, &value)) 
+	while (g_hash_table_iter_next (&iter1, &key, &value))
 	{
 		g_snprintf(str_key, sizeof(str_key),"{%s}%s_%s:%s", (char *)key, ((LyKeyKeybind*)value)->mask0, ((LyKeyKeybind*)value)->mask1, ((LyKeyKeybind*)value)->key);
 		label=gtk_label_new(str_key);
@@ -360,7 +360,7 @@ ly_cfg_new (void)
 		gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, i, i+1);
 		i++;
 	}
-	
+
 	//page5 Theme
 	g_snprintf(path,sizeof(path),"%sui/icon/theme.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Theme"), _("Set the looks of Linnya."),path);
@@ -377,8 +377,8 @@ ly_cfg_new (void)
 	i=0;
 	while(p)
 	{
-		th_name=ly_gla_uri_get_filename((gchar *)(p->data));
-		
+		th_name=p->data;
+
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), th_name);
 		if(g_str_equal(th_name, theme_name))
 		{
@@ -408,7 +408,7 @@ ly_cfg_new (void)
 			custom_winbg=0;
 			ly_reg_get("thm_custom_winbg", "%d", custom_winbg);
 		}
-		gtk_widget_set_sensitive(check, FALSE);		
+		gtk_widget_set_sensitive(check, FALSE);
 	}
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_winbg);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_winbg_changed_cb), NULL);
@@ -422,7 +422,7 @@ ly_cfg_new (void)
 	gtk_color_button_set_alpha(GTK_COLOR_BUTTON(button), color_alpha);
 	ly_cfg_item_append(LY_CFG_ITEM(item), button);
 	g_signal_connect(G_OBJECT(button), "color-set", G_CALLBACK(ly_cfg_on_thm_winbg_changed_cb), hbox);
-	
+
 	item=ly_cfg_item_new(_("Session Style"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	check=gtk_check_button_new_with_label(_("Use Custom Session Background Image"));
@@ -441,22 +441,22 @@ ly_cfg_new (void)
 	button=gtk_button_new_from_stock(GTK_STOCK_OPEN);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_cfg_on_thm_sssbg_changed_cb), entry);
 	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
-	
+
 	//page6 Plug-ins
 	g_snprintf(path,sizeof(path),"%sui/icon/plugin.png",LY_GLA_PROGDIR);
 	page=ly_cfg_page_new(_("Plugins"),_("All the plug-ins of Linnya."),path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
-	
+
 	item=ly_cfg_item_new(_("Plugins"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	table=gtk_table_new(g_hash_table_size(ly_pli_get_plugins()), 5, FALSE);
 	ly_cfg_item_append(LY_CFG_ITEM(item), table);
-	
+
 	GtkWidget* (*f)(void);
 	i=0;
 	LyPliPlugin *pl;
 	g_hash_table_iter_init (&iter1, ly_pli_get_plugins());
-	while (g_hash_table_iter_next (&iter1, &key, &value)) 
+	while (g_hash_table_iter_next (&iter1, &key, &value))
 	{
 		pl=(LyPliPlugin *)value;
 		check=gtk_check_button_new();
@@ -466,15 +466,15 @@ ly_cfg_new (void)
 		}
 		g_signal_connect(G_OBJECT(check),"toggled",G_CALLBACK(ly_cfg_on_pli_changed_cb), pl->name);
 		gtk_table_attach_defaults(GTK_TABLE(table),check,0,1,i,i+1);
-		
+
 		pixbuf=gdk_pixbuf_new_from_file_at_size(pl->logo, 16, 16, NULL);
 		image=gtk_image_new_from_pixbuf(pixbuf);
 		g_object_unref(pixbuf);
 		gtk_table_attach_defaults(GTK_TABLE(table),image,1,2,i,i+1);
-		
+
 		label=gtk_label_new(pl->name);
 		gtk_table_attach_defaults(GTK_TABLE(table),label,2,3,i,i+1);
-		
+
 		if(pl->module)
 		{
 			g_module_symbol(pl->module, pl->config_symbol, (gpointer)&f);
@@ -485,13 +485,13 @@ ly_cfg_new (void)
 				gtk_table_attach_defaults(GTK_TABLE(table),button,3,4,i,i+1);
 			}
 		}
-		
+
 		button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 		g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_on_pli_show_about_cb), pl);
 		gtk_table_attach_defaults(GTK_TABLE(table),button,4,5,i,i+1);
 		i++;
 	}
-	
+
 	return dialog;
 }
 
@@ -517,15 +517,15 @@ gboolean ly_cfg_on_show_about_cb(GtkWidget *widget, gpointer data)
 {
 	gchar *path=NULL;
 	GdkPixbuf *logo=NULL;
-	
+
 	path=g_strconcat(LY_GLB_PROG_UIXDIR,"icon/linnya.png",NULL);
 	logo=gdk_pixbuf_new_from_file_at_size(path, 48, 48,NULL);
 	g_free(path);
-	
+
 	char *artists[]={"Hillar Liiv<liivhillar@gmail.com>","Edward<edward@linnya.org>",NULL};
 	char *authors[]={"Edward<edward@linnya.org>","Carl Yu<shdxcy@gmail.com>",NULL};
 	char translators[]={"Edward<edward@linnya.org>"};
-	
+
 	gtk_show_about_dialog(GTK_WINDOW(ly_cfg_dialog),
 						  "program-name",	LY_GLA_APPLICATION,
 						  "artists",		&artists,
@@ -665,13 +665,13 @@ gboolean ly_cfg_on_lib_changed_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	gchar *path=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog));
 	gchar *str=g_strconcat(path,"/",NULL);
 	g_free(path);
-	
+
 	gtk_entry_set_text(GTK_ENTRY(data),str);
-	
+
 	ly_reg_set("lib_path", "%s", str);
 	g_free(str);
 	gtk_widget_destroy(dialog);
@@ -698,9 +698,9 @@ gboolean ly_cfg_on_aud_mode_changed_cb(GtkWidget *widget, gpointer data)
 	int random=0;
 	int repeat=1;
 	int single=0;
-	
+
 	ly_reg_get("aud_mode", "%d:%d:%d", &random, &repeat, &single);
-	
+
 	if(g_str_equal(type, "random"))
 	{
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
@@ -751,16 +751,16 @@ gboolean ly_cfg_on_key_changed_cb(GtkWidget *widget, gpointer data)
 									   GTK_RESPONSE_CANCEL,
 									   NULL);
 	gtk_window_set_default_size(GTK_WINDOW(dialog), 100, 80);
-	
+
 	label=gtk_label_new(_("Press key to change shortcut ..."));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label, FALSE, FALSE, 0);
-	
+
 	label=gtk_label_new(gtk_label_get_text(GTK_LABEL(data)));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(dialog), "key_press_event", G_CALLBACK(ly_cfg_on_key_press_cb), label);
-	
+
 	gtk_widget_show_all(dialog);
-	
+
 	int result=0;
 	result=gtk_dialog_run(GTK_DIALOG(dialog));
 	switch(result)
@@ -788,7 +788,7 @@ gboolean ly_cfg_on_key_changed_cb(GtkWidget *widget, gpointer data)
  		gtk_widget_destroy(dialog);
  		return FALSE;
  	}
- 	
+
 	gtk_label_set_text(GTK_LABEL(data),str);
  	ly_key_unbind(keyname);
 	ly_key_set(keyname, mask0+1, mask1+1, key+1, -1, NULL, NULL);
@@ -807,7 +807,7 @@ gboolean ly_cfg_on_key_press_cb(GtkWidget *widget, GdkEvent  *event, gpointer da
 	gchar mask0[64]="";
 	gchar mask1[64]="";
 	gchar key[64]="";
-	
+
 	if((event->key).state&GDK_CONTROL_MASK)
 	{
 		g_strlcpy(mask0,"ctrl",sizeof(mask0));
@@ -936,19 +936,19 @@ gboolean ly_cfg_on_thm_sssbg_changed_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	gchar *path=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog));
 	gchar *str=g_strconcat(path,"/",NULL);
 	g_free(path);
-	
+
 	gtk_entry_set_text(GTK_ENTRY(data),str);
-	
+
 	ly_reg_set("thm_sssbg", "%s", str);
 	g_free(str);
 	gtk_widget_destroy(dialog);
 	return FALSE;
 }
-	
+
 
 /*
  * EQL
@@ -960,7 +960,7 @@ gboolean ly_cfg_on_eql_list_cb(gpointer stmt, gpointer data)
 
 	const char *name= (const char *)sqlite3_column_text(stmt, 0);
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(data), name);
-	
+
 	char equalizer[1024]="default";
 	ly_reg_get("equalizer", "%[^\n]", equalizer);
 	if(g_str_equal(name, equalizer))
@@ -995,13 +995,13 @@ gboolean ly_cfg_on_eql_equalizer_changed_cb(GtkWidget *widget, gpointer data)
 	char *name= gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widget));
 	ly_reg_set("equalizer", "%s", name);
 	g_free(name);
-	
+
 	LyEqlEqualizer *eq=ly_eql_new_by_conf();
 	GList *list=NULL;
 	GList *p=NULL;
 	list=gtk_container_get_children(GTK_CONTAINER(data));
 	p=list;
-	
+
 	int i=0;
 	for(i=0;i<10;i++)
 	{
@@ -1017,7 +1017,7 @@ gboolean ly_cfg_on_eql_band_changed_cb(GtkWidget *widget, gpointer data)
 {
 	if(ly_cfg_lock_eql_equalizer)
 		return FALSE;
-		
+
 	LyEqlEqualizer *eq=ly_eql_new_by_conf();
 	GList *list=NULL;
 	GList *sublist=NULL;
@@ -1033,23 +1033,23 @@ gboolean ly_cfg_on_eql_band_changed_cb(GtkWidget *widget, gpointer data)
 		eq->band[i]=gtk_range_get_value(GTK_RANGE(q->data));
 		q=q->next;
 	}
-	
+
 	ly_eql_set_eq(eq);
 	ly_eql_free(eq);
 	return FALSE;
 }
 
 gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
-{	
+{
 	LyEqlEqualizer *eq=ly_eql_new_by_conf();
-	
+
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkWidget *entry;
 	int result;
 	char *name=NULL;
-	
+
 	dialog=gtk_dialog_new_with_buttons(_("Save Equalizer"),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1080,17 +1080,17 @@ gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
 	name=(char *)gtk_entry_get_text(GTK_ENTRY(entry));
 	if(!name || g_str_equal(name,""))
 		gtk_widget_destroy(dialog);
-	
+
 	g_strlcpy(eq->name, name, sizeof(eq->name));
 	gtk_widget_destroy(dialog);
-	
+
 	GList *list=NULL;
 	GList *sublist=NULL;
 	GList *p=NULL;
 	GList *q=NULL;
 	list=gtk_container_get_children(GTK_CONTAINER(ly_cfg_item_get_content_area(data)));
 	p=list;
-	
+
 	int i=0;
 	p=p->next;
 	sublist=gtk_container_get_children(GTK_CONTAINER(p->data));
@@ -1102,8 +1102,8 @@ gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
 	}
 	ly_eql_put(eq);
 	ly_reg_set("equalizer", "%s", eq->name);
-	
-	
+
+
 	p=p->prev;
 	sublist=gtk_container_get_children(GTK_CONTAINER(p->data));
 	q=sublist;
@@ -1116,12 +1116,12 @@ gboolean ly_cfg_on_eql_eq_save_cb(GtkWidget *widget, gpointer data)
 }
 
 gboolean ly_cfg_on_eql_eq_delete_cb(GtkWidget *widget, gpointer data)
-{	
+{
 	char *name=gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data));
 	char eq_name[1024]="";
 	g_strlcpy(eq_name, name, sizeof(eq_name));
 	g_free(name);
-	
+
 	if(g_str_equal(eq_name, "default"))
 	{
 		ly_dbg_message(_("Cannot delete the default equalizer setting!"));
@@ -1131,7 +1131,7 @@ gboolean ly_cfg_on_eql_eq_delete_cb(GtkWidget *widget, gpointer data)
 	char sql[1024]="";
 	g_snprintf(sql, sizeof(sql), "DELETE FROM equalizers WHERE name='%s'", eq_name);
 	ly_dbm_exec(sql, NULL, NULL);
-	
+
 	ly_reg_set("equalizer", "%s", "default");
 	GtkListStore *model;
 	model=gtk_list_store_new(1, G_TYPE_STRING);
@@ -1176,27 +1176,27 @@ static void ly_cfg_dialog_init(LyCfgDialog *obj)
 {
 	gtk_window_set_title(GTK_WINDOW(obj), _("Preference"));
 	gtk_window_set_default_size(GTK_WINDOW(obj),600,500);
-	
+
 	GtkWidget *hpaned=gtk_hpaned_new();
 	gtk_container_set_border_width(GTK_CONTAINER(hpaned), 10);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(obj))),hpaned,TRUE,TRUE,0);
-	
+
 	obj->navagation_area=gtk_tree_view_new();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW(obj->navagation_area),FALSE);
 	gtk_container_add(GTK_CONTAINER(hpaned), obj->navagation_area);
-	
+
 	GtkTreeStore *store= gtk_tree_store_new (2,G_TYPE_INT, G_TYPE_STRING);
 	GtkCellRenderer *cell_renderer = gtk_cell_renderer_text_new ();
 	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes( "Options", cell_renderer,"text", 1, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (obj->navagation_area), column);
 	gtk_tree_view_set_model(GTK_TREE_VIEW (obj->navagation_area), GTK_TREE_MODEL(store));
 	GtkTreeSelection *selection=gtk_tree_view_get_selection(GTK_TREE_VIEW(obj->navagation_area));
-	
+
 	obj->content_area = gtk_notebook_new();
 	gtk_notebook_set_show_border(GTK_NOTEBOOK(obj->content_area),FALSE);
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(obj->content_area),FALSE);
 	gtk_container_add(GTK_CONTAINER(hpaned), obj->content_area);
-	
+
 	g_signal_connect(G_OBJECT(selection), "changed", G_CALLBACK(ly_cfg_dialog_on_selection_changed_cb), hpaned);
 }
 static void ly_cfg_dialog_class_init(LyCfgDialogClass *klass)
@@ -1266,10 +1266,10 @@ GType ly_cfg_page_get_type()
 	return ly_cfg_page_type;
 }
 static void ly_cfg_page_init(LyCfgPage *obj)
-{	
+{
 	GtkWidget	*hbox;
 	GtkWidget	*scrolled_window;
-	
+
 	hbox=gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(obj), hbox, FALSE, FALSE, 0);
 	obj->label=gtk_label_new(NULL);
@@ -1381,21 +1381,21 @@ GtkWidget*			ly_cfg_item_get_content_area		(LyCfgItem *item)
 gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer data)
 {
 	gchar *text=LY_CFG_ITEM(data)->name;
-	
+
 	GtkStyle *style=gtk_widget_get_style(widget);
 	gint width=0,height=0,x,y,r;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
 	gdk_cairo_set_source_color (cr,&(style->bg[3]));
 	cairo_set_line_width (cr, 2);
-	
+
 	x =8;
 	width=width-8;
 	y =8;
 	width = width-2*x+4;
 	height = height-2*y+4;
 	r = height / 4.0;
-	
+
 	cairo_move_to (cr, x + r, y);
 	cairo_line_to (cr, x + width - r, y);
 	cairo_move_to (cr, x + width, y + r);
@@ -1410,7 +1410,7 @@ gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer dat
 	cairo_arc (cr, x + r, y + height - r, r, M_PI / 2, M_PI);
 	cairo_stroke_preserve (cr);
 	cairo_fill (cr);
-	
+
 	gdk_cairo_set_source_color (cr,&(style->fg[3]));
 	cairo_move_to(cr,18,10);
 	PangoLayout *layout;
@@ -1423,7 +1423,7 @@ gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer dat
 	pango_cairo_update_layout (cr, layout);
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
-	
+
 	return TRUE;
 }
-	
+

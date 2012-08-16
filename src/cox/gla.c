@@ -119,16 +119,24 @@ char*		ly_gla_uri_get_suffix		(char *uri)
  */
 char*		ly_gla_uri_get_filename		(char *uri)
 {
-	char *str=g_path_get_basename(uri);
-	char tmpstr[1024]="";
-	g_strlcpy(tmpstr, str, sizeof(tmpstr));
-	g_free(str);
-	char *p=NULL;
-	p=g_strrstr(tmpstr,".");
-	if(p==NULL)
-		return g_strdup(tmpstr);
-	*p='\0';
-	return g_strdup(tmpstr);
+	gchar *filename=NULL;
+	gint i=0;
+	gchar *p=uri+strlen(uri);
+	while(*p!='/')
+	{
+		p--;
+		i++;
+	}
+	p++;
+	gchar *q=uri+strlen(uri);
+	while(*q!='.' && *q!='/')
+	{
+		q--;
+		i--;
+	}
+	i--;
+	filename=g_strndup(p, i);
+	return filename;
 }
 /**
  * ly_gla_uri_get_dir:
@@ -140,17 +148,20 @@ char*		ly_gla_uri_get_filename		(char *uri)
  */
 char*		ly_gla_uri_get_dir			(char *uri)
 {
-	char *p=NULL;
-	char *str=NULL;
-	char *rt=NULL;
-	p=g_strrstr(uri,"/");	
-	if(p==NULL)
-		return NULL;
-	str=g_strndup(uri,p-uri+1);
 
-	rt=ly_gla_uri_get_path(str);
-	g_free(str);
-	return rt;
+	GRegex *regex=NULL;
+	GMatchInfo *info=NULL;
+	gchar *dir=NULL;
+
+	regex=g_regex_new("://(.+/)[^/]+$", G_REGEX_MULTILINE, 0, NULL);
+	g_regex_match(regex, uri, 0, &info);
+	if(g_match_info_matches(info))
+	{
+		dir = g_match_info_fetch(info, 1);
+	}
+	g_regex_unref(regex);
+	g_match_info_unref(info);
+	return dir;
 }
 /**
  * ly_gla_uri_get_path:
@@ -175,6 +186,7 @@ char*		ly_gla_uri_get_path		(char *uri)
 /**
  * ly_gla_traverse_dir:
  * @path: the dir path
+ * @pattern: the filter pattern string for GRegex.
  * @depth: the traverse depth, to prevent endless cirtulate.
  * @showhide: set true to ignor files which is hidden.
  *
@@ -182,25 +194,30 @@ char*		ly_gla_uri_get_path		(char *uri)
  *
  * Returns: the newly allocate list, free it as well as its data after using.
  */
-GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
+GList* ly_gla_traverse_dir(const gchar *path, const gchar *pattern, gint depth, gboolean showhide)
 {
 	if(depth<=0)
 		return NULL;
-	
+
 	if(path[strlen(path)-1]!='/')
 		path=g_strconcat(path,"/",NULL);
 	else
 		path=g_strconcat(path,NULL);
-	
+
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 		return NULL;
-		
+
 	GDir *dir=g_dir_open(path,0,NULL);
 	const gchar *filename=NULL;
 	gchar *location=NULL;
 	filename=g_dir_read_name(dir);
 	GList *list=NULL;
 	GList *tmplist=NULL;
+	GRegex *regex=NULL;
+	if(pattern)
+	{
+		regex=g_regex_new(pattern, G_REGEX_OPTIMIZE, 0, NULL);
+	}
 	while(filename)
 	{
 		if(filename[0]=='.'&&(!showhide))
@@ -211,14 +228,19 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
 		location=g_strconcat(path , filename, NULL);
 		if(g_file_test(location, G_FILE_TEST_IS_DIR))
 		{
-			tmplist=ly_gla_traverse_dir(location, depth-1, showhide);
+			tmplist=ly_gla_traverse_dir(location, pattern, depth-1, showhide);
 			if(tmplist)
 				list=g_list_concat(list,tmplist);
 			tmplist=NULL;
 		}
-		list=g_list_append(list,g_strconcat("file://",location,NULL));
+		if(!regex || g_regex_match(regex, location, 0, NULL))
+			list=g_list_append(list,g_strconcat("file://",location,NULL));
 		g_free(location);
 		filename=g_dir_read_name(dir);
+	}
+	if(regex)
+	{
+		g_regex_unref(regex);
 	}
 	return list;
 }
@@ -234,14 +256,14 @@ GList* ly_gla_traverse_dir(const char *path, gint depth, gboolean showhide)
  */
 GList* ly_gla_get_subdirs(const char *path, gboolean showhide)
 {
-	
+
 	if(path[strlen(path)-1]!='/')
 		path=g_strconcat(path,"/",NULL);
 	else
 		path=g_strconcat(path,NULL);
-	
+
 	GDir *dir=g_dir_open(path,0,NULL);
-	
+
 	const gchar *filename=NULL;
 	filename=g_dir_read_name(dir);
 	gchar *location=NULL;

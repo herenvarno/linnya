@@ -103,10 +103,10 @@ GList* ly_thm_get_list()
 	GList *list0=NULL;
 	GList *list1=NULL;
 	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_USER_UIXDIR);
-	list0=ly_gla_traverse_dir(path, 1, FALSE);
+	list0=ly_gla_get_subdirs(path, FALSE);
 
 	g_snprintf(path,sizeof(path),"%stheme/",LY_GLB_PROG_UIXDIR);
-	list1=ly_gla_traverse_dir(path, 1, FALSE);
+	list1=ly_gla_get_subdirs(path, FALSE);
 
 	GList *p=list1;
 	while(p)
@@ -122,6 +122,7 @@ GList* ly_thm_get_list()
 			list1=g_list_delete_link(list1, p->prev);
 		}
 	}
+	g_list_free(list1);
 	return list0;
 }
 

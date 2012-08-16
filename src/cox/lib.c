@@ -85,13 +85,13 @@ void	ly_lib_init()
 	 */
 	char path[10240]="";
 	g_snprintf(path,sizeof(path),"%smusic/", LY_GLA_HOMEDIR);
-	
+
 	if(!ly_reg_get("lib_path","%s",path))
 	{
 		ly_reg_set("lib_path","%s",path);
 	}
-	
-		
+
+
 	/*
 	 * check library
 	 */
@@ -132,7 +132,7 @@ int	ly_lib_add_md(LyMdhMetadata *md)
 int	ly_lib_update_md(LyMdhMetadata *md)
 {
 	if(!md||md->id<=0)
-		return -1;	
+		return -1;
 	ly_dbm_replace_str(md->title, sizeof(md->title));
 	ly_dbm_replace_str(md->artist, sizeof(md->artist));
 	ly_dbm_replace_str(md->album, sizeof(md->album));
@@ -175,13 +175,13 @@ void			ly_lib_del_md_from_disk	(int id)
 	g_snprintf(path,sizeof(temp),"%smusic/", LY_GLA_HOMEDIR);
 	ly_reg_get("lib_path","%s",temp);
 	g_snprintf(path,sizeof(path),"file://%s", temp);
-	
+
 	if(!g_str_has_prefix(md->uri, path))
 	{
 		ly_lib_del_md(id);
 		return;
 	}
-	
+
 	char cmd[10240]="";
 	g_snprintf(cmd, sizeof(cmd), "rm -rf \"%s\"", md->uri+7);
 	system(cmd);
@@ -237,7 +237,7 @@ int				ly_lib_get_id			(LyMdhMetadata *md)
 {
 	if(!md)
 		return -1;
-	
+
 	int id=-1;
 	char sql[10240]="";
 //	ly_dbm_replace_str(md->uri, sizeof(md->uri));
@@ -261,10 +261,10 @@ gboolean		ly_lib_check_is_audio	(char *uri)
 	gint	i=0;
 	gchar	*p=NULL;
 	p=ly_gla_uri_get_suffix(uri);
-	
+
 	if(!p)
 		return FALSE;
-	
+
 	for(i=0;i<AUDIO_COUNT;i++)
 	{
 		if(g_str_equal(p, ly_lib_audio_table[i]))
@@ -279,10 +279,10 @@ gboolean		ly_lib_check_is_video	(char *uri)
 	gint	i=0;
 	gchar	*p=NULL;
 	p=ly_gla_uri_get_suffix(uri);
-	
+
 	if(!p)
 		return FALSE;
-	
+
 	for(i=0;i<VIDEO_COUNT;i++)
 	{
 		if(g_str_equal(p, ly_lib_video_table[i]))
@@ -303,16 +303,16 @@ void			ly_lib_check_library		()
 	 */
 	gchar path[10240]="";
 	gchar tmppath[10240]="";
-	
+
 	g_snprintf(path,sizeof(path),"%smusic/", LY_GLA_HOMEDIR);
 	ly_reg_get("lib_path","%s",path);
 	g_strlcpy(tmppath, path, sizeof(tmppath));
-	
+
 	/*
 	 * get filenames
 	 */
 	gchar tmpstr[1024]="";
-	GList *list=ly_gla_traverse_dir(path, 5, TRUE);
+	GList *list=ly_gla_traverse_dir(path, ".(?i:mp3|wma|flac|cda|mid|midi|ogg|wav|acc|ape|oga)$", 5, TRUE);
 	GList *p=list;
 	gchar *tmpsql=NULL;
 	gchar *sql=NULL;
@@ -320,11 +320,6 @@ void			ly_lib_check_library		()
 	sql=g_strconcat("UPDATE metadatas SET tmpflag=1 WHERE (flag=000 OR flag=001) AND uri like 'file://",tmppath,"%' AND ( uri='0'",NULL);
 	while(p)
 	{
-		if(!ly_lib_check_is_audio(p->data))
-		{
-			p=p->next;
-			continue;
-		}
 		g_strlcpy(tmpstr,(gchar *)(p->data),sizeof(tmpstr));
 		ly_dbm_replace_str(tmpstr,sizeof(tmpstr));
 		tmpsql=g_strconcat(sql,"OR uri='",tmpstr,"' ",NULL);
@@ -332,18 +327,18 @@ void			ly_lib_check_library		()
 		sql=tmpsql;
 		p=p->next;
 	}
-	
+
 	tmpsql=g_strconcat(sql,")",NULL);
 	g_free(sql);
 	sql=tmpsql;
 	ly_dbm_exec(sql,NULL,NULL);
 	g_free(sql);
 	tmpsql=NULL;
-	
+
 	sql=g_strconcat("DELETE FROM metadatas WHERE (flag=000 OR flag=001) AND uri like 'file://",tmppath,"%' AND tmpflag=0",NULL);
 	ly_dbm_exec(sql,NULL,NULL);
 	g_free(sql);
-	
+
 	tmpsql=NULL;
 	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND tmpflag=0",NULL);
 	ly_dbm_exec(sql, ly_lib_check_library_check_file_cb, &tmpsql);
@@ -357,8 +352,8 @@ void			ly_lib_check_library		()
 	sql=g_strconcat("UPDATE metadatas SET tmpflag=0",NULL);
 	ly_dbm_exec(sql,NULL,NULL);
 	g_free(sql);
-	
-	
+
+
 	/*
 	 * add new music
 	 */
@@ -370,7 +365,7 @@ gboolean ly_lib_check_library_check_file_cb(gpointer stmt, gpointer data)
 	gchar uri[1024]="";
 	gchar *sql=*(gchar **)data;
 	g_strlcpy(uri,(const gchar *)sqlite3_column_text(stmt, 0),sizeof(uri));
-	
+
 	if(!g_file_test(uri+7,G_FILE_TEST_EXISTS))
 	{
 		ly_dbm_replace_str(uri,sizeof(uri));
@@ -414,16 +409,16 @@ gpointer ly_lib_check_library_add_music_cb(gpointer data)
 	gchar *sql=NULL;
 	GList *list=(GList*)data;
 	GList *p=NULL;
-	
+
 	gchar tmppath[10240]="";
 	g_snprintf(tmppath,sizeof(tmppath),"%smusic/", LY_GLA_HOMEDIR);
 	ly_reg_get("lib_path","%s",tmppath);
-	
+
 	ly_dbm_exec("begin",NULL,NULL);
 	sql=g_strconcat("SELECT uri FROM metadatas WHERE (flag=000 OR flag=001) AND uri LIKE 'file://",tmppath,"%'",NULL);
 	ly_dbm_exec(sql,ly_lib_check_library_check_newfile_cb,&list);
 	g_free(sql);
-	
+
 	LyMdhMetadata *md=NULL;
 	p=list;
 	while(p)

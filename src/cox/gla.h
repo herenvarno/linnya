@@ -125,7 +125,8 @@ char*		ly_gla_uri_get_suffix	(char *uri);
 char*		ly_gla_uri_get_filename	(char *uri);
 char*		ly_gla_uri_get_dir		(char *uri);
 char*		ly_gla_uri_get_path		(char *uri);
-GList*		ly_gla_traverse_dir		(const char *path, int depth, gboolean showhide);
+GList*		ly_gla_traverse_dir		(const gchar *path, const gchar *pattern, \
+	gint depth, gboolean showhide);
 GList*		ly_gla_get_subdirs		(const char *path, gboolean showhide);
 
 #endif //LY_GLA_H

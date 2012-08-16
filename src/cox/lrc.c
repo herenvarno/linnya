@@ -381,34 +381,25 @@ void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
 		gchar *contents;
 		path=ly_gla_uri_get_dir(md->uri);
 		filename=ly_gla_uri_get_filename(md->uri);
-		GList *list=ly_gla_traverse_dir(path, 1, FALSE);
-		GList *p=list;
-		GRegex *regex;
-		GMatchInfo *match_info;
-		gchar *str_path=g_regex_escape_string(path, -1);;
-		gchar *str_filename=g_regex_escape_string(filename, -1);;
+		GList *list=NULL;
+		GList *p=NULL;
+		gchar *str_path=g_regex_escape_string(path, -1);
+		gchar *str_filename=g_regex_escape_string(filename, -1);
 		gchar str[1024]="";
-		g_snprintf(str, sizeof(str), "file://%s%s[^\n]*\.(srt|sub)", str_path, str_filename);
-		regex = g_regex_new(str, G_REGEX_OPTIMIZE, 0, NULL);
-		while(p)
+		g_snprintf(str, sizeof(str), "%s%s.*\\.(?i:srt|sub)$", str_path, str_filename);
+		list=ly_gla_traverse_dir(path, str, 1, FALSE);
+		p=list;
+		if(list)
 		{
-			if(g_regex_match(regex, p->data, 0, &match_info))
+			g_object_set(G_OBJECT(play),"suburi", p->data, NULL);
+			g_file_get_contents(p->data+7, &contents, NULL, NULL);
+			if(g_utf8_validate(contents, -1, NULL))
 			{
-				g_object_set(G_OBJECT(play),"suburi", p->data, NULL);
-				g_file_get_contents(p->data+7, &contents, NULL, NULL);
-				if(g_utf8_validate(contents, -1, NULL))
-				{
-					g_object_set(G_OBJECT(play), "subtitle-encoding", "UTF8", NULL);
-				}
-				g_free(contents);
-				g_match_info_free (match_info);
-				break;
+				g_object_set(G_OBJECT(play), "subtitle-encoding", "UTF8", NULL);
 			}
-			g_free(p->data);
-			p->data=NULL;
-			p=p->next;
+			g_free(contents);
 		}
-		g_regex_unref (regex);
+		p=list;
 		while(p)
 		{
 			g_free(p->data);
