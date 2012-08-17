@@ -84,12 +84,25 @@ void ly_gla_fina()
  */
 char*		ly_gla_uri_get_prefix		(char *uri)
 {
-	char str[1024]="";
-	sscanf(uri, "%1023[^:\n]://%*s", str);
-	if(g_str_equal(str, ""))
-		return 	NULL;
-	char *s=g_strconcat(str, "://", NULL);
-	return s;
+	gchar *p=NULL;
+	gint i=0;
+	gchar *tmp;
+	gchar *prefix;
+	p=uri;
+	while(*p!=':' && *p!='\0')
+	{
+		p++;
+		i++;
+	}
+	if(*p=='\0' || i==0)
+	{
+		return NULL;
+	}
+	i--;
+	tmp=g_strndup(uri, i);
+	prefix=g_strconcat(tmp, "://", NULL);
+	g_free(tmp);
+	return prefix;
 }
 /**
  * ly_gla_uri_get_suffix:
@@ -102,12 +115,16 @@ char*		ly_gla_uri_get_prefix		(char *uri)
 char*		ly_gla_uri_get_suffix		(char *uri)
 {
 	char *p=NULL;
-	char *rt=NULL;
-	p=g_strrstr(uri,".");
-	if(p==NULL)
-		return NULL;
-	rt=g_strdup(p+1);
-	return rt;
+	p=uri+strlen(uri);
+	while(*p!='.' && *p!='/' && p!=uri)
+	{
+		p--;
+	}
+	if(*p=='.')
+	{
+		return g_strdup(p+1);
+	}
+	return NULL;
 }
 /**
  * ly_gla_uri_get_filename:
@@ -119,23 +136,22 @@ char*		ly_gla_uri_get_suffix		(char *uri)
  */
 char*		ly_gla_uri_get_filename		(char *uri)
 {
+	if(!uri)
+		return NULL;
+
 	gchar *filename=NULL;
-	gint i=0;
-	gchar *p=uri+strlen(uri);
-	while(*p!='/')
+	gchar *basename=g_filename_display_basename(uri);
+	gint i=strlen(basename);
+	gchar *p=basename+strlen(basename);
+	while(*p!='.' && p!=basename)
 	{
 		p--;
-		i++;
-	}
-	p++;
-	gchar *q=uri+strlen(uri);
-	while(*q!='.' && *q!='/')
-	{
-		q--;
 		i--;
 	}
-	i--;
-	filename=g_strndup(p, i);
+	if(i==0)
+		return basename;
+	filename=g_strndup(basename, i);
+	g_free(basename);
 	return filename;
 }
 /**
@@ -148,19 +164,23 @@ char*		ly_gla_uri_get_filename		(char *uri)
  */
 char*		ly_gla_uri_get_dir			(char *uri)
 {
+	if(!uri)
+		return NULL;
 
-	GRegex *regex=NULL;
-	GMatchInfo *info=NULL;
+	gchar *basename=ly_gla_uri_get_path(uri);
 	gchar *dir=NULL;
-
-	regex=g_regex_new("://(.+/)[^/]+$", G_REGEX_MULTILINE, 0, NULL);
-	g_regex_match(regex, uri, 0, &info);
-	if(g_match_info_matches(info))
+	gint i=strlen(basename);
+	gchar *p=basename+strlen(basename);
+	while(*p!='/' && p!=basename)
 	{
-		dir = g_match_info_fetch(info, 1);
+		p--;
+		i--;
 	}
-	g_regex_unref(regex);
-	g_match_info_unref(info);
+	if(i==0 && *p!='/')
+		dir=NULL;
+	else
+		dir=g_strndup(basename, i+1);
+	g_free(basename);
 	return dir;
 }
 /**

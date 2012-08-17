@@ -56,6 +56,7 @@ void		ly_lrc_fina		();
 
 gboolean	ly_lrc_load		(char *path);
 char*		ly_lrc_build_path	(LyMdhMetadata *md);
+void		ly_lrc_subtitle_load();
 
 LyLrcLyric*	ly_lrc_new();
 LyLrcLyric*	ly_lrc_new_full(gint64 time, gchar *text);
@@ -68,8 +69,5 @@ void		ly_lrc_set_index(int index);
 int			ly_lrc_get_length();
 
 void		ly_lrc_set_update_state(gboolean state);
-
-
-
 
 #endif	//LY_LRC_H

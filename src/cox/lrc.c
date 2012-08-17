@@ -344,8 +344,7 @@ void		ly_lrc_set_index(int index)
 }
 
 
-
-void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
+void ly_lrc_subtitle_load()
 {
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
@@ -355,6 +354,58 @@ void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
 	if(!play)
 		return;
 
+	char extra_encoding[1024]="GB18030";
+	if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
+	{
+		ly_reg_set("dbm_extra_encoding", "Chinese Simplified (GB18030)");
+	}
+	g_object_set(G_OBJECT(play), "subtitle-encoding", extra_encoding, NULL);
+	g_object_set(G_OBJECT(play),"suburi", NULL, NULL);
+
+	gchar *path;
+	gchar *filename;
+	gchar *contents;
+	path=ly_gla_uri_get_dir(md->uri);
+	filename=ly_gla_uri_get_filename(md->uri);
+	GList *list=NULL;
+	GList *p=NULL;
+	gchar *str_path=g_regex_escape_string(path, -1);
+	gchar *str_filename=g_regex_escape_string(filename, -1);
+	gchar str[1024]="";
+	g_snprintf(str, sizeof(str), "%s%s.*\\.(?i:srt|sub)$", str_path, str_filename);
+	list=ly_gla_traverse_dir(path, str, 1, FALSE);
+	p=list;
+	if(list)
+	{
+		g_object_set(G_OBJECT(play),"suburi", p->data, NULL);
+		g_file_get_contents(p->data+7, &contents, NULL, NULL);
+		if(g_utf8_validate(contents, -1, NULL))
+		{
+			g_object_set(G_OBJECT(play), "subtitle-encoding", "UTF8", NULL);
+		}
+		g_free(contents);
+	}
+	p=list;
+	while(p)
+	{
+		g_free(p->data);
+		p->data=NULL;
+		p=p->next;
+	}
+	g_list_free(list);
+	g_free(path);
+	g_free(filename);
+	g_free(str_path);
+	g_free(str_filename);
+}
+
+void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
+{
+	LyMdhMetadata *md=ly_pqm_get_current_md();
+	if(!md)
+		return;
+
+	ly_lrc_lyrics_length=0;
 	// FOR AUDIO
 	if(md->flag>=0 && md->flag<=9)
 	{
@@ -362,55 +413,12 @@ void	ly_lrc_on_md_changed_cb(LyMbsMessage *message, gpointer data)
 		if(!path)
 			return;
 		ly_lrc_load(path);
-		return;
 	}
 
 	// FOR VIDEO
 	if(md->flag>=10 && md->flag<=19)
 	{
-		char extra_encoding[1024]="GB18030";
-		if(!ly_reg_get("dbm_extra_encoding", "%*[^\n(](%1023[^\n)]", extra_encoding))
-		{
-			ly_reg_set("dbm_extra_encoding", "Chinese Simplified (GB18030)");
-		}
-		g_object_set(G_OBJECT(play), "subtitle-encoding", extra_encoding, NULL);
-		g_object_set(G_OBJECT(play),"suburi", NULL, NULL);
-
-		gchar *path;
-		gchar *filename;
-		gchar *contents;
-		path=ly_gla_uri_get_dir(md->uri);
-		filename=ly_gla_uri_get_filename(md->uri);
-		GList *list=NULL;
-		GList *p=NULL;
-		gchar *str_path=g_regex_escape_string(path, -1);
-		gchar *str_filename=g_regex_escape_string(filename, -1);
-		gchar str[1024]="";
-		g_snprintf(str, sizeof(str), "%s%s.*\\.(?i:srt|sub)$", str_path, str_filename);
-		list=ly_gla_traverse_dir(path, str, 1, FALSE);
-		p=list;
-		if(list)
-		{
-			g_object_set(G_OBJECT(play),"suburi", p->data, NULL);
-			g_file_get_contents(p->data+7, &contents, NULL, NULL);
-			if(g_utf8_validate(contents, -1, NULL))
-			{
-				g_object_set(G_OBJECT(play), "subtitle-encoding", "UTF8", NULL);
-			}
-			g_free(contents);
-		}
-		p=list;
-		while(p)
-		{
-			g_free(p->data);
-			p->data=NULL;
-			p=p->next;
-		}
-		g_list_free(list);
-		g_free(path);
-		g_free(filename);
-		g_free(str_path);
-		g_free(str_filename);
+		ly_lrc_subtitle_load();
 	}
 }
 
