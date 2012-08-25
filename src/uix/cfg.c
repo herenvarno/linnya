@@ -211,7 +211,7 @@ ly_cfg_new (void)
 	gtk_box_pack_end(GTK_BOX(gtk_dialog_get_action_area(GTK_DIALOG(dialog))),button,FALSE,FALSE,0);
 
 	//page1 Library
-	g_snprintf(path,sizeof(path),"%sui/icon/lib.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/lib.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Library"), _("All the Music Data"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 
@@ -254,7 +254,7 @@ ly_cfg_new (void)
 	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_cfg_on_encoding_changed_cb), NULL);
 
 	//page2 Audio
-	g_snprintf(path,sizeof(path),"%sui/icon/audio.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/audio.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Audio"), _("Set all about playing audio"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 
@@ -288,7 +288,7 @@ ly_cfg_new (void)
 	gtk_box_pack_start(GTK_BOX(vbox),check,FALSE,FALSE,0);
 
 	//page3 Equalizer
-	g_snprintf(path, sizeof(path),"%sui/icon/equalizer.png",LY_GLA_PROGDIR);
+	g_snprintf(path, sizeof(path),"%sicon/equalizer.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Equalizer"), _("Set equalizer"), path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 
@@ -337,7 +337,7 @@ ly_cfg_new (void)
 	ly_eql_free(eq);
 
 	//page4 Keyboard
-	g_snprintf(path,sizeof(path),"%sui/icon/key.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/key.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Keyboard"),_("Set all shortcut keys of Linnya"),path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 
@@ -362,7 +362,7 @@ ly_cfg_new (void)
 	}
 
 	//page5 Theme
-	g_snprintf(path,sizeof(path),"%sui/icon/theme.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/theme.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Theme"), _("Set the looks of Linnya."),path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 	item=ly_cfg_item_new(_("Theme"));
@@ -443,7 +443,7 @@ ly_cfg_new (void)
 	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
 
 	//page6 Plug-ins
-	g_snprintf(path,sizeof(path),"%sui/icon/plugin.png",LY_GLA_PROGDIR);
+	g_snprintf(path,sizeof(path),"%sicon/plugin.png",LY_GLB_PROG_UIXDIR);
 	page=ly_cfg_page_new(_("Plugins"),_("All the plug-ins of Linnya."),path);
 	ly_cfg_dialog_append(LY_CFG_DIALOG(dialog), page);
 
