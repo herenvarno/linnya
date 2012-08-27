@@ -72,6 +72,10 @@ void		ly_3lrc_desktop_fina			()
 void		ly_3lrc_desktop_create			()
 {
 	int lrc_desktop_visible=1;
+	if(!gtk_widget_is_composited(ly_win_get_window()->win))
+	{
+		lrc_desktop_visible=0;
+	}
 	int lrc_desktop_fixed=0;
 	if(!ly_reg_get("3lrc_desktop_state", "%d:%d", &lrc_desktop_visible, &lrc_desktop_fixed))
 	{

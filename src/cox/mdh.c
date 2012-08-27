@@ -63,7 +63,7 @@ void			ly_mdh_init				()
 	char encoding[1024]="";
 	g_snprintf(encoding, sizeof(encoding), "%s:UTF-8", extra_encoding);
 	g_setenv("GST_ID3_TAG_ENCODING", encoding, TRUE);
-	
+
 	ly_mdh_put_mutex=g_mutex_new();
 }
 /**
@@ -145,7 +145,6 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 	char *path=ly_gla_uri_get_path(uri);
 	if(!prefix || !path)
 		return NULL;
-	
 	if(!g_str_equal(prefix, "file://"))
 	{
 		g_free(prefix);
@@ -153,7 +152,7 @@ LyMdhMetadata*	ly_mdh_new_with_uri		(char *uri)
 		return NULL;
 	}
 	g_free(prefix);
-	
+
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		g_free(path);
@@ -670,7 +669,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 {
 	if(!md||!g_str_has_prefix(md->uri, "file://"))
 		return FALSE;
-	
+
 	if(!g_mutex_trylock(ly_mdh_put_mutex))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("An old task is running, Tag Failed!"));
@@ -686,7 +685,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 	GstElement *filesink=NULL;
 	GstElement *tagger=NULL;
 	GstBus *bus=NULL;
-	
+
 	const gchar *codec=NULL;
 	ly_mdh_put_pipeline=gst_pipeline_new("pipeline");
 	filesrc=gst_element_factory_make("filesrc","filesrc");
@@ -698,7 +697,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 		g_mutex_unlock(ly_mdh_put_mutex);
 		return FALSE;
 	}
-	
+
 	//MP3
 	if(strstr(md->codec,"MP3")!=NULL)
 	{
@@ -780,7 +779,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 							GST_TAG_ENCODER_VERSION, 1,
 							GST_TAG_CODEC,codec,
 							NULL);
-	
+
 	/*
 	 *LINK
 	 */
@@ -820,7 +819,7 @@ gboolean	ly_mdh_push(LyMdhMetadata *md)
 		g_mutex_unlock(ly_mdh_put_mutex);
 		return FALSE;
 	}
-	
+
 	bus = gst_pipeline_get_bus(GST_PIPELINE(ly_mdh_put_pipeline));
 	gst_bus_add_watch(bus, (GstBusFunc)ly_mdh_push_handler_cb,  g_memdup(md,sizeof(LyMdhMetadata)));
 	gst_object_unref(bus);
@@ -841,7 +840,7 @@ int ly_mdh_push_handler_cb(GstBus *bus, GstMessage *msg, gpointer data)
 	switch(GST_MESSAGE_TYPE(msg))
 	{
 		case GST_MESSAGE_EOS:
-			ly_mdh_push_move_file_cb((LyMdhMetadata*)data);	
+			ly_mdh_push_move_file_cb((LyMdhMetadata*)data);
 			break;
 		default:
 			break;
@@ -871,7 +870,7 @@ void ly_mdh_push_move_file_cb(LyMdhMetadata* md)
 		gst_element_set_state(ly_mdh_put_pipeline, GST_STATE_NULL);
 		gst_object_unref(ly_mdh_put_pipeline);
 		ly_mdh_put_pipeline = NULL;
-		
+
 		gchar location_i[1024]="";
 		gchar location_o[1024]="";
 		g_snprintf(location_i, sizeof(location_i), "%s", md->uri+7);

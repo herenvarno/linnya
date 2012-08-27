@@ -98,7 +98,6 @@ char*		ly_gla_uri_get_prefix		(char *uri)
 	{
 		return NULL;
 	}
-	i--;
 	tmp=g_strndup(uri, i);
 	prefix=g_strconcat(tmp, "://", NULL);
 	g_free(tmp);

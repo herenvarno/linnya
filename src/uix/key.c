@@ -106,7 +106,7 @@ gboolean	ly_key_set		(char *name, char *mask0, char *mask1, char *key, int type,
 			return FALSE;
 		}
 	}
-	
+
 	if(mask0)
 	{
 		g_strlcpy(kb->mask0, mask0, sizeof(kb->mask0));
@@ -161,7 +161,7 @@ char *ly_key_get_conflict(char *except_name, char *mask0, char *mask1, char *key
 	char m0[1024]="";
 	char m1[1024]="";
 	char k0[1024]="";
-	
+
 	gboolean changed=FALSE;
 	if(mask0!=NULL)
 	{
@@ -178,18 +178,18 @@ char *ly_key_get_conflict(char *except_name, char *mask0, char *mask1, char *key
 		g_strlcpy(k0, key, sizeof(k0));
 		changed=TRUE;
 	}
-	
+
 	if(!changed)
 	{
 		return NULL;
 	}
-	
+
 	GHashTableIter iter;
 	gpointer name, value;
 	g_hash_table_iter_init (&iter, ly_key_keybinds);
-	
+
 	LyKeyKeybind *k;
-	while (g_hash_table_iter_next (&iter, &name, &value)) 
+	while (g_hash_table_iter_next (&iter, &name, &value))
 	{
 		k=(LyKeyKeybind *)value;
 		if(!g_str_equal(name, except_name) && g_str_equal(k->mask0, m0) && g_str_equal(k->mask1, m1) && g_str_equal(k->key, k0))
@@ -208,7 +208,7 @@ gboolean ly_key_bind(gchar *name)
 	{
 		return FALSE;
 	}
-	
+
 	guint key[3]={0};
 	key[0]=gdk_keyval_from_name(keybind->key);
 	key[1]=ly_key_get_mask(keybind->mask0);
@@ -247,7 +247,7 @@ gboolean ly_key_unbind(char *name)
 	{
 		return FALSE;
 	}
-	
+
 	guint key[3]={0};
 	key[0]=ly_key_get_mask(keybind->mask0);
 	key[1]=ly_key_get_mask(keybind->mask1);
@@ -268,7 +268,7 @@ gboolean ly_key_unbind(char *name)
 		default:
 			break;
 	}
-	
+
 	return TRUE;
 }
 
@@ -281,13 +281,13 @@ gboolean ly_key_read(void)
 {
 	gchar path[1024]="";
 	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIXDIR);
-	
+
 	if(!g_file_test(path, G_FILE_TEST_EXISTS))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Key defination file does not exist, linnya will create a new one when exit!"));
 		return TRUE;
 	}
-	
+
 	GMarkupParser parser=
 	{
 		.start_element = ly_key_read_start_cb,
@@ -296,22 +296,22 @@ gboolean ly_key_read(void)
 		.passthrough = NULL,
 		.error = NULL
 	};
-	
+
 	gchar *buf;
 	gsize length;
 	GMarkupParseContext *context;
-	
+
 	g_file_get_contents(path, &buf, &length, NULL);
 	context = g_markup_parse_context_new(&parser, 0,NULL, NULL);
-	
+
 	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Configuration file error!"));
-		
+
 		g_hash_table_destroy(ly_key_keybinds);
 		ly_key_keybinds=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 	}
-	
+
 	g_markup_parse_context_free(context);
 	return TRUE;
 }
@@ -335,10 +335,10 @@ void ly_key_read_start_cb(	GMarkupParseContext *context,
 		char key[1024]="";
 		char mask0[1024]="";
 		char mask1[1024]="";
-		
+
 		const gchar **name_cursor = attribute_names;
 		const gchar **value_cursor = attribute_values;
-		
+
 		while (*name_cursor)
 		{
 			if (g_str_equal(*name_cursor, "name"))
@@ -352,7 +352,7 @@ void ly_key_read_start_cb(	GMarkupParseContext *context,
 			name_cursor++;
 			value_cursor++;
 		}
-		
+
 		if(!g_str_equal(name, ""))
 		{
 			ly_key_set(name, mask0, mask1, key, KEY_BIND_TYPE_UNDEFINED, NULL, NULL);
@@ -370,37 +370,37 @@ gboolean ly_key_write(void)
 {
 	gchar path[1024]="";
 	g_snprintf(path,sizeof(path),"%skey.xml",LY_GLB_USER_UIXDIR);
-	
+
 	FILE *fp=NULL;
 	gchar *buf=NULL;
-	
+
 	if(!(fp=fopen(path,"w+")))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Cannot write keybinds to file!"));
 		return FALSE;
 	}
-	
+
 	buf=g_markup_printf_escaped ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<keybinds>\n");
 	fputs(buf,fp);
 	g_free(buf);
-	
+
 	GHashTableIter iter;
 	gpointer name, value;
 	g_hash_table_iter_init (&iter, ly_key_keybinds);
-	
+
 	LyKeyKeybind *k;
-	while (g_hash_table_iter_next (&iter, &name, &value)) 
+	while (g_hash_table_iter_next (&iter, &name, &value))
 	{
 		k=(LyKeyKeybind *)value;
 		buf=g_markup_printf_escaped ("\t<keybind name=\"%s\" mask0=\"%s\" mask1=\"%s\" key=\"%s\"/>\n", (gchar*)name, k->mask0, k->mask1, k->key);
 		fputs(buf,fp);
 		g_free(buf);
 	}
-	
+
 	buf=g_markup_printf_escaped ("</keybinds>");
 	fputs(buf,fp);
 	g_free(buf);
-	
+
 	fclose(fp);
 	return TRUE;
 }

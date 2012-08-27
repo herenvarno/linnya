@@ -115,7 +115,7 @@ LyWinWindow*	ly_win_new()
 		}
 	}
 	gtk_widget_set_events(win,GDK_ALL_EVENTS_MASK);
-	guint winbg[4]={0, 0, 0, 65535};
+	guint winbg[4]={29298,40862,53199,41725};
 	ly_reg_get("thm_winbg", "%d:%d:%d:%d", &winbg[0], &winbg[1], &winbg[2], &winbg[3]);
 
 	/*
@@ -245,7 +245,7 @@ LyWinWindow*	ly_win_new()
 	gtk_window_add_accel_group(GTK_WINDOW(win),ly_key_get_accel());
 	ly_key_set("menu", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_menu, "clicked");
 	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_adds, "clicked");
-	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_play, "toggled");
+	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_play, "clicked");
 	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_prev, "clicked");
 	ly_key_set("next", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_next, "clicked");
 	ly_key_set("conf", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_conf, "clicked");
@@ -253,6 +253,8 @@ LyWinWindow*	ly_win_new()
 	ly_key_set("seek-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_seek_cb), "-");
 	ly_key_set("volume+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "+");
 	ly_key_set("volume-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "-");
+	ly_key_bind("menu");
+	ly_key_bind("adds");
 	ly_key_bind("play");
 	ly_key_bind("prev");
 	ly_key_bind("next");
@@ -318,7 +320,7 @@ ly_win_on_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_surface_destroy(image);
 	image=NULL;
 
-	guint winbg[4]={0, 0, 0, 65535};
+	guint winbg[4]={29298,40862,53199,41725};
 	ly_reg_get("thm_winbg", "%d:%d:%d:%d", &winbg[0], &winbg[1], &winbg[2], &winbg[3]);
 	cairo_rectangle(cr, 0, 0, width, height);
 	cairo_set_source_rgba(cr, winbg[0]/65536.0, winbg[1]/65536.0, winbg[2]/65536.0, winbg[3]/65536.0);

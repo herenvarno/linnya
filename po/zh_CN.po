@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-08-11 13:59+0800\n"
+"POT-Creation-Date: 2012-08-26 18:50+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -73,17 +73,17 @@ msgstr ""
 "您应当已经和聆雅一道收到 GNU 通用公共许可证的一份副本；如果没有，请访问 "
 "<http://www.gnu.org/licenses/>"
 
-#: src/cox/mdh.c:152 src/cox/mdh.c:274
+#: src/cox/mdh.c:151 src/cox/mdh.c:273
 #, c-format
 msgid "Cannot open file: %s. unsupported protocol!"
 msgstr "无法打开文件：%s。不支持的协议！"
 
-#: src/cox/mdh.c:160 src/cox/mdh.c:281
+#: src/cox/mdh.c:159 src/cox/mdh.c:280
 #, c-format
 msgid "Cannot open file: %s. file not found!"
 msgstr "无法打开文件：%s。未找到文件！"
 
-#: src/cox/mdh.c:676
+#: src/cox/mdh.c:675
 msgid "An old task is running, Tag Failed!"
 msgstr "一个任务正在运行，写标签失败！"
 

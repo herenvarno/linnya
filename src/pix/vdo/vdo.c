@@ -44,17 +44,17 @@ ly_3vdo_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
 void
 ly_3vdo_on_meta_changed_cb(LyMbsMessage *message, gpointer data);
 static gboolean ly_3vdo_on_get_list_cb(gpointer stmt, gpointer data);
-static gboolean ly_3vdo_on_list_active_cb(GtkTreeView *view, GtkTreePath *path, 
+static gboolean ly_3vdo_on_list_active_cb(GtkTreeView *view, GtkTreePath *path,
 		GtkTreeViewColumn *column,gpointer data);
 static gboolean ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data);
 gpointer ly_3vdo_on_list_add_cb_cb(gpointer data);
 static gboolean ly_3vdo_on_list_refresh_cb(GtkWidget *widget, gpointer data);
 static gboolean ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data);
-static gboolean ly_3vdo_on_expander_clicked_cb(GtkWidget *widget, 
+static gboolean ly_3vdo_on_expander_clicked_cb(GtkWidget *widget,
 		gpointer data);
-static gboolean ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget, 
+static gboolean ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget,
 		gpointer data);
-static gboolean ly_3vdo_on_screen_action_cb(GtkWidget *widget, 
+static gboolean ly_3vdo_on_screen_action_cb(GtkWidget *widget,
 		GdkEventButton *event, gpointer data);
 
 // DEFINATION
@@ -148,17 +148,17 @@ ly_3vdo_create()
 	g_signal_connect(screen,"draw",G_CALLBACK( ly_3vdo_on_expose_cb), NULL);
 	ly_mbs_bind("meta_changed", "core:pqm", ly_3vdo_on_meta_changed_cb, screen);
 
-	g_signal_connect(G_OBJECT(view), "row-activated", 
+	g_signal_connect(G_OBJECT(view), "row-activated",
 			G_CALLBACK(ly_3vdo_on_list_active_cb), NULL);
-	g_signal_connect(G_OBJECT(btn_add), "clicked", 
+	g_signal_connect(G_OBJECT(btn_add), "clicked",
 			G_CALLBACK(ly_3vdo_on_list_add_cb), NULL);
-	g_signal_connect(G_OBJECT(btn_del), "clicked", 
+	g_signal_connect(G_OBJECT(btn_del), "clicked",
 			G_CALLBACK(ly_3vdo_on_list_del_cb), NULL);
-	g_signal_connect(G_OBJECT(btn_frs), "clicked", 
+	g_signal_connect(G_OBJECT(btn_frs), "clicked",
 			G_CALLBACK(ly_3vdo_on_list_refresh_cb), NULL);
-	g_signal_connect(G_OBJECT(expander), "clicked", 
+	g_signal_connect(G_OBJECT(expander), "clicked",
 			G_CALLBACK(ly_3vdo_on_expander_clicked_cb), box);
-	g_signal_connect(G_OBJECT(screen), "button_press_event", 
+	g_signal_connect(G_OBJECT(screen), "button_press_event",
 			G_CALLBACK(ly_3vdo_on_screen_action_cb), NULL);
 	return widget;
 }
@@ -211,11 +211,11 @@ ly_3vdo_on_get_list_cb(gpointer stmt, gpointer data)
 }
 
 static gboolean
-ly_3vdo_on_list_active_cb(GtkTreeView *view, GtkTreePath *path, 
+ly_3vdo_on_list_active_cb(GtkTreeView *view, GtkTreePath *path,
 		GtkTreeViewColumn *column,gpointer data)
 {
 	ly_pqm_clear_md();
-	ly_dbm_exec("UPDATE metadatas SET playing=num WHERE flag>=10 AND flag<=19", 
+	ly_dbm_exec("UPDATE metadatas SET playing=num WHERE flag>=10 AND flag<=19",
 			NULL, NULL);
 
 	GList *list=NULL;
@@ -239,9 +239,9 @@ ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data)
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
 
-	dialog =gtk_file_chooser_dialog_new(_("Add Audio Files..."), 
-			GTK_WINDOW(ly_win_get_window()->win), GTK_FILE_CHOOSER_ACTION_OPEN, 
-			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, 
+	dialog =gtk_file_chooser_dialog_new(_("Add Audio Files..."),
+			GTK_WINDOW(ly_win_get_window()->win), GTK_FILE_CHOOSER_ACTION_OPEN,
+			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL,
 			GTK_RESPONSE_REJECT, NULL);
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog),TRUE);
 	filter=gtk_file_filter_new();
@@ -262,7 +262,7 @@ ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data)
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.OGV");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.mp4");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.MP4");
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), 
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog),
 			GTK_FILE_FILTER(filter));
 	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
 	switch (result)
@@ -301,7 +301,6 @@ ly_3vdo_on_list_add_cb_cb(gpointer data)
 		realpath(filename,tmp);
 		fileuri=g_strconcat("file://",tmp, NULL);
 		g_free(filename);
-
 		md=ly_mdh_new_with_uri(fileuri);
  		md->flag=10;
 		g_free(fileuri);
@@ -339,9 +338,9 @@ ly_3vdo_on_list_refresh_cb(GtkWidget *widget, gpointer data)
 	ly_dbm_exec("SELECT "\
 			"id, title, duration "\
 			"FROM metadatas "\
-			"WHERE flag>=10 AND flag<=19 ORDER BY num", 
+			"WHERE flag>=10 AND flag<=19 ORDER BY num",
 			ly_3vdo_on_get_list_cb, NULL);
-	gtk_tree_view_set_model(GTK_TREE_VIEW (ly_3vdo_list_view), 
+	gtk_tree_view_set_model(GTK_TREE_VIEW (ly_3vdo_list_view),
 			GTK_TREE_MODEL(ly_3vdo_list_store));
 	return FALSE;
 }
@@ -368,9 +367,9 @@ ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data)
 	p=list;
 	while(p)
 	{
-		gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3vdo_list_store), &iter, 
+		gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3vdo_list_store), &iter,
 				(GtkTreePath *)(p->data));
-		gtk_tree_model_get(GTK_TREE_MODEL(ly_3vdo_list_store), &iter, 0, &id, 
+		gtk_tree_model_get(GTK_TREE_MODEL(ly_3vdo_list_store), &iter, 0, &id,
 				-1);
 		if(p==list)
 		{
@@ -451,7 +450,7 @@ ly_3vdo_on_screen_action_cb(GtkWidget *widget, GdkEventButton *event,
 	ly_ppl_video_set_screen(xid);
 
 	GClosure *closure;
-	closure=g_cclosure_new(G_CALLBACK(ly_3vdo_on_desktop_screen_destroy), NULL, 
+	closure=g_cclosure_new(G_CALLBACK(ly_3vdo_on_desktop_screen_destroy), NULL,
 			NULL);
 	gtk_accel_group_connect (ly_key_get_accel(), gdk_keyval_from_name("Escape"),
 			0, GTK_ACCEL_VISIBLE, closure);
