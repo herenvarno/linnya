@@ -64,8 +64,8 @@
 #define LY_GLA_WEBSITE "http://www.linnya.org"
 #define LY_GLA_COMMENTS _("A free music player on Linux, with unlimited feathers from plug-ins.")
 #define LY_GLA_COPYRIGHT _("Copyright (C) 2010-2012 Edward Yang")
-#define LY_GLA_VERSION_STR "2.0.0"
-#define LY_GLA_VERSION_NUM 2.00
+#define LY_GLA_VERSION_STR "2.2.0"
+#define LY_GLA_VERSION_NUM 2.20
 #define	 LY_GLA_LICENSE "GPLv3"
 #define	 LY_GLA_LICENSE_FULL _("\
 Linnya is free software; you can redistribute it and/or modify\n\
