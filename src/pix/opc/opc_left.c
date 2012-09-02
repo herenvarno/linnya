@@ -77,7 +77,7 @@ void		ly_3opc_left_fina		()
 GtkWidget*	ly_3opc_left_create		()
 {
 	GtkWidget *vbox;
-	vbox=gtk_vbox_new(FALSE,0);
+	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	
 	GtkWidget *scrolled_window;
 	scrolled_window=gtk_scrolled_window_new(NULL,NULL);
@@ -307,7 +307,7 @@ ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 				     GTK_RESPONSE_REJECT,
 				     NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
 	label=gtk_label_new(_("Name"));
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
@@ -452,7 +452,7 @@ ly_3opc_left_rename_cb(GtkWidget *widget, gpointer data)
 				    GTK_RESPONSE_REJECT,
 				    NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
 	label=gtk_label_new(_("Name"));
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
@@ -619,7 +619,7 @@ GtkWidget* ly_3opc_left_warning_dialog_create(gchar *str)
 				     GTK_RESPONSE_REJECT,
 				     NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
 	image=gtk_image_new_from_stock(GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_DIALOG);
 	gtk_box_pack_start(GTK_BOX(hbox),image,FALSE,FALSE,0);

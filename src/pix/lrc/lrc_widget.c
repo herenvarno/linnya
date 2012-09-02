@@ -45,7 +45,7 @@ GtkWidget *ly_3lrc_widget_create()
 	GtkWidget *event_box;
 	GtkWidget *button;
 	
-	widget=gtk_vbox_new(FALSE, 0);
+	widget=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	
 	event_box=gtk_event_box_new();
 	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);

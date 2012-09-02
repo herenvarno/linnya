@@ -75,7 +75,7 @@ GtkWidget *ly_3inf_create()
 	GtkWidget *event_box;
 	GtkWidget *button;
 	
-	widget=gtk_vbox_new(FALSE, 0);
+	widget=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	
 	event_box=gtk_event_box_new();
 	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
@@ -202,7 +202,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 
 	x=x;
 	y=y+50;
-	char str[1024]="";
+	gchar str[1024]="";
 	cairo_set_source_rgba ( cr, 0.7 , 0.7 , 0.7 ,0.8);
 	cairo_move_to ( cr, x, y);
 	ly_3inf_draw_text(cr, md->artist, normal_font);
@@ -235,7 +235,7 @@ void ly_3inf_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint width_x
 	PangoLayout *layout;
 	PangoFontDescription *desc;
 	
-	int width, height;
+	gint width, height;
 	
 	layout = pango_cairo_create_layout (cr);
 	
