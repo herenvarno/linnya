@@ -406,6 +406,10 @@ LyPliPlugin* ly_pli_plugin_new(gchar *name)
 	{
 		priv->locked=TRUE;
 	}
+	if(!(priv->locked)&&priv->daemon)
+	{
+		ly_pli_plugin_load_module(obj);
+	}
 	return obj;
 }
 

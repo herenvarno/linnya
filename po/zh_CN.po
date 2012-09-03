@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-08-30 19:10+0800\n"
+"POT-Creation-Date: 2012-09-02 18:20+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -248,7 +248,7 @@ msgstr "自定义LRC文件位置"
 msgid "Desktop Font"
 msgstr "桌面歌词字体"
 
-#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:687
+#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:677
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
 
@@ -589,60 +589,56 @@ msgstr "插件"
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:548 src/uix/cfg.c:620
+#: src/uix/cfg.c:541 src/uix/cfg.c:612
 msgid "Official Website"
 msgstr "官方网站"
 
-#: src/uix/cfg.c:585
+#: src/uix/cfg.c:579
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:638
+#: src/uix/cfg.c:630
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:673
+#: src/uix/cfg.c:663
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
 
-#: src/uix/cfg.c:786
+#: src/uix/cfg.c:776
 msgid "Key"
 msgstr "按键"
 
-#: src/uix/cfg.c:796
+#: src/uix/cfg.c:786
 msgid "Press key to change shortcut ..."
 msgstr "按下键盘以设置快捷键"
 
-#: src/uix/cfg.c:828
+#: src/uix/cfg.c:818
 msgid "Shortcuts conflict!"
 msgstr "快捷键冲突！"
 
-#: src/uix/cfg.c:924
+#: src/uix/cfg.c:914
 msgid "Setting will not be actived until program restart!"
 msgstr "设置将在程序下次启动生效！"
 
-#: src/uix/cfg.c:958
+#: src/uix/cfg.c:948
 msgid "Select Session Background directory"
 msgstr "选择会话背景目录"
 
-#: src/uix/cfg.c:1094
+#: src/uix/cfg.c:1084
 msgid "Save Equalizer"
 msgstr "保存均衡器"
 
-#: src/uix/cfg.c:1105
+#: src/uix/cfg.c:1095
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1168
+#: src/uix/cfg.c:1158
 msgid "Cannot delete the default equalizer setting!"
 msgstr "无法删除默认均衡其设置！"
-
-#: src/uix/cfg.c:1218
-msgid "Preference"
-msgstr "配置"
 
 #: src/uix/dbg.c:64
 #, c-format
@@ -694,7 +690,7 @@ msgstr "无法将按钮绑定写入文件！"
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系统不支持插件，退出 ……"
 
-#: src/uix/sss.c:184
+#: src/uix/sss.c:182
 msgid "New Session"
 msgstr "新会话"
 
@@ -729,6 +725,9 @@ msgstr "退出"
 #: src/uix/win.c:201
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
+
+#~ msgid "Preference"
+#~ msgstr "配置"
 
 #~ msgid "Read configuration file error."
 #~ msgstr "读取配置文件错误！"
