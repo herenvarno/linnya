@@ -659,7 +659,7 @@ gint64 ly_mdh_time_str2int(gchar *t_str)
 	int frm=0;
 	gint64 t_int=0;
 
-	sscanf(t_str, "%02d:%02d.%02d", &min, &sec, &frm);
+	sscanf(t_str, "%d:%02d.%02d", &min, &sec, &frm);
 	t_int=(min*60+sec)*100+frm;
 	t_int=t_int*10000000;
 	return t_int;
