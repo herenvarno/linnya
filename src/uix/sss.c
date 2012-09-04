@@ -40,6 +40,11 @@ gboolean ly_sss_active_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data)
 gboolean ly_sss_select_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
 void ly_sss_tab_add_refresh_cb(gpointer pl, gpointer data);
 gboolean ly_sss_create(gchar *name, GtkWidget *tab_add);
+void ly_sss_drag_get_cb(GtkWidget *widget, GdkDragContext   *drag_context,
+		GtkSelectionData *seldata, guint info, guint time, gpointer data);
+void ly_sss_drag_received_cb(GtkWidget *widget, GdkDragContext   *drag_context,
+		gint x, gint y, GtkSelectionData *seldata, guint info, guint time,
+		gpointer data);
 
 
 void	ly_sss_init()
@@ -202,9 +207,11 @@ gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 	gtk_widget_show_all(hbox);
 	gtk_widget_show_all(sw);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),-1);
-
+	
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_sss_tab_add_destroy), sw);
 	g_signal_connect(G_OBJECT(icon_view),"item-activated",G_CALLBACK(ly_sss_active_cb), sw);
+	g_signal_connect(G_OBJECT(icon_view), "drag-data-get", G_CALLBACK(ly_sss_drag_get_cb), NULL);
+	g_signal_connect(G_OBJECT(icon_view), "drag-data-received", G_CALLBACK(ly_sss_drag_received_cb), NULL);
 
 	ly_sss_tab_add_refresh();
 	return TRUE;
@@ -354,4 +361,47 @@ gboolean ly_sss_close_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *w=data;
 	ly_sss_destroy(w);
 	return FALSE;
+}
+
+
+void
+ly_sss_drag_get_cb(GtkWidget *widget, GdkDragContext   *drag_context,
+		GtkSelectionData *seldata, guint info, guint time, gpointer data)
+{
+	GList *list;
+	GtkTreeIter *iter=(GtkTreeIter*)g_malloc(sizeof(GtkTreeIter));
+	list=gtk_icon_view_get_selected_items(GTK_ICON_VIEW(widget));
+	g_return_if_fail(list!=NULL);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_sss_store), iter, list->data);
+	puts("*********");
+	gtk_selection_data_set(seldata, gdk_atom_intern("Plugin", FALSE), sizeof(GtkTreeIter), 
+			(gpointer)iter, 1);
+	puts("*************");
+	g_list_free_full (list, (GDestroyNotify)gtk_tree_path_free);
+}
+
+
+void
+ly_sss_drag_received_cb(GtkWidget *widget, GdkDragContext   *drag_context,
+		gint x, gint y, GtkSelectionData *seldata, guint info, guint time,
+		gpointer data)
+{
+	
+	puts("&&&&&&&&&&&&&");
+	GtkTreeIter *iter=(GtkTreeIter*)(gtk_selection_data_get_data(seldata));
+	g_return_if_fail(iter!=NULL);
+	puts("&&&&&&&&&&&&&");
+	gchar *name1;
+	gchar *name2;
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), iter, 0, &name1, -1);
+	puts("&&&&&&&&&&&&&");
+
+	if(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_sss_store), iter))
+		gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), iter, 0, &name2, -1);
+	else
+		name2=NULL;
+	ly_pli_change_order(name1, name2);
+	g_free(name1);
+	g_free(name2);
+	g_free(iter);
 }

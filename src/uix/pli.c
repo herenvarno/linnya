@@ -247,7 +247,7 @@ GList *ly_pli_get_list()
 /**
  * ly_pli_change_order:
  * @plname: the name of plugin to be changed
- * @pos: the name of plugin being in front of the replaced plugin after being
+ * @pos: the name of plugin being just after the replaced plugin after being
  * changed. NULL is allowed which means put the plname plugin to the end of list
  *
  * Changed a plugin's position.
@@ -255,6 +255,7 @@ GList *ly_pli_get_list()
  */
 void ly_pli_change_order(gchar *plname, gchar *pos)
 {
+	g_return_if_fail(plname!=NULL);
 	GList *p=NULL;
 	GList *q=NULL;
 	LyPliPlugin *pl;
@@ -266,6 +267,7 @@ void ly_pli_change_order(gchar *plname, gchar *pos)
 		{
 			pl=LY_PLI_PLUGIN(p->data);
 			g_object_get(G_OBJECT(pl), "name", &name, NULL);
+			puts(name);
 			if(g_str_equal(name, plname))
 			{
 				g_free(name);
@@ -273,6 +275,7 @@ void ly_pli_change_order(gchar *plname, gchar *pos)
 				break;
 			}
 		}
+		p=p->next;
 	}
 	if(!p)
 		return;
@@ -299,5 +302,6 @@ void ly_pli_change_order(gchar *plname, gchar *pos)
 				break;
 			}
 		}
+		p=p->next;
 	}
 }
