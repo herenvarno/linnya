@@ -267,7 +267,6 @@ void ly_pli_change_order(gchar *plname, gchar *pos)
 		{
 			pl=LY_PLI_PLUGIN(p->data);
 			g_object_get(G_OBJECT(pl), "name", &name, NULL);
-			puts(name);
 			if(g_str_equal(name, plname))
 			{
 				g_free(name);
