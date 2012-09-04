@@ -6,7 +6,7 @@
 /*
  * FUNCTIONS
  */
- 
+
 gboolean	ly_3lrc_config_on_desktop_changed_cb		(GtkWidget *widget, gpointer data);
 gboolean	ly_3lrc_config_on_fixed_changed_cb			(GtkWidget *widget, gpointer data);
 gboolean	ly_3lrc_config_on_location_changed_cb		(GtkWidget *widget, gpointer data);
@@ -22,20 +22,28 @@ GtkWidget *ly_3lrc_config()
 	GtkWidget *vbox;
 	GtkWidget *hbox;
 	GtkWidget *check;
-	GtkWidget *button;	
+	GtkWidget *button;
 	GtkWidget *entry;
 	GtkWidget *label;
 	GtkWidget *table;
 	char str[1024]="";
-	
-	char name[1024]="";
+
+	gchar *name;
+	gchar *alias;
+	gchar *logo;
 	LyPliPlugin *pl=ly_pli_get("lrc");
-	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
-	page=ly_cfg_page_new(name, pl->alias, pl->logo);
-	
+	g_object_get(G_OBJECT(pl), "name", &name,"alias", &alias, "logo", &logo, NULL);
+	page=ly_cfg_page_new(name, alias, logo);
+	g_free(name);
+	g_free(alias);
+	g_free(logo);
+	name=NULL;
+	alias=NULL;
+	logo=NULL;
+
 	item=ly_cfg_item_new(_("Desktop Lyrics"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
-	vbox=gtk_vbox_new(FALSE, 0);
+	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	ly_cfg_item_append(LY_CFG_ITEM(item), vbox);
 	int lrc_desktop=0;
 	int lrc_desktop_fixed=0;
@@ -48,14 +56,14 @@ GtkWidget *ly_3lrc_config()
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_3lrc_config_on_fixed_changed_cb), NULL);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),(gboolean)lrc_desktop_fixed);
 	gtk_box_pack_start(GTK_BOX(vbox),check,FALSE,FALSE,0);
-	
+
 	item=ly_cfg_item_new(_("Lyrics File Storage"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	char location[1024]="./";
 	ly_reg_get("lrc_dir", "%s", location);
-	vbox=gtk_vbox_new(FALSE, 0);
+	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	ly_cfg_item_append(LY_CFG_ITEM(item), vbox);
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	if(g_str_equal(location,"")||g_str_equal(location,"./"))
 		gtk_widget_set_sensitive(hbox, FALSE);
 	check=gtk_check_button_new_with_label(_("The same directory of music file"));
@@ -74,7 +82,7 @@ GtkWidget *ly_3lrc_config()
 	button=gtk_button_new_from_stock(GTK_STOCK_OPEN);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_config_on_location_set_cb), entry);
 	gtk_box_pack_start(GTK_BOX(hbox),button,FALSE,FALSE,0);
-	
+
 	item=ly_cfg_item_new(_("Font"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	table=gtk_table_new(3, 2, FALSE);
@@ -97,7 +105,7 @@ GtkWidget *ly_3lrc_config()
 	button=gtk_font_button_new_with_font(str);
 	g_signal_connect(G_OBJECT(button), "font-set", G_CALLBACK(ly_3lrc_config_on_desktop_font_set_cb), NULL);
 	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 2, 3);
-	
+
 	return page;
 }
 
@@ -105,7 +113,7 @@ gboolean	ly_3lrc_config_on_desktop_changed_cb		(GtkWidget *widget, gpointer data
 {
 	int lrc_desktop=0;
 	int lrc_desktop_fixed=0;
-	
+
 	ly_reg_get("3lrc_desktop_state", "%d:%d", &lrc_desktop, &lrc_desktop_fixed);
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 	{
@@ -122,7 +130,7 @@ gboolean	ly_3lrc_config_on_fixed_changed_cb		(GtkWidget *widget, gpointer data)
 {
 	int lrc_desktop=0;
 	int lrc_desktop_fixed=0;
-	
+
 	ly_reg_get("3lrc_desktop_state", "%d:%d", &lrc_desktop, &lrc_desktop_fixed);
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 	{
@@ -182,17 +190,17 @@ gboolean	ly_3lrc_config_on_location_set_cb		(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	char *path=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(dialog));
 	char *str=g_strconcat(path,"/",NULL);
 	g_free(path);
-	
+
 	gtk_entry_set_text(GTK_ENTRY(data),str);
-	
+
 	ly_reg_set("lrc_dir", "%s", str);
 	g_free(str);
 	gtk_widget_destroy(dialog);
-	
+
 	return FALSE;
 }
 
@@ -216,4 +224,4 @@ gboolean ly_3lrc_config_on_desktop_font_set_cb(GtkWidget *widget, gpointer data)
 	g_strlcpy(font, gtk_font_button_get_font_name(GTK_FONT_BUTTON(widget)), sizeof(font));
 	ly_reg_set("3lrc_desktop_font", "%s", font);
 	return FALSE;
-}		
+}

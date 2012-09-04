@@ -37,16 +37,24 @@ GtkWidget* ly_3inf_config()
 {
 	GtkWidget *page;
 	GtkWidget *item;
-	GtkWidget *button;	
+	GtkWidget *button;
 	GtkWidget *label;
 	GtkWidget *table;
 	char str[1024]="";
-	
-	char name[1024]="";
+
+	gchar *name;
+	gchar *alias;
+	gchar *logo;
 	LyPliPlugin *pl=ly_pli_get("inf");
-	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
-	page=ly_cfg_page_new(name, pl->alias, pl->logo);
-	
+	g_object_get(G_OBJECT(pl), "name", &name,"alias", &alias, "logo", &logo, NULL);
+	page=ly_cfg_page_new(name, alias, logo);
+	g_free(name);
+	g_free(alias);
+	g_free(logo);
+	name=NULL;
+	alias=NULL;
+	logo=NULL;
+
 	item=ly_cfg_item_new(_("Font"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	table=gtk_table_new(3, 2, FALSE);
@@ -63,7 +71,7 @@ GtkWidget* ly_3inf_config()
 	button=gtk_font_button_new_with_font(str);
 	g_signal_connect(G_OBJECT(button), "font-set", G_CALLBACK(ly_3inf_config_on_normal_font_set_cb), NULL);
 	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
-	
+
 	return page;
 }
 

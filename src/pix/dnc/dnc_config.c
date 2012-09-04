@@ -24,12 +24,20 @@ GtkWidget* ly_3dnc_config()
 	GtkWidget *combo;
 	char server[128]="";
 	int i=0;
-	
-	char name[1024]="";
+
+	gchar *name;
+	gchar *alias;
+	gchar *logo;
 	LyPliPlugin *pl=ly_pli_get("dnc");
-	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
-	page=ly_cfg_page_new(name, pl->alias, pl->logo);
-	
+	g_object_get(G_OBJECT(pl), "name", &name,"alias", &alias, "logo", &logo, NULL);
+	page=ly_cfg_page_new(name, alias, logo);
+	g_free(name);
+	g_free(alias);
+	g_free(logo);
+	name=NULL;
+	alias=NULL;
+	logo=NULL;
+
 	item=ly_cfg_item_new(_("Cover Download Server"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	combo=gtk_combo_box_text_new();
@@ -44,7 +52,7 @@ GtkWidget* ly_3dnc_config()
 	}
 	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_3dnc_config_set_cov_cb), NULL);
 	ly_cfg_item_append(LY_CFG_ITEM(item), combo);
-	
+
 	item=ly_cfg_item_new(_("Lyrics Download Server"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
 	combo=gtk_combo_box_text_new();
@@ -59,7 +67,7 @@ GtkWidget* ly_3dnc_config()
 	}
 	g_signal_connect(G_OBJECT(combo), "changed", G_CALLBACK(ly_3dnc_config_set_lrc_cb), NULL);
 	ly_cfg_item_append(LY_CFG_ITEM(item), combo);
-	
+
 	return page;
 }
 

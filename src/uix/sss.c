@@ -29,6 +29,7 @@
  */
 GtkListStore *ly_sss_store;
 GtkWidget *ly_sss_tab_add_label;
+gchar *ly_sss_drag_name;
 
 
 /*
@@ -38,8 +39,12 @@ GtkWidget *ly_sss_tab_add_label;
 gboolean ly_sss_close_cb(GtkWidget *widget, gpointer data);
 gboolean ly_sss_active_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
 gboolean ly_sss_select_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
-void ly_sss_tab_add_refresh_cb(gpointer key, gpointer value, gpointer data);
+void ly_sss_tab_add_refresh_cb(gpointer pl, gpointer data);
 gboolean ly_sss_create(gchar *name, GtkWidget *tab_add);
+void ly_sss_drag_begin_cb(GtkWidget *widget, GdkDragContext *drag_context,
+	gpointer user_data);
+void ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
+	gpointer user_data);
 
 
 void	ly_sss_init()
@@ -58,7 +63,7 @@ GtkWidget *ly_sss_tab_create(GdkPixbuf *pixbuf, gchar *name, GtkWidget *widget)
 {
 	gchar path[1024]="";
 	g_snprintf(path,sizeof(path),"%sicon/default_plugin_logo.png",LY_GLB_PROG_UIXDIR);
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	if(!pixbuf)
 		pixbuf=gdk_pixbuf_new_from_file_at_scale(path,16,16,FALSE,NULL);
 	GtkWidget *logo=gtk_image_new_from_pixbuf(pixbuf);
@@ -83,29 +88,30 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 
 	if(!session)
 		return FALSE;
-	if(session->daemon)
+	gboolean daemon=TRUE;
+	GtkWidget *widget=NULL;
+
+	g_object_get(G_OBJECT(session), "daemon", &daemon, "widget", &widget, NULL);
+	if(daemon)
 		return FALSE;
 
-	if(session->widget!=NULL)
+	if(widget!=NULL)
 	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),session->widget));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), widget));
 		ly_sss_tab_add_destroy(NULL, tab_add);
 		return TRUE;
 	}
 
-	GtkWidget *(*f)(void);
-	g_module_symbol(session->module, session->create_symbol, (gpointer)&f);
-	if(f==NULL)
-		return FALSE;
-	GtkWidget *widget=NULL;
-	widget=f();
-
+	widget=ly_pli_plugin_create(session);
 	if(widget==NULL)
 		return FALSE;
-	session->widget=widget;
 
+	gchar *logo;
+	g_object_get(G_OBJECT(session), "logo", &logo, NULL);
 	GdkPixbuf *pixbuf=NULL;
-	pixbuf=gdk_pixbuf_new_from_file_at_scale(session->logo,16,16,FALSE,NULL);
+	pixbuf=gdk_pixbuf_new_from_file_at_scale(logo,16,16,FALSE,NULL);
+	g_free(logo);
+	logo=NULL;
 	GtkWidget *hbox=ly_sss_tab_create(pixbuf, name, widget);
 
 	gtk_notebook_insert_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget,hbox,n);
@@ -137,12 +143,7 @@ gboolean ly_sss_destroy(GtkWidget *widget)
 	n=gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),n);
 
-	void (*f)(void);
-	g_module_symbol(session->module, session->destroy_symbol, (gpointer)&f);
-	if(f!=NULL)
-		f();
-
-	session->widget=NULL;
+	ly_pli_plugin_destroy(session);
 
 	if(gtk_notebook_get_n_pages(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn))<1)
 	{
@@ -168,10 +169,7 @@ gboolean ly_sss_refresh()
 	if(!session)
 		return TRUE;
 
-	void (*f)(void);
-	g_module_symbol(session->module, session->refresh_symbol, (gpointer)&f);
-	if(f!=NULL)
-		f();
+	ly_pli_plugin_refresh(session);
 	return TRUE;
 }
 
@@ -183,8 +181,7 @@ gboolean ly_sss_tab_add_init()
 
 gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 {
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-
+	GtkWidget *hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	GtkWidget *logo=gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start(GTK_BOX(hbox),logo,FALSE,FALSE,0);
 	GtkWidget *title=gtk_label_new(_("New Session"));
@@ -209,10 +206,12 @@ gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), sw,TRUE);
 	gtk_widget_show_all(hbox);
 	gtk_widget_show_all(sw);
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),gtk_notebook_get_n_pages(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn))-1);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),-1);
 
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_sss_tab_add_destroy), sw);
 	g_signal_connect(G_OBJECT(icon_view),"item-activated",G_CALLBACK(ly_sss_active_cb), sw);
+	g_signal_connect(G_OBJECT(icon_view), "drag-begin", G_CALLBACK(ly_sss_drag_begin_cb), NULL);
+	g_signal_connect(G_OBJECT(icon_view), "drag-end", G_CALLBACK(ly_sss_drag_end_cb), NULL);
 
 	ly_sss_tab_add_refresh();
 	return TRUE;
@@ -234,7 +233,7 @@ gboolean ly_sss_tab_add_refresh()
 	if(ly_sss_store)
 		gtk_list_store_clear(ly_sss_store);
 
-	g_hash_table_foreach(ly_pli_get_plugins(), ly_sss_tab_add_refresh_cb, NULL);
+	g_list_foreach(ly_pli_get_list(), ly_sss_tab_add_refresh_cb, NULL);
 	return TRUE;
 }
 gboolean ly_sss_tab_add_fina()
@@ -304,24 +303,32 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 }
 
 
-void ly_sss_tab_add_refresh_cb(gpointer key, gpointer value, gpointer data)
+void ly_sss_tab_add_refresh_cb(gpointer pl, gpointer data)
 {
-	gchar name[64]="";
-	gchar alias[512]="";
 	GdkPixbuf *pixbuf=NULL;
 	GtkTreeIter iter;
 
-	LyPliPlugin *session=value;
-	if(!session||!(session->module)||session->daemon)
+	LyPliPlugin *session=pl;
+	if(!session)
+		return;
+
+	gboolean daemon;
+	g_object_get(G_OBJECT(session), "daemon", &daemon, NULL);
+	if(daemon)
 	{
 		return;
 	}
-	g_strlcpy(name, session->name, sizeof(name));
-	g_strlcpy(alias, session->alias, sizeof(alias));
-	pixbuf = gdk_pixbuf_new_from_file_at_scale(session->logo, 64, 64, FALSE, NULL);
+	gchar *name;
+	gchar *alias;
+	gchar *logo;
+	g_object_get(G_OBJECT(session), "name", &name, "alias", &alias, "logo", &logo, NULL);
+	pixbuf = gdk_pixbuf_new_from_file_at_scale(logo, 64, 64, FALSE, NULL);
 	gtk_list_store_append(ly_sss_store, &iter);
 	gtk_list_store_set(ly_sss_store, &iter, 0, name, 1, pixbuf, 2, alias, -1);
 	g_object_unref(pixbuf);
+	g_free(name);
+	g_free(alias);
+	g_free(logo);
 }
 
 gboolean ly_sss_active_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data)
@@ -354,4 +361,71 @@ gboolean ly_sss_close_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *w=data;
 	ly_sss_destroy(w);
 	return FALSE;
+}
+
+
+void
+ly_sss_drag_begin_cb(GtkWidget *widget, GdkDragContext *drag_context,
+	gpointer user_data)
+{
+	if(ly_sss_drag_name)
+		g_free(ly_sss_drag_name);
+	ly_sss_drag_name=NULL;
+
+	gchar *name;
+	GList *list;
+	GtkTreeIter iter;
+	list=gtk_icon_view_get_selected_items(GTK_ICON_VIEW(widget));
+	g_return_if_fail(list!=NULL);
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_sss_store), &iter, list->data);
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &name, -1);
+	ly_sss_drag_name=name;
+	g_list_free_full (list, (GDestroyNotify)gtk_tree_path_free);
+}
+
+void
+ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
+				   gpointer user_data)
+{
+	gchar *name1;
+	gchar *name2;
+	g_return_if_fail(ly_sss_drag_name!=NULL);
+
+	GtkTreeIter iter;
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_sss_store), &iter);
+	gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &name1, -1);
+	if(g_str_equal(name1, ly_sss_drag_name))
+	{
+		if(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_sss_store), &iter))
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &name2, -1);
+		else
+			name2=NULL;
+		ly_pli_change_order(name1, name2);
+		g_free(name1);
+		g_free(name2);
+		g_free(ly_sss_drag_name);
+		ly_sss_drag_name=NULL;
+		return;
+	}
+	else
+	{
+		while(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_sss_store), &iter))
+		{
+			gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &name1, -1);
+			if(g_str_equal(name1, ly_sss_drag_name))
+			{
+				if(gtk_tree_model_iter_next(GTK_TREE_MODEL(ly_sss_store), &iter))
+					gtk_tree_model_get(GTK_TREE_MODEL(ly_sss_store), &iter, 0, &name2, -1);
+				else
+					name2=NULL;
+				ly_pli_change_order(name1, name2);
+				g_free(name1);
+				g_free(name2);
+				g_free(ly_sss_drag_name);
+				ly_sss_drag_name=NULL;
+				return;
+			}
+			g_free(name1);
+		}
+	}
 }

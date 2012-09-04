@@ -39,17 +39,25 @@ GtkWidget* ly_3opc_config()
 	GtkWidget *hbox;
 	GtkWidget *button;
 	GtkWidget *label;
-	
-	char name[1024]="";
+
+	gchar *name;
+	gchar *alias;
+	gchar *logo;
 	LyPliPlugin *pl=ly_pli_get("opc");
-	g_snprintf(name, sizeof(name), "PLUGIN:%s", pl->name);
-	page=ly_cfg_page_new(name, pl->alias, pl->logo);
-	
+	g_object_get(G_OBJECT(pl), "name", &name,"alias", &alias, "logo", &logo, NULL);
+	page=ly_cfg_page_new(name, alias, logo);
+	g_free(name);
+	g_free(alias);
+	g_free(logo);
+	name=NULL;
+	alias=NULL;
+	logo=NULL;
+
 	item=ly_cfg_item_new(_("Limitation of A Single Page"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
-	hbox=gtk_hbox_new(FALSE, 5);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 	ly_cfg_item_append(LY_CFG_ITEM(item), hbox);
-	
+
 	gint limit=0;
 	ly_reg_get("3opc_limit", "%*d:%d", &limit);
 	button= gtk_spin_button_new_with_range(-1, 1000, 50);
@@ -58,7 +66,7 @@ GtkWidget* ly_3opc_config()
 	label=gtk_label_new(_("Attention: \"-1\" is for Unlimited!"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE , 0);
 	g_signal_connect(G_OBJECT(button), "value-changed", G_CALLBACK(ly_3opc_config_on_limit_changed_cb), NULL);
-	
+
 	return page;
 }
 

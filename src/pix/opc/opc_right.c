@@ -110,7 +110,7 @@ void		ly_3opc_right_fina		()
 GtkWidget*	ly_3opc_right_create		()
 {
 	GtkWidget *vbox;
-	vbox=gtk_vbox_new(FALSE,0);
+	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	
 	GtkWidget *scrolled_window;
 	scrolled_window=gtk_scrolled_window_new(NULL,NULL);
@@ -121,7 +121,7 @@ GtkWidget*	ly_3opc_right_create		()
 	GtkWidget *label;
 	GtkWidget *button_p;
 	GtkWidget *button_n;
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox,FALSE,FALSE,0);
 	button_p=gtk_button_new_from_stock(GTK_STOCK_MEDIA_PREVIOUS);
 	gtk_widget_set_size_request(button_p, 100, -1);
@@ -624,7 +624,7 @@ gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event
 				      GTK_RESPONSE_REJECT,
 				      NULL);
 		gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
-		hbox=gtk_hbox_new(FALSE,0);
+		hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
 		label=gtk_label_new(_("Name"));
 		gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
@@ -741,9 +741,9 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	
 	frame=gtk_frame_new(_("Basic Information"));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),frame,TRUE,TRUE,0);
-	vbox=gtk_vbox_new(FALSE, 0);
+	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
-	hbox=gtk_hbox_new(FALSE, 0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 	table=gtk_table_new(4,2,FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(table),5);
@@ -824,7 +824,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 		g_object_unref(pixbuf);
 	}
 
-	hbox=gtk_hbox_new(FALSE, 0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 	label=gtk_label_new(_("Uri"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
@@ -1082,7 +1082,7 @@ GtkWidget* ly_3opc_warning_dialog_create(gchar *str)
 				     GTK_RESPONSE_REJECT,
 				     NULL);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
-	hbox=gtk_hbox_new(FALSE,0);
+	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox,TRUE,TRUE,0);
 	image=gtk_image_new_from_stock(GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_DIALOG);
 	gtk_box_pack_start(GTK_BOX(hbox),image,FALSE,FALSE,0);

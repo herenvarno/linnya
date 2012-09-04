@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-09-03 13:04+0800\n"
+"POT-Creation-Date: 2012-09-04 18:34+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -42,9 +42,8 @@ msgid "linnya"
 msgstr "聆雅"
 
 #: src/cox/gla.h:65
-#, fuzzy
 msgid "A free music player on *nix, with unlimited features from plug-ins."
-msgstr "Linux下拥有无限扩展能力的音乐播放器"
+msgstr "*nix下拥有无限扩展能力的音乐播放器"
 
 #: src/cox/gla.h:66
 msgid "Copyright (C) 2010-2012 Edward Yang"
@@ -101,9 +100,8 @@ msgid "Filter not found!"
 msgstr "过滤器未找到！"
 
 #: src/cox/reg.obj.c:133
-#, fuzzy
 msgid "Cannot save reg file!"
-msgstr "无法写入注册文件！"
+msgstr "无法保存注册文件！"
 
 #: src/cox/reg.obj.c:199
 msgid "Error occur while loading reg!"
@@ -149,11 +147,11 @@ msgstr "无法打开播放列表文件！"
 msgid "Cannot find particular equalizer record!"
 msgstr "无法找到指定的均衡器记录！"
 
-#: src/pix/dnc/dnc_config.c:33
+#: src/pix/dnc/dnc_config.c:41
 msgid "Cover Download Server"
 msgstr "封面下载服务器"
 
-#: src/pix/dnc/dnc_config.c:48
+#: src/pix/dnc/dnc_config.c:56
 msgid "Lyrics Download Server"
 msgstr "歌词下载服务器"
 
@@ -209,47 +207,47 @@ msgstr "歌曲名"
 msgid "Download Cover"
 msgstr "下载封面"
 
-#: src/pix/inf/inf_config.c:50 src/pix/lrc/lrc_config.c:78
+#: src/pix/inf/inf_config.c:58 src/pix/lrc/lrc_config.c:86
 msgid "Font"
 msgstr "字体"
 
-#: src/pix/inf/inf_config.c:54 src/pix/lrc/lrc_config.c:82
+#: src/pix/inf/inf_config.c:62 src/pix/lrc/lrc_config.c:90
 msgid "Title Font"
 msgstr "歌曲名字体"
 
-#: src/pix/inf/inf_config.c:60 src/pix/lrc/lrc_config.c:88
+#: src/pix/inf/inf_config.c:68 src/pix/lrc/lrc_config.c:96
 msgid "Normal Font"
 msgstr "普通文本字体"
 
-#: src/pix/lrc/lrc_config.c:36
+#: src/pix/lrc/lrc_config.c:44
 msgid "Desktop Lyrics"
 msgstr "桌面歌词"
 
-#: src/pix/lrc/lrc_config.c:43
+#: src/pix/lrc/lrc_config.c:51
 msgid "Show desktop lyrics"
 msgstr "显示桌面歌词"
 
-#: src/pix/lrc/lrc_config.c:47
+#: src/pix/lrc/lrc_config.c:55
 msgid "Set desktop lyrics FIXED"
 msgstr "固定桌面歌词"
 
-#: src/pix/lrc/lrc_config.c:52
+#: src/pix/lrc/lrc_config.c:60
 msgid "Lyrics File Storage"
 msgstr "歌词文件存储"
 
-#: src/pix/lrc/lrc_config.c:61 src/pix/lrc/lrc_config.c:71
+#: src/pix/lrc/lrc_config.c:69 src/pix/lrc/lrc_config.c:79
 msgid "The same directory of music file"
 msgstr "存放于音乐文件的相同目录"
 
-#: src/pix/lrc/lrc_config.c:67
+#: src/pix/lrc/lrc_config.c:75
 msgid "Custom LRC location"
 msgstr "自定义LRC文件位置"
 
-#: src/pix/lrc/lrc_config.c:94
+#: src/pix/lrc/lrc_config.c:102
 msgid "Desktop Font"
 msgstr "桌面歌词字体"
 
-#: src/pix/lrc/lrc_config.c:162 src/uix/cfg.c:646
+#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:677
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
 
@@ -257,11 +255,11 @@ msgstr "选择歌曲库绑定目录"
 msgid "Download Lyrics"
 msgstr "下载歌词"
 
-#: src/pix/opc/opc_config.c:48
+#: src/pix/opc/opc_config.c:56
 msgid "Limitation of A Single Page"
 msgstr "每页显示数量限制"
 
-#: src/pix/opc/opc_config.c:58
+#: src/pix/opc/opc_config.c:66
 msgid "Attention: \"-1\" is for Unlimited!"
 msgstr "注意：“-1”表示无限制！"
 
@@ -434,7 +432,6 @@ msgid "Music File"
 msgstr "音乐文件"
 
 #: src/pix/opc/opc_right.c:1123
-#, fuzzy
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete belongs to your music library,\n"
@@ -590,60 +587,56 @@ msgstr "插件"
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:540 src/uix/cfg.c:590
+#: src/uix/cfg.c:541 src/uix/cfg.c:612
 msgid "Official Website"
 msgstr "官方网站"
 
-#: src/uix/cfg.c:557
+#: src/uix/cfg.c:579
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:607
+#: src/uix/cfg.c:630
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:633
+#: src/uix/cfg.c:663
 msgid ""
 "The configuration button of this plugin will NOT be updated untill the "
 "configuration dialog restart!"
 msgstr "此插件的配置按钮直到配置对话框重启之后才会更新！"
 
-#: src/uix/cfg.c:745
+#: src/uix/cfg.c:776
 msgid "Key"
 msgstr "按键"
 
-#: src/uix/cfg.c:755
+#: src/uix/cfg.c:786
 msgid "Press key to change shortcut ..."
 msgstr "按下键盘以设置快捷键"
 
-#: src/uix/cfg.c:787
+#: src/uix/cfg.c:818
 msgid "Shortcuts conflict!"
 msgstr "快捷键冲突！"
 
-#: src/uix/cfg.c:883
+#: src/uix/cfg.c:914
 msgid "Setting will not be actived until program restart!"
 msgstr "设置将在程序下次启动生效！"
 
-#: src/uix/cfg.c:917
+#: src/uix/cfg.c:948
 msgid "Select Session Background directory"
 msgstr "选择会话背景目录"
 
-#: src/uix/cfg.c:1053
+#: src/uix/cfg.c:1084
 msgid "Save Equalizer"
 msgstr "保存均衡器"
 
-#: src/uix/cfg.c:1064
+#: src/uix/cfg.c:1095
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1127
+#: src/uix/cfg.c:1158
 msgid "Cannot delete the default equalizer setting!"
 msgstr "无法删除默认均衡其设置！"
-
-#: src/uix/cfg.c:1177
-msgid "Preference"
-msgstr "配置"
 
 #: src/uix/dbg.c:64
 #, c-format
@@ -691,15 +684,11 @@ msgstr "配置文件错误！"
 msgid "Cannot write keybinds to file!"
 msgstr "无法将按钮绑定写入文件！"
 
-#: src/uix/pli.c:44
+#: src/uix/pli.c:40
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系统不支持插件，退出 ……"
 
-#: src/uix/pli.c:134
-msgid "Read configuration file error."
-msgstr "读取配置文件错误！"
-
-#: src/uix/sss.c:190
+#: src/uix/sss.c:188
 msgid "New Session"
 msgstr "新会话"
 
@@ -734,6 +723,12 @@ msgstr "退出"
 #: src/uix/win.c:201
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
+
+#~ msgid "Preference"
+#~ msgstr "配置"
+
+#~ msgid "Read configuration file error."
+#~ msgstr "读取配置文件错误！"
 
 #~ msgid "Cannot load reg file. Abort...\n"
 #~ msgstr "无法载入注册文件。退出 ……\n"
