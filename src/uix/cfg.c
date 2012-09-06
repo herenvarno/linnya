@@ -641,7 +641,7 @@ gboolean ly_cfg_on_pli_show_config_cb(GtkWidget *widget, gpointer data)
 
 gboolean	ly_cfg_on_pli_changed_cb	(GtkWidget *widget, gpointer data)
 {
-	g_return_val_if_fail(!data, FALSE);
+	g_return_val_if_fail(data!=NULL, FALSE);
 	LyPliPlugin *pl=(LyPliPlugin*)data;
 	gboolean state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	GtkWidget *widget1;
@@ -660,7 +660,6 @@ gboolean	ly_cfg_on_pli_changed_cb	(GtkWidget *widget, gpointer data)
 		ly_pli_lock(name);
 	}
 	ly_sss_tab_add_refresh();
-	ly_dbg_message(_("The configuration button of this plugin will NOT be updated untill the configuration dialog restart!"));
 	g_free(name);
 	return FALSE;
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-09-04 18:34+0800\n"
+"POT-Creation-Date: 2012-09-04 19:26+0800\n"
 "PO-Revision-Date: 2012-05-20 21:03+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -688,7 +688,7 @@ msgstr "無法將按鈕綁定寫入文件！"
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系統不支持插件，退出 ……"
 
-#: src/uix/sss.c:188
+#: src/uix/sss.c:187
 msgid "New Session"
 msgstr "新會話"
 

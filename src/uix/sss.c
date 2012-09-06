@@ -305,19 +305,16 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 
 void ly_sss_tab_add_refresh_cb(gpointer pl, gpointer data)
 {
+	g_return_if_fail(pl!=NULL);
+	LyPliPlugin *session=pl;
+
+	gboolean locked=FALSE;
+	gboolean daemon=FALSE;
+	g_object_get(G_OBJECT(session), "daemon", &daemon, "locked", &locked, NULL);
+	g_return_if_fail(!locked && !daemon);
+
 	GdkPixbuf *pixbuf=NULL;
 	GtkTreeIter iter;
-
-	LyPliPlugin *session=pl;
-	if(!session)
-		return;
-
-	gboolean daemon;
-	g_object_get(G_OBJECT(session), "daemon", &daemon, NULL);
-	if(daemon)
-	{
-		return;
-	}
 	gchar *name;
 	gchar *alias;
 	gchar *logo;
@@ -362,7 +359,6 @@ gboolean ly_sss_close_cb(GtkWidget *widget, gpointer data)
 	ly_sss_destroy(w);
 	return FALSE;
 }
-
 
 void
 ly_sss_drag_begin_cb(GtkWidget *widget, GdkDragContext *drag_context,

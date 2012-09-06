@@ -135,22 +135,18 @@ gboolean	ly_pli_add(gchar *name)
 	if(!pl)
 		return FALSE;
 
-	gchar *depends;
-	gchar **list_depends;
+	gchar *depends=NULL;
+	gchar **list_depends=NULL;
 	g_object_get(G_OBJECT(pl), "depends", &depends, NULL);
 	if(depends)
 	{
-		list_depends=g_strsplit(depends, ":", 0);
+		list_depends=g_strsplit(depends, ":", -1);
 		if(list_depends)
 		{
 			gint i=0;
 			while(list_depends[i])
 			{
-				if(!ly_pli_add(list_depends[i]))
-				{
-					g_free(depends);
-					return FALSE;
-				}
+				ly_pli_add(list_depends[i]);
 				i++;
 			}
 		}
@@ -191,50 +187,66 @@ LyPliPlugin* ly_pli_get(gchar *name)
 
 gboolean ly_pli_lock(gchar *name)
 {
-/*	if(!name||g_str_equal(name,""))
-		return FALSE;
+	g_return_val_if_fail((name!=NULL&&!g_str_equal(name, "")), FALSE);
+
 	LyPliPlugin *pl=ly_pli_get(name);
-	if(!pl)
-		return FALSE;
+	g_return_val_if_fail(pl!=NULL, FALSE);
 
-	if(pl->locked)
-		return TRUE;
+	gboolean locked=FALSE;
+	g_object_get(G_OBJECT(pl), "locked", &locked, NULL);
+	g_return_val_if_fail(!locked, TRUE);
 
-	GList *list=NULL;
-	GList *p=NULL;
-	list=ly_pli_get_depend_bys(name);
-	p=list;
+	GList *list=ly_pli_list;
+	GList *p=list;
+	gchar *name1=NULL;
+	gchar *depends=NULL;
 	while(p)
 	{
-		ly_pli_lock(p->data);
+		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
+		{
+			g_object_get(G_OBJECT(p->data), "name", &name1, "depends", &depends, NULL);
+			if(depends && g_strrstr(depends, name))
+			{
+				ly_pli_lock(name1);
+			}
+			g_free(name1);
+			g_free(depends);
+			name1=NULL;
+			depends=NULL;
+		}
 		p=p->next;
 	}
-	ly_pli_plugin_lock(pl);*/
+	ly_pli_plugin_lock(pl);
 	return TRUE;
 }
 
 gboolean ly_pli_unlock(gchar *name)
 {
-/*	if(!name||g_str_equal(name,""))
-		return FALSE;
+	g_return_val_if_fail((name!=NULL&&!g_str_equal(name, "")), FALSE);
+
 	LyPliPlugin *pl=ly_pli_get(name);
-	if(!pl)
-		return FALSE;
+	g_return_val_if_fail(pl!=NULL, FALSE);
 
-	GList *list=NULL;
-	GList *p=NULL;
+	gboolean locked=FALSE;
+	g_object_get(G_OBJECT(pl), "locked", &locked, NULL);
+	g_return_val_if_fail(locked, TRUE);
 
-	if(pl->locked)
-		return TRUE;
-
-	list=ly_pli_get_depend_bys(name);
-	p=list;
-	while(p)
+	gchar *depends;
+	g_object_get(G_OBJECT(pl), "depends", &depends, NULL);
+	if(depends)
 	{
-		ly_pli_lock(p->data);
-		p=p->next;
+		gchar **str=NULL;
+		str=g_strsplit(depends, ":", -1);
+		gint i=0;
+		while(str[i])
+		{
+			ly_pli_unlock(str[i]);
+			i++;
+		}
+		g_strfreev(str);
+		g_free(depends);
 	}
-	ly_pli_plugin_lock(pl);*/
+	ly_pli_plugin_unlock(pl);
 	return TRUE;
 }
 
@@ -251,7 +263,6 @@ GList *ly_pli_get_list()
  * changed. NULL is allowed which means put the plname plugin to the end of list
  *
  * Changed a plugin's position.
- * [UNTESTED]
  */
 void ly_pli_change_order(gchar *plname, gchar *pos)
 {

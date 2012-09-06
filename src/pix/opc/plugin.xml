@@ -20,7 +20,8 @@
 	
 	<!-- 后台运行标志 -->
 	<daemon>0</daemon>
-
+	<!-- Depends -->
+	<depends>lrc</depends>
 	<!-- 配置函数名 -->
 	<create_symbol>ly_3opc_create</create_symbol>
 	<destroy_symbol>ly_3opc_destroy</destroy_symbol>
