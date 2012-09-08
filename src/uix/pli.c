@@ -200,12 +200,17 @@ gboolean ly_pli_lock(gchar *name)
 	GList *p=list;
 	gchar *name1=NULL;
 	gchar *depends=NULL;
+	gchar *pattern=NULL;
+	GRegex *regex=NULL;
+
+	pattern=g_strconcat("(^|:)", name, "($|:)", NULL);
+	regex=g_regex_new(pattern, 0, 0, NULL);
 	while(p)
 	{
 		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
 		{
 			g_object_get(G_OBJECT(p->data), "name", &name1, "depends", &depends, NULL);
-			if(depends && g_strrstr(depends, name))
+			if(depends && g_regex_match(regex, depends, 0, NULL))
 			{
 				ly_pli_lock(name1);
 			}
@@ -216,6 +221,8 @@ gboolean ly_pli_lock(gchar *name)
 		}
 		p=p->next;
 	}
+	g_free(pattern);
+	g_regex_unref(regex);
 	ly_pli_plugin_lock(pl);
 	return TRUE;
 }

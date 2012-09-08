@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-09-04 19:26+0800\n"
+"POT-Creation-Date: 2012-09-08 13:00+0800\n"
 "PO-Revision-Date: 2012-05-20 21:03+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -247,7 +247,7 @@ msgstr "自定義LRC文件位置"
 msgid "Desktop Font"
 msgstr "桌面歌詞字體"
 
-#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:677
+#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:676
 msgid "Select library directory"
 msgstr "選擇歌曲庫綁定目錄"
 
@@ -600,41 +600,35 @@ msgstr "(c) %s"
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:663
-msgid ""
-"The configuration button of this plugin will NOT be updated untill the "
-"configuration dialog restart!"
-msgstr "此插件的配置按鈕直到配置對話框重啓之後纔會更新！"
-
-#: src/uix/cfg.c:776
+#: src/uix/cfg.c:775
 msgid "Key"
 msgstr "按鍵"
 
-#: src/uix/cfg.c:786
+#: src/uix/cfg.c:785
 msgid "Press key to change shortcut ..."
 msgstr "按下鍵盤以設置快捷鍵"
 
-#: src/uix/cfg.c:818
+#: src/uix/cfg.c:817
 msgid "Shortcuts conflict!"
 msgstr "快捷鍵衝突！"
 
-#: src/uix/cfg.c:914
+#: src/uix/cfg.c:913
 msgid "Setting will not be actived until program restart!"
 msgstr "設置將在程序下次啓動生效！"
 
-#: src/uix/cfg.c:948
+#: src/uix/cfg.c:947
 msgid "Select Session Background directory"
 msgstr "選擇會話背景目錄"
 
-#: src/uix/cfg.c:1084
+#: src/uix/cfg.c:1083
 msgid "Save Equalizer"
 msgstr "儲存均衡器"
 
-#: src/uix/cfg.c:1095
+#: src/uix/cfg.c:1094
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1158
+#: src/uix/cfg.c:1157
 msgid "Cannot delete the default equalizer setting!"
 msgstr "無法刪除默認均衡其設置！"
 
@@ -723,6 +717,11 @@ msgstr "退出"
 #: src/uix/win.c:201
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
+
+#~ msgid ""
+#~ "The configuration button of this plugin will NOT be updated untill the "
+#~ "configuration dialog restart!"
+#~ msgstr "此插件的配置按鈕直到配置對話框重啓之後纔會更新！"
 
 #~ msgid "Preference"
 #~ msgstr "配置"
