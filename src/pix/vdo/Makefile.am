@@ -13,7 +13,7 @@ data_DATA		=\
 libvdo_la_SOURCES	=\
 				vdo.c\
 				vdo.h
-INCLUDES		=\
+libvdo_la_CPPFLAGS	=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\

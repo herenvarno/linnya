@@ -93,8 +93,12 @@ am__installdirs = "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(liblinnyauix_ladir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liblinnyauix_la_DEPENDENCIES =
-am_liblinnyauix_la_OBJECTS = glb.lo dbg.lo key.lo thm.lo win.lo pli.lo \
-	pli.obj.lo sss.lo cfg.lo cfg.obj.lo uix.lo
+am_liblinnyauix_la_OBJECTS = liblinnyauix_la-glb.lo \
+	liblinnyauix_la-dbg.lo liblinnyauix_la-key.lo \
+	liblinnyauix_la-thm.lo liblinnyauix_la-win.lo \
+	liblinnyauix_la-pli.lo liblinnyauix_la-pli.obj.lo \
+	liblinnyauix_la-sss.lo liblinnyauix_la-cfg.lo \
+	liblinnyauix_la-cfg.obj.lo liblinnyauix_la-uix.lo
 liblinnyauix_la_OBJECTS = $(am_liblinnyauix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -286,7 +290,7 @@ liblinnyauix_la_SOURCES = \
 	uix.c
 
 liblinnyauix_ladir = ${includedir}/linnya/uix
-INCLUDES = \
+liblinnyauix_la_CPPFLAGS = \
 	@GTK3_CFLAGS@\
 	@GSTREAMER_CFLAGS@\
 	@SQLITE3_CFLAGS@\
@@ -312,9 +316,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/uix/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/uix/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/uix/Makefile
+	  $(AUTOMAKE) --foreign src/uix/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -376,17 +380,17 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cfg.obj.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dbg.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/glb.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/key.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pli.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pli.obj.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sss.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thm.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-cfg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-cfg.obj.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-dbg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-glb.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-key.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-pli.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-pli.obj.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-sss.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-thm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-uix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/liblinnyauix_la-win.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -408,6 +412,83 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+liblinnyauix_la-glb.lo: glb.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-glb.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-glb.Tpo -c -o liblinnyauix_la-glb.lo `test -f 'glb.c' || echo '$(srcdir)/'`glb.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-glb.Tpo $(DEPDIR)/liblinnyauix_la-glb.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='glb.c' object='liblinnyauix_la-glb.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-glb.lo `test -f 'glb.c' || echo '$(srcdir)/'`glb.c
+
+liblinnyauix_la-dbg.lo: dbg.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-dbg.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-dbg.Tpo -c -o liblinnyauix_la-dbg.lo `test -f 'dbg.c' || echo '$(srcdir)/'`dbg.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-dbg.Tpo $(DEPDIR)/liblinnyauix_la-dbg.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dbg.c' object='liblinnyauix_la-dbg.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-dbg.lo `test -f 'dbg.c' || echo '$(srcdir)/'`dbg.c
+
+liblinnyauix_la-key.lo: key.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-key.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-key.Tpo -c -o liblinnyauix_la-key.lo `test -f 'key.c' || echo '$(srcdir)/'`key.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-key.Tpo $(DEPDIR)/liblinnyauix_la-key.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='key.c' object='liblinnyauix_la-key.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-key.lo `test -f 'key.c' || echo '$(srcdir)/'`key.c
+
+liblinnyauix_la-thm.lo: thm.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-thm.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-thm.Tpo -c -o liblinnyauix_la-thm.lo `test -f 'thm.c' || echo '$(srcdir)/'`thm.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-thm.Tpo $(DEPDIR)/liblinnyauix_la-thm.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='thm.c' object='liblinnyauix_la-thm.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-thm.lo `test -f 'thm.c' || echo '$(srcdir)/'`thm.c
+
+liblinnyauix_la-win.lo: win.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-win.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-win.Tpo -c -o liblinnyauix_la-win.lo `test -f 'win.c' || echo '$(srcdir)/'`win.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-win.Tpo $(DEPDIR)/liblinnyauix_la-win.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='win.c' object='liblinnyauix_la-win.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-win.lo `test -f 'win.c' || echo '$(srcdir)/'`win.c
+
+liblinnyauix_la-pli.lo: pli.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-pli.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-pli.Tpo -c -o liblinnyauix_la-pli.lo `test -f 'pli.c' || echo '$(srcdir)/'`pli.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-pli.Tpo $(DEPDIR)/liblinnyauix_la-pli.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pli.c' object='liblinnyauix_la-pli.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-pli.lo `test -f 'pli.c' || echo '$(srcdir)/'`pli.c
+
+liblinnyauix_la-pli.obj.lo: pli.obj.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-pli.obj.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-pli.obj.Tpo -c -o liblinnyauix_la-pli.obj.lo `test -f 'pli.obj.c' || echo '$(srcdir)/'`pli.obj.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-pli.obj.Tpo $(DEPDIR)/liblinnyauix_la-pli.obj.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pli.obj.c' object='liblinnyauix_la-pli.obj.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-pli.obj.lo `test -f 'pli.obj.c' || echo '$(srcdir)/'`pli.obj.c
+
+liblinnyauix_la-sss.lo: sss.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-sss.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-sss.Tpo -c -o liblinnyauix_la-sss.lo `test -f 'sss.c' || echo '$(srcdir)/'`sss.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-sss.Tpo $(DEPDIR)/liblinnyauix_la-sss.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sss.c' object='liblinnyauix_la-sss.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-sss.lo `test -f 'sss.c' || echo '$(srcdir)/'`sss.c
+
+liblinnyauix_la-cfg.lo: cfg.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-cfg.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-cfg.Tpo -c -o liblinnyauix_la-cfg.lo `test -f 'cfg.c' || echo '$(srcdir)/'`cfg.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-cfg.Tpo $(DEPDIR)/liblinnyauix_la-cfg.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cfg.c' object='liblinnyauix_la-cfg.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-cfg.lo `test -f 'cfg.c' || echo '$(srcdir)/'`cfg.c
+
+liblinnyauix_la-cfg.obj.lo: cfg.obj.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-cfg.obj.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-cfg.obj.Tpo -c -o liblinnyauix_la-cfg.obj.lo `test -f 'cfg.obj.c' || echo '$(srcdir)/'`cfg.obj.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-cfg.obj.Tpo $(DEPDIR)/liblinnyauix_la-cfg.obj.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='cfg.obj.c' object='liblinnyauix_la-cfg.obj.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-cfg.obj.lo `test -f 'cfg.obj.c' || echo '$(srcdir)/'`cfg.obj.c
+
+liblinnyauix_la-uix.lo: uix.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liblinnyauix_la-uix.lo -MD -MP -MF $(DEPDIR)/liblinnyauix_la-uix.Tpo -c -o liblinnyauix_la-uix.lo `test -f 'uix.c' || echo '$(srcdir)/'`uix.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/liblinnyauix_la-uix.Tpo $(DEPDIR)/liblinnyauix_la-uix.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='uix.c' object='liblinnyauix_la-uix.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblinnyauix_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liblinnyauix_la-uix.lo `test -f 'uix.c' || echo '$(srcdir)/'`uix.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

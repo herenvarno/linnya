@@ -17,7 +17,7 @@ libinf_la_SOURCES	=\
 				inf_cover.h\
 				inf_config.c\
 				inf_config.h
-INCLUDES		=\
+libinf_la_CPPFLAGS	=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\

@@ -95,7 +95,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libinf_la_DEPENDENCIES =
-am_libinf_la_OBJECTS = inf.lo inf_cover.lo inf_config.lo
+am_libinf_la_OBJECTS = libinf_la-inf.lo libinf_la-inf_cover.lo \
+	libinf_la-inf_config.lo
 libinf_la_OBJECTS = $(am_libinf_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -278,7 +279,7 @@ libinf_la_SOURCES = \
 				inf_config.c\
 				inf_config.h
 
-INCLUDES = \
+libinf_la_CPPFLAGS = \
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
@@ -306,9 +307,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/pix/inf/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/pix/inf/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/pix/inf/Makefile
+	  $(AUTOMAKE) --foreign src/pix/inf/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -370,9 +371,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inf.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inf_config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/inf_cover.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libinf_la-inf.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libinf_la-inf_config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libinf_la-inf_cover.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -394,6 +395,27 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+libinf_la-inf.lo: inf.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libinf_la-inf.lo -MD -MP -MF $(DEPDIR)/libinf_la-inf.Tpo -c -o libinf_la-inf.lo `test -f 'inf.c' || echo '$(srcdir)/'`inf.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libinf_la-inf.Tpo $(DEPDIR)/libinf_la-inf.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='inf.c' object='libinf_la-inf.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libinf_la-inf.lo `test -f 'inf.c' || echo '$(srcdir)/'`inf.c
+
+libinf_la-inf_cover.lo: inf_cover.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libinf_la-inf_cover.lo -MD -MP -MF $(DEPDIR)/libinf_la-inf_cover.Tpo -c -o libinf_la-inf_cover.lo `test -f 'inf_cover.c' || echo '$(srcdir)/'`inf_cover.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libinf_la-inf_cover.Tpo $(DEPDIR)/libinf_la-inf_cover.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='inf_cover.c' object='libinf_la-inf_cover.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libinf_la-inf_cover.lo `test -f 'inf_cover.c' || echo '$(srcdir)/'`inf_cover.c
+
+libinf_la-inf_config.lo: inf_config.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libinf_la-inf_config.lo -MD -MP -MF $(DEPDIR)/libinf_la-inf_config.Tpo -c -o libinf_la-inf_config.lo `test -f 'inf_config.c' || echo '$(srcdir)/'`inf_config.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libinf_la-inf_config.Tpo $(DEPDIR)/libinf_la-inf_config.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='inf_config.c' object='libinf_la-inf_config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinf_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libinf_la-inf_config.lo `test -f 'inf_config.c' || echo '$(srcdir)/'`inf_config.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

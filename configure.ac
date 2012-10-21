@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([linnya], [2.3.0], [http://www.linnya.org])
-AM_INIT_AUTOMAKE(linnya, 2.3.0)
+AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([src/linnya.h])
 AC_CONFIG_HEADERS([config.h])
 

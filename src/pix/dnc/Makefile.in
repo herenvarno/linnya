@@ -95,9 +95,10 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdnc_la_DEPENDENCIES =
-am_libdnc_la_OBJECTS = dnc.lo dnc_cov.lo dnc_cov_lastfm.lo \
-	dnc_cov_top100.lo dnc_lrc.lo dnc_lrc_lrc123.lo \
-	dnc_lrc_qianqian.lo dnc_config.lo
+am_libdnc_la_OBJECTS = libdnc_la-dnc.lo libdnc_la-dnc_cov.lo \
+	libdnc_la-dnc_cov_lastfm.lo libdnc_la-dnc_cov_top100.lo \
+	libdnc_la-dnc_lrc.lo libdnc_la-dnc_lrc_lrc123.lo \
+	libdnc_la-dnc_lrc_qianqian.lo libdnc_la-dnc_config.lo
 libdnc_la_OBJECTS = $(am_libdnc_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -290,7 +291,7 @@ libdnc_la_SOURCES = \
 				dnc_config.c\
 				dnc_config.h
 
-INCLUDES = \
+libdnc_la_CPPFLAGS = \
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
@@ -320,9 +321,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/pix/dnc/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/pix/dnc/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/pix/dnc/Makefile
+	  $(AUTOMAKE) --foreign src/pix/dnc/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -384,14 +385,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov_lastfm.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_cov_top100.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc_lrc123.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dnc_lrc_qianqian.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_config.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_cov.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_cov_lastfm.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_cov_top100.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_lrc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_lrc_lrc123.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libdnc_la-dnc_lrc_qianqian.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -413,6 +414,62 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+libdnc_la-dnc.lo: dnc.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc.Tpo -c -o libdnc_la-dnc.lo `test -f 'dnc.c' || echo '$(srcdir)/'`dnc.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc.Tpo $(DEPDIR)/libdnc_la-dnc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc.c' object='libdnc_la-dnc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc.lo `test -f 'dnc.c' || echo '$(srcdir)/'`dnc.c
+
+libdnc_la-dnc_cov.lo: dnc_cov.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_cov.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_cov.Tpo -c -o libdnc_la-dnc_cov.lo `test -f 'dnc_cov.c' || echo '$(srcdir)/'`dnc_cov.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_cov.Tpo $(DEPDIR)/libdnc_la-dnc_cov.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_cov.c' object='libdnc_la-dnc_cov.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_cov.lo `test -f 'dnc_cov.c' || echo '$(srcdir)/'`dnc_cov.c
+
+libdnc_la-dnc_cov_lastfm.lo: dnc_cov_lastfm.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_cov_lastfm.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_cov_lastfm.Tpo -c -o libdnc_la-dnc_cov_lastfm.lo `test -f 'dnc_cov_lastfm.c' || echo '$(srcdir)/'`dnc_cov_lastfm.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_cov_lastfm.Tpo $(DEPDIR)/libdnc_la-dnc_cov_lastfm.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_cov_lastfm.c' object='libdnc_la-dnc_cov_lastfm.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_cov_lastfm.lo `test -f 'dnc_cov_lastfm.c' || echo '$(srcdir)/'`dnc_cov_lastfm.c
+
+libdnc_la-dnc_cov_top100.lo: dnc_cov_top100.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_cov_top100.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_cov_top100.Tpo -c -o libdnc_la-dnc_cov_top100.lo `test -f 'dnc_cov_top100.c' || echo '$(srcdir)/'`dnc_cov_top100.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_cov_top100.Tpo $(DEPDIR)/libdnc_la-dnc_cov_top100.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_cov_top100.c' object='libdnc_la-dnc_cov_top100.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_cov_top100.lo `test -f 'dnc_cov_top100.c' || echo '$(srcdir)/'`dnc_cov_top100.c
+
+libdnc_la-dnc_lrc.lo: dnc_lrc.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_lrc.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_lrc.Tpo -c -o libdnc_la-dnc_lrc.lo `test -f 'dnc_lrc.c' || echo '$(srcdir)/'`dnc_lrc.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_lrc.Tpo $(DEPDIR)/libdnc_la-dnc_lrc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_lrc.c' object='libdnc_la-dnc_lrc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_lrc.lo `test -f 'dnc_lrc.c' || echo '$(srcdir)/'`dnc_lrc.c
+
+libdnc_la-dnc_lrc_lrc123.lo: dnc_lrc_lrc123.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_lrc_lrc123.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_lrc_lrc123.Tpo -c -o libdnc_la-dnc_lrc_lrc123.lo `test -f 'dnc_lrc_lrc123.c' || echo '$(srcdir)/'`dnc_lrc_lrc123.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_lrc_lrc123.Tpo $(DEPDIR)/libdnc_la-dnc_lrc_lrc123.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_lrc_lrc123.c' object='libdnc_la-dnc_lrc_lrc123.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_lrc_lrc123.lo `test -f 'dnc_lrc_lrc123.c' || echo '$(srcdir)/'`dnc_lrc_lrc123.c
+
+libdnc_la-dnc_lrc_qianqian.lo: dnc_lrc_qianqian.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_lrc_qianqian.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_lrc_qianqian.Tpo -c -o libdnc_la-dnc_lrc_qianqian.lo `test -f 'dnc_lrc_qianqian.c' || echo '$(srcdir)/'`dnc_lrc_qianqian.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_lrc_qianqian.Tpo $(DEPDIR)/libdnc_la-dnc_lrc_qianqian.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_lrc_qianqian.c' object='libdnc_la-dnc_lrc_qianqian.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_lrc_qianqian.lo `test -f 'dnc_lrc_qianqian.c' || echo '$(srcdir)/'`dnc_lrc_qianqian.c
+
+libdnc_la-dnc_config.lo: dnc_config.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libdnc_la-dnc_config.lo -MD -MP -MF $(DEPDIR)/libdnc_la-dnc_config.Tpo -c -o libdnc_la-dnc_config.lo `test -f 'dnc_config.c' || echo '$(srcdir)/'`dnc_config.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libdnc_la-dnc_config.Tpo $(DEPDIR)/libdnc_la-dnc_config.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='dnc_config.c' object='libdnc_la-dnc_config.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libdnc_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libdnc_la-dnc_config.lo `test -f 'dnc_config.c' || echo '$(srcdir)/'`dnc_config.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

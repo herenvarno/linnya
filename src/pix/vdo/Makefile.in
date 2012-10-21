@@ -95,7 +95,7 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(datadir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libvdo_la_DEPENDENCIES =
-am_libvdo_la_OBJECTS = vdo.lo
+am_libvdo_la_OBJECTS = libvdo_la-vdo.lo
 libvdo_la_OBJECTS = $(am_libvdo_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -274,7 +274,7 @@ libvdo_la_SOURCES = \
 				vdo.c\
 				vdo.h
 
-INCLUDES = \
+libvdo_la_CPPFLAGS = \
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
@@ -302,9 +302,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/pix/vdo/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/pix/vdo/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/pix/vdo/Makefile
+	  $(AUTOMAKE) --foreign src/pix/vdo/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -366,7 +366,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdo.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libvdo_la-vdo.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -388,6 +388,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+libvdo_la-vdo.lo: vdo.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libvdo_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libvdo_la-vdo.lo -MD -MP -MF $(DEPDIR)/libvdo_la-vdo.Tpo -c -o libvdo_la-vdo.lo `test -f 'vdo.c' || echo '$(srcdir)/'`vdo.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/libvdo_la-vdo.Tpo $(DEPDIR)/libvdo_la-vdo.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='vdo.c' object='libvdo_la-vdo.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libvdo_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libvdo_la-vdo.lo `test -f 'vdo.c' || echo '$(srcdir)/'`vdo.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

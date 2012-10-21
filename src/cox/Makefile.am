@@ -34,7 +34,7 @@ liblinnyacox_la_SOURCES = \
 
 liblinnyacox_ladir = ${includedir}/linnya/cox
 
-INCLUDES = \
+liblinnyacox_la_CPPFLAGS = \
 	@GSTREAMER_CFLAGS@\
 	@SQLITE3_CFLAGS@\
 	-DLOCALEDIR=\"$(localedir)\"

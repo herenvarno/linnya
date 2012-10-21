@@ -20,7 +20,7 @@ libopc_la_SOURCES	=\
 					opc_right.h\
 					opc_config.c\
 					opc_config.h
-INCLUDES			=\
+libopc_la_CPPFLAGS	=\
 					@GTK3_CFLAGS@\
 					@GSTREAMER_CFLAGS@\
 					@SQLITE3_CFLAGS@\

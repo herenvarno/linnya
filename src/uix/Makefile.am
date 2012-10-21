@@ -23,14 +23,14 @@ liblinnyauix_la_SOURCES = \
 	uix.c
 
 liblinnyauix_ladir = ${includedir}/linnya/uix
-	
-INCLUDES = \
+
+liblinnyauix_la_CPPFLAGS = \
 	@GTK3_CFLAGS@\
 	@GSTREAMER_CFLAGS@\
 	@SQLITE3_CFLAGS@\
 	-DLOCALEDIR=\"$(localedir)\"\
 	-I.
-	
+
 liblinnyauix_la_LIBADD = \
 	@GTK3_LIBS@\
 	@GSTREAMER_LIBS@\

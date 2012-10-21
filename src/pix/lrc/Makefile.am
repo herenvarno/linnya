@@ -19,7 +19,7 @@ liblrc_la_SOURCES	=\
 				lrc_desktop.h\
 				lrc_config.c\
 				lrc_config.h
-INCLUDES		=\
+liblrc_la_CPPFLAGS	=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\

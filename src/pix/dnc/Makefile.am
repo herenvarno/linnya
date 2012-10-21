@@ -27,7 +27,7 @@ libdnc_la_SOURCES	=\
 				dnc_lrc_qianqian.h\
 				dnc_config.c\
 				dnc_config.h
-INCLUDES		=\
+libdnc_la_CPPFLAGS	=\
 				@GTK3_CFLAGS@\
 				@GSTREAMER_CFLAGS@\
 				@SQLITE3_CFLAGS@\
