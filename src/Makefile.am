@@ -9,7 +9,7 @@ linnya_SOURCES = linnya.c
 
 linnyadir = ${includedir}/linnya
 
-INCLUDES = \
+linnya_CPPFLAGS = \
 	@GTK3_CFLAGS@\
 	@GSTREAMER_CFLAGS@\
 	@SQLITE3_CFLAGS@\

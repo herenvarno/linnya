@@ -21,9 +21,7 @@ EXTRA_DIST = \
 	btn_volm_normal.png\
 	btn_volm_hover.png\
 	btn_volm_active.png\
-	bar_seek_background.png\
-	bar_seek_fill.png\
-	bar_seek_button_hover.png\
+	bar_seek_button_normal.png\
 	sss_adds_bg.png
 themedefaultimagedir = ${datadir}/linnya/uix/theme/default/image
 themedefaultimage_DATA = \
@@ -49,8 +47,6 @@ themedefaultimage_DATA = \
 	btn_volm_normal.png\
 	btn_volm_hover.png\
 	btn_volm_active.png\
-	bar_seek_background.png\
-	bar_seek_fill.png\
-	bar_seek_button_hover.png\
+	bar_seek_button_normal.png\
 	sss_adds_bg.png
 	

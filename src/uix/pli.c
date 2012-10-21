@@ -27,334 +27,298 @@
 /*
  * VARIABLES
  */
-GHashTable	*ly_pli_plugins;
-GList		*ly_pli_depends;
-gchar		*ly_pli_element_name;	/* PRIVATE */
+GList *ly_pli_list;
 
 /*
  * FUNCTIONS
  */
 void ly_pli_init()
 {
-	ly_pli_plugins=g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-	ly_pli_depends=NULL;
-	
+	// CHECK MODULE SUPPORT
 	if(!g_module_supported())
 	{
 		g_error(_("Your system does not support plugin, abort ..."));
 	}
-	
-	GList *list=NULL;
-	list=ly_gla_get_subdirs(LY_GLB_USER_PIXDIR, FALSE);
 
-	GList *p=list;
-	gchar *pdata=NULL;
+	// LOAD CONFIG
+	gchar pli_list[1024]="";
+	gchar **list_cf=NULL;
+	if(!ly_reg_get("pli_list", "%1023[^\n]", pli_list))
+	{
+		ly_reg_set("pli_list", "%s", pli_list);
+	}
+	if(pli_list)
+	{
+		list_cf=g_strsplit(pli_list, ":", 0);
+	}
+
+	// GET THE EXIST PLUGIN LIST
+	GList *list_pl=NULL;
+	GList *p=NULL;
+	GList *r=NULL;
+	list_pl=ly_gla_get_subdirs(LY_GLB_PROG_PIXDIR, FALSE);
+
+	if(list_cf)
+	{
+		gint i=0;
+		while(list_cf[i])
+		{
+			p=list_pl;
+			while(p)
+			{
+				if(g_str_equal(list_cf[i], p->data))
+				{
+					r=p;
+					p=p->next;
+					list_pl=g_list_remove_link(list_pl, r);
+					ly_pli_list=g_list_concat(ly_pli_list, r);
+					break;
+				}
+				p=p->next;
+			}
+			i++;
+		}
+	}
+
+	ly_pli_list=g_list_concat(ly_pli_list, list_pl);
+	p=ly_pli_list;
 	while(p)
 	{
-		pdata=p->data;
-		ly_pli_new(LY_GLB_USER_PIXDIR, pdata);
-		g_free(pdata);
+		ly_pli_add(p->data);
 		p=p->next;
 	}
-	g_list_free(list);
-
-	list=ly_gla_get_subdirs(LY_GLB_PROG_PIXDIR, FALSE);
-	p=list;
-	pdata=NULL;
-	while(p)
-	{
-		pdata=p->data;
-		ly_pli_new(LY_GLB_PROG_PIXDIR, pdata);
-		g_free(pdata);
-		p=p->next;
-	}
-	g_list_free(list);
 }
 
 void	ly_pli_fina()
 {
+	gchar *name=NULL;
+	gchar *str=NULL;
+	gchar *tmp=NULL;
+	LyPliPlugin *pl;
+	GList *p=ly_pli_list;
+	while(p)
+	{
+		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
+		{
+			pl=LY_PLI_PLUGIN(p->data);
+			g_object_get(G_OBJECT(pl), "name", &name, NULL);
+			if(str)
+			{
+				str=g_strconcat(tmp, ":", name, NULL);
+				g_free(tmp);
+				tmp=str;
+				g_free(name);
+			}
+			else
+			{
+				str=name;
+				tmp=str;
+			}
+			g_object_unref(p->data);
+			p->data=NULL;
+		}
+		else
+		{
+			g_free(p->data);
+		}
+		p=p->next;
+	}
+	ly_reg_set("pli_list", "%s", str);
+	g_free(str);
+	g_list_free(ly_pli_list);
 }
 
 
-void	ly_pli_set(LyPliPlugin* plugin)
+gboolean	ly_pli_add(gchar *name)
 {
-	gchar *namestr=g_strconcat(plugin->name,NULL);
-	g_hash_table_replace(ly_pli_plugins, namestr, plugin);
+	LyPliPlugin *pl=ly_pli_plugin_new(name);
+	if(!pl)
+		return FALSE;
+
+	gchar *depends=NULL;
+	gchar **list_depends=NULL;
+	g_object_get(G_OBJECT(pl), "depends", &depends, NULL);
+	if(depends)
+	{
+		list_depends=g_strsplit(depends, ":", -1);
+		if(list_depends)
+		{
+			gint i=0;
+			while(list_depends[i])
+			{
+				ly_pli_add(list_depends[i]);
+				i++;
+			}
+		}
+	}
+	GList *p=ly_pli_list;
+	while(p)
+	{
+		if(g_str_equal(name, p->data))
+		{
+			g_free(p->data);
+			p->data=pl;
+			break;
+		}
+		p=p->next;
+	}
+	g_free(depends);
+	g_strfreev(list_depends);
+	return TRUE;
 }
 
 LyPliPlugin* ly_pli_get(gchar *name)
 {
-	LyPliPlugin *plugin=NULL;
-	plugin=g_hash_table_lookup(ly_pli_plugins, name);
-	return plugin;
-}
-
-void ly_pli_del(gchar *name)
-{
-	LyPliPlugin *plugin=NULL;
-	plugin=ly_pli_get(name);
-	if(!plugin)
-		return;
-	if(plugin->module)
-		g_module_close(plugin->module);
-	g_hash_table_remove(ly_pli_plugins, name);
-}
-
-LyPliPlugin* ly_pli_new(const char *dir, char *filename)
-{
-	if(!filename)
-		return NULL;
-	gchar path[1024];
-	g_snprintf(path, sizeof(path),"%s%s/plugin.xml",dir, filename);
-	
-	if(!g_file_test(path, G_FILE_TEST_EXISTS))
+	gchar *name1=NULL;
+	GList *p=ly_pli_list;
+	while(p)
 	{
-		return NULL;
-	}
-
-	GMarkupParser parser=
-	{
-		.start_element = ly_pli_new_start_cb,
-		.end_element = ly_pli_new_end_cb,
-		.text = ly_pli_new_text_cb,
-		.passthrough = NULL,
-		.error = NULL
-	};
-	
-	gchar *buf;
-	gsize length;
-	GMarkupParseContext *context;
-	LyPliPlugin *plugin=(LyPliPlugin *)g_malloc(sizeof(LyPliPlugin));
-	g_strlcpy(plugin->name,filename,sizeof(plugin->name));
-	g_file_get_contents(path, &buf, &length, NULL);
-	context = g_markup_parse_context_new(&parser, 0, plugin, NULL);
-
-	if (g_markup_parse_context_parse(context, buf, length, NULL) == FALSE)
-	{
-		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Read configuration file error."));
-		g_free(plugin);
-		return NULL;
-	}
-	
-	g_markup_parse_context_free(context);
-	plugin->widget=NULL;
-	if(g_str_equal(plugin->name,""))
-	{
-		g_free(plugin);
-		plugin=NULL;
-		return NULL;
-	}
-	if(!g_str_equal(plugin->logo,""))
-	{
-		g_snprintf(path, sizeof(path),"%s%s/%s",dir,filename,plugin->logo);
-		g_strlcpy(plugin->logo,path,sizeof(plugin->logo));
-	}
-	
-	g_snprintf(path, sizeof(path),"%s%s/lib%s.so",dir,filename,filename);
-	GModule *module=NULL;
-	
-	char lock_path[1024]="";
-	g_snprintf(lock_path, sizeof(lock_path),"%s%s.lock",LY_GLB_USER_PIXDIR,filename);
-	if(!g_file_test(lock_path, G_FILE_TEST_EXISTS))
-	{
-		module=g_module_open(path,G_MODULE_BIND_LAZY);
-		if(module==NULL)
+		g_object_get(G_OBJECT(p->data), "name", &name1, NULL);
+		if(g_str_equal(name, name1))
 		{
-		 puts(filename);
+			g_free(name1);
+			return p->data;
 		}
+		p=p->next;
 	}
-	plugin->module=module;
-	
-	if(g_str_equal(plugin->alias,""))
-	{
-		g_strlcpy(plugin->alias, plugin->name, sizeof(plugin->alias));
-	}
-	ly_pli_set(plugin);
-	return plugin;
+	g_free(name1);
+	return NULL;
 }
 
-void ly_pli_new_start_cb(GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+gboolean ly_pli_lock(gchar *name)
 {
-	if(ly_pli_element_name)
+	g_return_val_if_fail((name!=NULL&&!g_str_equal(name, "")), FALSE);
+
+	LyPliPlugin *pl=ly_pli_get(name);
+	g_return_val_if_fail(pl!=NULL, FALSE);
+
+	gboolean locked=FALSE;
+	g_object_get(G_OBJECT(pl), "locked", &locked, NULL);
+	g_return_val_if_fail(!locked, TRUE);
+
+	GList *list=ly_pli_list;
+	GList *p=list;
+	gchar *name1=NULL;
+	gchar *depends=NULL;
+	gchar *pattern=NULL;
+	GRegex *regex=NULL;
+
+	pattern=g_strconcat("(^|:)", name, "($|:)", NULL);
+	regex=g_regex_new(pattern, 0, 0, NULL);
+	while(p)
 	{
-		g_free(ly_pli_element_name);
-		ly_pli_element_name=NULL;
-	}
-	ly_pli_element_name=g_strdup (element_name);
-}
-void ly_pli_new_text_cb(GMarkupParseContext * context, const gchar *text, gsize text_len, gpointer data, GError **error) 
-{
-	LyPliPlugin *plugin=data;
-	if(!ly_pli_element_name||!text)
-		return;
-	else if(g_str_equal(ly_pli_element_name,"alias"))
-		g_strlcpy(plugin->alias, text, sizeof(plugin->alias));
-	else if(g_str_equal(ly_pli_element_name,"version"))
-		g_strlcpy(plugin->version, text, sizeof(plugin->version));
-	else if(g_str_equal(ly_pli_element_name,"author"))
-		g_strlcpy(plugin->author, text, sizeof(plugin->author));
-	else if(g_str_equal(ly_pli_element_name,"license"))
-		g_strlcpy(plugin->license, text, sizeof(plugin->license));
-	else if(g_str_equal(ly_pli_element_name,"logo"))
-		g_strlcpy(plugin->logo, text, sizeof(plugin->logo));
-	else if(g_str_equal(ly_pli_element_name,"comment"))
-		g_strlcpy(plugin->comment, text, sizeof(plugin->comment));
-	else if(g_str_equal(ly_pli_element_name,"website"))
-		g_strlcpy(plugin->website, text, sizeof(plugin->website));
-	else if(g_str_equal(ly_pli_element_name,"depends"))
-	{
-		if(g_str_equal(plugin->name,""))
-			return;
-		gchar depends[1024];
-		g_strlcpy(depends, text, sizeof(depends));
-		if(g_str_equal(depends,""))
-			return;
-		
-		gchar **plugins=NULL;
-		plugins=g_strsplit(depends,":",-1);
-		gint i=0;
-		for(i=0; plugins[i]!=NULL; i++)
+		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
 		{
-			ly_pli_set_depend(plugin->name, plugins[i]);
-			if(ly_pli_get(plugins[i]))
-				continue;
-			if(!(ly_pli_new(LY_GLB_USER_PIXDIR, plugins[i])))
+			g_object_get(G_OBJECT(p->data), "name", &name1, "depends", &depends, NULL);
+			if(depends && g_regex_match(regex, depends, 0, NULL))
 			{
-				if(!(ly_pli_new(LY_GLB_PROG_PIXDIR, plugins[i])))
-				{
-					continue;
-				}
+				ly_pli_lock(name1);
+			}
+			g_free(name1);
+			g_free(depends);
+			name1=NULL;
+			depends=NULL;
+		}
+		p=p->next;
+	}
+	g_free(pattern);
+	g_regex_unref(regex);
+	ly_pli_plugin_lock(pl);
+	return TRUE;
+}
+
+gboolean ly_pli_unlock(gchar *name)
+{
+	g_return_val_if_fail((name!=NULL&&!g_str_equal(name, "")), FALSE);
+
+	LyPliPlugin *pl=ly_pli_get(name);
+	g_return_val_if_fail(pl!=NULL, FALSE);
+
+	gboolean locked=FALSE;
+	g_object_get(G_OBJECT(pl), "locked", &locked, NULL);
+	g_return_val_if_fail(locked, TRUE);
+
+	gchar *depends;
+	g_object_get(G_OBJECT(pl), "depends", &depends, NULL);
+	if(depends)
+	{
+		gchar **str=NULL;
+		str=g_strsplit(depends, ":", -1);
+		gint i=0;
+		while(str[i])
+		{
+			ly_pli_unlock(str[i]);
+			i++;
+		}
+		g_strfreev(str);
+		g_free(depends);
+	}
+	ly_pli_plugin_unlock(pl);
+	return TRUE;
+}
+
+
+GList *ly_pli_get_list()
+{
+	return ly_pli_list;
+}
+
+/**
+ * ly_pli_change_order:
+ * @plname: the name of plugin to be changed
+ * @pos: the name of plugin being just after the replaced plugin after being
+ * changed. NULL is allowed which means put the plname plugin to the end of list
+ *
+ * Changed a plugin's position.
+ */
+void ly_pli_change_order(gchar *plname, gchar *pos)
+{
+	g_return_if_fail(plname!=NULL);
+	GList *p=NULL;
+	GList *q=NULL;
+	LyPliPlugin *pl;
+	gchar *name;
+	p=ly_pli_list;
+	while(p)
+	{
+		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
+		{
+			pl=LY_PLI_PLUGIN(p->data);
+			g_object_get(G_OBJECT(pl), "name", &name, NULL);
+			if(g_str_equal(name, plname))
+			{
+				g_free(name);
+				q=p;
+				break;
 			}
 		}
+		p=p->next;
 	}
-	else if(g_str_equal(ly_pli_element_name,"daemon"))
-		sscanf(text,"%d",&(plugin->daemon));
-	else if(g_str_equal(ly_pli_element_name,"create_symbol"))
-		g_strlcpy(plugin->create_symbol, text, sizeof(plugin->create_symbol));
-	else if(g_str_equal(ly_pli_element_name,"refresh_symbol"))
-		g_strlcpy(plugin->refresh_symbol, text, sizeof(plugin->refresh_symbol));
-	else if(g_str_equal(ly_pli_element_name,"destroy_symbol"))
-		g_strlcpy(plugin->destroy_symbol, text, sizeof(plugin->destroy_symbol));
-	else if(g_str_equal(ly_pli_element_name,"config_symbol"))
-		g_strlcpy(plugin->config_symbol, text, sizeof(plugin->config_symbol));
-}
-void ly_pli_new_end_cb(GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
-{
-	if(ly_pli_element_name)
+	if(!p)
+		return;
+	if(!pos)
 	{
-		g_free(ly_pli_element_name);
-		ly_pli_element_name=NULL;
+		pl=q->data;
+		ly_pli_list=g_list_delete_link(ly_pli_list, q);
+		ly_pli_list=g_list_insert_before(ly_pli_list, NULL, pl);
+		return;
 	}
-}
 
-GList *ly_pli_get_depends(gchar *name)
-{
-	GList *depends=NULL;
-	GList *p=ly_pli_depends;
-	LyPliDepend *pdata;
+	p=ly_pli_list;
 	while(p)
 	{
-		pdata=p->data;
-		if(pdata&&g_str_equal(pdata->name,name))
+		if(LY_PLI_PLUGIN_IS_PLUGIN(p->data))
 		{
-			depends=g_list_append(depends,g_strconcat(pdata->depend,NULL));
+			pl=LY_PLI_PLUGIN(p->data);
+			g_object_get(G_OBJECT(pl), "name", &name, NULL);
+			if(g_str_equal(name, pos))
+			{
+				pl=q->data;
+				ly_pli_list=g_list_delete_link(ly_pli_list, q);
+				ly_pli_list=g_list_insert_before(ly_pli_list, p, pl);
+				break;
+			}
 		}
 		p=p->next;
 	}
-	return depends;
-}
-
-GList *ly_pli_get_depend_bys(gchar *name)
-{
-	GList *depends=NULL;
-	GList *p=ly_pli_depends;
-	LyPliDepend *pdata;
-	while(p)
-	{
-		pdata=p->data;
-		if(pdata&&g_str_equal(pdata->depend,name))
-		{
-			depends=g_list_append(depends,g_strconcat(pdata->name,NULL));
-		}
-		p=p->next;
-	}
-	return depends;
-}
-
-gboolean ly_pli_set_depend(gchar *name, gchar *depend)
-{
-	if(name==NULL || depend==NULL)
-		return FALSE;
-	if(g_str_equal(name,"") || g_str_equal(depend, "") || g_str_equal(name, depend))
-		return FALSE;
-	
-	LyPliDepend *d=(LyPliDepend *)g_malloc(sizeof(LyPliDepend));
-	g_strlcpy(d->name,name,sizeof(d->name));
-	g_strlcpy(d->depend,depend,sizeof(d->depend));
-	
-	ly_pli_depends=g_list_append(ly_pli_depends, d);
-	return TRUE;
-}
-
-gboolean ly_pli_set_active(gchar *name, gboolean active)
-{
-	if(!name||g_str_equal(name,""))
-		return FALSE;
-	LyPliPlugin *pl=ly_pli_get(name);
-	if(!pl)
-		return FALSE;
-	
-	char lock_path[1024]="";
-	GList *list=NULL;
-	GList *p=NULL;
-	
-	if(active)
-	{
-		if(pl->module)
-			return TRUE;
-		list=ly_pli_get_depends(name);
-		p=list;
-		while(p)
-		{
-			if(!ly_pli_set_active((gchar*)(p->data), TRUE))
-				return FALSE;
-			p=p->next;
-		}
-		char path[1024]="";
-		g_snprintf(path, sizeof(path),"%s%s/lib%s.so",LY_GLB_PROG_PIXDIR, pl->name, pl->name);
-		pl->module=g_module_open(path,G_MODULE_BIND_LAZY);
-		g_snprintf(lock_path, sizeof(path),"%s%s.lock",LY_GLB_USER_PIXDIR,pl->name);
-		if(g_file_test(lock_path, G_FILE_TEST_EXISTS))
-		{
-			remove(lock_path);
-		}
-	}
-	else
-	{
-		if(!(pl->module))
-			return TRUE;
-		
-		list=ly_pli_get_depend_bys(name);
-		p=list;
-		while(p)
-		{
-			if(!ly_pli_set_active((gchar*)(p->data), FALSE))
-				return FALSE;
-			p=p->next;
-		}
-		g_module_close(pl->module);
-		pl->module=NULL;
-		g_snprintf(lock_path, sizeof(lock_path),"%s%s.lock",LY_GLB_USER_PIXDIR,pl->name);
-		if(!g_file_test(lock_path, G_FILE_TEST_EXISTS))
-		{
-			g_file_set_contents(lock_path, "== THIS IS A LOCK FILE FOR PLUGINS, DO NOT DELETE IT ==", -1, NULL);
-		}
-	}
-	
-	return TRUE;
-}
-
-GHashTable*		ly_pli_get_plugins		()
-{
-	return ly_pli_plugins;
 }
