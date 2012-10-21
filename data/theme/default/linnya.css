@@ -1,5 +1,6 @@
 *{
-  background-repeat: no-repeat;
+	engine: clearlooks;
+	background-repeat: no-repeat;
 }
 
 /*
@@ -95,6 +96,75 @@
 /*
  * Seek bar
  */
+#bar_seek.slider,
+#bar_seek.slider.horizontal,
+#bar_seek.slider.horizontal:hover {
+    background-image: url("image/bar_seek_button.png");
+}
+
+#bar_seek {
+    -GtkScale-slider-length: 16;
+    -GtkRange-slider-width: 20;
+    -GtkRange-trough-border: 0;
+    -unico-focus-border-radius: 3;
+    -unico-focus-border-dashes: 0;
+    -GtkWidget-focus-line-width: 0;
+    -unico-focus-border-color: @transparent;
+    -unico-focus-fill-color: @transparent;
+    -unico-focus-outer-stroke-color: @transparent;
+
+}
+
+#bar_seek.slider,
+#bar_seek.slider:hover,
+#bar_seek.slider:insensitive {
+    border-width: 0px;
+    border-radius: 0px;
+    border-style: none;
+
+    color: alpha(#D8D8D8, 0.0);
+    background-color: alpha(#D8D8D8, 0.0);
+
+    /* background-image in -assets variant */
+}
+
+#bar_seek.trough {
+    border-width: 1px;
+    border-radius: 8px;
+    border-style: none;
+    background-image: -gtk-gradient (linear,
+			         left top,
+			         left bottom,
+			         from (alpha (#000, 0.18)),
+                     color-stop (0.20, alpha (#000, 0.14)),
+			         to (alpha (#000, 0.04)));
+
+    -unico-border-gradient: -gtk-gradient (linear,
+                     left top, left bottom,
+                     from (shade (#D8D8D8, 0.60)),
+                     to (shade (#D8D8D8, 0.70)));
+}
+
+#bar_seek.progressbar {
+
+    background-color: #FF0000;
+
+    border-width: 1px;
+    border-radius: 2px;
+    border-style: none;
+    /* border-image defined in the -assets variants */
+
+    -unico-progressbar-pattern: none;
+}
+
+#bar_seek.scale.highlight.left,
+#bar_seek.scale.highlight.left {
+	border-width: 0px;
+	background-image: -gtk-gradient (linear,
+                                     left top, left bottom,
+                                     from (shade (#5858FA, 1.31)),
+                                     to (shade (#0101DF, 0.90)));
+}
 
 /*
  * Nbk sss
