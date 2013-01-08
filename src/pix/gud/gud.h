@@ -1,8 +1,8 @@
 /*
- * win.h
+ * gud.h
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2012 - Edward
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,49 +18,30 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-#ifndef LY_WIN_H
-#define LY_WIN_H
+#ifndef LY_3GUD_H
+#define LY_3GUD_H
 
 /*
  * HEADERS
  */
-#include "glb.h"
-#include "dbg.h"
-#include "key.h"
-#include "thm.h"
+#include "cox.h"
+#include "uix.h"
 
 /*
- * TYPES
+ * MACROS
  */
-typedef struct _LyWinWindow
-{
-	GtkWidget *win;
-	GtkWidget *nbk_sssn;
-	GtkWidget *btn_menu;
-	GtkWidget *btn_adds;
-	GtkWidget *btn_full;
-	GtkWidget *btn_play;
-	GtkWidget *btn_prev;
-	GtkWidget *btn_next;
-	GtkWidget *btn_conf;
-	GtkWidget *btn_volm;
-	GtkWidget *bar_seek;
-	GtkWidget *grd_ctrl;
-	GtkWidget *btn_home;
-}LyWinWindow;
+
+/*
+ * VARIABLES
+ */
 
 
 /*
- * FUNCTIONS [PUBLIC]
+ * FUNCTIONS
  */
-void			ly_win_init			();
-void			ly_win_fina			();
+const gchar*	g_module_check_init		(GModule *module);
+void			g_module_unload			(GModule *module);
+GtkWidget*		ly_3gud_create			();
 
-LyWinWindow*	ly_win_new			();
-void			ly_win_free			();
 
-LyWinWindow*	ly_win_get_window	();
-
-#endif	//LY_WIN_H
+#endif // LY_3GUD_H

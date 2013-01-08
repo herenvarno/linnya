@@ -6,6 +6,9 @@ EXTRA_DIST = \
 	btn_adds_normal.png\
 	btn_adds_hover.png\
 	btn_adds_active.png\
+	btn_full_normal.png\
+	btn_full_hover.png\
+	btn_full_active.png\
 	btn_prev_normal.png\
 	btn_prev_hover.png\
 	btn_prev_active.png\
@@ -32,6 +35,9 @@ themedefaultimage_DATA = \
 	btn_adds_normal.png\
 	btn_adds_hover.png\
 	btn_adds_active.png\
+	btn_full_normal.png\
+	btn_full_hover.png\
+	btn_full_active.png\
 	btn_prev_normal.png\
 	btn_prev_hover.png\
 	btn_prev_active.png\
@@ -49,4 +55,4 @@ themedefaultimage_DATA = \
 	btn_volm_active.png\
 	bar_seek_button_normal.png\
 	sss_adds_bg.png
-	
+

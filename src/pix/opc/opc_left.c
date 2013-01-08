@@ -78,16 +78,16 @@ GtkWidget*	ly_3opc_left_create		()
 {
 	GtkWidget *vbox;
 	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	
+
 	GtkWidget *scrolled_window;
 	scrolled_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolled_window,TRUE,TRUE,0);
 	treeview_left=gtk_tree_view_new();
 	gtk_container_add(GTK_CONTAINER(scrolled_window),treeview_left);
-	
+
 	ly_3opc_left_refresh();
-	
+
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
 	column = gtk_tree_view_column_new();
@@ -100,12 +100,14 @@ GtkWidget*	ly_3opc_left_create		()
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview_left), column);
 	selection_left=gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview_left));
 
+	gtk_tree_view_expand_all(GTK_TREE_VIEW(treeview_left));
+
 	g_signal_connect(G_OBJECT(treeview_left), "button_release_event", G_CALLBACK(ly_3opc_left_popup_menu_cb), NULL);
 	g_signal_connect(G_OBJECT(treeview_left), "button_press_event", G_CALLBACK(ly_3opc_left_mask_cb), NULL);
 	g_signal_connect(G_OBJECT(selection_left), "changed", G_CALLBACK(ly_3opc_left_on_changed_cb), NULL);
-	
+
 	ly_mbs_bind("plm_update", "core:plm", ly_3opc_left_on_plm_update_cb, NULL);
-	
+
 	return vbox;
 
 }
@@ -118,13 +120,13 @@ void		ly_3opc_left_refresh	()
 	if(store_left)
 		g_object_unref(store_left);
 	store_left=NULL;
-	
+
 	GtkTreeIter iter;
 	store_left = gtk_tree_store_new (2, G_TYPE_INT, G_TYPE_STRING);
-	
+
 	gtk_tree_store_append(store_left, &iter,NULL);
 	gtk_tree_store_set(store_left, &iter, 0, -1, 1, _("Playing Queue"), -1);
-	
+
 	gtk_tree_store_append(store_left, &iter,NULL);
 	gtk_tree_store_set(store_left, &iter, 0, -1, 1, _("Playlists"), -1);
 	ly_dbm_exec("SELECT * FROM playlists ORDER BY num", ly_3opc_left_on_get_playlists_cb, &iter);
@@ -173,7 +175,7 @@ gboolean ly_3opc_left_on_changed_cb(GtkWidget *widget, gpointer data)
 		return FALSE;
 
 	index=gtk_tree_path_get_indices((GtkTreePath*)(selectlist->data));
-	
+
 	gchar *str;
 	gint id=0;
 	GtkTreeIter iter;
@@ -182,7 +184,7 @@ gboolean ly_3opc_left_on_changed_cb(GtkWidget *widget, gpointer data)
 	gchar name[1024]="";
 	g_strlcpy(name, str, sizeof(name));
 	ly_dbm_replace_str(name, sizeof(name));
-	
+
 	ly_reg_set("3opc_select", "%d:%d:%d:%s", index[0], index[1], id, name);
 
 	return FALSE;
@@ -219,14 +221,14 @@ gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gp
 		_("Delete"),
 		_("Delete All")
 	};
-	
+
 	GtkWidget	*menu=NULL;
 	GtkWidget	*menuitem[LEFT_NUM];
 	GtkWidget	*hseparator;
 	GList *selectlist;
 	gint i=0;
-	
-	if (event->button==3) 
+
+	if (event->button==3)
 	{
 		menu=gtk_menu_new();
 		for(i=0;i<LEFT_NUM;i++)
@@ -248,7 +250,7 @@ gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gp
 		g_signal_connect(G_OBJECT(menuitem[LEFT_REFRESH]), "activate", G_CALLBACK(ly_3opc_left_refresh_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_DELETE]), "activate", G_CALLBACK(ly_3opc_left_delete_cb),NULL);
 		g_signal_connect(G_OBJECT(menuitem[LEFT_DELETEALL]), "activate", G_CALLBACK(ly_3opc_left_deleteall_cb),NULL);
-		
+
 
 		selectlist=gtk_tree_selection_get_selected_rows(selection_left, NULL);
 		if(g_list_length(selectlist)==0)
@@ -263,7 +265,7 @@ gboolean ly_3opc_left_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gp
 			gtk_menu_popup (GTK_MENU(menu),NULL, NULL, NULL, NULL,event->button, event->time);
 			return FALSE;
 		}
-		
+
 		int index0=0;
 		int id=0;
 		ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &id);
@@ -291,13 +293,13 @@ gboolean
 ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 {
 	const gchar *name=NULL;
-		
+
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkWidget *entry;
 	int result;
-	
+
 	dialog=gtk_dialog_new_with_buttons(_("New Playlist"),
 					 GTK_WINDOW(ly_win_get_window()->win),
 					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -331,7 +333,7 @@ ly_3opc_left_add_cb(GtkWidget *widget, gpointer data)
 	}
 	gtk_widget_destroy(dialog);
 	ly_3opc_left_refresh();
-	
+
 	return FALSE;
 }
 
@@ -344,7 +346,7 @@ ly_3opc_left_import_cb(GtkWidget *widget, gpointer data)
 	gchar *path;
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
-	
+
 	dialog =gtk_file_chooser_dialog_new(	_("Import Playlist..."),
 						GTK_WINDOW(ly_win_get_window()->win),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -373,7 +375,7 @@ ly_3opc_left_import_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	filelist=gtk_file_chooser_get_uris(GTK_FILE_CHOOSER (dialog));
 	q=filelist;
 	while(q)
@@ -390,12 +392,12 @@ ly_3opc_left_import_cb(GtkWidget *widget, gpointer data)
 
 gboolean
 ly_3opc_left_addtoqueue_cb(GtkWidget *widget, gpointer data)
-{	
+{
 	int index0=0;
 	int id=0;
 	char name[1024]="";
 	ly_reg_get("3opc_select", "%d:%*d:%d:%1023[^\n]", &index0, &id, name);
-	
+
 	char where[1024]="";
 	if(index0==2)
 	{
@@ -435,14 +437,14 @@ ly_3opc_left_rename_cb(GtkWidget *widget, gpointer data)
 	{
 		return FALSE;
 	}
-	
+
 	const gchar *name=NULL;
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkWidget *entry;
 	int result;
-	
+
 	dialog=gtk_dialog_new_with_buttons(_("Rename Playlist"),
 					GTK_WINDOW(ly_win_get_window()->win),
 					GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -485,13 +487,13 @@ ly_3opc_left_export_cb(GtkWidget *widget, gpointer data)
 	{
 		return FALSE;
 	}
-	
+
 	GSList *filelist;
 	GSList *q;
 	gchar *path;
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
-	
+
 	dialog =gtk_file_chooser_dialog_new(	_("Export Playlist..."),
 						GTK_WINDOW(ly_win_get_window()->win),
 						GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -517,7 +519,7 @@ ly_3opc_left_export_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	filelist=gtk_file_chooser_get_uris(GTK_FILE_CHOOSER (dialog));
 	q=filelist;
 	gboolean flag=TRUE;
@@ -582,10 +584,10 @@ gboolean ly_3opc_left_deleteall_cb(GtkWidget *widget, gpointer data)
 	ly_reg_get("3opc_select", "%d:%*d:%*d:%*s", &index0);
 	if(index0!=1)
 		return FALSE;
-	
+
 	GtkWidget *dialog;
 	gint result;
-	
+
 	dialog=ly_3opc_left_warning_dialog_create(_("<b>This is a Dangerous function!!</b>\n Do you really want to DELETE ALL playlists?"));
 	result=gtk_dialog_run(GTK_DIALOG(dialog));
 	switch(result)
@@ -598,7 +600,7 @@ gboolean ly_3opc_left_deleteall_cb(GtkWidget *widget, gpointer data)
 			break;
 	}
 	gtk_widget_destroy(dialog);
-	
+
 	ly_plm_clear_pl();
 	return FALSE;
 }

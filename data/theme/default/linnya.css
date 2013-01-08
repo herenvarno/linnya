@@ -30,6 +30,19 @@
 	border-image: url("image/null.png");
     background-image: url("image/btn_adds_active.png");
 }
+#btn_full{
+	border-image: url("image/null.png");
+	background-image: url("image/btn_full_normal.png");
+}
+#btn_full:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/btn_full_hover.png");
+}
+#btn_full:active,
+#btn_full:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/btn_full_active.png");
+}
 #btn_prev{
 	border-image: url("image/null.png");
     background-image: url("image/btn_prev_normal.png");

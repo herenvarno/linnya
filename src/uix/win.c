@@ -9,11 +9,18 @@
 LyWinWindow *ly_win_window=NULL;
 int ly_win_timeout=0;
 gboolean ly_win_flag_seek=FALSE;
+gboolean ly_win_flag_home=FALSE;
+gboolean ly_win_flag_home_drag=FALSE;
+gint ly_win_home_pos_x;
+gint ly_win_home_pos_y;
 
 /*
  * FUNCTIONS
  */
 static gboolean ly_win_on_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+static gboolean ly_win_on_cursor_move_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+static gboolean ly_win_on_cursor_leave_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+static gboolean ly_win_on_full_toggled_cb(GtkWidget *widget, gpointer data);
 static gboolean ly_win_on_widget_visible_cb(GtkWidget *widget, gpointer data);
 static gboolean ly_win_on_prev_clicked_cb(GtkWidget *button, gpointer data);
 static gboolean ly_win_on_play_toggled_cb(GtkWidget *button, gpointer data);
@@ -25,12 +32,22 @@ static gboolean ly_win_on_seek_changed_cb(GtkWidget *widget, GdkEventButton *eve
 
 static gboolean ly_win_on_accel_volm_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 static gboolean ly_win_on_accel_seek_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
+static gboolean ly_win_on_accel_fullscreen_cb(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 
 static gboolean ly_win_on_tray_popup_cb(GtkStatusIcon *status_icon, guint button, guint32 activate_time, gpointer menu);
 static gboolean ly_win_on_play_clicked_cb(GtkWidget *widget, gpointer data);
 
 void ly_win_on_update_meta_cb(LyMbsMessage *message, gpointer data);
 void ly_win_on_update_button_cb(LyMbsMessage *message, gpointer data);
+
+void ly_win_fullscreen();
+void ly_win_unfullscreen();
+static gboolean ly_win_on_home_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data);
+static gboolean ly_win_on_home_enter_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+static gboolean ly_win_on_home_leave_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data);
+//static gboolean ly_win_on_home_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
+static gboolean ly_win_on_home_drag_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//static gboolean ly_win_on_home_release_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
 void ly_win_init()
 {
@@ -59,12 +76,14 @@ LyWinWindow*	ly_win_new()
 	GtkWidget *nbk_sssn;
 	GtkWidget *btn_menu;
 	GtkWidget *btn_adds;
+	GtkWidget *btn_full;
 	GtkWidget *btn_prev;
 	GtkWidget *btn_play;
 	GtkWidget *btn_next;
 	GtkWidget *bar_seek;
 	GtkWidget *btn_conf;
 	GtkWidget *btn_volm;
+	GtkWidget *grd_ctrl;
 
 	char path[1024]="";
 	GdkScreen *screen;
@@ -129,6 +148,7 @@ LyWinWindow*	ly_win_new()
 	 * notebook for sessions
 	 */
 	nbk_sssn=gtk_notebook_new();
+	gtk_widget_set_hexpand(nbk_sssn, TRUE);
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(nbk_sssn), TRUE);
 	gtk_widget_set_vexpand(nbk_sssn, TRUE);
 	gtk_grid_attach(GTK_GRID(grd), nbk_sssn, 0, 0, 6, 1);
@@ -139,35 +159,41 @@ LyWinWindow*	ly_win_new()
 	btn_adds=gtk_button_new();
 	gtk_widget_set_size_request(btn_adds, 30, 35);
 	gtk_grid_attach(GTK_GRID(box), btn_adds, 1, 0, 1, 1);
+	btn_full=gtk_toggle_button_new();
+	gtk_widget_set_size_request(btn_full, 30, 35);
+	gtk_grid_attach(GTK_GRID(box), btn_full, 2, 0, 1, 1);
 	gtk_notebook_set_action_widget(GTK_NOTEBOOK(nbk_sssn), box, GTK_PACK_END);
 	gtk_widget_show_all(box);
 
 	/*
 	 * control area
 	 */
+	grd_ctrl=gtk_grid_new();
+	gtk_widget_set_hexpand(grd_ctrl, TRUE);
+	gtk_grid_attach(GTK_GRID(grd), grd_ctrl, 0, 1, 1, 1);
 	btn_prev=gtk_button_new();
 	gtk_widget_set_size_request(btn_prev, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd), btn_prev, 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_prev, 0, 0, 1, 1);
 	btn_play=gtk_toggle_button_new();
 	gtk_widget_set_size_request(btn_play, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd), btn_play, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_play, 1, 0, 1, 1);
 	btn_next=gtk_button_new();
 	gtk_widget_set_size_request(btn_next, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd), btn_next, 2, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_next, 2, 0, 1, 1);
 	bar_seek=gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 1, 0.0001);
 	ly_win_flag_seek=FALSE;
 	gtk_widget_set_size_request(bar_seek, 150, -1);
 	gtk_scale_set_draw_value(GTK_SCALE(bar_seek),FALSE);
 	gtk_widget_set_hexpand(bar_seek, TRUE);
 	gtk_widget_set_vexpand(bar_seek, FALSE);
-	gtk_grid_attach(GTK_GRID(grd), bar_seek, 3, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), bar_seek, 3, 0, 1, 1);
 	btn_conf=gtk_button_new();
 	gtk_widget_set_size_request(btn_conf, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd), btn_conf, 4, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_conf, 4, 0, 1, 1);
 	btn_volm=gtk_scale_button_new(GTK_ICON_SIZE_SMALL_TOOLBAR, 0, 1, 0.001, NULL);
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(btn_volm), ly_aud_get_volume());
 	gtk_widget_set_size_request(btn_volm, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd), btn_volm, 5, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_volm, 5, 0, 1, 1);
 
 	//tray icon
 	g_snprintf(path, sizeof(path), "%sicon/linnya.png", LY_GLB_PROG_UIXDIR);
@@ -209,12 +235,14 @@ LyWinWindow*	ly_win_new()
 	gtk_widget_set_name(nbk_sssn, "nbk_sssn");
 	gtk_widget_set_name(btn_menu, "btn_menu");
 	gtk_widget_set_name(btn_adds, "btn_adds");
+	gtk_widget_set_name(btn_full, "btn_full");
 	gtk_widget_set_name(btn_prev, "btn_prev");
 	gtk_widget_set_name(btn_play, "btn_play");
 	gtk_widget_set_name(btn_next, "btn_next");
 	gtk_widget_set_name(btn_conf, "btn_conf");
 	gtk_widget_set_name(btn_volm, "btn_volm");
 	gtk_widget_set_name(bar_seek, "bar_seek");
+	gtk_widget_set_name(grd_ctrl, "grd_ctrl");
 	gtk_widget_show_all(win);
 
 	/*
@@ -222,6 +250,7 @@ LyWinWindow*	ly_win_new()
 	 */
 	g_signal_connect(G_OBJECT(win), "destroy",G_CALLBACK(gtk_main_quit),NULL);
 	g_signal_connect(G_OBJECT(win), "draw", G_CALLBACK(ly_win_on_win_expose_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_full), "toggled", G_CALLBACK(ly_win_on_full_toggled_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_prev), "clicked", G_CALLBACK(ly_win_on_prev_clicked_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_play), "toggled", G_CALLBACK(ly_win_on_play_toggled_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_next), "clicked", G_CALLBACK(ly_win_on_next_clicked_cb), NULL);
@@ -253,6 +282,7 @@ LyWinWindow*	ly_win_new()
 	ly_key_set("seek-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_seek_cb), "-");
 	ly_key_set("volume+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "+");
 	ly_key_set("volume-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "-");
+	ly_key_set("fullscreen", NULL, NULL, "Escape", KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_fullscreen_cb), NULL);
 	ly_key_bind("menu");
 	ly_key_bind("adds");
 	ly_key_bind("play");
@@ -263,17 +293,21 @@ LyWinWindow*	ly_win_new()
 	ly_key_bind("seek-");
 	ly_key_bind("volume+");
 	ly_key_bind("volume-");
+	ly_key_bind("fullscreen");
 
 	window->win=win;
 	window->nbk_sssn=nbk_sssn;
 	window->btn_menu=btn_menu;
 	window->btn_adds=btn_adds;
+	window->btn_full=btn_full;
 	window->btn_prev=btn_prev;
 	window->btn_play=btn_play;
 	window->btn_next=btn_next;
 	window->btn_conf=btn_conf;
 	window->btn_volm=btn_volm;
 	window->bar_seek=bar_seek;
+	window->grd_ctrl=grd_ctrl;
+	window->btn_home=NULL;
 
 	int autoplay=0;
 	if(!ly_reg_get("aud_autoplay", "%d", &autoplay))
@@ -320,10 +354,14 @@ ly_win_on_win_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_surface_destroy(image);
 	image=NULL;
 
-	guint winbg[4]={29298,40862,53199,41725};
-	ly_reg_get("thm_winbg", "%d:%d:%d:%d", &winbg[0], &winbg[1], &winbg[2], &winbg[3]);
+	GdkRGBA rgba;
+	rgba.red=0.466;
+	rgba.green=0.466;
+	rgba.blue=0.866;
+	rgba.alpha=0.6;
+	ly_reg_get("thm_winbg", "%lf:%lf:%lf:%lf", &(rgba.red), &(rgba.green), &(rgba.blue), &(rgba.alpha));
 	cairo_rectangle(cr, 0, 0, width, height);
-	cairo_set_source_rgba(cr, winbg[0]/65536.0, winbg[1]/65536.0, winbg[2]/65536.0, winbg[3]/65536.0);
+	cairo_set_source_rgba(cr, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 	cairo_fill(cr);
 	return FALSE;
 }
@@ -340,7 +378,23 @@ gboolean ly_win_on_widget_visible_cb(GtkWidget *widget, gpointer data)
 	}
 	return FALSE;
 }
+
 // Callbacks for buttons
+static gboolean
+ly_win_on_full_toggled_cb(GtkWidget *widget, gpointer data)
+{
+	gboolean btn_state;
+	btn_state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	if(btn_state==TRUE)
+	{
+		ly_win_fullscreen();
+	}
+	else
+	{
+		ly_win_unfullscreen();
+	}
+	return FALSE;
+}
 static gboolean
 ly_win_on_prev_clicked_cb(GtkWidget *widget, gpointer data)
 {
@@ -458,6 +512,23 @@ ly_win_on_accel_seek_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	return FALSE;
 }
 
+static gboolean
+ly_win_on_accel_fullscreen_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+	guint keyval, GdkModifierType modifier, gpointer data)
+{
+	GdkWindow *window=gtk_widget_get_window(ly_win_window->win);
+	GdkWindowState state=gdk_window_get_state(window);
+	if((state&GDK_WINDOW_STATE_FULLSCREEN))
+	{
+		ly_win_unfullscreen();
+	}
+	else
+	{
+		ly_win_fullscreen();
+	}
+	return FALSE;
+}
+
 // Callbacks for custom signals
 void ly_win_on_update_meta_cb(LyMbsMessage *message, gpointer data)
 {
@@ -490,5 +561,216 @@ static gboolean
 ly_win_on_play_clicked_cb(GtkWidget *widget, gpointer data)
 {
  	gtk_button_clicked(GTK_BUTTON(ly_win_window->btn_play));
+	return FALSE;
+}
+
+/*******************************************************************************
+ * THE FULLSCREEN MODE
+ ******************************************************************************/
+void
+ly_win_fullscreen()
+{
+	gtk_window_set_decorated(GTK_WINDOW(ly_win_window->win), FALSE);
+	gtk_widget_hide(ly_win_window->grd_ctrl);
+	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(ly_win_window->nbk_sssn), FALSE);
+	gtk_window_fullscreen(GTK_WINDOW(ly_win_window->win));
+
+	// create a HOME button
+	if(ly_win_window->btn_home!=NULL)
+		return;
+	GtkWidget *btn_home;
+	btn_home=gtk_window_new(GTK_WINDOW_POPUP);
+	GdkScreen *screen = gtk_widget_get_screen(btn_home);
+	gtk_widget_set_app_paintable(btn_home, TRUE);
+	gtk_widget_set_events(btn_home,GDK_ALL_EVENTS_MASK);
+	if(!gtk_widget_is_composited(btn_home))
+	{
+		ly_log_put_with_flag(G_LOG_LEVEL_MESSAGE, _("Cannot Support transparent!"));
+	}
+	else
+	{
+		GdkVisual *visual;
+		visual = gdk_screen_get_rgba_visual (screen);
+		if (visual == NULL)
+			visual = gdk_screen_get_system_visual (screen);
+		gtk_widget_set_visual (GTK_WIDGET (btn_home), visual);
+	}
+
+
+	gtk_widget_set_size_request(btn_home, 40, 40);
+	ly_win_window->btn_home=btn_home;
+	gtk_widget_show_all(btn_home);
+
+	g_signal_connect(G_OBJECT(btn_home), "draw", G_CALLBACK(ly_win_on_home_expose_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_home), "enter_notify_event", G_CALLBACK(ly_win_on_home_enter_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_home), "leave_notify_event", G_CALLBACK(ly_win_on_home_leave_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_home), "button_press_event", G_CALLBACK(ly_win_on_home_drag_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_home), "button_release_event", G_CALLBACK(ly_win_on_home_drag_cb),NULL);
+	g_signal_connect(G_OBJECT(btn_home), "motion_notify_event", G_CALLBACK(ly_win_on_home_drag_cb),NULL);
+}
+void
+ly_win_unfullscreen()
+{
+	if(ly_win_window->btn_home)
+	{
+		gtk_widget_destroy(ly_win_window->btn_home);
+		ly_win_window->btn_home=NULL;
+	}
+	gtk_window_set_decorated(GTK_WINDOW(ly_win_window->win), TRUE);
+	gtk_widget_show(ly_win_window->grd_ctrl);
+	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(ly_win_window->nbk_sssn), TRUE);
+	gtk_window_unfullscreen(GTK_WINDOW(ly_win_window->win));
+}
+
+static gboolean
+ly_win_on_home_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+	gint width;
+	gint height;
+	width = gtk_widget_get_allocated_width (widget);
+	height = gtk_widget_get_allocated_height (widget);
+
+	cairo_surface_t *image=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,1,1);
+	cairo_set_source_surface(cr, image, 0, 0);
+	cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+	cairo_paint(cr);
+	cairo_surface_destroy(image);
+	image=NULL;
+
+	if(!ly_win_flag_home)
+	{
+		cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.3);
+		cairo_move_to (cr, 8, 0);
+		cairo_line_to (cr, width - 8, 0);
+		cairo_move_to (cr, width, 8);
+		cairo_line_to (cr, width, height - 8);
+		cairo_move_to (cr, width - 8, height);
+		cairo_line_to (cr, 8, height);
+		cairo_move_to (cr, 0, height - 8);
+		cairo_line_to (cr, 0, 8);
+		cairo_arc (cr, 8, 8, 8, M_PI, 3 * M_PI / 2.0);
+		cairo_arc (cr, width - 8, 8, 8, 3 * M_PI / 2, 2 * M_PI);
+		cairo_arc (cr, width - 8, height -8, 8, 0, M_PI / 2);
+		cairo_arc (cr, 8, height - 8, 8, M_PI / 2, M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 0.3);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-5, 0, 2*M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 0.7, 0.7, 0.7, 0.3);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-8, 0, 2*M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.3);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-11, 0, 2*M_PI);
+		cairo_fill(cr);
+	}
+	else
+	{
+		cairo_set_source_rgba(cr, 0.0, 0.0, 0.0, 0.7);
+		cairo_move_to (cr, 8, 0);
+		cairo_line_to (cr, width - 8, 0);
+		cairo_move_to (cr, width, 8);
+		cairo_line_to (cr, width, height - 8);
+		cairo_move_to (cr, width - 8, height);
+		cairo_line_to (cr, 8, height);
+		cairo_move_to (cr, 0, height - 8);
+		cairo_line_to (cr, 0, 8);
+		cairo_arc (cr, 8, 8, 8, M_PI, 3 * M_PI / 2.0);
+		cairo_arc (cr, width - 8, 8, 8, 3 * M_PI / 2, 2 * M_PI);
+		cairo_arc (cr, width - 8, height -8, 8, 0, M_PI / 2);
+		cairo_arc (cr, 8, height - 8, 8, M_PI / 2, M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 0.3, 0.3, 0.3, 0.7);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-5, 0, 2*M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 0.7, 0.7, 0.7, 0.8);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-8, 0, 2*M_PI);
+		cairo_fill(cr);
+		cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 1.0);
+		cairo_arc(cr, width/2, height/2, (width<height?width:height)/2.0-11, 0, 2*M_PI);
+		cairo_fill(cr);
+	}
+	return FALSE;
+}
+static gboolean
+ly_win_on_home_enter_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+	ly_win_flag_home=TRUE;
+	gtk_widget_queue_draw(widget);
+	return FALSE;
+}
+static gboolean
+ly_win_on_home_leave_cb(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+	ly_win_flag_home=FALSE;
+	gtk_widget_queue_draw(widget);
+	return FALSE;
+}
+static gboolean
+ly_win_on_home_drag_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	if(event->button !=1)
+		return FALSE;
+
+	gint width;
+	gint height;
+	gint x;
+	gint y;
+	width = gtk_widget_get_allocated_width (ly_win_window->win);
+	height = gtk_widget_get_allocated_height (ly_win_window->win);
+
+	switch(event->type)
+	{
+		case GDK_BUTTON_PRESS:
+			ly_win_home_pos_x=event->x_root>0?event->x_root:0;
+			ly_win_home_pos_y=event->y_root>0?event->y_root:0;
+			ly_win_flag_home_drag=TRUE;
+			break;
+		case GDK_BUTTON_RELEASE:
+			ly_win_flag_home_drag=FALSE;
+			x=event->x_root>0?event->x_root:0;
+			y=event->y_root>0?event->y_root:0;
+			x=x<width/2?15:width-30;
+			if(y<(height-30)/6)
+			{
+				y=15;
+			}
+			else if(y<3*height/6)
+			{
+				y=height/3;
+			}
+			else if(y<5*height/6)
+			{
+				y=2*height/3;
+			}
+			else
+			{
+				y=height-30;
+			}
+			gtk_window_move(GTK_WINDOW(widget), x-15, y-15);
+
+			if(ly_win_home_pos_x-x<100 && ly_win_home_pos_x-x>-100 &&
+				ly_win_home_pos_y-y<100 && ly_win_home_pos_y-y>-100)
+			{
+				if(gtk_widget_get_visible(GTK_WIDGET(ly_win_window->grd_ctrl))==TRUE)
+				{
+					gtk_widget_hide(GTK_WIDGET(ly_win_window->grd_ctrl));
+					gtk_notebook_set_show_tabs(GTK_NOTEBOOK(ly_win_window->nbk_sssn), FALSE);
+				}
+				else
+				{
+					gtk_widget_show(GTK_WIDGET(ly_win_window->grd_ctrl));
+					gtk_notebook_set_show_tabs(GTK_NOTEBOOK(ly_win_window->nbk_sssn), TRUE);
+				}
+			}
+			break;
+		default:
+			break;
+	}
+	if(ly_win_flag_home_drag)
+	{
+		x=event->x_root>0?event->x_root:0;
+		y=event->y_root>0?event->y_root:0;
+		gtk_window_move(GTK_WINDOW(widget), x-15, y-15);
+	}
 	return FALSE;
 }
