@@ -30,6 +30,10 @@ static gboolean ly_win_on_volm_changed_cb(GtkScaleButton *button, gdouble value,
 static gboolean ly_win_on_seek_update_cb(gpointer data);
 static gboolean ly_win_on_seek_changed_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
+static gboolean ly_win_on_accel_play_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
+static gboolean ly_win_on_accel_prev_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
+static gboolean ly_win_on_accel_next_cb(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
+static gboolean ly_win_on_accel_conf_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 static gboolean ly_win_on_accel_volm_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 static gboolean ly_win_on_accel_seek_cb(GtkAccelGroup *accel_group,GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 static gboolean ly_win_on_accel_fullscreen_cb(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
@@ -272,19 +276,15 @@ LyWinWindow*	ly_win_new()
 	 * bind keys
 	 */
 	gtk_window_add_accel_group(GTK_WINDOW(win),ly_key_get_accel());
-	ly_key_set("menu", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_menu, "clicked");
-	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_adds, "clicked");
-	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_play, "clicked");
-	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_prev, "clicked");
-	ly_key_set("next", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_next, "clicked");
-	ly_key_set("conf", NULL, NULL, NULL, KEY_BIND_TYPE_SIGNAL, btn_conf, "clicked");
+	ly_key_set("play", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_play_cb), NULL);
+	ly_key_set("prev", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_prev_cb), NULL);
+	ly_key_set("next", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_next_cb), NULL);
+	ly_key_set("conf", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_conf_cb), NULL);
 	ly_key_set("seek+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_seek_cb), "+");
 	ly_key_set("seek-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_seek_cb), "-");
 	ly_key_set("volume+", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "+");
 	ly_key_set("volume-", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_volm_cb), "-");
 	ly_key_set("fullscreen", NULL, NULL, "Escape", KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_fullscreen_cb), NULL);
-	ly_key_bind("menu");
-	ly_key_bind("adds");
 	ly_key_bind("play");
 	ly_key_bind("prev");
 	ly_key_bind("next");
@@ -475,6 +475,49 @@ ly_win_on_seek_changed_cb(GtkWidget *widget, GdkEventButton *event, gpointer dat
 }
 
 // Callbacks for accel
+static gboolean
+ly_win_on_accel_play_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	gboolean btn_state;
+	GstState gst_state;
+	btn_state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ly_win_window->btn_play));
+	gst_state=ly_aud_get_state();
+	if(gst_state!=GST_STATE_PLAYING && btn_state==FALSE)
+	{
+		ly_aud_play();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->btn_play), TRUE);
+	}
+	else if(gst_state==GST_STATE_PLAYING && btn_state==TRUE)
+	{
+		ly_aud_pause();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->btn_play), FALSE);
+	}
+	return FALSE;
+}
+
+static gboolean
+ly_win_on_accel_prev_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	ly_aud_prev();
+	return FALSE;
+}
+static gboolean
+ly_win_on_accel_next_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	ly_aud_next();
+	return FALSE;
+}
+
+static gboolean
+ly_win_on_accel_conf_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	ly_mbs_put("config", "ui:win", NULL);
+	return FALSE;
+}
 static gboolean
 ly_win_on_accel_volm_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	guint keyval, GdkModifierType modifier, gpointer data)

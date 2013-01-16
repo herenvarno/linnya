@@ -1,6 +1,12 @@
+@import url("resource:///reset.css");
 *{
 	engine: clearlooks;
 	background-repeat: no-repeat;
+}
+
+GtkButton{
+    transition-property: color, background-color, border-color, background-image, padding, border-width;
+    transition-duration: 1s;
 }
 
 /*
@@ -187,22 +193,26 @@
 	background-image: none;
 }
 #nbk_sssn tab {
+	margin: 11px 9px 9px 11px;
     background-image: -gtk-gradient (linear,
                        left top, left bottom,
                        from (alpha (#fff, 0.20)),
                        to (alpha (#000, 0.2)));
-    color: #fff;
+	border:none;
+	color: alpha(#0044FF, 0.4);
 }
 
 #nbk_sssn tab:active {
+	margin: 11px 9px 9px 11px;
     background-image: -gtk-gradient (linear,
                 left top, left bottom,
-                from (alpha (#fff, 0.30)),
-              to (alpha (#aaa, 0.05)));
-
-    border-color: alpha (#0004FF, 0.80);
-
-    border-width: 4px;
+                from (alpha (#FFF, 0.7)),
+              to (alpha (#FFF, 0.7)));
+	
+	color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #FFF;
 }
 
 /*
@@ -215,6 +225,7 @@
 }
 #sss_adds.view{
 	background-color: alpha (#EEEEEE, 0.4);
+	text-shadow: 3px 3px 5px alpha(black, 0.5);
 }
 
 #sss_adds.view.cell:selected,
@@ -224,4 +235,5 @@
 	border-radius: 10px;
 	border-style: solid;
 	border-width: 1px;
+	text-shadow: 3px 3px 5px alpha(white, 0.9);
 }

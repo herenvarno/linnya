@@ -45,12 +45,14 @@ void ly_sss_drag_begin_cb(GtkWidget *widget, GdkDragContext *drag_context,
 void ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
 	gpointer user_data);
 
+static gboolean ly_win_on_accel_adds_cb(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 
 void	ly_sss_init()
 {
 	ly_sss_tab_add_init();
 	ly_sss_tab_add_create();
 	g_signal_connect(G_OBJECT(ly_win_get_window()->btn_adds), "clicked", G_CALLBACK(ly_sss_tab_add_create), NULL);
+	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_adds_cb), NULL);
 	g_timeout_add(100, ly_sss_refresh, NULL);
 
 }
@@ -424,4 +426,17 @@ ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
 			g_free(name1);
 		}
 	}
+}
+
+/*******************************************************************************
+ *
+ * keybord bind
+ *
+ * ****************************************************************************/
+static gboolean
+ly_win_on_accel_adds_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	ly_sss_tab_add_create(NULL, NULL);
+	return FALSE;
 }
