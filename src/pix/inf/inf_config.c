@@ -57,20 +57,20 @@ GtkWidget* ly_3inf_config()
 
 	item=ly_cfg_item_new(_("Font"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
-	table=gtk_table_new(3, 2, FALSE);
+	table=gtk_grid_new();
 	ly_cfg_item_append(LY_CFG_ITEM(item), table);
 	label=gtk_label_new(_("Title Font"));
-	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 1, 0, 1);
 	ly_reg_get("3inf_title_font", "%1024[^\n]", str);
 	button=gtk_font_button_new_with_font(str);
 	g_signal_connect(G_OBJECT(button), "font-set", G_CALLBACK(ly_3inf_config_on_title_font_set_cb), NULL);
-	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 0, 1);
+	gtk_grid_attach(GTK_GRID(table), button, 1, 2, 0, 1);
 	label=gtk_label_new(_("Normal Font"));
-	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 2);
 	ly_reg_get("3inf_normal_font", "%1024[^\n]", str);
 	button=gtk_font_button_new_with_font(str);
 	g_signal_connect(G_OBJECT(button), "font-set", G_CALLBACK(ly_3inf_config_on_normal_font_set_cb), NULL);
-	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
+	gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 2);
 
 	return page;
 }

@@ -34,7 +34,6 @@ GtkWidget *ly_3vdo_screen=NULL;
 GtkWidget *ly_3vdo_list_view=NULL;
 GtkListStore *ly_3vdo_list_store=NULL;
 GtkTreeSelection *ly_3vdo_list_selection=NULL;
-GtkWidget *ly_3vdo_desktop_screen=NULL;
 
 /*
  * FUNCTIONS
@@ -50,10 +49,7 @@ static gboolean ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data);
 gpointer ly_3vdo_on_list_add_cb_cb(gpointer data);
 static gboolean ly_3vdo_on_list_refresh_cb(GtkWidget *widget, gpointer data);
 static gboolean ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data);
-static gboolean ly_3vdo_on_expander_clicked_cb(GtkWidget *widget,
-		gpointer data);
-static gboolean ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget,
-		gpointer data);
+static gboolean ly_3vdo_on_expander_hover_cb(GtkWidget *widget, GdkEvent  *event, gpointer data);
 static gboolean ly_3vdo_on_screen_action_cb(GtkWidget *widget,
 		GdkEventButton *event, gpointer data);
 
@@ -74,6 +70,7 @@ ly_3vdo_create()
 {
 	GtkWidget *widget;
 	GtkWidget *screen;
+	GtkWidget *overlay;
 	GtkWidget *expander;
 	GtkWidget *box;
 	GtkWidget *scroll;
@@ -84,19 +81,24 @@ ly_3vdo_create()
 	GtkWidget *img;
 
 	widget=gtk_grid_new();
-	screen=gtk_event_box_new();
+
+	overlay=gtk_overlay_new();
+	screen=gtk_drawing_area_new();
 	ly_3vdo_screen=screen;
 	gtk_widget_set_events(screen,GDK_ALL_EVENTS_MASK);
 	gtk_widget_set_visual(ly_win_get_window()->win, NULL);
 	gtk_widget_set_vexpand(screen, TRUE);
 	gtk_widget_set_hexpand(screen, TRUE);
-	gtk_grid_attach(GTK_GRID(widget), screen, 0, 0, 1, 1);
-
+	gtk_container_add(GTK_CONTAINER(overlay), screen);
 	expander=gtk_button_new();
-	gtk_grid_attach(GTK_GRID(widget), expander, 1, 0, 1, 1);
+	gtk_overlay_add_overlay (GTK_OVERLAY (overlay), expander);
+	gtk_widget_set_vexpand(expander, FALSE);
+	gtk_widget_set_hexpand(expander, TRUE);
+	gtk_widget_set_halign (expander, GTK_ALIGN_END);
+	gtk_grid_attach(GTK_GRID(widget), overlay, 0, 0, 1, 1);
 
 	box=gtk_grid_new();
-	gtk_grid_attach(GTK_GRID(widget), box, 2, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(widget), box, 1, 0, 1, 1);
 	scroll=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
 			GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
@@ -156,10 +158,8 @@ ly_3vdo_create()
 			G_CALLBACK(ly_3vdo_on_list_del_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_frs), "clicked",
 			G_CALLBACK(ly_3vdo_on_list_refresh_cb), NULL);
-	g_signal_connect(G_OBJECT(expander), "clicked",
-			G_CALLBACK(ly_3vdo_on_expander_clicked_cb), box);
-	g_signal_connect(G_OBJECT(screen), "button_press_event",
-			G_CALLBACK(ly_3vdo_on_screen_action_cb), NULL);
+	g_signal_connect(G_OBJECT(expander), "enter-notify-event",
+			G_CALLBACK(ly_3vdo_on_expander_hover_cb), box);
 	return widget;
 }
 
@@ -239,13 +239,13 @@ ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data)
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
 
-	dialog =gtk_file_chooser_dialog_new(_("Add Audio Files..."),
+	dialog =gtk_file_chooser_dialog_new(_("Add Video Files..."),
 			GTK_WINDOW(ly_win_get_window()->win), GTK_FILE_CHOOSER_ACTION_OPEN,
 			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL,
 			GTK_RESPONSE_REJECT, NULL);
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER (dialog),TRUE);
 	filter=gtk_file_filter_new();
-	gtk_file_filter_set_name(filter,_("Audio File"));
+	gtk_file_filter_set_name(filter,_("Video File"));
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.avi");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.AVI");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.wmv");
@@ -261,7 +261,8 @@ ly_3vdo_on_list_add_cb(GtkWidget *widget, gpointer data)
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.ogv");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.OGV");
 	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.mp4");
-	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.MP4");
+	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.MP4");	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.mov");
+	gtk_file_filter_add_pattern(GTK_FILE_FILTER(filter),"*.MOV");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog),
 			GTK_FILE_FILTER(filter));
 	gint result = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -395,7 +396,7 @@ ly_3vdo_on_list_del_cb(GtkWidget *widget, gpointer data)
 }
 
 static gboolean
-ly_3vdo_on_expander_clicked_cb(GtkWidget *widget, gpointer data)
+ly_3vdo_on_expander_hover_cb(GtkWidget *widget, GdkEvent  *event, gpointer data)
 {
 	if(!data)
 		return FALSE;
@@ -407,53 +408,5 @@ ly_3vdo_on_expander_clicked_cb(GtkWidget *widget, gpointer data)
 	{
 		gtk_widget_set_visible(GTK_WIDGET(data), TRUE);
 	}
-	return FALSE;
-}
-
-static gboolean
-ly_3vdo_on_desktop_screen_destroy(GtkWidget *widget, gpointer data)
-{
-	if(ly_3vdo_desktop_screen)
-	{
-		guintptr xid=GDK_WINDOW_XID(gtk_widget_get_window(GTK_WIDGET(
-						ly_3vdo_screen)));
-		ly_ppl_video_set_screen(xid);
-		gtk_widget_destroy(ly_3vdo_desktop_screen);
-		ly_3vdo_desktop_screen=NULL;
-	}
-	return FALSE;
-}
-
-static gboolean
-ly_3vdo_on_screen_action_cb(GtkWidget *widget, GdkEventButton *event,
-		gpointer data)
-{
-	if (!(event->button == 1 && event->type==GDK_2BUTTON_PRESS))
-		return FALSE;
-
-	ly_3vdo_desktop_screen=gtk_window_new(GTK_WINDOW_POPUP);
-	gtk_widget_set_events(ly_3vdo_desktop_screen, GDK_ALL_EVENTS_MASK);
-
-	gint w;
-	gint h;
-	GdkScreen* screen;
-	screen = gdk_screen_get_default();
-	w = gdk_screen_get_width(screen);
-	h = gdk_screen_get_height(screen);
-	gtk_window_set_default_size(GTK_WINDOW(ly_3vdo_desktop_screen), w, h);
-	gtk_window_move(GTK_WINDOW(ly_3vdo_desktop_screen), 0, 0);
-	gtk_widget_set_app_paintable(ly_3vdo_desktop_screen, TRUE);
-	gtk_window_set_decorated(GTK_WINDOW(ly_3vdo_desktop_screen), FALSE);
-	gtk_widget_show_all(ly_3vdo_desktop_screen);
-	guintptr xid = GDK_WINDOW_XID(gtk_widget_get_window(GTK_WIDGET(
-					ly_3vdo_desktop_screen)));
-	ly_ppl_video_set_screen(xid);
-
-	GClosure *closure;
-	closure=g_cclosure_new(G_CALLBACK(ly_3vdo_on_desktop_screen_destroy), NULL,
-			NULL);
-	gtk_accel_group_connect (ly_key_get_accel(), gdk_keyval_from_name("Escape"),
-			0, GTK_ACCEL_VISIBLE, closure);
-
 	return FALSE;
 }

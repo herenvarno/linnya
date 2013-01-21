@@ -35,7 +35,6 @@ gchar *ly_sss_drag_name;
 /*
  * FUNCTIONS
  */
-
 gboolean ly_sss_close_cb(GtkWidget *widget, gpointer data);
 gboolean ly_sss_active_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
 gboolean ly_sss_select_cb(GtkIconView *iconview,GtkTreePath *path,gpointer data);
@@ -46,12 +45,15 @@ void ly_sss_drag_begin_cb(GtkWidget *widget, GdkDragContext *drag_context,
 void ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
 	gpointer user_data);
 
+static gboolean ly_win_on_accel_adds_cb(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer data);
 
 void	ly_sss_init()
 {
 	ly_sss_tab_add_init();
 	ly_sss_tab_add_create();
 	g_signal_connect(G_OBJECT(ly_win_get_window()->btn_adds), "clicked", G_CALLBACK(ly_sss_tab_add_create), NULL);
+	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_adds_cb), NULL);
+	ly_key_bind("adds");
 	g_timeout_add(100, ly_sss_refresh, NULL);
 
 }
@@ -59,6 +61,7 @@ void	ly_sss_fina()
 {
 	ly_sss_tab_add_fina();
 }
+
 GtkWidget *ly_sss_tab_create(GdkPixbuf *pixbuf, gchar *name, GtkWidget *widget)
 {
 	gchar path[1024]="";
@@ -97,7 +100,7 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 
 	if(widget!=NULL)
 	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), widget));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), gtk_widget_get_parent(widget)));
 		ly_sss_tab_add_destroy(NULL, tab_add);
 		return TRUE;
 	}
@@ -114,7 +117,7 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 	logo=NULL;
 	GtkWidget *hbox=ly_sss_tab_create(pixbuf, name, widget);
 
-	gtk_notebook_insert_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget,hbox,n);
+	gtk_notebook_insert_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), widget,hbox,n);
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget, TRUE);
 	gtk_widget_show_all(hbox);
 	gtk_widget_show_all(widget);
@@ -126,7 +129,7 @@ gboolean ly_sss_create(gchar *name, GtkWidget *tab_add)
 }
 gboolean ly_sss_destroy(GtkWidget *widget)
 {
-	GtkWidget *hbox=gtk_notebook_get_tab_label(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget);
+	GtkWidget *hbox=gtk_notebook_get_tab_label(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), widget);
 	GList *tab=gtk_container_get_children(GTK_CONTAINER(hbox));
 	GList *p=tab;
 	p=p->next;
@@ -140,7 +143,7 @@ gboolean ly_sss_destroy(GtkWidget *widget)
 		return FALSE;
 
 	gint n=0;
-	n=gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),widget);
+	n=gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn), widget);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),n);
 
 	ly_pli_plugin_destroy(session);
@@ -311,7 +314,7 @@ void ly_sss_tab_add_refresh_cb(gpointer pl, gpointer data)
 	gboolean locked=FALSE;
 	gboolean daemon=FALSE;
 	g_object_get(G_OBJECT(session), "daemon", &daemon, "locked", &locked, NULL);
-	g_return_if_fail(!locked && !daemon);
+	if(locked || daemon) return;
 
 	GdkPixbuf *pixbuf=NULL;
 	GtkTreeIter iter;
@@ -424,4 +427,17 @@ ly_sss_drag_end_cb(GtkWidget *widget, GdkDragContext *drag_context,
 			g_free(name1);
 		}
 	}
+}
+
+/*******************************************************************************
+ *
+ * keybord bind
+ *
+ * ****************************************************************************/
+static gboolean
+ly_win_on_accel_adds_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
+guint keyval, GdkModifierType modifier, gpointer data)
+{
+	ly_sss_tab_add_create(NULL, NULL);
+	return FALSE;
 }

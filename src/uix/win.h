@@ -40,12 +40,16 @@ typedef struct _LyWinWindow
 	GtkWidget *nbk_sssn;
 	GtkWidget *btn_menu;
 	GtkWidget *btn_adds;
+	GtkWidget *btn_full;
 	GtkWidget *btn_play;
 	GtkWidget *btn_prev;
 	GtkWidget *btn_next;
 	GtkWidget *btn_conf;
-	GtkWidget *btn_volm;
+	GtkWidget *btn_mute;
 	GtkWidget *bar_seek;
+	GtkWidget *bar_volm;
+	GtkWidget *grd_ctrl;
+	GtkWidget *btn_home;
 }LyWinWindow;
 
 

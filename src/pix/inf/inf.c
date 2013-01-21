@@ -49,7 +49,7 @@ const gchar* g_module_check_init(GModule *module)
 	gchar normal_font[1024]="Sans Regular 10";
 	if(!ly_reg_get("3inf_normal_font", "%1024[^\n]", normal_font))
 		ly_reg_set("3inf_normal_font", "%s", normal_font);
-		
+
 	ly_3inf_cover_init();
 	char path[1024]="";
 	g_snprintf(path, sizeof(path), "%sicon/cd.png", LY_GLB_PROG_UIXDIR);
@@ -70,30 +70,37 @@ GtkWidget *ly_3inf_create()
 {
 	ly_3inf_pixbuf_bg=ly_sss_alloc_bg(NULL);
 	ly_3inf_pixbuf_bg_copy=NULL;
-	
+
 	GtkWidget *widget;
 	GtkWidget *event_box;
 	GtkWidget *button;
-	
-	widget=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	
+
+	widget=gtk_overlay_new();
 	event_box=gtk_event_box_new();
-	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(widget), event_box);
 	gtk_widget_set_app_paintable(event_box, TRUE);
 	g_signal_connect(G_OBJECT(event_box), "draw" ,G_CALLBACK (ly_3inf_on_expose_cb) , NULL);
-	
-	button=gtk_button_new_with_label(_("Download Cover"));
-	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
+
+	button=gtk_button_new();
+	gtk_overlay_add_overlay (GTK_OVERLAY (widget), button);
+	gtk_widget_set_size_request(button, 200, 200);
+	gtk_widget_set_vexpand(button, FALSE);
+	gtk_widget_set_hexpand(button, FALSE);
+	gtk_widget_set_halign (button, GTK_ALIGN_START);
+	gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
+	gtk_widget_set_margin_left(button, 100);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3inf_on_get_button_clicked_cb), NULL);
-	
+
 	ly_mbs_bind("meta_changed", "core:pqm", ly_3inf_on_meta_changed_cb, NULL);
 	ly_mbs_bind("meta_update", "", ly_3inf_on_meta_update_cb, NULL);
 	ly_mbs_bind("reg_3inf_title_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
 	ly_mbs_bind("reg_3inf_normal_font_changed", "core:reg", ly_3inf_on_meta_update_cb, NULL);
-	
+
 	ly_3inf_widget=event_box;
 	ly_3inf_cover_on_meta_changed();
-	
+
+	gtk_widget_set_name(button, "3inf_btn_cover");
+
 	return widget;
 }
 
@@ -120,7 +127,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	gint y;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
-	
+
 	/*
 	 * draw bg
 	 */
@@ -140,7 +147,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 		{
 			ly_3inf_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3inf_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
 		}
-		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);	
+		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_bg_copy, 0, 0);
 		cairo_paint(cr);
 	}
 
@@ -148,9 +155,17 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	 * draw banner
 	 */
 	cairo_rectangle (cr, 0, height/2-120, width, 240);
-	cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.65);
 	cairo_fill(cr);
-	
+
+	cairo_set_line_width(cr, 0.5);
+	cairo_set_source_rgba (cr, 0, 0, 0, 0.8);
+	cairo_move_to(cr, 0, height/2-119.5);
+	cairo_line_to(cr, width, height/2-118.5);
+	cairo_stroke(cr);
+	cairo_move_to(cr, 0, height/2+119.5);
+	cairo_line_to(cr, width, height/2+118.5);
+	cairo_stroke(cr);
 	cairo_set_line_width(cr, 0.5);
 	cairo_set_source_rgba (cr, 0.9, 0.9, 0.9, 0.7);
 	cairo_move_to(cr, 0, height/2-118.5);
@@ -159,11 +174,12 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_move_to(cr, 0, height/2+118.5);
 	cairo_line_to(cr, width, height/2+118.5);
 	cairo_stroke(cr);
-	
+
+
 	/*
 	 * draw image
 	 */
-	x=width/10;
+	x=100;
 	y=height/2-100;
 	GdkPixbuf *pixbuf=NULL;
 	pixbuf=ly_3inf_cover_get();
@@ -179,7 +195,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 		gdk_cairo_set_source_pixbuf(cr, ly_3inf_pixbuf_cd, x, y);
 		cairo_paint(cr);
 	}
-	
+
 	/*
 	 * draw information
 	 */
@@ -187,11 +203,11 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	ly_reg_get("3inf_title_font", "%1024[^\n]", title_font);
 	gchar normal_font[1024]="Sans Regular 10";
 	ly_reg_get("3inf_normal_font", "%1024[^\n]", normal_font);
-	
+
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
-	x=width/10+270;
+	x=100+270;
 	y=height/2-60;
 	cairo_set_source_rgba ( cr, 0.1 , 0.1 , 0.1 ,1.0);
 	cairo_move_to ( cr, x, y-2);
@@ -211,7 +227,7 @@ gboolean ly_3inf_on_expose_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 	cairo_move_to ( cr, x, y+60);
 	g_snprintf(str, sizeof(str), "%s - %d kb/s", md->codec, md->bitrate/1024);
 	ly_3inf_draw_text(cr, str, normal_font);
-	
+
 	return FALSE;
 }
 
@@ -219,7 +235,7 @@ void ly_3inf_draw_text (cairo_t *cr, gchar *text, gchar *font)
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
-	
+
 	layout = pango_cairo_create_layout (cr);
 	pango_layout_set_text (layout, text, -1);
 	desc = pango_font_description_from_string (font);
@@ -234,25 +250,25 @@ void ly_3inf_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint width_x
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
-	
+
 	gint width, height;
-	
+
 	layout = pango_cairo_create_layout (cr);
-	
+
 	pango_layout_set_text (layout, text, -1);
 	desc = pango_font_description_from_string (font);
 	pango_layout_set_font_description (layout, desc);
 	pango_font_description_free (desc);
-	
+
 	pango_cairo_update_layout (cr, layout);
-	
+
 	pango_layout_get_size (layout, &width, &height);
 	if(width_x-(double)width/PANGO_SCALE>0)
 		cairo_move_to (cr, (width_x - (double)width / PANGO_SCALE) / 2, height_y);
 	else
 		cairo_move_to (cr, 0, height_y);
 	pango_cairo_show_layout (cr, layout);
-	
+
 	g_object_unref (layout);
 }
 

@@ -111,12 +111,12 @@ GtkWidget*	ly_3opc_right_create		()
 {
 	GtkWidget *vbox;
 	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	
+
 	GtkWidget *scrolled_window;
 	scrolled_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolled_window,TRUE,TRUE,0);
-	
+
 	GtkWidget *hbox;
 	GtkWidget *label;
 	GtkWidget *button_p;
@@ -134,11 +134,11 @@ GtkWidget*	ly_3opc_right_create		()
 	gtk_box_pack_start(GTK_BOX(hbox), button_n,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(button_p), "clicked", G_CALLBACK(ly_3opc_right_on_button_p_clicked_cb), NULL);
 	g_signal_connect(G_OBJECT(button_n), "clicked", G_CALLBACK(ly_3opc_right_on_button_n_clicked_cb), NULL);
-	
+
 	ly_3opc_right_treeview_right=gtk_tree_view_new();
 	gtk_container_add(GTK_CONTAINER(scrolled_window),ly_3opc_right_treeview_right);
 	ly_3opc_right_store_right  = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
-	
+
 	char *sql=NULL;
 	sql=ly_3opc_right_build_sql();
 	if(sql)
@@ -174,15 +174,15 @@ GtkWidget*	ly_3opc_right_create		()
 	gtk_tree_view_set_model(GTK_TREE_VIEW (ly_3opc_right_treeview_right), GTK_TREE_MODEL(ly_3opc_right_store_right ));
 	ly_3opc_right_selection_right=gtk_tree_view_get_selection(GTK_TREE_VIEW(ly_3opc_right_treeview_right));
 	gtk_tree_selection_set_mode(ly_3opc_right_selection_right,GTK_SELECTION_MULTIPLE);
-	
+
 	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "row-activated", G_CALLBACK(ly_3opc_right_on_active_cb), NULL);
 	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_release_event", G_CALLBACK(ly_3opc_right_popup_menu_cb), NULL);
 	g_signal_connect(G_OBJECT(ly_3opc_right_treeview_right), "button_press_event", G_CALLBACK(ly_3opc_right_mask_cb), NULL);
-	
+
 	ly_mbs_bind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb, NULL);
 	ly_mbs_bind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb, NULL);
 	ly_mbs_bind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb, NULL);
-	
+
 	return vbox;
 }
 void		ly_3opc_right_destroy	()
@@ -190,7 +190,7 @@ void		ly_3opc_right_destroy	()
 	if(ly_3opc_right_str_old)
 		g_free(ly_3opc_right_str_old);
 	ly_3opc_right_str_old=NULL;
-	
+
 	ly_mbs_unbind("reg_3opc_select_changed", "core:reg", ly_3opc_right_on_select_changed_cb);
 	ly_mbs_unbind("reg_3opc_limit_changed", "core:reg", ly_3opc_right_on_limit_changed_cb);
 	ly_mbs_unbind("meta_changed", "core:pqm", ly_3opc_right_on_meta_changed_cb);
@@ -200,7 +200,7 @@ void		ly_3opc_right_refresh	()
 	if(ly_3opc_right_store_right)
 		g_object_unref(ly_3opc_right_store_right);
 	ly_3opc_right_store_right=NULL;
-	
+
 	ly_3opc_right_store_right = gtk_tree_store_new (5,GDK_TYPE_PIXBUF,G_TYPE_STRING,G_TYPE_STRING,G_TYPE_STRING, G_TYPE_INT);
 	char *sql=NULL;
 	sql=ly_3opc_right_build_sql();
@@ -356,7 +356,7 @@ void ly_3opc_right_on_meta_changed_cb(LyMbsMessage *message, gpointer data)
 		g_free(ly_3opc_right_str_old);
 		ly_3opc_right_str_old=NULL;
 	}
-	
+
 	if(!gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter))
 	{
 		return;
@@ -388,14 +388,14 @@ gboolean ly_3opc_right_popup_submenu_cb(gpointer stmt, gpointer data)
 {
 	if(data==NULL||stmt==NULL)
 		return TRUE;
-	
+
 	gint id=0;
 	gchar name[512]="";
 	GtkWidget *submenu=(GtkWidget*)data;
 	GtkWidget *submenuitem=NULL;
 	id=sqlite3_column_int(stmt, 0);
 	g_strlcpy(name,(const gchar *)sqlite3_column_text(stmt, 1),sizeof(name));
-	
+
 	submenuitem=gtk_menu_item_new_with_label(name);
 	g_signal_connect(G_OBJECT(submenuitem), "button_press_event",G_CALLBACK(ly_3opc_right_addtoplaylist_cb),(gpointer)id);
 	gtk_menu_shell_append(GTK_MENU_SHELL(submenu),submenuitem);
@@ -404,11 +404,11 @@ gboolean ly_3opc_right_popup_submenu_cb(gpointer stmt, gpointer data)
 
 gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	if (event->button!=3) 
+	if (event->button!=3)
 	{
 		return FALSE;
 	}
-	
+
 	char *menu_right[RIGHT_NUM]={
 		_("Play"),
 		_("Add to Play Queue"),
@@ -419,16 +419,16 @@ gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, g
 		_("Delete"),
 		_("Delete All")
 	};
-	
+
 	GtkWidget	*menu=NULL;
 	GtkWidget	*menuitem[RIGHT_NUM];
 	GtkWidget	*submenu;
 	GtkWidget	*submenuitem;
 	GtkWidget	*hseparator;
-	
+
 	GList *selectlist;
 	gint i=0;
-	
+
 	menu=gtk_menu_new();
 	for(i=0;i<RIGHT_NUM;i++)
 	{
@@ -446,7 +446,7 @@ gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, g
 			submenuitem=gtk_menu_item_new_with_label(_("New Playlist"));
 			g_signal_connect(G_OBJECT(submenuitem), "button_press_event",G_CALLBACK(ly_3opc_right_addtoplaylist_cb),(gpointer)(-1));
 			gtk_menu_shell_append(GTK_MENU_SHELL(submenu),submenuitem);
-				
+
 			ly_dbm_exec("SELECT id, name FROM playlists", ly_3opc_right_popup_submenu_cb,submenu);
 			gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem[RIGHT_ADDTOPLAYLIST]),submenu);
 		}
@@ -464,9 +464,9 @@ gboolean ly_3opc_right_popup_menu_cb(GtkWidget *widget, GdkEventButton *event, g
 	int id=0;
 	char name[1024]="";
 	ly_reg_get("3opc_select", "%d:%d:%d:%[^\n]s", &index0, &index1, &id, name);
-	
+
 	selectlist=gtk_tree_selection_get_selected_rows(ly_3opc_right_selection_right, NULL);
-	
+
 	if(g_list_length(selectlist)==0)
 	{
 		gtk_widget_set_sensitive(menuitem[RIGHT_PLAY],FALSE);
@@ -505,7 +505,7 @@ gboolean ly_3opc_right_play_cb(GtkWidget *widget, gpointer data)
 	int id=0;
 	int pid=0;
 	GtkTreeIter iter;
-	
+
 	int index0=0;
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
 	if(index0==1||index0==2)
@@ -557,7 +557,7 @@ gboolean ly_3opc_right_addtoqueue_cb(GtkWidget *widget, gpointer data)
 	gchar tmp[1024]="";
 	GList *list=NULL;
 	GList *p=NULL;
-	
+
 	int index0=0;
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
 	if(index0==1||index0==2)
@@ -605,11 +605,11 @@ gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event
 	GList *list=NULL;
 	GList *p=NULL;
 	GtkTreeIter iter;
-	
+
 	if(pid<=0)
 	{
 		const gchar *name=NULL;
-		
+
 		GtkWidget *dialog;
 		GtkWidget *hbox;
 		GtkWidget *label;
@@ -666,7 +666,7 @@ gboolean ly_3opc_right_addtoplaylist_cb(GtkWidget *widget, GdkEventButton *event
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
 	ly_dbm_exec("commit",NULL,NULL);
-	
+
 	return FALSE;
 }
 
@@ -676,14 +676,14 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	gint id=0;
 	LyMdhMetadata *md=NULL;
-	
+
 	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(ly_3opc_right_selection_right), NULL);
 	if(g_list_length(list)==0)
 		return FALSE;
 	gtk_tree_model_get_iter(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, (GtkTreePath *)(list->data));
 	gtk_tree_model_get(GTK_TREE_MODEL(ly_3opc_right_store_right), &iter, 4, &id, -1);
 	md=ly_lib_get_md(id);
-	
+
 	if(md->flag==0)
 	{
 		LyMdhMetadata *md0=NULL;
@@ -711,7 +711,7 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *entry[INFO_NUM];
 	GtkWidget *image;
 	char str[1024]="";
-	
+
 	GFile *file=g_file_new_for_uri(md->uri);
 	GFileInfo *info=g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, FALSE, NULL);
 	guint64 size=g_file_info_get_size(info);
@@ -738,45 +738,53 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),8);
 	gtk_window_set_default_size(GTK_WINDOW(dialog),400,350);
 
-	
+
 	frame=gtk_frame_new(_("Basic Information"));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),frame,TRUE,TRUE,0);
 	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
 	hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-	table=gtk_table_new(4,2,FALSE);
+	table=gtk_grid_new();
 	gtk_container_set_border_width(GTK_CONTAINER(table),5);
 	gtk_box_pack_start(GTK_BOX(hbox),table,TRUE,TRUE,0);
 	label=gtk_label_new(_("Start"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 	label=gtk_label_new(_("Duration"));
+	gtk_widget_set_vexpand(label, TRUE);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 	label=gtk_label_new(_("Bitrate"));
+	gtk_widget_set_vexpand(label, TRUE);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 	label=gtk_label_new(_("Codec"));
+	gtk_widget_set_vexpand(label, TRUE);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 3, 1, 1);
 	label=gtk_label_new(md->start);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),25);
-	gtk_table_attach(GTK_TABLE(table), label, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_grid_attach(GTK_GRID(table), label, 1, 0, 1, 1);
 	label=gtk_label_new(md->duration);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),25);
-	gtk_table_attach(GTK_TABLE(table), label, 1, 2, 1, 2, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_grid_attach(GTK_GRID(table), label, 1, 1, 1, 1);
 	g_snprintf(str, sizeof(str), "%d kbps", md->bitrate/1024);
 	label=gtk_label_new(str);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),25);
-	gtk_table_attach(GTK_TABLE(table), label, 1, 2, 2, 3, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_grid_attach(GTK_GRID(table), label, 1, 2, 1, 1);
 	label=gtk_label_new(md->codec);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),25);
-	gtk_table_attach(GTK_TABLE(table), label, 1, 2, 3, 4, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_grid_attach(GTK_GRID(table), label, 1, 3, 1, 1);
 
 	GdkPixbuf *pixbuf=NULL;
 	char path[1024]="";
@@ -834,50 +842,49 @@ gboolean ly_3opc_right_information_cb(GtkWidget *widget, gpointer data)
 	gtk_label_set_ellipsize(GTK_LABEL(label),PANGO_ELLIPSIZE_MIDDLE);
 	gtk_label_set_max_width_chars(GTK_LABEL(label),30);
 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-	
 
 	frame=gtk_frame_new(_("Advanced Information"));
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),frame,TRUE,TRUE,0);
-	table=gtk_table_new(5,2,FALSE);
+	table=gtk_grid_new();
 	gtk_container_set_border_width(GTK_CONTAINER(table),5);
 	gtk_container_add(GTK_CONTAINER(frame),table);
 	label=gtk_label_new(_("Title"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 	label=gtk_label_new(_("Artist"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 	label=gtk_label_new(_("Album"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 	label=gtk_label_new(_("genre"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 3, 1, 1);
 	label=gtk_label_new(_("track"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), label, 0, 4, 1, 1);
 	entry[INFO_TITLE]=gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry[INFO_TITLE]),md->title);
-	gtk_table_attach(GTK_TABLE(table), entry[INFO_TITLE], 1, 2, 0, 1, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), entry[INFO_TITLE], 1, 0, 1, 1);
 //	g_signal_connect(G_OBJECT(entry[INFO_TITLE]),"changed",G_CALLBACK(gui_treeview_callback_set_changed3),&changed);
 	entry[INFO_ARTIST]=gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry[INFO_ARTIST]),md->artist);
-	gtk_table_attach(GTK_TABLE(table), entry[INFO_ARTIST], 1, 2, 1, 2, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), entry[INFO_ARTIST], 1, 1, 1, 1);
 //	g_signal_connect(G_OBJECT(entry[INFO_ARTIST]),"changed",G_CALLBACK(gui_treeview_callback_set_changed1),&changed);
 	entry[INFO_ALBUM]=gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry[INFO_ALBUM]),md->album);
-	gtk_table_attach(GTK_TABLE(table), entry[INFO_ALBUM], 1, 2, 2, 3, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), entry[INFO_ALBUM], 1, 2, 1, 1);
 //	g_signal_connect(G_OBJECT(entry[INFO_ALBUM]),"changed",G_CALLBACK(gui_treeview_callback_set_changed2),&changed);
 	entry[INFO_GENRE]=gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry[INFO_GENRE]), md->genre);
-	gtk_table_attach(GTK_TABLE(table), entry[INFO_GENRE], 1, 2, 3, 4, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), entry[INFO_GENRE], 1, 3, 1, 1);
 //	g_signal_connect(G_OBJECT(entry[INFO_GENRE]),"changed",G_CALLBACK(gui_treeview_callback_set_changed3),&changed);
 	entry[INFO_TRACK]=gtk_entry_new();
 	g_snprintf(str, sizeof(str), "%d", md->track);
 	gtk_entry_set_text(GTK_ENTRY(entry[INFO_TRACK]),str);
-	gtk_table_attach(GTK_TABLE(table), entry[INFO_TRACK], 1, 2, 4, 5, GTK_FILL, GTK_FILL, 5, 5);
+	gtk_grid_attach(GTK_GRID(table), entry[INFO_TRACK], 1, 4, 1, 1);
 //	g_signal_connect(G_OBJECT(entry[INFO_TRACK]),"changed",G_CALLBACK(gui_treeview_callback_set_changed3),&changed);
-	
+
 	gtk_widget_show_all(dialog);
 	gint rt = gtk_dialog_run (GTK_DIALOG (dialog));
 	switch (rt)
@@ -917,7 +924,7 @@ gboolean ly_3opc_right_addfiles_cb(GtkWidget *widget, gpointer data)
 	GSList *filelist;
 	GtkFileFilter *filter;
 	GtkWidget *dialog;
-	
+
 	dialog =gtk_file_chooser_dialog_new(	_("Add From File..."),
 						GTK_WINDOW(ly_win_get_window()->win),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -960,9 +967,9 @@ gboolean ly_3opc_right_addfiles_cb(GtkWidget *widget, gpointer data)
 			return FALSE;
 			break;
 	}
-	
+
 	filelist=gtk_file_chooser_get_uris(GTK_FILE_CHOOSER (dialog));
-	g_thread_create(ly_3opc_right_addfiles_cb_cb, filelist, FALSE, NULL);
+	g_thread_new("addfiles", ly_3opc_right_addfiles_cb_cb, filelist);
 	gtk_widget_destroy (dialog);
 	return FALSE;
 }
@@ -975,7 +982,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 	int mid=0;
 	gchar *filename,*fileuri, tmp[10240];
 	LyMdhMetadata *md;
-	
+
 	ly_reg_get("3opc_select", "%d:%*d:%d:%*s", &index0, &pid);
 	ly_dbm_exec("begin",NULL,NULL);
 	if(index0==0)
@@ -984,9 +991,9 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 		{
 			filename=g_filename_from_uri(q->data,NULL,NULL);
 			realpath(filename,tmp);
-			fileuri=g_strconcat("file://",tmp, NULL);	
+			fileuri=g_strconcat("file://",tmp, NULL);
 			g_free(filename);
-		
+
 			md=ly_mdh_new_with_uri(fileuri);
 			g_free(fileuri);
 			if(md)
@@ -1012,7 +1019,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 			realpath(filename,tmp);
 			fileuri=g_strconcat("file://",tmp, NULL);
 			g_free(filename);
-			
+
 			md=ly_mdh_new_with_uri(fileuri);
 			g_free(fileuri);
 			if(md)
@@ -1038,7 +1045,7 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 			realpath(filename,tmp);
 			fileuri=g_strconcat("file://",tmp, NULL);
 			g_free(filename);
-			
+
 			md=ly_mdh_new_with_uri(fileuri);
 			g_free(fileuri);
 			if(md)
@@ -1049,10 +1056,10 @@ gpointer ly_3opc_right_addfiles_cb_cb(gpointer data)
 			q=q->next;
 		}
 	}
-	
+
 	ly_dbm_exec("commit",NULL,NULL);
 	g_slist_free(filelist);
-	
+
 	ly_3opc_left_refresh_cb(NULL,NULL);
 	ly_3opc_right_refresh();
 	return NULL;
@@ -1098,26 +1105,26 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 {
 	GList *list;
 	GList *p;
-	
+
 	GtkTreeIter iter;
-	
+
 	GtkWidget *dialog;
 	gint result;
-	
+
 	gint id;
 	gchar *where=NULL;
 	gchar *tmpwhere=NULL;
 	gchar tmp[1024]="";
-	
+
 	list=gtk_tree_selection_get_selected_rows(GTK_TREE_SELECTION(ly_3opc_right_selection_right),NULL);
 	if(list==NULL)
 		return FALSE;
-	
+
 	int index0=0;
 	int index1=0;
 	int pid=0;
 	ly_reg_get("3opc_select", "%d:%d:%d:%*[^\n]s", &index0, &index1, &pid);
-	
+
 	if(index0==2)
 	{
 		dialog=ly_3opc_warning_dialog_create(_("<b>This is a Dangerous function!!</b>\n The music you wanna delete belongs to your music library,\n It will be delete physically and permanently.\n Do you really want to do it?"));
@@ -1216,15 +1223,15 @@ gboolean ly_3opc_right_delete_cb(GtkWidget *widget, gpointer data)
 
 
 gboolean ly_3opc_right_deleteall_cb(GtkWidget *widget, gpointer data)
-{	
+{
 	GtkWidget *dialog;
 	gint result;
-	
+
 	int index0=0;
 	int index1=0;
 	int pid=0;
 	ly_reg_get("3opc_select", "%d:%d:%d:%*[^\n]s", &index0, &index1, &pid);
-	
+
 	dialog=ly_3opc_warning_dialog_create(_("<b>This is a Dangerous function!!</b>\n Do you really want to DELETE ALL information belongs the current list?"));
 	result=gtk_dialog_run(GTK_DIALOG(dialog));
 	switch(result)
@@ -1237,7 +1244,7 @@ gboolean ly_3opc_right_deleteall_cb(GtkWidget *widget, gpointer data)
 			break;
 	}
 	gtk_widget_destroy(dialog);
-	
+
 
 	if(index0==1)
 	{
@@ -1255,12 +1262,12 @@ gboolean ly_3opc_right_on_button_p_clicked_cb(GtkWidget *widget, gpointer data)
 {
 	gint limit=-1;
 	gint offset=0;
-	
+
 	ly_reg_get("3opc_limit", "%d:%d", &offset, &limit);
 	limit=limit>=-1?limit:-1;
 	if(limit<0)
 		return FALSE;
-	
+
 	offset=offset-limit>=0?offset-limit:0;
 	ly_reg_set("3opc_limit", "%d:%d", offset, limit);
 	return FALSE;
@@ -1269,7 +1276,7 @@ gboolean ly_3opc_right_on_button_n_clicked_cb(GtkWidget *widget, gpointer data)
 {
 	gint limit=-1;
 	gint offset=0;
-	
+
 	ly_reg_get("3opc_limit", "%d:%d", &offset, &limit);
 	limit=limit>=-1?limit:-1;
 	if(limit<0)

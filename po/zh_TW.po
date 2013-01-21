@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2012-09-08 13:00+0800\n"
+"POT-Creation-Date: 2013-01-16 12:09+0800\n"
 "PO-Revision-Date: 2012-05-20 21:02+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -177,12 +177,12 @@ msgid "Found"
 msgstr "找到"
 
 #: src/pix/dnc/dnc_cov.c:111 src/pix/dnc/dnc_lrc.c:119
-#: src/pix/opc/opc_right.c:163 src/pix/opc/opc_right.c:847
+#: src/pix/opc/opc_right.c:163 src/pix/opc/opc_right.c:854
 msgid "Artist"
 msgstr "藝術家"
 
 #: src/pix/dnc/dnc_cov.c:115 src/pix/opc/opc_right.c:169
-#: src/pix/opc/opc_right.c:850
+#: src/pix/opc/opc_right.c:857
 msgid "Album"
 msgstr "專輯"
 
@@ -199,7 +199,7 @@ msgid "Cannot open file stream!"
 msgstr "無法打開文件流！"
 
 #: src/pix/dnc/dnc_lrc.c:115 src/pix/opc/opc_right.c:157
-#: src/pix/opc/opc_right.c:844
+#: src/pix/opc/opc_right.c:851
 msgid "Title"
 msgstr "歌曲名"
 
@@ -247,7 +247,7 @@ msgstr "自定義LRC文件位置"
 msgid "Desktop Font"
 msgstr "桌面歌詞字體"
 
-#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:676
+#: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:680
 msgid "Select library directory"
 msgstr "選擇歌曲庫綁定目錄"
 
@@ -267,85 +267,85 @@ msgstr "注意：“-1”表示無限制！"
 msgid "Manager"
 msgstr "管理器"
 
-#: src/pix/opc/opc_left.c:126
+#: src/pix/opc/opc_left.c:128
 msgid "Playing Queue"
 msgstr "播放隊列"
 
-#: src/pix/opc/opc_left.c:129
+#: src/pix/opc/opc_left.c:131
 msgid "Playlists"
 msgstr "播放列表"
 
-#: src/pix/opc/opc_left.c:133
+#: src/pix/opc/opc_left.c:135
 msgid "Artists"
 msgstr "藝術家"
 
-#: src/pix/opc/opc_left.c:212
+#: src/pix/opc/opc_left.c:214
 msgid "Add Playlist"
 msgstr "添加播放列表"
 
-#: src/pix/opc/opc_left.c:213
+#: src/pix/opc/opc_left.c:215
 msgid "Import Playlist"
 msgstr "導入播放列表"
 
-#: src/pix/opc/opc_left.c:214 src/pix/opc/opc_right.c:414
+#: src/pix/opc/opc_left.c:216 src/pix/opc/opc_right.c:414
 msgid "Add to Play Queue"
 msgstr "添加到播放隊列中"
 
-#: src/pix/opc/opc_left.c:215
+#: src/pix/opc/opc_left.c:217
 msgid "Rename"
 msgstr "重命名"
 
-#: src/pix/opc/opc_left.c:216
+#: src/pix/opc/opc_left.c:218
 msgid "Export Playlist"
 msgstr "導出播放列表"
 
-#: src/pix/opc/opc_left.c:218 src/pix/opc/opc_right.c:418
+#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:418
 msgid "Refresh"
 msgstr "刷新"
 
-#: src/pix/opc/opc_left.c:219 src/pix/opc/opc_right.c:419
+#: src/pix/opc/opc_left.c:221 src/pix/opc/opc_right.c:419
 msgid "Delete"
 msgstr "刪除"
 
-#: src/pix/opc/opc_left.c:220 src/pix/opc/opc_right.c:420
+#: src/pix/opc/opc_left.c:222 src/pix/opc/opc_right.c:420
 msgid "Delete All"
 msgstr "刪除全部"
 
-#: src/pix/opc/opc_left.c:301 src/pix/opc/opc_right.c:446
+#: src/pix/opc/opc_left.c:303 src/pix/opc/opc_right.c:446
 #: src/pix/opc/opc_right.c:618
 msgid "New Playlist"
 msgstr "新建播放列表"
 
-#: src/pix/opc/opc_left.c:312 src/pix/opc/opc_left.c:457
+#: src/pix/opc/opc_left.c:314 src/pix/opc/opc_left.c:459
 #: src/pix/opc/opc_right.c:629
 msgid "Name"
 msgstr "名稱"
 
-#: src/pix/opc/opc_left.c:348
+#: src/pix/opc/opc_left.c:350
 msgid "Import Playlist..."
 msgstr "導入播放列表 ..."
 
-#: src/pix/opc/opc_left.c:356
+#: src/pix/opc/opc_left.c:358
 msgid "Playlist File"
 msgstr "播放列表文件"
 
-#: src/pix/opc/opc_left.c:446
+#: src/pix/opc/opc_left.c:448
 msgid "Rename Playlist"
 msgstr "重命名播放列表"
 
-#: src/pix/opc/opc_left.c:495
+#: src/pix/opc/opc_left.c:497
 msgid "Export Playlist..."
 msgstr "導出播放列表"
 
-#: src/pix/opc/opc_left.c:502
+#: src/pix/opc/opc_left.c:504
 msgid "M3U Playlist File"
 msgstr "M3U 播放列表文件"
 
-#: src/pix/opc/opc_left.c:533
+#: src/pix/opc/opc_left.c:535
 msgid "File exist, Replace it anyway?"
 msgstr "文件已存在，強制替換嗎？"
 
-#: src/pix/opc/opc_left.c:589
+#: src/pix/opc/opc_left.c:591
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL playlists?"
@@ -353,7 +353,7 @@ msgstr ""
 "<b>這是一個危險的功能！！</b>\n"
 "你真的確定要刪除所有的播放列表？"
 
-#: src/pix/opc/opc_left.c:613 src/pix/opc/opc_right.c:1076
+#: src/pix/opc/opc_left.c:615 src/pix/opc/opc_right.c:1083
 msgid "Warning"
 msgstr "警告"
 
@@ -395,43 +395,43 @@ msgstr "基本資訊"
 msgid "Start"
 msgstr "開始時間"
 
-#: src/pix/opc/opc_right.c:754
+#: src/pix/opc/opc_right.c:755
 msgid "Duration"
 msgstr "持續時長"
 
-#: src/pix/opc/opc_right.c:757
+#: src/pix/opc/opc_right.c:759
 msgid "Bitrate"
 msgstr "比特率"
 
-#: src/pix/opc/opc_right.c:760
+#: src/pix/opc/opc_right.c:763
 msgid "Codec"
 msgstr "文件編碼"
 
-#: src/pix/opc/opc_right.c:829
+#: src/pix/opc/opc_right.c:837
 msgid "Uri"
 msgstr "地址"
 
-#: src/pix/opc/opc_right.c:839
+#: src/pix/opc/opc_right.c:846
 msgid "Advanced Information"
 msgstr "高級資訊"
 
-#: src/pix/opc/opc_right.c:853
+#: src/pix/opc/opc_right.c:860
 msgid "genre"
 msgstr "風格"
 
-#: src/pix/opc/opc_right.c:856
+#: src/pix/opc/opc_right.c:863
 msgid "track"
 msgstr "曲目"
 
-#: src/pix/opc/opc_right.c:921
+#: src/pix/opc/opc_right.c:928
 msgid "Add From File..."
 msgstr "從文件添加 ..."
 
-#: src/pix/opc/opc_right.c:929
+#: src/pix/opc/opc_right.c:936
 msgid "Music File"
 msgstr "音樂文件"
 
-#: src/pix/opc/opc_right.c:1123
+#: src/pix/opc/opc_right.c:1130
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " The music you wanna delete belongs to your music library,\n"
@@ -443,7 +443,7 @@ msgstr ""
 " 它將從物理上被永久地刪除。\n"
 " 您真的想要這麼做麼？"
 
-#: src/pix/opc/opc_right.c:1228
+#: src/pix/opc/opc_right.c:1235
 msgid ""
 "<b>This is a Dangerous function!!</b>\n"
 " Do you really want to DELETE ALL information belongs the current list?"
@@ -451,7 +451,7 @@ msgstr ""
 "<b>這是一個危險的功能！！</b>\n"
 " 你真的希望刪除所有附屬於當前列表中的資訊麼？"
 
-#: src/uix/cfg.c:202 src/uix/win.c:187
+#: src/uix/cfg.c:202 src/uix/win.c:217
 msgid "Configuration"
 msgstr "首選項"
 
@@ -551,84 +551,84 @@ msgstr "配置名稱和按鍵"
 msgid "Preferense"
 msgstr "配置"
 
-#: src/uix/cfg.c:366 src/uix/cfg.c:368
+#: src/uix/cfg.c:368 src/uix/cfg.c:370
 msgid "Theme"
 msgstr "主題"
 
-#: src/uix/cfg.c:366
+#: src/uix/cfg.c:368
 msgid "Set the looks of Linnya."
 msgstr "設置所有有關聆雅外觀的配置"
 
-#: src/uix/cfg.c:393
+#: src/uix/cfg.c:395
 msgid "Main Window Style"
 msgstr "主窗口風格"
 
-#: src/uix/cfg.c:395
+#: src/uix/cfg.c:397
 msgid "Enable Window Manager's Decorated"
 msgstr "啟用窗口裝飾"
 
-#: src/uix/cfg.c:401
+#: src/uix/cfg.c:403
 msgid "Enable Transparent Effective"
 msgstr "啟用透明特效"
 
-#: src/uix/cfg.c:426
+#: src/uix/cfg.c:425
 msgid "Session Style"
 msgstr "會話風格"
 
-#: src/uix/cfg.c:428
+#: src/uix/cfg.c:427
 msgid "Use Custom Session Background Image"
 msgstr "使用自定義會話背景圖片"
 
-#: src/uix/cfg.c:447 src/uix/cfg.c:450
+#: src/uix/cfg.c:446 src/uix/cfg.c:449
 msgid "Plugins"
 msgstr "插件"
 
-#: src/uix/cfg.c:447
+#: src/uix/cfg.c:446
 msgid "All the plug-ins of Linnya."
 msgstr "聆雅的所有插件配置"
 
-#: src/uix/cfg.c:541 src/uix/cfg.c:612
+#: src/uix/cfg.c:545 src/uix/cfg.c:616
 msgid "Official Website"
 msgstr "官方網站"
 
-#: src/uix/cfg.c:579
+#: src/uix/cfg.c:583
 #, c-format
 msgid "(c) %s"
 msgstr "(c) %s"
 
-#: src/uix/cfg.c:630
+#: src/uix/cfg.c:634
 msgid "Configuration of Plugins"
 msgstr "插件配置"
 
-#: src/uix/cfg.c:775
+#: src/uix/cfg.c:779
 msgid "Key"
 msgstr "按鍵"
 
-#: src/uix/cfg.c:785
+#: src/uix/cfg.c:789
 msgid "Press key to change shortcut ..."
 msgstr "按下鍵盤以設置快捷鍵"
 
-#: src/uix/cfg.c:817
+#: src/uix/cfg.c:821
 msgid "Shortcuts conflict!"
 msgstr "快捷鍵衝突！"
 
-#: src/uix/cfg.c:913
+#: src/uix/cfg.c:917
 msgid "Setting will not be actived until program restart!"
 msgstr "設置將在程序下次啟動生效！"
 
-#: src/uix/cfg.c:947
+#: src/uix/cfg.c:948
 msgid "Select Session Background directory"
 msgstr "選擇會話背景目錄"
 
-#: src/uix/cfg.c:1083
+#: src/uix/cfg.c:1084
 msgid "Save Equalizer"
 msgstr "儲存均衡器"
 
-#: src/uix/cfg.c:1094
+#: src/uix/cfg.c:1095
 msgid "Eq Name :"
 msgstr "均衡器名："
 
-#: src/uix/cfg.c:1157
+#: src/uix/cfg.c:1158
 msgid "Cannot delete the default equalizer setting!"
 msgstr "無法刪除默認均衡其設置！"
 
@@ -682,39 +682,39 @@ msgstr "無法將按鈕綁定寫入文件！"
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系統不支持插件，退出 ……"
 
-#: src/uix/sss.c:187
+#: src/uix/sss.c:189
 msgid "New Session"
 msgstr "新會話"
 
-#: src/uix/win.c:40
+#: src/uix/win.c:61
 msgid "Cannot create main window, abort ..."
 msgstr "無法生成主窗口。退出 ……"
 
-#: src/uix/win.c:106
+#: src/uix/win.c:129 src/uix/win.c:631
 msgid "Cannot Support transparent!"
 msgstr "無法支持透明！"
 
-#: src/uix/win.c:178
+#: src/uix/win.c:208
 msgid "Play/Pause"
 msgstr "播放/暫停"
 
-#: src/uix/win.c:181
+#: src/uix/win.c:211
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:184
+#: src/uix/win.c:214
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:192
+#: src/uix/win.c:222
 msgid "Show/Hide Main Window"
 msgstr "顯示/隱藏主窗口"
 
-#: src/uix/win.c:197
+#: src/uix/win.c:227
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:201
+#: src/uix/win.c:231
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音頻播放器"
 
