@@ -26,7 +26,8 @@ static gboolean ly_win_on_prev_clicked_cb(GtkWidget *button, gpointer data);
 static gboolean ly_win_on_play_toggled_cb(GtkWidget *button, gpointer data);
 static gboolean ly_win_on_next_clicked_cb(GtkWidget *button, gpointer data);
 static gboolean ly_win_on_conf_clicked_cb(GtkWidget *button, gpointer data);
-static gboolean ly_win_on_volm_changed_cb(GtkScaleButton *button, gdouble value, gpointer data);
+static gboolean ly_win_on_mute_toggled_cb(GtkWidget *widget, gpointer data);
+static gboolean ly_win_on_volm_changed_cb(GtkRange *widget, gpointer data);
 static gboolean ly_win_on_seek_update_cb(gpointer data);
 static gboolean ly_win_on_seek_changed_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
@@ -86,7 +87,8 @@ LyWinWindow*	ly_win_new()
 	GtkWidget *btn_next;
 	GtkWidget *bar_seek;
 	GtkWidget *btn_conf;
-	GtkWidget *btn_volm;
+	GtkWidget *btn_mute;
+	GtkWidget *bar_volm;
 	GtkWidget *grd_ctrl;
 
 	char path[1024]="";
@@ -194,10 +196,16 @@ LyWinWindow*	ly_win_new()
 	btn_conf=gtk_button_new();
 	gtk_widget_set_size_request(btn_conf, 50, 50);
 	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_conf, 4, 0, 1, 1);
-	btn_volm=gtk_scale_button_new(GTK_ICON_SIZE_SMALL_TOOLBAR, 0, 1, 0.001, NULL);
-	gtk_scale_button_set_value(GTK_SCALE_BUTTON(btn_volm), ly_aud_get_volume());
-	gtk_widget_set_size_request(btn_volm, 50, 50);
-	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_volm, 5, 0, 1, 1);
+	btn_mute=gtk_toggle_button_new();
+	gtk_widget_set_size_request(btn_mute, 50, 50);
+	gtk_grid_attach(GTK_GRID(grd_ctrl), btn_mute, 5, 0, 1, 1);
+	bar_volm=gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 1, 0.01);
+	gtk_widget_set_size_request(bar_volm, 100, -1);
+	gtk_scale_set_draw_value(GTK_SCALE(bar_volm),FALSE);
+	gtk_widget_set_hexpand(bar_volm, FALSE);
+	gtk_widget_set_vexpand(bar_volm, FALSE);
+	gtk_range_set_value(GTK_RANGE(bar_volm), ly_aud_get_volume());
+	gtk_grid_attach(GTK_GRID(grd_ctrl), bar_volm, 6, 0, 1, 1);
 
 	//tray icon
 	g_snprintf(path, sizeof(path), "%sicon/linnya.png", LY_GLB_PROG_UIXDIR);
@@ -244,8 +252,9 @@ LyWinWindow*	ly_win_new()
 	gtk_widget_set_name(btn_play, "btn_play");
 	gtk_widget_set_name(btn_next, "btn_next");
 	gtk_widget_set_name(btn_conf, "btn_conf");
-	gtk_widget_set_name(btn_volm, "btn_volm");
+	gtk_widget_set_name(btn_mute, "btn_mute");
 	gtk_widget_set_name(bar_seek, "bar_seek");
+	gtk_widget_set_name(bar_volm, "bar_volm");
 	gtk_widget_set_name(grd_ctrl, "grd_ctrl");
 	gtk_widget_show_all(win);
 
@@ -259,7 +268,8 @@ LyWinWindow*	ly_win_new()
 	g_signal_connect(G_OBJECT(btn_play), "toggled", G_CALLBACK(ly_win_on_play_toggled_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_next), "clicked", G_CALLBACK(ly_win_on_next_clicked_cb), NULL);
 	g_signal_connect(G_OBJECT(btn_conf), "clicked", G_CALLBACK(ly_win_on_conf_clicked_cb), NULL);
-	g_signal_connect(G_OBJECT(btn_volm), "value_changed", G_CALLBACK(ly_win_on_volm_changed_cb), NULL);
+	g_signal_connect(G_OBJECT(btn_mute), "clicked", G_CALLBACK(ly_win_on_mute_toggled_cb), NULL);
+	g_signal_connect(G_OBJECT(bar_volm), "value_changed", G_CALLBACK(ly_win_on_volm_changed_cb), NULL);
 	ly_win_timeout = g_timeout_add(1000, ly_win_on_seek_update_cb, bar_seek);
 	g_signal_connect(G_OBJECT(bar_seek),"button_press_event",G_CALLBACK(ly_win_on_seek_changed_cb),NULL);
 	g_signal_connect(G_OBJECT(bar_seek),"button_release_event",G_CALLBACK(ly_win_on_seek_changed_cb),NULL);
@@ -304,8 +314,9 @@ LyWinWindow*	ly_win_new()
 	window->btn_play=btn_play;
 	window->btn_next=btn_next;
 	window->btn_conf=btn_conf;
-	window->btn_volm=btn_volm;
+	window->btn_mute=btn_mute;
 	window->bar_seek=bar_seek;
+	window->bar_volm=bar_volm;
 	window->grd_ctrl=grd_ctrl;
 	window->btn_home=NULL;
 
@@ -431,11 +442,19 @@ ly_win_on_conf_clicked_cb(GtkWidget *widget, gpointer data)
 	ly_mbs_put("config", "ui:win", NULL);
 	return FALSE;
 }
+static gboolean
+ly_win_on_mute_toggled_cb(GtkWidget *widget, gpointer data)
+{
+	gboolean btn_state;
+	btn_state=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	ly_aud_set_mute(btn_state);
+	return FALSE;
+}
 
 static gboolean
-ly_win_on_volm_changed_cb(GtkScaleButton *button, gdouble value, gpointer data)
+ly_win_on_volm_changed_cb(GtkRange *widget, gpointer data)
 {
-	ly_aud_set_volume(value);
+	ly_aud_set_volume(gtk_range_get_value(GTK_RANGE(widget)));
 	return FALSE;
 }
 
@@ -532,11 +551,10 @@ ly_win_on_accel_volm_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	volume=volume<=1?volume:1;
 	volume=volume>=0?volume:0;
 	ly_aud_set_volume(volume);
-	gtk_scale_button_set_value(GTK_SCALE_BUTTON(ly_win_window->btn_volm), \
+	gtk_scale_button_set_value(GTK_SCALE_BUTTON(ly_win_window->bar_volm), \
 		ly_aud_get_volume());
 	return FALSE;
 }
-
 static gboolean
 ly_win_on_accel_seek_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	guint keyval, GdkModifierType modifier, gpointer data)
@@ -554,7 +572,6 @@ ly_win_on_accel_seek_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	gtk_range_set_value(GTK_RANGE(ly_win_window->bar_seek),position);
 	return FALSE;
 }
-
 static gboolean
 ly_win_on_accel_fullscreen_cb(GtkAccelGroup *accel_group, GObject *acceleratable, \
 	guint keyval, GdkModifierType modifier, gpointer data)
@@ -564,10 +581,12 @@ ly_win_on_accel_fullscreen_cb(GtkAccelGroup *accel_group, GObject *acceleratable
 	if((state&GDK_WINDOW_STATE_FULLSCREEN))
 	{
 		ly_win_unfullscreen();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->btn_full), FALSE);
 	}
 	else
 	{
 		ly_win_fullscreen();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ly_win_window->btn_full), TRUE);
 	}
 	return FALSE;
 }

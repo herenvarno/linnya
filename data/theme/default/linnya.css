@@ -1,12 +1,12 @@
 @import url("resource:///reset.css");
 *{
-	engine: clearlooks;
+/*	engine: clearlooks;*/
 	background-repeat: no-repeat;
 }
 
 GtkButton{
     transition-property: color, background-color, border-color, background-image, padding, border-width;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
 }
 
 /*
@@ -98,30 +98,30 @@ GtkButton{
 	border-image: url("image/null.png");
     background-image: url("image/btn_conf_active.png");
 }
-#btn_volm{
+#btn_mute{
 	border-image: url("image/null.png");
-    background-image: url("image/btn_volm_normal.png");
+	background-image: url("image/btn_mute_normal.png");
 }
-#btn_volm:hover{
+#btn_mute:hover{
 	border-image: url("image/null.png");
-    background-image: url("image/btn_volm_hover.png");
+    background-image: url("image/btn_mute_hover.png");
 }
-#btn_volm:active,
-#btn_volm:active:hover{
+#btn_mute:active,
+#btn_mute:active:hover{
 	border-image: url("image/null.png");
-    background-image: url("image/btn_volm_active.png");
+	background-image: url("image/btn_mute_active.png");
 }
 
 /*
  * Seek bar
  */
-#bar_seek.slider,
-#bar_seek.slider.horizontal,
-#bar_seek.slider.horizontal:hover {
+#grd_ctrl GtkRange.slider,
+#grd_ctrl GtkRange.slider.horizontal,
+#grd_ctrl GtkRange.slider.horizontal:hover {
     background-image: url("image/bar_seek_button.png");
 }
 
-#bar_seek {
+#grd_ctrl GtkRange {
     -GtkScale-slider-length: 16;
     -GtkRange-slider-width: 20;
     -GtkRange-trough-border: 0;
@@ -134,9 +134,9 @@ GtkButton{
 
 }
 
-#bar_seek.slider,
-#bar_seek.slider:hover,
-#bar_seek.slider:insensitive {
+#grd_ctrl GtkRange.slider,
+#grd_ctrl GtkRange.slider:hover,
+#grd_ctrl GtkRange.slider:insensitive {
     border-width: 0px;
     border-radius: 0px;
     border-style: none;
@@ -147,7 +147,7 @@ GtkButton{
     /* background-image in -assets variant */
 }
 
-#bar_seek.trough {
+#grd_ctrl GtkRange.trough {
     border-width: 1px;
     border-radius: 8px;
     border-style: none;
@@ -163,8 +163,7 @@ GtkButton{
                      from (shade (#D8D8D8, 0.60)),
                      to (shade (#D8D8D8, 0.70)));
 }
-
-#bar_seek.progressbar {
+#grd_ctrl GtkRange.progressbar {
 
     background-color: #FF0000;
 
@@ -175,9 +174,8 @@ GtkButton{
 
     -unico-progressbar-pattern: none;
 }
-
-#bar_seek.scale.highlight.left,
-#bar_seek.scale.highlight.left {
+#grd_ctrl GtkRange.scale.highlight.left,
+#grd_ctrl GtkRange.scale.highlight.left {
 	border-width: 0px;
 	background-image: -gtk-gradient (linear,
                                      left top, left bottom,
@@ -208,7 +206,7 @@ GtkButton{
                 left top, left bottom,
                 from (alpha (#FFF, 0.7)),
               to (alpha (#FFF, 0.7)));
-	
+
 	color: white;
 	border-style: solid;
 	border-width: 1px;
@@ -220,11 +218,13 @@ GtkButton{
  */
 #sss_vwpt{
 	background-color: transparent;
-	background-image: url("image/sss_adds_bg.png");
-	background-repeat: repeat-x;
+	border-image-source: url("image/sss_adds_bg.png");
+	border-image-slice: 0 0 300 0;
+	border-image-width:0 0 300 0;
+	border-image-repeat: stretch;
 }
 #sss_adds.view{
-	background-color: alpha (#EEEEEE, 0.4);
+	background-color: alpha (#EEE, 0.3);
 	text-shadow: 3px 3px 5px alpha(black, 0.5);
 }
 
@@ -236,4 +236,35 @@ GtkButton{
 	border-style: solid;
 	border-width: 1px;
 	text-shadow: 3px 3px 5px alpha(white, 0.9);
+}
+
+
+/*
+ * PLUGINS
+ */
+#3inf_btn_cover{
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_normal.png");
+}
+#3inf_btn_cover:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_hover.png");
+}
+#3inf_btn_cover:active,
+#3inf_btn_cover:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_active.png");
+}
+#3lrc_btn_refresh{
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_normal.png");
+}
+#3lrc_btn_refresh:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_hover.png");
+}
+#3lrc_btn_refresh:active,
+#3lrc_btn_refresh:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_active.png");
 }

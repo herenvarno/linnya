@@ -21,11 +21,17 @@ EXTRA_DIST = \
 	btn_conf_normal.png\
 	btn_conf_hover.png\
 	btn_conf_active.png\
-	btn_volm_normal.png\
-	btn_volm_hover.png\
-	btn_volm_active.png\
+	btn_mute_normal.png\
+	btn_mute_hover.png\
+	btn_mute_active.png\
 	bar_seek_button_normal.png\
-	sss_adds_bg.png
+	sss_adds_bg.png\
+	3inf_btn_cover_normal.png\
+	3inf_btn_cover_hover.png\
+	3inf_btn_cover_active.png\
+	3lrc_btn_refresh_normal.png\
+	3lrc_btn_refresh_hover.png\
+	3lrc_btn_refresh_active.png
 themedefaultimagedir = ${datadir}/linnya/uix/theme/default/image
 themedefaultimage_DATA = \
 	null.png\
@@ -50,9 +56,15 @@ themedefaultimage_DATA = \
 	btn_conf_normal.png\
 	btn_conf_hover.png\
 	btn_conf_active.png\
-	btn_volm_normal.png\
-	btn_volm_hover.png\
-	btn_volm_active.png\
+	btn_mute_normal.png\
+	btn_mute_hover.png\
+	btn_mute_active.png\
 	bar_seek_button_normal.png\
-	sss_adds_bg.png
+	sss_adds_bg.png\
+	3inf_btn_cover_normal.png\
+	3inf_btn_cover_hover.png\
+	3inf_btn_cover_active.png\
+	3lrc_btn_refresh_normal.png\
+	3lrc_btn_refresh_hover.png\
+	3lrc_btn_refresh_active.png
 

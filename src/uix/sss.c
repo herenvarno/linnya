@@ -53,6 +53,7 @@ void	ly_sss_init()
 	ly_sss_tab_add_create();
 	g_signal_connect(G_OBJECT(ly_win_get_window()->btn_adds), "clicked", G_CALLBACK(ly_sss_tab_add_create), NULL);
 	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_adds_cb), NULL);
+	ly_key_bind("adds");
 	g_timeout_add(100, ly_sss_refresh, NULL);
 
 }
