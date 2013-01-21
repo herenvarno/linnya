@@ -343,10 +343,10 @@ ly_cfg_new (void)
 
 	item=ly_cfg_item_new(_("Shortcuts"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
-	table=gtk_table_new(g_list_length(ly_pli_get_list())+1, 2, FALSE);
+	table=gtk_grid_new();
 	ly_cfg_item_append(LY_CFG_ITEM(item), table);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Name and Keys")), 0, 1, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), gtk_label_new(_("Preferense")), 1, 2, 0, 1);
+	gtk_grid_attach(GTK_GRID(table), gtk_label_new(_("Name and Keys")), 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(table), gtk_label_new(_("Preferense")), 1, 0, 1, 1);
 	g_hash_table_iter_init (&iter1, ly_key_get_keybinds());
 	i=1;
 	char str_key[1024]="";
@@ -354,10 +354,12 @@ ly_cfg_new (void)
 	{
 		g_snprintf(str_key, sizeof(str_key),"{%s}%s_%s:%s", (char *)key, ((LyKeyKeybind*)value)->mask0, ((LyKeyKeybind*)value)->mask1, ((LyKeyKeybind*)value)->key);
 		label=gtk_label_new(str_key);
-		gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+		gtk_widget_set_hexpand(label, TRUE);
+		gtk_grid_attach(GTK_GRID(table), label, 0, i, 1, 1);
 		button=gtk_button_new_from_stock(GTK_STOCK_PREFERENCES);
 		g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_cfg_on_key_changed_cb), label);
-		gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, i, i+1);
+		gtk_widget_set_hexpand(button, TRUE);
+		gtk_grid_attach(GTK_GRID(table), button, 1, i, 1, 1);
 		i++;
 	}
 
@@ -413,13 +415,10 @@ ly_cfg_new (void)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), (gboolean)custom_winbg);
 	g_signal_connect(G_OBJECT(check), "toggled", G_CALLBACK(ly_cfg_on_thm_custom_winbg_changed_cb), NULL);
 	ly_cfg_item_append(LY_CFG_ITEM(item), check);
-	GdkColor *color=(GdkColor *)g_malloc(sizeof(GdkColor));
-	guint color_alpha=65535;
-	ly_reg_get("thm_winbg", "%d:%d:%d:%d", &(color->red), &(color->green), &(color->blue), &color_alpha);
-	button=gtk_color_button_new_with_color(color);
-	gtk_color_button_set_use_alpha(GTK_COLOR_BUTTON(button), TRUE);
-	g_free(color);
-	gtk_color_button_set_alpha(GTK_COLOR_BUTTON(button), color_alpha);
+	GdkRGBA color;
+	ly_reg_get("thm_winbg", "%lf:%lf:%lf:%lf", &(color.red), &(color.green), &(color.blue), &(color.alpha));
+	button=gtk_color_button_new_with_rgba(&color);
+	gtk_color_chooser_set_use_alpha(GTK_COLOR_CHOOSER(button), TRUE);
 	ly_cfg_item_append(LY_CFG_ITEM(item), button);
 	g_signal_connect(G_OBJECT(button), "color-set", G_CALLBACK(ly_cfg_on_thm_winbg_changed_cb), hbox);
 
@@ -449,7 +448,7 @@ ly_cfg_new (void)
 
 	item=ly_cfg_item_new(_("Plugins"));
 	ly_cfg_page_append(LY_CFG_PAGE(page), item);
-	table=gtk_table_new(g_list_length(ly_pli_get_list()), 5, FALSE);
+	table=gtk_grid_new();
 	ly_cfg_item_append(LY_CFG_ITEM(item), table);
 
 	i=0;
@@ -466,29 +465,34 @@ ly_cfg_new (void)
 		g_object_get(G_OBJECT(pl), "name", &name, "locked", &locked, "logo", &logo, "config_symbol", &config_symbol, NULL);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), !locked);
 		g_signal_connect(G_OBJECT(check),"toggled",G_CALLBACK(ly_cfg_on_pli_changed_cb), pl);
-		gtk_table_attach_defaults(GTK_TABLE(table),check,0,1,i,i+1);
+		gtk_widget_set_hexpand(check, FALSE);
+		gtk_grid_attach(GTK_GRID(table),check,0,i,1,1);
 
 		pixbuf=gdk_pixbuf_new_from_file_at_size(logo, 16, 16, NULL);
 		g_free(logo);
 		image=gtk_image_new_from_pixbuf(pixbuf);
 		g_object_unref(pixbuf);
-		gtk_table_attach_defaults(GTK_TABLE(table),image,1,2,i,i+1);
+		gtk_widget_set_hexpand(image, TRUE);
+		gtk_grid_attach(GTK_GRID(table),image,1,i,1,1);
 
 		label=gtk_label_new(name);
 		g_free(name);
-		gtk_table_attach_defaults(GTK_TABLE(table),label,2,3,i,i+1);
+		gtk_widget_set_hexpand(label, TRUE);
+		gtk_grid_attach(GTK_GRID(table),label,2,i,1,1);
 
 		if(config_symbol)
 		{
 			g_free(config_symbol);
 			button=gtk_button_new_from_stock(GTK_STOCK_PREFERENCES);
 			g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_on_pli_show_config_cb), pl);
-			gtk_table_attach_defaults(GTK_TABLE(table),button,3,4,i,i+1);
+			gtk_widget_set_hexpand(button, FALSE);
+			gtk_grid_attach(GTK_GRID(table),button,3,i,1,1);
 		}
 
 		button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
 		g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(ly_cfg_on_pli_show_about_cb), pl);
-		gtk_table_attach_defaults(GTK_TABLE(table),button,4,5,i,i+1);
+		gtk_widget_set_hexpand(button, FALSE);
+		gtk_grid_attach(GTK_GRID(table),button,4,i,1,1);
 		i++;
 		p=p->next;
 	}
@@ -928,12 +932,9 @@ gboolean ly_cfg_on_thm_custom_winbg_changed_cb(GtkWidget *widget, gpointer data)
 
 gboolean ly_cfg_on_thm_winbg_changed_cb(GtkWidget *widget, gpointer data)
 {
-	GdkColor *color=(GdkColor *)g_malloc(sizeof(GdkColor));
-	guint color_alpha=65535;
-	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), color);
-	color_alpha=gtk_color_button_get_alpha(GTK_COLOR_BUTTON(widget));
-	ly_reg_set("thm_winbg", "%d:%d:%d:%d", (color->red), (color->green), (color->blue), color_alpha);
-	g_free(color);
+	GdkRGBA color;
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(widget), &color);
+	ly_reg_set("thm_winbg", "%lf:%lf:%lf:%lf", (color.red), (color.green), (color.blue), (color.alpha));
 	return FALSE;
 }
 gboolean ly_cfg_on_thm_custom_sssbg_changed_cb(GtkWidget *widget, gpointer data)

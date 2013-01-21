@@ -203,6 +203,7 @@ ly_pli_plugin_get_property (GObject *obj, guint property_id, \
 			break;
 		case PROPERTY_LOCKED:
 			g_value_set_boolean(value, priv->locked);
+			break;
 		default:
 			/* We don't have any other property... */
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(obj, property_id, pspec);
@@ -459,6 +460,9 @@ GtkWidget* ly_pli_plugin_create(LyPliPlugin *obj)
 	if(!priv)
 		return NULL;
 
+	if(!priv->create_symbol || g_str_equal(priv->create_symbol, ""))
+		return FALSE;
+	
 	if(!priv->daemon && !priv->module)
 	{
 		ly_pli_plugin_load_module(obj);
@@ -479,6 +483,9 @@ gboolean ly_pli_plugin_destroy(LyPliPlugin *obj)
 	if(!priv)
 		return FALSE;
 
+	if(!priv->destroy_symbol || g_str_equal(priv->destroy_symbol, ""))
+		return FALSE;
+	
 	if(!priv->daemon && !priv->module)
 	{
 		ly_pli_plugin_load_module(obj);
@@ -496,8 +503,11 @@ gboolean ly_pli_plugin_refresh(LyPliPlugin *obj)
 	LyPliPluginPrivate *priv=LY_PLI_PLUGIN_GET_PRIVATE(LY_PLI_PLUGIN(obj));
 	if(!priv)
 		return FALSE;
+	
+	if(!priv->refresh_symbol || g_str_equal(priv->refresh_symbol, ""))
+		return FALSE;
 
-	if(!priv->daemon && !priv->module)
+	if(!priv->module)
 	{
 		ly_pli_plugin_load_module(obj);
 	}
@@ -514,6 +524,9 @@ GtkWidget* ly_pli_plugin_config(LyPliPlugin *obj)
 	if(!priv)
 		return NULL;
 
+	if(!priv->config_symbol || g_str_equal(priv->config_symbol, ""))
+		return FALSE;
+	
 	if(!priv->module)
 	{
 		ly_pli_plugin_load_module(obj);

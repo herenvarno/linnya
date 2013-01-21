@@ -267,11 +267,14 @@ gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer dat
 {
 	gchar *text=LY_CFG_ITEM(data)->name;
 
-	GtkStyle *style=gtk_widget_get_style(widget);
+	GtkStyleContext *context=gtk_widget_get_style_context(widget);
 	gint width=0,height=0,x,y,r;
 	width = gtk_widget_get_allocated_width (widget);
 	height = gtk_widget_get_allocated_height (widget);
-	gdk_cairo_set_source_color (cr,&(style->bg[3]));
+
+	GdkRGBA *color=(GdkRGBA *)g_malloc(sizeof(GdkRGBA));
+	gtk_style_context_get_background_color(GTK_STYLE_CONTEXT(context), GTK_STATE_FLAG_FOCUSED, color);
+	gdk_cairo_set_source_rgba (cr, color);
 	cairo_set_line_width (cr, 2);
 
 	x =8;
@@ -296,7 +299,8 @@ gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer dat
 	cairo_stroke_preserve (cr);
 	cairo_fill (cr);
 
-	gdk_cairo_set_source_color (cr,&(style->fg[3]));
+	gtk_style_context_get_color(GTK_STYLE_CONTEXT(context), GTK_STATE_FLAG_NORMAL, color);
+	gdk_cairo_set_source_rgba (cr, color);
 	cairo_move_to(cr,18,10);
 	PangoLayout *layout;
 	PangoFontDescription *desc;
@@ -308,6 +312,7 @@ gboolean ly_cfg_item_on_expose_cb( GtkWidget * widget, cairo_t *cr, gpointer dat
 	pango_cairo_update_layout (cr, layout);
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
+	g_free(color);
 
 	return TRUE;
 }

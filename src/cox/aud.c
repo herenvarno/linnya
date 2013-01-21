@@ -43,7 +43,7 @@ ly_aud_init()
 	gint random=0;
 	gint repeat=1;
 	gint single=0;
-	
+
 	if(!ly_reg_get("aud_mode","%d:%d:%d", &random,&repeat,&single))
 		ly_reg_set("aud_mode","%d:%d:%d",random, repeat, single);
 
@@ -60,14 +60,14 @@ ly_aud_init()
 	{
 		g_object_set(G_OBJECT(ele), "volume", vol, NULL);
 	}
-	
+
 	/*
 	 * autoplay
 	 */
 	int autoplay=0;
 	if(!ly_reg_get("aud_autoplay", "%d", &autoplay))
 		ly_reg_set("aud_autoplay", "%d", autoplay);
-	
+
 	if(autoplay)
 	{
 		ly_aud_play();
@@ -100,7 +100,7 @@ ly_aud_next()
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
-	
+
 	GstState state;
 	state=ly_aud_get_state();
 	ly_aud_stop();
@@ -151,7 +151,7 @@ ly_aud_prev()
 	GstState state;
 	state=ly_aud_get_state();
 	ly_aud_stop();
-	
+
 	gint random=0;
 	gint repeat=1;
 	gint single=0;
@@ -172,7 +172,7 @@ ly_aud_prev()
 		}
 		else
 		{
-			
+
 			ly_pqm_set_prev();
 		}
 	}
@@ -219,7 +219,7 @@ ly_aud_play()
 	GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return FALSE;
-	
+
 	GstState state;
 	state=ly_aud_get_state();
 	if(state!=GST_STATE_PAUSED)
@@ -264,7 +264,7 @@ ly_aud_pause()
 		GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return FALSE;
-		
+
 	GstState state;
 	state=ly_aud_get_state();
 
@@ -296,7 +296,7 @@ ly_aud_stop()
 	GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return FALSE;
-	
+
 	if(!gst_element_set_state(play,GST_STATE_NULL))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_WARNING, _("Gstreamer state wrong!"));
@@ -310,7 +310,42 @@ ly_aud_stop()
 	return TRUE;
 }
 
+/**
+ * ly_aud_set_mute:
+ *
+ * @mute: The gboolean format of state, TRUE for muted and FALSE for unmuted.
+ *
+ * Set volume.
+ *
+ * Returns:	TRUE for success, others FALSE.
+ */
+gboolean
+ly_aud_set_mute(gboolean mute)
+{
+	GstElement *ele=ly_ppl_audio_get_element("volume");
+	if(!ele)
+		return FALSE;
+	g_object_set(G_OBJECT(ele),"mute",mute,NULL);
+	return TRUE;
+}
 
+/**
+ * ly_aud_get_mute:
+ *
+ * Get mute state.
+ *
+ * Returns:	The gboolean format of state, TRUE for muted and FALSE for unmuted.
+ */
+gboolean
+ly_aud_get_mute()
+{
+	gboolean mute;
+	GstElement *ele=ly_ppl_audio_get_element("volume");
+	if(!ele)
+		return FALSE;
+	g_object_get(G_OBJECT(ele),"mute",&mute,NULL);
+	return mute;
+}
 /**
  * ly_aud_set_volume:
  *
@@ -330,8 +365,6 @@ ly_aud_set_volume(gdouble volume)
 	ly_reg_set("aud_volume","%lf",volume);
 
 	return TRUE;
-
-
 }
 
 /**
@@ -373,7 +406,7 @@ ly_aud_set_position(gdouble percent)
 		GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return FALSE;
-		
+
 	gint64 position=0;
 	gint64 start=0;
 	gint64 duration=0;
@@ -384,7 +417,7 @@ ly_aud_set_position(gdouble percent)
 		return FALSE;
 	}
 	start=ly_mdh_time_str2int(md->start);
-	
+
 	position=(duration*percent)+start;
 	if(!gst_element_seek(play,1.0,GST_FORMAT_TIME,GST_SEEK_FLAG_FLUSH,GST_SEEK_TYPE_SET,position,GST_SEEK_TYPE_SET,start+duration))
 	{
@@ -392,7 +425,7 @@ ly_aud_set_position(gdouble percent)
 		return FALSE;
 	}
 
-	return TRUE;	
+	return TRUE;
 }
 
 /**
@@ -413,14 +446,14 @@ ly_aud_get_position()
 	GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return 0;
-		
+
 	gint64 dura=0;
 	gdouble position;
-	
+
 	dura=ly_mdh_time_str2int(md->duration);
 	if(dura<=0)
 		return 0;
-	
+
 	position=pos/(double)dura;
 	return position;
 }
@@ -429,7 +462,7 @@ ly_aud_get_position()
 /**
  * ly_aud_get_position_abs:
  *
- * Get the current position by GStreamer inner clock which is in a format of gint64. 
+ * Get the current position by GStreamer inner clock which is in a format of gint64.
  *
  * Returns: The abusolute position time.
  */
@@ -440,22 +473,22 @@ ly_aud_get_position_abs()
 	state=ly_aud_get_state();
 	if((state!=GST_STATE_PLAYING)&&(state!=GST_STATE_PAUSED))
 		return 0;
-	
+
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return 0;
 	GstElement *play=ly_ppl_get_playbin();
 	if(!play)
 		return 0;
-		
+
 	GstFormat fmt=GST_FORMAT_TIME;
 	gint64 start=0;
 	gint64 dura=0;
 	gint64 pos=0;
-	
+
 	start=ly_mdh_time_str2int(md->start);
 	dura=ly_mdh_time_str2int(md->duration);
-	
+
 	if(dura<=0)
 	{
 		gst_element_query_duration(play, &fmt, &dura);
@@ -467,7 +500,7 @@ ly_aud_get_position_abs()
 		ly_dbm_exec(sql, NULL, NULL);
 		ly_pqm_set_current_md(md->id);
 	}
-	
+
 	if(!gst_element_query_position(play, &fmt, &pos))
 	{
 		ly_log_put_with_flag(G_LOG_LEVEL_DEBUG, _("Position wrong!"));
@@ -489,7 +522,7 @@ ly_aud_get_position_abs()
 /**
  * ly_aud_on_ppl_eos_cb:
  *
- * A callback function when pipeline EOS message occurs. 
+ * A callback function when pipeline EOS message occurs.
  *
  * Returns: FALSE
  */

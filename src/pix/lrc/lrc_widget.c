@@ -40,25 +40,33 @@ GtkWidget *ly_3lrc_widget_create()
 {
 	ly_3lrc_pixbuf_bg=ly_sss_alloc_bg(NULL);
 	ly_3lrc_pixbuf_bg_copy=NULL;
-	
+
 	GtkWidget *widget;
 	GtkWidget *event_box;
 	GtkWidget *button;
-	
-	widget=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	
+
+	widget=gtk_overlay_new();
 	event_box=gtk_event_box_new();
-	gtk_box_pack_start(GTK_BOX(widget), event_box, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(widget), event_box);
 	gtk_widget_set_app_paintable(event_box, TRUE);
-	
-	button=gtk_button_new_with_label(_("Download Lyrics"));
-	gtk_box_pack_start(GTK_BOX(widget), button, FALSE, TRUE, 0);
+
+	button=gtk_button_new();
+	gtk_overlay_add_overlay (GTK_OVERLAY (widget), button);
+	gtk_widget_set_size_request(button, 100, 100);
+	gtk_widget_set_vexpand(button, FALSE);
+	gtk_widget_set_hexpand(button, FALSE);
+	gtk_widget_set_halign (button, GTK_ALIGN_END);
+	gtk_widget_set_valign (button, GTK_ALIGN_START);
+	gtk_widget_set_margin_right(button, 15);
+	gtk_widget_set_margin_top(button, 50);
 	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(ly_3lrc_widget_on_get_button_clicked_cb), NULL);
-	
+
 	g_signal_connect(event_box, "draw" ,G_CALLBACK (ly_3lrc_widget_on_expose_cb) , NULL);
 	g_signal_connect(widget, "button_press_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "motion_notify_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "button_release_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
+
+	gtk_widget_set_name(button, "3lrc_btn_refresh");
 
 	ly_3lrc_widget=event_box;
 	return widget;
@@ -80,11 +88,11 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 	LyMdhMetadata *md=ly_pqm_get_current_md();
 	if(!md)
 		return FALSE;
-	
+
 	int length=ly_lrc_get_length();
 	if(length<=0)
 		return FALSE;
-		
+
 	//GdkCursor *cursor;
 	int index=0;
 	if (event->button == 1)
@@ -153,7 +161,7 @@ gboolean ly_3lrc_widget_on_seek_cb(GtkWidget * widget, GdkEventButton *event, gp
 
 gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer data)
 {
-	
+
 	gint width;
 	gint height;
 	width = gtk_widget_get_allocated_width (widget);
@@ -183,7 +191,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		{
 			ly_3lrc_pixbuf_bg_copy=gdk_pixbuf_scale_simple(ly_3lrc_pixbuf_bg, width, height, GDK_INTERP_BILINEAR);
 		}
-		gdk_cairo_set_source_pixbuf(cr, ly_3lrc_pixbuf_bg_copy, 0, 0);	
+		gdk_cairo_set_source_pixbuf(cr, ly_3lrc_pixbuf_bg_copy, 0, 0);
 		cairo_paint(cr);
 	}
 	cairo_rectangle (cr, 0, 0, width, height);
@@ -224,8 +232,8 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		cairo_set_source_rgb ( cr, 0.9, 0.9, 0.9);
 		ly_3lrc_widget_draw_text_midx(cr, title, title_font, width ,7);
 	}
-	
-	
+
+
 	//没有找到歌词
 	if(length<=0||!md)
 	{
@@ -239,7 +247,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		cairo_line_to(cr, 70, 30);
 		cairo_arc(cr, -70, 0.0, 30.0 ,M_PI/2 ,M_PI*3/2);
 		cairo_fill (cr);
-		
+
 		//画闪烁的原点
 		cairo_translate ( cr, -60 , 0 );
 		static  gdouble const  trs[ 8 ] [ 8 ]  = {
@@ -258,22 +266,22 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 			cairo_set_line_width ( cr, 8 ) ;
 			cairo_set_line_cap ( cr, CAIRO_LINE_CAP_ROUND) ;
 			cairo_set_source_rgba ( cr, 1.0 , 1.0 , 1.0 , trs[count%8][i]) ;
-			
+
 			cairo_move_to ( cr, 0.0 , -15.0 );
 			cairo_line_to (cr, 0.0, -15.0);
 			cairo_rotate ( cr, M_PI / 4 ) ;
-			
+
 			cairo_stroke ( cr) ;
 		}
-		
+
 		//写字“Serching Lyrics...”
 		cairo_set_source_rgba ( cr, 1.0 , 1.0 , 1.0 , 1.0) ;
 		cairo_move_to (cr, 30.0 , -6.0);
 		ly_3lrc_widget_draw_text(cr,"Missing Lyrics...", "Sans Regular 10");
-		
+
 		count=(count+1)%8;
 	}
-	
+
 	//有歌词
 	else
 	{
@@ -282,7 +290,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		{
 			ly_reg_set("lrc_gap","%d",lrc_gap);
 		}
-		
+
 		int y=height/2;
 		LyLrcLyric **array=ly_lrc_get_array();
 		int index=ly_lrc_get_index();
@@ -300,7 +308,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		{
 			gint64 t1=0;
 			gint64 t2=0;
-			
+
 			if(index+1<length)
 			{
 				t1=array[index+1]->time-array[index]->time;
@@ -308,7 +316,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 			else
 				t1=ly_mdh_time_str2int(md->duration)-array[index]->time;
 			t2=ly_aud_get_position_abs()-array[index]->time;
-			
+
 			if(t1!=0)
 			{
 				y=y-(int)((t2/(gdouble)t1)*lrc_gap);
@@ -319,7 +327,7 @@ gboolean ly_3lrc_widget_on_expose_cb(GtkWidget * widget, cairo_t *cr, gpointer d
 		cairo_set_source_rgb(cr,1, 1, 1);
 		if(y>height/5.0&&y<height*4/5.0)
 			ly_3lrc_widget_draw_text_midx(cr,array[index]->text, normal_font,width,y);
-		
+
 		//画普通歌词
 		cairo_set_source_rgb(cr,0.5,0.5,0.5);
 		int i=1;
@@ -350,7 +358,7 @@ void ly_3lrc_widget_draw_text (cairo_t *cr, gchar *text, gchar *font)
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
-	
+
 	layout = pango_cairo_create_layout (cr);
 	pango_layout_set_text (layout, text, -1);
 	desc = pango_font_description_from_string (font);
@@ -365,25 +373,25 @@ void ly_3lrc_widget_draw_text_midx (cairo_t *cr, gchar *text, gchar *font, gint 
 {
 	PangoLayout *layout;
 	PangoFontDescription *desc;
-	
+
 	int width, height;
-	
+
 	layout = pango_cairo_create_layout (cr);
-	
+
 	pango_layout_set_text (layout, text, -1);
 	desc = pango_font_description_from_string (font);
 	pango_layout_set_font_description (layout, desc);
 	pango_font_description_free (desc);
-	
+
 	pango_cairo_update_layout (cr, layout);
-	
+
 	pango_layout_get_size (layout, &width, &height);
 	if(width_x-(double)width/PANGO_SCALE>0)
 		cairo_move_to (cr, (width_x - (double)width / PANGO_SCALE) / 2, height_y);
 	else
 		cairo_move_to (cr, 0, height_y);
 	pango_cairo_show_layout (cr, layout);
-	
+
 	g_object_unref (layout);
 }
 

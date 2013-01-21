@@ -39,7 +39,7 @@ const gchar* g_module_check_init(GModule *module)
 	int index1=0;
 	int id=0;
 	char name[1024]="unknown";
-	
+
 	if(!ly_reg_get("3opc_limit", "%d:%d", &offset, &limit))
 	{
 		ly_reg_set("3opc_limit", "%d:%d", offset, limit);
@@ -48,7 +48,7 @@ const gchar* g_module_check_init(GModule *module)
 	{
 		ly_reg_set("3opc_select", "%d:%d:%d:%s", index0, index1, id, name);
 	}
-	
+
 	ly_3opc_left_init();
 	ly_3opc_right_init();
 	return NULL;
@@ -62,10 +62,10 @@ void g_module_unload(GModule *module)
 GtkWidget *ly_3opc_create()
 {
 	widget=gtk_event_box_new();
-	hpaned=gtk_hpaned_new();
-	gtk_paned_set_position (GTK_PANED(hpaned),180);
+	hpaned=gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+	gtk_paned_set_position (GTK_PANED(hpaned), 180);
 	gtk_container_add(GTK_CONTAINER(widget),hpaned);
-	
+
 	GtkWidget *w_l=ly_3opc_left_create();
 	GtkWidget *w_r=ly_3opc_right_create();
 	gtk_container_add(GTK_CONTAINER(hpaned), w_l);

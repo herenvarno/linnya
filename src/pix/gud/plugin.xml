@@ -1,0 +1,25 @@
+<?xml version=1.0?>
+<plugin>
+	<!-- Plugin alias -->
+	<alias>User Guide</alias>
+
+	<!-- Plugin version -->
+	<version>0.0</version>
+	<!-- Plugin author -->
+	<author>Edward</author>
+	<!-- Public license -->
+	<license>GPLv3</license>
+
+	<!-- Plugin logo icon -->
+	<logo>logo.png</logo>
+	<!-- Plugin official website -->
+	<website>http://www.linnya.org/pix/gud/</website>
+	<!-- Pligin short description -->
+	<comment>Visit http://wwwlinnya.org to access an user guide.</comment>
+
+
+	<!-- Set if the plugin is running in daemon -->
+	<daemon>0</daemon>
+	<!-- The API function name -->
+	<create_symbol>ly_3gud_create</create_symbol>
+</plugin>
