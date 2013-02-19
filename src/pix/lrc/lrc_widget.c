@@ -66,7 +66,22 @@ GtkWidget *ly_3lrc_widget_create()
 	g_signal_connect(widget, "motion_notify_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 	g_signal_connect(widget, "button_release_event", G_CALLBACK(ly_3lrc_widget_on_seek_cb), NULL);
 
+	gtk_widget_set_name(widget, "3lrc_widget");
 	gtk_widget_set_name(button, "3lrc_btn_refresh");
+
+	/*
+	 * Load Theme
+	 */
+	GdkScreen *screen;
+	GtkCssProvider *provider;
+	gchar csspath[1024]="";
+	screen = gtk_widget_get_screen(widget);
+	provider = gtk_css_provider_new();
+	g_snprintf(csspath, sizeof(csspath), "%slrc/style/style.css", LY_GLB_PROG_PIXDIR);
+	gtk_css_provider_load_from_path(provider, csspath, NULL);
+	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	gtk_style_context_reset_widgets(screen);
+	g_object_unref(provider);
 
 	ly_3lrc_widget=event_box;
 	return widget;

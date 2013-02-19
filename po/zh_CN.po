@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linnya 2.0.0\n"
 "Report-Msgid-Bugs-To: http://www.linnya.org\n"
-"POT-Creation-Date: 2013-01-16 12:09+0800\n"
+"POT-Creation-Date: 2013-02-17 12:51+0800\n"
 "PO-Revision-Date: 2012-05-20 21:01+0800\n"
 "Last-Translator: Edward <yy890521@gmail.com>\n"
 "Language-Team: Chinese <herenvarno@workmail.com>\n"
@@ -25,15 +25,15 @@ msgstr ""
 msgid "Gstreamer state wrong!"
 msgstr "Gstreamer 状态错误！"
 
-#: src/cox/aud.c:354
+#: src/cox/aud.c:387
 msgid "Volume wrong!"
 msgstr "音量错误！"
 
-#: src/cox/aud.c:391
+#: src/cox/aud.c:424
 msgid "Cannot seek to desired position!"
 msgstr "无法到达制定位置！"
 
-#: src/cox/aud.c:473 src/cox/aud.c:478
+#: src/cox/aud.c:506 src/cox/aud.c:511
 msgid "Position wrong!"
 msgstr ""
 
@@ -203,10 +203,6 @@ msgstr "无法打开文件流！"
 msgid "Title"
 msgstr "歌曲名"
 
-#: src/pix/inf/inf.c:85
-msgid "Download Cover"
-msgstr "下载封面"
-
 #: src/pix/inf/inf_config.c:58 src/pix/lrc/lrc_config.c:86
 msgid "Font"
 msgstr "字体"
@@ -250,10 +246,6 @@ msgstr "桌面歌词字体"
 #: src/pix/lrc/lrc_config.c:170 src/uix/cfg.c:680
 msgid "Select library directory"
 msgstr "选择歌曲库绑定目录"
-
-#: src/pix/lrc/lrc_widget.c:54
-msgid "Download Lyrics"
-msgstr "下载歌词"
 
 #: src/pix/opc/opc_config.c:56
 msgid "Limitation of A Single Page"
@@ -451,7 +443,7 @@ msgstr ""
 "<b>这是一个危险的功能！！</b>\n"
 " 你真的希望删除所有附属于当前列表中的信息么？"
 
-#: src/uix/cfg.c:202 src/uix/win.c:217
+#: src/uix/cfg.c:202 src/uix/win.c:222
 msgid "Configuration"
 msgstr "首选项"
 
@@ -682,41 +674,47 @@ msgstr "无法将按钮绑定写入文件！"
 msgid "Your system does not support plugin, abort ..."
 msgstr "您的系统不支持插件，退出 ……"
 
-#: src/uix/sss.c:189
+#: src/uix/sss.c:190
 msgid "New Session"
 msgstr "新会话"
 
-#: src/uix/win.c:61
+#: src/uix/win.c:59
 msgid "Cannot create main window, abort ..."
 msgstr "无法生成主窗口。退出 ……"
 
-#: src/uix/win.c:129 src/uix/win.c:631
+#: src/uix/win.c:128
 msgid "Cannot Support transparent!"
 msgstr "无法支持透明！"
 
-#: src/uix/win.c:208
+#: src/uix/win.c:213
 msgid "Play/Pause"
 msgstr "播放/暂停"
 
-#: src/uix/win.c:211
+#: src/uix/win.c:216
 msgid "Previous"
 msgstr "上一首"
 
-#: src/uix/win.c:214
+#: src/uix/win.c:219
 msgid "Next"
 msgstr "下一首"
 
-#: src/uix/win.c:222
+#: src/uix/win.c:227
 msgid "Show/Hide Main Window"
 msgstr "显示/隐藏主窗口"
 
-#: src/uix/win.c:227
+#: src/uix/win.c:232
 msgid "Quit"
 msgstr "退出"
 
-#: src/uix/win.c:231
+#: src/uix/win.c:236
 msgid "<b>Linnya</b> Audio Player"
 msgstr "<b>聆雅</b> 音频播放器"
+
+#~ msgid "Download Cover"
+#~ msgstr "下载封面"
+
+#~ msgid "Download Lyrics"
+#~ msgstr "下载歌词"
 
 #~ msgid ""
 #~ "The configuration button of this plugin will NOT be updated untill the "

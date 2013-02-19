@@ -373,7 +373,7 @@ void ly_lrc_subtitle_load()
 	gchar *str_filename=g_regex_escape_string(filename, -1);
 	gchar str[1024]="";
 	g_snprintf(str, sizeof(str), "%s%s.*\\.(?i:srt|sub)$", str_path, str_filename);
-	list=ly_gla_traverse_dir(path, str, 1, FALSE);
+	list=ly_gla_traverse_dir(path, str, 1, 1000, FALSE);
 	p=list;
 	if(list)
 	{

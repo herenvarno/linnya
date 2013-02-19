@@ -41,6 +41,14 @@ make install
 ./clear
 ```
 
+5. If you are using any DE other than GNOME 3, You should probably install a 
+standard gnome 3 theme -- Adwaita -- to make linnya look normal. To achive this,
+Use your package manager to install the "gnome-themes-standard" package. 
+For example, If you use Archlinux, just type:
+```
+pacman -S gnome-themes-standard
+```
+
 ##DEVELOPMENT
 The 2.0 version of Linnya is now STABLE, enjoy!
 
@@ -83,6 +91,13 @@ make install
 4. 建议你清理不用的交换文件以便下次编译，命令如下：
 ```
 ./clear
+```
+
+5. 如果你不是使用的GNOME 3桌面环境，你可能需要安装一个标准gnome 3主题（Adwaita）才能让聆雅
+外观正常。这可以使用你的软件包管理器安装“gnome-themes-standard”包。例如，如果你使用Archlinux，
+只需要在终端输入：
+```
+pacman -S gnome-themes-standard
 ```
 
 ##开发

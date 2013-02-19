@@ -1,0 +1,14 @@
+#3lrc_btn_refresh{
+	background-color: transparent;
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_normal.png");
+}
+#3lrc_btn_refresh:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_hover.png");
+}
+#3lrc_btn_refresh:active,
+#3lrc_btn_refresh:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3lrc_btn_refresh_active.png");
+}

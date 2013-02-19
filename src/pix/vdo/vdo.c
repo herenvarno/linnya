@@ -160,6 +160,23 @@ ly_3vdo_create()
 			G_CALLBACK(ly_3vdo_on_list_refresh_cb), NULL);
 	g_signal_connect(G_OBJECT(expander), "enter-notify-event",
 			G_CALLBACK(ly_3vdo_on_expander_hover_cb), box);
+
+
+	gtk_widget_set_name(widget, "3vdo_widget");
+	gtk_widget_set_name(expander, "3vdo_btn_expander");
+	/*
+	 * Load Theme
+	 */
+	GtkCssProvider *provider;
+	gchar csspath[1024]="";
+	screen = gtk_widget_get_screen(widget);
+	provider = gtk_css_provider_new();
+	g_snprintf(csspath, sizeof(csspath), "%svdo/style/style.css", LY_GLB_PROG_PIXDIR);
+	gtk_css_provider_load_from_path(provider, csspath, NULL);
+	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER(provider),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	gtk_style_context_reset_widgets(screen);
+	g_object_unref(provider);
+
 	return widget;
 }
 

@@ -117,7 +117,7 @@ ly_aud_next()
 	{
 		if(single)
 		{
-			if(repeat)
+			if(!repeat)
 			{
 				state=GST_STATE_READY;
 			}

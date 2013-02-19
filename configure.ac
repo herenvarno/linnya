@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([linnya], [2.3.0], [http://www.linnya.org])
+AC_INIT([linnya], [2.4.1], [http://www.linnya.org])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([src/linnya.h])
 AC_CONFIG_HEADERS([config.h])
@@ -53,10 +53,16 @@ AC_OUTPUT([Makefile\
 	src/uix/Makefile\
 	src/pix/Makefile\
 	src/pix/inf/Makefile\
+	src/pix/inf/style/Makefile\
+	src/pix/inf/style/image/Makefile\
 	src/pix/opc/Makefile\
 	src/pix/lrc/Makefile\
+	src/pix/lrc/style/Makefile\
+	src/pix/lrc/style/image/Makefile\
 	src/pix/dnc/Makefile\
 	src/pix/vdo/Makefile\
+	src/pix/vdo/style/Makefile\
+	src/pix/vdo/style/image/Makefile\
 	src/pix/gud/Makefile\
 	data/Makefile\
 	data/icon/Makefile\

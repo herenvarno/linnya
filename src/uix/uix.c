@@ -2,7 +2,7 @@
  * uix.c
  * This file is part of linnya
  *
- * Copyright (C) 2011 - Edward Yang
+ * Copyright (C) 2011-2013 - Edward Yang
  *
  * linnya is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,24 +31,24 @@
  */
 void ly_uix_init(int *argc, char ***argv)
 {
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module");
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: GLB");
+	g_debug("Init UIX module");
+	g_debug("Init UIX module: GLB");
 	ly_glb_init(argc, argv);
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: DBG");
+	g_debug("Init UIX module: DBG");
 	ly_dbg_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: KEY");
+	g_debug("Init UIX module: KEY");
 	ly_key_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: THM");
+	g_debug("Init UIX module: THM");
 	ly_thm_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: WIN");
+	g_debug("Init UIX module: WIN");
 	ly_win_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: PLI");
+	g_debug("Init UIX module: PLI");
 	ly_pli_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: SSS");
+	g_debug("Init UIX module: SSS");
 	ly_sss_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Init UIX module: CFG");
+	g_debug("Init UIX module: CFG");
 	ly_cfg_init();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Main Loop begin");
+	g_debug("Main Loop begin");
 	gtk_main();
 }
 
@@ -61,21 +61,21 @@ void ly_uix_init(int *argc, char ***argv)
  */
 void ly_uix_fina()
 {
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module");
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: CFG");
+	g_debug("Fina UIX module");
+	g_debug("Fina UIX module: CFG");
 	ly_cfg_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: SSS");
+	g_debug("Fina UIX module: SSS");
 	ly_sss_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: PLI");
+	g_debug("Fina UIX module: PLI");
 	ly_pli_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: WIN");
+	g_debug("Fina UIX module: WIN");
 	ly_win_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: THM");
+	g_debug("Fina UIX module: THM");
 	ly_thm_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: KEY");
+	g_debug("Fina UIX module: KEY");
 	ly_key_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: DBG");
+	g_debug("Fina UIX module: DBG");
 	ly_dbg_fina();
-	ly_log_put_with_flag(G_LOG_LEVEL_DEBUG,  "Fina UIX module: GLB");
+	g_debug("Fina UIX module: GLB");
 	ly_glb_fina();
 }

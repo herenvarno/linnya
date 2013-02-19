@@ -1,5 +1,5 @@
 /*
- * win.h
+ * sss.obj.h
  * This file is part of linnya
  *
  * Copyright (C) 2011 - Edward Yang
@@ -18,54 +18,49 @@
  * along with linnya. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-#ifndef LY_WIN_H
-#define LY_WIN_H
+#ifndef LY_SSS_OBJ_H
+#define LY_SSS_OBJ_H
 
 /*
  * HEADERS
  */
 #include "glb.h"
-#include "dbg.h"
 #include "key.h"
-#include "thm.h"
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
+#include "win.h"
+#include "pli.h"
+
+/*
+ * MACROS
+ */
+#define LY_SSS_SESSION_TYPE \
+(ly_sss_session_get_type())
+#define LY_SSS_SESSION(obj) \
+(G_TYPE_CHECK_INSTANCE_CAST((obj), LY_SSS_SESSION_TYPE, LySssSession))
 
 /*
  * TYPES
  */
-typedef struct _LyWinWindow
-{
-	GtkWidget *win;
-	GtkWidget *nbk_sssn;
-	GtkWidget *btn_menu;
-	GtkWidget *btn_adds;
-	GtkWidget *btn_full;
-	GtkWidget *btn_play;
-	GtkWidget *btn_prev;
-	GtkWidget *btn_next;
-	GtkWidget *btn_conf;
-	GtkWidget *btn_mute;
-	GtkWidget *bar_seek;
-	GtkWidget *bar_volm;
-	GtkWidget *grd_ctrl;
-	GtkWidget *win_home;
-	GtkWidget *btn_home;
-}LyWinWindow;
+typedef struct _LySssSession LySssSession;
+typedef struct _LySssSessionClass LySssSessionClass;
+
+struct _LySssSession{
+	GtkWidget parent;
+};
+struct _LySssSessionClass{
+	GtkWidgetClass parent_class;
+};
+
+/*
+ * VARIABLES
+ */
 
 
 /*
- * FUNCTIONS [PUBLIC]
+ * FUNCTIONS
  */
-void			ly_win_init			();
-void			ly_win_fina			();
+GType		ly_sss_session_get_type	();
+GtkWidget*	ly_sss_session_new		(gchar *name);
+gboolean	ly_sss_session_refresh	(LySssSession *obj);
+gboolean	ly_sss_session_config	(LySssSession *obj);
 
-LyWinWindow*	ly_win_new			();
-void			ly_win_free			();
-
-LyWinWindow*	ly_win_get_window	();
-
-#endif	//LY_WIN_H
+#endif

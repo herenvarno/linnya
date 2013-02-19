@@ -312,7 +312,7 @@ void			ly_lib_check_library		()
 	 * get filenames
 	 */
 	gchar tmpstr[1024]="";
-	GList *list=ly_gla_traverse_dir(path, ".(?i:mp3|wma|flac|cda|mid|midi|ogg|wav|acc|ape|oga)$", 5, TRUE);
+	GList *list=ly_gla_traverse_dir(path, ".(?i:mp3|wma|flac|cda|mid|midi|ogg|wav|acc|ape|oga)$", 5, 100, TRUE);
 	GList *p=list;
 	gchar *tmpsql=NULL;
 	gchar *sql=NULL;

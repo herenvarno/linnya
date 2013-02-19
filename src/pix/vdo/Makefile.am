@@ -1,6 +1,8 @@
 # USE SEARCH & REPLACE FUNCTION (eg. type /<PLUGIN_NAME> in command mode of VIM)
 # TO REPLACE THE PLUGIN NAME.
 
+SUBDIRS	= style
+
 PROGMAN_NAME		= linnya
 PLUGIN_DIR		= ${prefix}/share/${PROGMAN_NAME}/pix
 libdir			= ${PLUGIN_DIR}/vdo

@@ -40,6 +40,13 @@ NOT NECESSARY BUT RECOMMENDED STEP:
 Clean up all the temp file for next compilation. Use the command below:
 	./clear
 
+EXTRA STEP FOR THEME:
+If you are using any DE other than GNOME 3, You should probably install a 
+standard gnome 3 theme -- Adwaita -- to make linnya look normal. To achive this,
+Use your package manager to install the "gnome-themes-standard" package. 
+For example, If you use Archlinux, just type:
+	pacman -S gnome-themes-standard
+
 
 DEVELOPMENT
 =========================
@@ -80,6 +87,11 @@ http://www.gnu.org/licenses/translations.html 。
 
 最最后，建议你清理不用的交换文件以便下次编译，命令如下：
 	./clear
+
+配置显示，如果你不是使用的GNOME 3桌面环境，你可能需要安装一个标准gnome 3主题（Adwaita）才能让聆雅
+外观正常。这可以使用你的软件包管理器安装“gnome-themes-standard”包。例如，如果你使用Archlinux，
+只需要在终端输入：
+	pacman -S gnome-themes-standard
 
 
 开发

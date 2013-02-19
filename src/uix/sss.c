@@ -49,17 +49,14 @@ static gboolean ly_win_on_accel_adds_cb(GtkAccelGroup *accel_group, GObject *acc
 
 void	ly_sss_init()
 {
-	ly_sss_tab_add_init();
 	ly_sss_tab_add_create();
 	g_signal_connect(G_OBJECT(ly_win_get_window()->btn_adds), "clicked", G_CALLBACK(ly_sss_tab_add_create), NULL);
 	ly_key_set("adds", NULL, NULL, NULL, KEY_BIND_TYPE_CALLBACK, G_CALLBACK(ly_win_on_accel_adds_cb), NULL);
 	ly_key_bind("adds");
 	g_timeout_add(100, ly_sss_refresh, NULL);
-
 }
 void	ly_sss_fina()
 {
-	ly_sss_tab_add_fina();
 }
 
 GtkWidget *ly_sss_tab_create(GdkPixbuf *pixbuf, gchar *name, GtkWidget *widget)
@@ -176,12 +173,6 @@ gboolean ly_sss_refresh()
 	return TRUE;
 }
 
-gboolean ly_sss_tab_add_init()
-{
-	ly_sss_store=gtk_list_store_new(2, G_TYPE_STRING, GDK_TYPE_PIXBUF);
-	return FALSE;
-}
-
 gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
@@ -197,6 +188,7 @@ gboolean ly_sss_tab_add_create(GtkWidget *widget, gpointer data)
 
 	GtkWidget *sw = gtk_viewport_new(NULL, NULL);
 	gtk_widget_set_name(sw, "sss_vwpt");
+	
 	ly_sss_store=gtk_list_store_new(3, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING);
 	GtkWidget *icon_view=gtk_icon_view_new_with_model(GTK_TREE_MODEL(ly_sss_store));
 	gtk_widget_set_name(icon_view, "sss_adds");
@@ -229,20 +221,23 @@ gboolean ly_sss_tab_add_destroy(GtkWidget *widget, gpointer data)
 	gint n=0;
 	n=gtk_notebook_page_num(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),w);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(ly_win_get_window()->nbk_sssn),n);
+	
+	if(ly_sss_store)
+	{
+		g_object_unref(ly_sss_store);
+	}
+	ly_sss_store=NULL;
 	return TRUE;
 }
 gboolean ly_sss_tab_add_refresh()
 {
-	if(ly_sss_store)
-		gtk_list_store_clear(ly_sss_store);
-
+	if(!ly_sss_store)
+		return FALSE;
+	
+//	g_object_unref(ly_sss_store);
+//	ly_sss_store=gtk_list_store_new(3, G_TYPE_STRING, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+	
 	g_list_foreach(ly_pli_get_list(), ly_sss_tab_add_refresh_cb, NULL);
-	return TRUE;
-}
-gboolean ly_sss_tab_add_fina()
-{
-	if(ly_sss_store)
-		gtk_list_store_clear(ly_sss_store);
 	return TRUE;
 }
 
@@ -271,7 +266,7 @@ GdkPixbuf* ly_sss_alloc_bg(char *bg)
 			}
 			g_strlcpy(dir, th->sssbg, sizeof(dir));
 		}
-		GList *list=ly_gla_traverse_dir(dir, ".(?i:jpg|png|jpeg|bmp)$", 5, FALSE);
+		GList *list=ly_gla_traverse_dir(dir, ".(?i:jpg|png|jpeg|bmp)$", 4, 10, FALSE);
 		GList *p=list;
 
 		if(!list)

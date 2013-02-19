@@ -64,8 +64,8 @@
 #define LY_GLA_WEBSITE "http://www.linnya.org"
 #define LY_GLA_COMMENTS _("A free music player on *nix, with unlimited features from plug-ins.")
 #define LY_GLA_COPYRIGHT _("Copyright (C) 2010-2012 Edward Yang")
-#define LY_GLA_VERSION_STR "2.3.0"
-#define LY_GLA_VERSION_NUM 2.30
+#define LY_GLA_VERSION_STR "2.4.1"
+#define LY_GLA_VERSION_NUM 2.41
 #define	 LY_GLA_LICENSE "GPLv3"
 #define	 LY_GLA_LICENSE_FULL _("\
 Linnya is free software; you can redistribute it and/or modify\n\
@@ -126,7 +126,7 @@ char*		ly_gla_uri_get_filename	(char *uri);
 char*		ly_gla_uri_get_dir		(char *uri);
 char*		ly_gla_uri_get_path		(char *uri);
 GList*		ly_gla_traverse_dir		(const gchar *path, const gchar *pattern, \
-	gint depth, gboolean showhide);
+	gint depth, gint width, gboolean showhide);
 GList*		ly_gla_get_subdirs		(const char *path, gboolean showhide);
 
 #endif //LY_GLA_H

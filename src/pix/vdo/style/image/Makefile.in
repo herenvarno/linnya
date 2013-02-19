@@ -50,7 +50,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = data/theme/default/image
+subdir = src/pix/vdo/style/image
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -109,8 +109,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(themedefaultimagedir)"
-DATA = $(themedefaultimage_DATA)
+am__installdirs = "$(DESTDIR)$(styleimagedir)"
+DATA = $(styleimage_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -258,68 +258,19 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = \
 	null.png\
-	btn_menu_normal.png\
-	btn_menu_hover.png\
-	btn_menu_active.png\
-	btn_adds_normal.png\
-	btn_adds_hover.png\
-	btn_adds_active.png\
-	btn_full_normal.png\
-	btn_full_hover.png\
-	btn_full_active.png\
-	btn_home_normal.png\
-	btn_home_hover.png\
-	btn_home_active.png\
-	btn_prev_normal.png\
-	btn_prev_hover.png\
-	btn_prev_active.png\
-	btn_play_normal.png\
-	btn_play_hover.png\
-	btn_play_active.png\
-	btn_next_normal.png\
-	btn_next_hover.png\
-	btn_next_active.png\
-	btn_conf_normal.png\
-	btn_conf_hover.png\
-	btn_conf_active.png\
-	btn_mute_normal.png\
-	btn_mute_hover.png\
-	btn_mute_active.png\
-	bar_seek_button_normal.png\
-	sss_adds_bg.png
+	3vdo_btn_expander_normal.png\
+	3vdo_btn_expander_hover.png\
+	3vdo_btn_expander_active.png
 
-themedefaultimagedir = ${datadir}/linnya/uix/theme/default/image
-themedefaultimage_DATA = \
+PROGMAN_NAME = linnya
+PLUGIN_NAME = vdo
+PLUGIN_DIR = ${prefix}/share/${PROGMAN_NAME}/pix
+styleimagedir = ${PLUGIN_DIR}/${PLUGIN_NAME}/style/image
+styleimage_DATA = \
 	null.png\
-	btn_menu_normal.png\
-	btn_menu_hover.png\
-	btn_menu_active.png\
-	btn_adds_normal.png\
-	btn_adds_hover.png\
-	btn_adds_active.png\
-	btn_full_normal.png\
-	btn_full_hover.png\
-	btn_full_active.png\
-	btn_home_normal.png\
-	btn_home_hover.png\
-	btn_home_active.png\
-	btn_prev_normal.png\
-	btn_prev_hover.png\
-	btn_prev_active.png\
-	btn_play_normal.png\
-	btn_play_hover.png\
-	btn_play_active.png\
-	btn_next_normal.png\
-	btn_next_hover.png\
-	btn_next_active.png\
-	btn_conf_normal.png\
-	btn_conf_hover.png\
-	btn_conf_active.png\
-	btn_mute_normal.png\
-	btn_mute_hover.png\
-	btn_mute_active.png\
-	bar_seek_button_normal.png\
-	sss_adds_bg.png
+	3vdo_btn_expander_normal.png\
+	3vdo_btn_expander_hover.png\
+	3vdo_btn_expander_active.png
 
 all: all-am
 
@@ -333,9 +284,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign data/theme/default/image/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/pix/vdo/style/image/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign data/theme/default/image/Makefile
+	  $(AUTOMAKE) --foreign src/pix/vdo/style/image/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -360,27 +311,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-themedefaultimageDATA: $(themedefaultimage_DATA)
+install-styleimageDATA: $(styleimage_DATA)
 	@$(NORMAL_INSTALL)
-	@list='$(themedefaultimage_DATA)'; test -n "$(themedefaultimagedir)" || list=; \
+	@list='$(styleimage_DATA)'; test -n "$(styleimagedir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(themedefaultimagedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(themedefaultimagedir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(styleimagedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(styleimagedir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(themedefaultimagedir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(themedefaultimagedir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(styleimagedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(styleimagedir)" || exit $$?; \
 	done
 
-uninstall-themedefaultimageDATA:
+uninstall-styleimageDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(themedefaultimage_DATA)'; test -n "$(themedefaultimagedir)" || list=; \
+	@list='$(styleimage_DATA)'; test -n "$(styleimagedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(themedefaultimagedir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(styleimagedir)'; $(am__uninstall_files_from_dir)
 tags TAGS:
 
 ctags CTAGS:
@@ -422,7 +373,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(themedefaultimagedir)"; do \
+	for dir in "$(DESTDIR)$(styleimagedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -475,7 +426,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-themedefaultimageDATA
+install-data-am: install-styleimageDATA
 
 install-dvi: install-dvi-am
 
@@ -519,7 +470,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-themedefaultimageDATA
+uninstall-am: uninstall-styleimageDATA
 
 .MAKE: install-am install-strip
 
@@ -530,11 +481,11 @@ uninstall-am: uninstall-themedefaultimageDATA
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip install-themedefaultimageDATA installcheck \
+	install-strip install-styleimageDATA installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags-am uninstall \
-	uninstall-am uninstall-themedefaultimageDATA
+	uninstall-am uninstall-styleimageDATA
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

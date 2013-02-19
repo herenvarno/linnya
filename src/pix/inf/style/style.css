@@ -1,0 +1,14 @@
+#3inf_btn_cover{
+	background-color: transparent;
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_normal.png");
+}
+#3inf_btn_cover:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_hover.png");
+}
+#3inf_btn_cover:active,
+#3inf_btn_cover:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3inf_btn_cover_active.png");
+}

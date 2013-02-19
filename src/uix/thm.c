@@ -49,7 +49,7 @@ void	ly_thm_init()
 	/*
 	 * REGIST CONF: thm_custom_winbg
 	 */
-	int custom_winbg=0;
+	int custom_winbg=1;
 	if(!ly_reg_get("thm_custom_winbg", "%d", &custom_winbg))
 	{
 		ly_reg_set("thm_custom_winbg", "%d", custom_winbg);
@@ -65,10 +65,10 @@ void	ly_thm_init()
 	/*
 	 * REGIST CONF: thm_winbg
 	 */
-	guint winbg[4]={29298,40862,53199,41725};
-	if(!ly_reg_get("thm_winbg", "%d:%d:%d:%d", &winbg[0], &winbg[1], &winbg[2], &winbg[3]))
+	gdouble winbg[4]={0.447, 0.624, 0.812, 0.5};
+	if(!ly_reg_get("thm_winbg", "%lf:%lf:%lf:%lf", &winbg[0], &winbg[1], &winbg[2], &winbg[3]))
 	{
-		ly_reg_set("thm_winbg", "%d:%d:%d:%d", winbg[0], winbg[1], winbg[2], winbg[3]);
+		ly_reg_set("thm_winbg", "%lf:%lf:%lf:%lf", winbg[0], winbg[1], winbg[2], winbg[3]);
 	}
 	/*
 	 * REGIST CONF: thm_sssbg

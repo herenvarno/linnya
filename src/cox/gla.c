@@ -206,14 +206,15 @@ char*		ly_gla_uri_get_path		(char *uri)
  * ly_gla_traverse_dir:
  * @path: the dir path
  * @pattern: the filter pattern string for GRegex.
- * @depth: the traverse depth, to prevent endless cirtulate.
+ * @depth: the traverse depth, to prevent endless cirtulatione.
+ * @width: the traverse width, to prevent spending all ram capacity.
  * @showhide: set true to ignor files which is hidden.
  *
  * Get the list of file within the given directory.
  *
  * Returns: the newly allocate list, free it as well as its data after using.
  */
-GList* ly_gla_traverse_dir(const gchar *path, const gchar *pattern, gint depth, gboolean showhide)
+GList* ly_gla_traverse_dir(const gchar *path, const gchar *pattern, gint depth, gint width, gboolean showhide)
 {
 	if(depth<=0)
 		return NULL;
@@ -237,7 +238,8 @@ GList* ly_gla_traverse_dir(const gchar *path, const gchar *pattern, gint depth, 
 	{
 		regex=g_regex_new(pattern, G_REGEX_OPTIMIZE, 0, NULL);
 	}
-	while(filename)
+	int i=0;
+	for(i=0; filename && i<width; i++)
 	{
 		if(filename[0]=='.'&&(!showhide))
 		{
@@ -247,7 +249,7 @@ GList* ly_gla_traverse_dir(const gchar *path, const gchar *pattern, gint depth, 
 		location=g_strconcat(path , filename, NULL);
 		if(g_file_test(location, G_FILE_TEST_IS_DIR))
 		{
-			tmplist=ly_gla_traverse_dir(location, pattern, depth-1, showhide);
+			tmplist=ly_gla_traverse_dir(location, pattern, depth-1, width, showhide);
 			if(tmplist)
 				list=g_list_concat(list,tmplist);
 			tmplist=NULL;

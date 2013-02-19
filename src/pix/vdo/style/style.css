@@ -1,0 +1,17 @@
+#3vdo_widget GtkOverlay{
+	background-color: alpha(#FFF, 0.2);
+}
+#3vdo_btn_expander{
+	background-color: transparent;
+	border-image: url("image/null.png");
+	background-image: url("image/3vdo_btn_expander_normal.png");
+}
+#3vdo_btn_expander:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3vdo_btn_expander_hover.png");
+}
+#3vdo_btn_expander:active,
+#3vdo_btn_expander:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/3vdo_btn_expander_active.png");
+}

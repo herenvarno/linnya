@@ -1,6 +1,5 @@
-@import url("resource:///reset.css");
 *{
-/*	engine: clearlooks;*/
+	engine: adwaita;
 	background-repeat: no-repeat;
 }
 
@@ -10,9 +9,20 @@ GtkButton{
 }
 
 /*
+ * Main Window
+ */
+#win{
+}
+
+#win GtkOverlay{
+	background-color: transparent;
+}
+
+/*
  * Buttons
  */
 #btn_menu{
+	background-color: transparent;
 	border-image: url("image/null.png");
     background-image: url("image/btn_menu_normal.png");
 }
@@ -25,6 +35,7 @@ GtkButton{
     background-image: url("image/btn_menu_active.png");
 }
 #btn_adds{
+background-color: transparent;
 	border-image: url("image/null.png");
     background-image: url("image/btn_adds_normal.png");
 }
@@ -37,6 +48,7 @@ GtkButton{
     background-image: url("image/btn_adds_active.png");
 }
 #btn_full{
+background-color: transparent;
 	border-image: url("image/null.png");
 	background-image: url("image/btn_full_normal.png");
 }
@@ -49,7 +61,22 @@ GtkButton{
 	border-image: url("image/null.png");
 	background-image: url("image/btn_full_active.png");
 }
+#btn_home{
+	background-color: transparent;
+	border-image: url("image/null.png");
+	background-image: url("image/btn_home_normal.png");
+}
+#btn_home:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/btn_home_hover.png");
+}
+#btn_home:active,
+#btn_home:active:hover{
+	border-image: url("image/null.png");
+	background-image: url("image/btn_home_active.png");
+}
 #btn_prev{
+background-color: transparent;
 	border-image: url("image/null.png");
     background-image: url("image/btn_prev_normal.png");
 }
@@ -62,6 +89,7 @@ GtkButton{
     background-image: url("image/btn_prev_active.png");
 }
 #btn_play{
+background-color: transparent;
 	border-image: url("image/null.png");
 	background-image: url("image/btn_play_normal.png");
 }
@@ -75,6 +103,7 @@ GtkButton{
     background-image: url("image/btn_play_active.png");
 }
 #btn_next{
+background-color: transparent;
 	border-image: url("image/null.png");
     background-image: url("image/btn_next_normal.png");
 }
@@ -87,6 +116,7 @@ GtkButton{
     background-image: url("image/btn_next_active.png");
 }
 #btn_conf{
+background-color: transparent;
 	border-image: url("image/null.png");
     background-image: url("image/btn_conf_normal.png");
 }
@@ -99,6 +129,7 @@ GtkButton{
     background-image: url("image/btn_conf_active.png");
 }
 #btn_mute{
+background-color: transparent;
 	border-image: url("image/null.png");
 	background-image: url("image/btn_mute_normal.png");
 }
@@ -118,7 +149,7 @@ GtkButton{
 #grd_ctrl GtkRange.slider,
 #grd_ctrl GtkRange.slider.horizontal,
 #grd_ctrl GtkRange.slider.horizontal:hover {
-    background-image: url("image/bar_seek_button.png");
+    background-image: url("image/bar_seek_button_normal.png");
 }
 
 #grd_ctrl GtkRange {
@@ -236,35 +267,4 @@ GtkButton{
 	border-style: solid;
 	border-width: 1px;
 	text-shadow: 3px 3px 5px alpha(white, 0.9);
-}
-
-
-/*
- * PLUGINS
- */
-#3inf_btn_cover{
-	border-image: url("image/null.png");
-	background-image: url("image/3inf_btn_cover_normal.png");
-}
-#3inf_btn_cover:hover{
-	border-image: url("image/null.png");
-	background-image: url("image/3inf_btn_cover_hover.png");
-}
-#3inf_btn_cover:active,
-#3inf_btn_cover:active:hover{
-	border-image: url("image/null.png");
-	background-image: url("image/3inf_btn_cover_active.png");
-}
-#3lrc_btn_refresh{
-	border-image: url("image/null.png");
-	background-image: url("image/3lrc_btn_refresh_normal.png");
-}
-#3lrc_btn_refresh:hover{
-	border-image: url("image/null.png");
-	background-image: url("image/3lrc_btn_refresh_hover.png");
-}
-#3lrc_btn_refresh:active,
-#3lrc_btn_refresh:active:hover{
-	border-image: url("image/null.png");
-	background-image: url("image/3lrc_btn_refresh_active.png");
 }
