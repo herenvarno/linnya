@@ -1,3 +1,5 @@
+# WARNING: THE DEVELOPMENT OF THIS PROJECT HAS BEEN OFFICIALLY STOPPED.
+
 ##General Information
 Linnya is an excellent multimedia application for *nix users, which
 supports music library, playlist, lyrics, and more.
